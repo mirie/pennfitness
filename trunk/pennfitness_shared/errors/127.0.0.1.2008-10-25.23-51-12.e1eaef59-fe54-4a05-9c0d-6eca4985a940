@@ -1,0 +1,17 @@
+(dp1
+S'output'
+p2
+S''
+sS'layer'
+p3
+S'C:\\web2py\\applications\\pennfitness_shared/controllers/route.py'
+p4
+sS'code'
+p5
+S'import access\n\n# try something like\ndef index(): return dict(message="hello from route.py")\n\ndef RouteList():\n# returns (routeID, routeName);(routeID,routeName);...    get route id and names from route table.\n    return access.passwd\n\ndef getRouteData():\n# input = routeID\n# returns routeName;distance;(lat,lng);(lat,lang);... get route name, distance and points information of given route\n    return "route data for a particular route"\n    \ndef getFavoriteRouteList():\n# input = userID\n# returns  (routeID, routeName);(routeID,routeName);...    get favorite route id and names of given user\n    return "favorite Route list"\n    \ndef getPopularRouteList():\n# returns (routeID, routeName);(routeID,routeName);...    get popular route id and names\n    return "popular Route list"\n    \ndef getNewRouteList():\n# returns  (routeID, routeName);(routeID,routeName);...    get new route id and names\n    return "new Route list"\n\ndef getTotalNumOfRoute():\n# returns  numberOfRoutes  get the total number of routes registered\n    return "total number of routes registered"\n       \ndef registerRoute():\n# input = routeName,description, routeColor, points\n# returns resultCode  register a new route to route table\n    return "result code for registering a new route"\n    \ndef modifyRoute():\n# input = routeID, routeName, description, routeColor, points \n# returns resultCode  modify route information. only the creator can modify his route information\n    return "result code for modify route information"\n    \ndef deleteRoute():\n# input = routeID \n# returns resultCode  delete the given route\n    return "result code for deleting a route"\n    \ndef searchRoutes():\n# input = userID, userName, keyword, fromDate, toDate, rate, fromDistance, toDistance \n# returns (routeID, routeName, distance, creatorID, description, rates);...   search routes on given criteria\n    return "search results"\n    \ndef rateRoute():\n# input = routeID, rates\n# return resultCode  rate a route\n    return "result code for rating a route"\n    \ndef getRouteNames():\n    import MySQLdb\n    conn = MySQLdb.connect(host="fling-l.seas.upenn.edu", user="maiirie", passwd="mTmC439T", db="maiirie")\n    cursor = conn.cursor()\n    cursor.execute("SELECT name from routes");\n    rows = cursor.fetchall()\n    cursor.close()\n    conn.close()\n    return dict(rows=rows)\n\nresponse._vars=response._caller(RouteList)'
+p6
+sS'traceback'
+p7
+S'Traceback (most recent call last):\n  File "gluon\\restricted.pyc", line 62, in restricted\n  File "C:\\web2py\\applications\\pennfitness_shared/controllers/route.py", line 1, in <module>\nImportError: No module named access\n'
+p8
+s.

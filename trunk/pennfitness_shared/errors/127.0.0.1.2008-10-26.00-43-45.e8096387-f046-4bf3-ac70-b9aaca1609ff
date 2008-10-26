@@ -1,0 +1,17 @@
+(dp1
+S'output'
+p2
+S''
+sS'layer'
+p3
+S'Processing View generic.html'
+p4
+sS'code'
+p5
+S"{{extend 'layout.html'}}\n{{=BEAUTIFY(response._vars)}}"
+p6
+sS'traceback'
+p7
+S'Traceback (most recent call last):\n  File "gluon\\template.pyc", line 77, in parse_template\nIOError: [Errno 2] No such file or directory: \'C:\\\\web2py\\\\applications\\\\pennfitness_shared/views/layout.html\'\n'
+p8
+s.
