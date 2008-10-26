@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Penn Fitness Map</title>
+<!-- =============================== CSS files =============================== -->
+<link rel="stylesheet" media="screen,projection" type="text/css" href="{{=URL(r=request,c='static',f='mapStyles.css')}}" />
+
+<!-- Sam Skin CSS -->
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/container/assets/skins/sam/container.css">
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/fonts/fonts-min.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/reset/reset-min.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/button/assets/skins/sam/button.css" />
+
+<!-- =============================== Google Map Scripts =============================== -->
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAwNRsCttn_9209vEUNVvtyxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQkSsxzavUfI4qYgHd_KyuAMbdCzQ" 
+        type="text/javascript"></script>     
+
+<!-- =============================== Yahoo YUI Scripts =============================== -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/dom/dom-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/event/event-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/dragdrop/dragdrop-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/element/element-beta-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/container/container-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/utilities/utilities.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/button/button-min.js"></script>
+<!-- OPTIONAL: Animation (only required if using ContainerEffect) --> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/animation/animation-min.js"></script> 
+
+<!--  =============================== My Scripts =============================== -->
+<script type="text/javascript" src="{{=URL(r=request,c='static',f='mapFunctions.js')}}"></script> 
+<script type="text/javascript" src="{{=URL(r=request,c='static',f='dialogWindows.js')}}"></script>
+</head>
+<body class="yui-skin-sam" onload="setupMap()" onunload="GUnload()">
+<div id="upperbar"><input type="button" id="showDialog" name="showDialog" value="showDialog" /></div>
+<div id="initDialog"></div>
+<div id="map">mapArea</div>
+
+<!-- =============================== Initial DIALOG Window Structures: Select or Create New Route =============================== -->
+
+
+<div id="routeDetailDialog">
+
+<div class="bd">
+<form method="POST" action="#">
+	<label for="routeName">Name:</label><input type="text" name="routeName" id="routeName" size="10" maxlength="30" /> <div id="stars"></div><br />
+	<div id="creatorID">UserID Here</div><div id="distance">0 km</div>
+	<label for="routeDesc">Description:</label><br />
+	<textarea id="routeDesc" name="routeDesc" rows="2" cols="20">Some description goes here...</textarea><br />
+	<p>Route Color:</p>
+</form>
+</div>
+
+
+
+</body>
+</html>
