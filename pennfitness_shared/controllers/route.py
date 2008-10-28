@@ -9,6 +9,8 @@ host = "fling-l.seas.upenn.edu"
 #passwd = "appdev1"
 #db = "appdev1"
 
+# ahahahah
+
 # try something like
 def index(): return dict(message="hello from route.py")
 
