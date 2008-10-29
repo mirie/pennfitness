@@ -31,7 +31,12 @@
 <!--  =============================== My Scripts =============================== -->
 <script type="text/javascript" src="{{=URL(r=request,c='static',f='mapFunctions.js')}}"></script> 
 <script type="text/javascript" src="{{=URL(r=request,c='static',f='dialogWindows.js')}}"></script>
+<script type="text/javascript" src="{{=URL(r=request,c='static',f='yahoo.js')}}"></script>
+<script type="text/javascript" src="{{=URL(r=request,c='static',f='connection.js')}}"></script>
+<script type="text/javascript" src="{{=URL(r=request,c='static',f='json-min.js')}}"></script>
 </head>
+
+
 <body class="yui-skin-sam" onload="setupMap()" onunload="GUnload()">
 <div id="upperbar"><input type="button" id="showDialog" name="showDialog" value="showDialog" /></div>
 <div id="initDialog"></div>
@@ -43,9 +48,9 @@
 <div id="routeDetailDialog">
 
 <div class="bd">
-<form method="POST" action="#">
+<form name="frmRoute" id="frmRoute" method="POST" action="#">
 	<label for="routeName">Name:</label><input type="text" name="routeName" id="routeName" size="10" maxlength="30" /> <div id="stars"></div><br />
-	<div id="creatorID">UserID Here</div><div id="distance">0 km</div>
+	<p><div id="creatorID">UserID Here</div><div id="distance">0</div> miles</p>
 	<label for="routeDesc">Description:</label><br />
 	<textarea id="routeDesc" name="routeDesc" rows="2" cols="20">Some description goes here...</textarea><br />
 	<p>Route Color:</p>
