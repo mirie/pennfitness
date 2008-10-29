@@ -82,12 +82,13 @@ YAHOO.util.Event.onDOMReady(initializeDialog);
 
 function saveRoute() {
 	var successHandler = function(o) {
-		if (o.responseText == '1') {
-			alert("Route saved successfully");
-		}
-		else {
-			alert("Route is not saved");
-		}
+		alert(o.responseText);
+		// if (o.responseText == '1') {
+			// alert("Route saved successfully");
+		// }
+		// else {
+			// alert("Route is not saved");
+		// }
 	}
 
 	var failureHandler = function(o) {
