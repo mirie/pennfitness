@@ -47,22 +47,13 @@ def getTotalNumOfRoute():
     return "total number of routes registered"
        
 def registerRoute():
-# input = routeName,description, routeColor, points
-	conn = MySQLdb.connect(host, username, passwd, db)
-    cursor = conn.cursor()
-    cursor = conn.cursor()
-    strs = []
-    for i in range(0,len(request.vars.pvalue)):
-      if i != len(request.vars.pvalue) - 1:
-        strs.append(request.vars.pvalue[i] + ";")
-      else:
-        strs.append(request.vars.pvalue[i])
-    
-    cursor.execute("INSERT INTO routes (name, color, route) VALUES ('" + request.vars.passroutename + "','" + request.vars.routeColorChange+ "','"+ ''.join(strs) + "')")
-    return dict(ret=1) # ************ no error handling yet!!!! *******************
-
-# returns resultCode  register a new route to route table
-    return 1;
+	# input = routeName,description, routeColor, points
+	#conn = MySQLdb.connect(host, username, passwd, db)
+    #cursor = conn.cursor()
+    #cursor = conn.cursor()
+    str = request.vars
+	# returns resultCode  register a new route to route table
+    return str # ************ no error handling yet!!!! *******************
     
 def modifyRoute():
 # input = routeID, routeName, description, routeColor, points 
