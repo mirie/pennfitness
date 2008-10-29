@@ -45,7 +45,7 @@ function routeDetailDialog() {
 	
 	// Define various event handlers for Dialog
 	var handleSubmit = function() {
-		this.submit();
+		saveRoute();
 	};
 	var handleCancel = function() {
 		this.cancel();
@@ -79,4 +79,97 @@ function routeDetailDialog() {
 }
 
 YAHOO.util.Event.onDOMReady(initializeDialog);
-//YAHOO.util.Event.onDOMReady(routeDetailDialog);
+
+function saveRoute() {
+	var successHandler = function(o) {
+		if (o.responseText == '1') {
+			alert("Route saved successfully");
+		}
+		else {
+			alert("Route is not saved");
+		}
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+		timeout:3000
+	}
+
+	//var routeName = document.getElementById("routeName").innerHTML;
+	//var creatorID = document.getElementById("creatorID").innerHTML;
+	//var distance = document.getElementById("distance").innerHTML;
+	//var routeDesc = document.getElementById("routeDesc").innerHTML;
+	//var routeColor = "666FFF";
+	
+	var routeName = "r1";
+	var routeDistance = 10;
+	var routeDescrip = "some text in here...";
+	var routeColor = "666FFF";
+	var points = [1,2,3];
+	
+	// JSON
+	var formData =
+		{
+			"routeName" : routeName,
+			"distance" : routeDistance,
+			"routeDesc" : routeDescrip,
+			"routeColor" : routeColor,
+			"points" : points
+		};
+	
+	var jsonPostData = YAHOO.lang.JSON.stringify(formData);
+
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "registerRoute", callback, jsonPostData);
+}
+
+
+
+
+
+
+
+
+	
+    // clear previous pvalues   
+    // while ((pvalue = document.getElementById("pvalue")) != null)
+    // {
+        // form.removeChild(pvalue);
+    // }
+	
+
+	// // var routeColor = document.getElementById("routeColorChange");
+	
+	// //if (routeName.innerHTML.length == 0 || routeColor.value.length == 0 || markers.length <= 1) {
+	// //	alert("Please set up a route before saving!");
+	// //	return;
+	// if ((val = document.getElementById("passroutename")) != null) {
+		// form.removeChild(val);
+	// }
+
+	// var hiddenName;
+	// hiddenName = document.createElement("input");
+	// hiddenName.type = "hidden";
+	// hiddenName.name = "passroutename";
+	// hiddenName.id = "passroutename";
+	// hiddenName.value = routeName.innerHTML;
+	// form.appendChild(hiddenName);
+	// pointsDiv.innerHTML += "here<br />";
+    
+	// var newPoint;
+	// var markers = allMarkers[currRouteIndex];
+    // for (var i = 0; i < markers.length; i++) {
+		// newPoint = document.createElement("input");
+        // newPoint.type = "hidden";
+        // newPoint.name = "pvalue";
+        // newPoint.id = "pvalue";
+        // newPoint.value = markers[i].getLatLng().lat() + "," + markers[i].getLatLng().lng();    
+        // form.appendChild(newPoint);         
+    // }
+    
+	// YAHOO.util.Connect.setForm(form);    
+// }
