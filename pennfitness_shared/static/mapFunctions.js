@@ -42,22 +42,37 @@ function setupMap() {
         // Center on Philly
         map.setCenter(new GLatLng(phillyLat, phillyLng), phillyZoomLev); 
 
-        // Add click listener for creating routes:
-        GEvent.addListener(map, "click", leftClick);
-		
-		// Setup drag function for toolbar
-		//var toolbar = new YAHOO.example.DDOnTop("toolbar");
-		// toolbar.setHandleElId("toolHeader");
-    
-		// var log = new YAHOO.example.DDOnTop("logger");
-		// log.setHandleElId("pointsHeader");
-    
-		// YAHOO.pf.route.getRouteNames();
-
+		// Handles resizing full-screen map more efficiently
+		if (window.attachEvent) {
+			window.attachEvent("onresize", function() { map.onResize() });
+			window.attachEvent("onload", function() { map.onResize() });
+		} else if (window.addEventListener) {
+			window.addEventListener("resize", function() { map.onResize() }, false);
+			window.attachEvent("onload", function() { map.onResize() }, false);
+		}
+        
     } else { 
         alert("Sorry, the Google Maps API is not compatible with this browser"); 
-    } 
+    }
 }
+
+
+function disableMarkerListeners() {
+	for (i = 0; i < markers.length; i++) {
+		GEvent.clearListeners(marker[i], "drag");
+		GEvent.clearListeners(marker[i], "click");
+	}
+}
+
+function enableMarkerListeners() {
+	for (i = 0; i < markers.length; i++) {
+		GEvent.addListener(marker[i], "drag", function() {  drawOverlay();  });
+		GEvent.addListener(marker[i], "click", deleteMarkerClick() );
+	}
+}
+
+
+
 
 //  ***********************************************************************
 //  Function: addMarker( GPoint point)
@@ -74,9 +89,11 @@ function addMarker(point)
 	GEvent.addListener(marker, "drag", function() {  drawOverlay();  });
 
 	// Second click listener: for deleting the marker
-	GEvent.addListener(marker, "click", function() {
-		// Find out which marker to remove
-		for (i = 0; i < markers.length; i++) {
+	GEvent.addListener(marker, "click", deleteMarkerClick()); // end of second click
+}
+
+function deleteMarkerClick() {
+	for (i = 0; i < markers.length; i++) {
 			if (markers[i] == marker) {
 				map.removeOverlay(markers[i]);
 				break;						
@@ -87,8 +104,8 @@ function addMarker(point)
 		markers.splice(i, 1);
 		
 		drawOverlay();
-	}); // end of second click
 }
+
 
 //  ***********************************************************************
 //  Function: addMarkerPoint( number x, number y)

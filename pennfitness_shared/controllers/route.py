@@ -1,17 +1,11 @@
 import MySQLdb
+#import applications.pennfitness_shared.modules.simplejson as json
 
 username = "maiirie"
 passwd = "mTmC439T"
 db = "maiirie"
 host = "fling-l.seas.upenn.edu"
 
-#username = "appdev1"
-#passwd = "appdev1"
-#db = "appdev1"
-
-# ahahahah
-
-# try something like
 def index(): return dict(message="hello from route.py")
 
 def RouteList():
@@ -47,14 +41,10 @@ def getTotalNumOfRoute():
     return "total number of routes registered"
        
 def registerRoute():
-	# input = routeName,description, routeColor, points
-	#conn = MySQLdb.connect(host, username, passwd, db)
-    #cursor = conn.cursor()
-    #cursor = conn.cursor()
-    str = request.vars
-	# returns resultCode  register a new route to route table
-    return str # ************ no error handling yet!!!! *******************
-    
+    # input = routeName,description, routeColor, points
+    # returns resultCode  register a new route to route table
+	return "resultCode" # ************ no error handling yet!!!! *******************
+
 def modifyRoute():
 # input = routeID, routeName, description, routeColor, points 
 # returns resultCode  modify route information. only the creator can modify his route information
