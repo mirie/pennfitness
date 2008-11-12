@@ -1,6 +1,6 @@
 // Route Toolbar
 // Mai Irie
-// version 11/11/2008
+// version 11/12/2008
 
 
 //  ***********************************************************************
@@ -42,7 +42,7 @@ function saveRt() {
 	// TODO: FINISH THIS: Save the information: name, description, points, distance, color
 	
 	var successHandler = function(o) {
-		if (o.responseText == '1') {
+		if (o.responseText == '1') { // POSSIBLY CHANGE ?
 			alert("Route saved successfully");
 		}
 		else {
@@ -60,8 +60,11 @@ function saveRt() {
 		timeout:3000
 	}
 
+	// Connection manager will automatically get routeName and routeDesc from form.
+	// Still need: distance, routeColor, and pvalue for the route points
 	var form = document.getElementById("frmRouteDetails");
 
+	/* Route points (pvalue) */
 	// clear previous pvalues	
 	while((pvalue = document.getElementById("pvalue")) != null)
 	{
@@ -80,6 +83,7 @@ function saveRt() {
 		form.appendChild(newPoint);			
 	}
 
+	/* Route color */
 	if ( (rtColor = document.getElementById("routeColor")) != null) {
 		form.removeChild(rtColor);
 	}
@@ -94,8 +98,19 @@ function saveRt() {
 	routeColor.value = strColor;
 	form.appendChild(routeColor);
 	
-	YAHOO.util.Connect.setForm(form);
+	/* Distance */
+	var routeDistance = document.createElement("input");
+	routeDistance.type = "hidden";
+	routeDistance.name = "distance";
+	routeDistance.id = "distance";
 	
+	var strDist = document.getElementById("rtDist").innerHTML;
+	index = strDist.indexOf("miles");
+	strDist = strDist.substring(0, index);
+	routeDistance.value = strDist;
+	form.appendChild(routeDistance);
+	
+	YAHOO.util.Connect.setForm(form);
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback);
 	
 	toggleModifyRtDetail(true);
@@ -133,7 +148,6 @@ function finishRoute() {
 	disableMap();
 	hideRtDetailsTool();
 	showNewRtTool();	
-	document.getElementById("modifyRtDiv").style.visibility = "hidden";
 }
 
 //  ***********************************************************************
@@ -141,7 +155,7 @@ function finishRoute() {
 //  Displays the New Event details form.
 //  ***********************************************************************
 function createEvent() {
-	document.getElementById("modifyRtDiv").style.visibility = "hidden";
+	document.getElementById("modifyRtDiv").style.display = "none";
 	enableEditRtDetail("disabled");
 	resetNewEvent();
 	enableEditNewEvent("");
@@ -164,7 +178,7 @@ function saveEvent() {
 	
 	// TODO: FINISH THIS: Save the information: name, description, time, date, duration, group		
 	var successHandler = function(o) {
-		if (o.responseText == '1') {
+		if (o.responseText == '1') { // POSSIBLY CHANGE?
 			alert("Event saved successfully");
 		}
 		else {
@@ -182,8 +196,34 @@ function saveEvent() {
 		timeout:3000
 	}
 
+	// Connection manager will automatically get the following from form:
+	// eventName, eventDesc
 	var form = document.getElementById("frmCreateEvent");
 	
+
+/*	
+groupID (optional parameter)
+eventDate
+eventTime (I added this one)
+eventDuration
+eventDesc
+eventTypeID 
+
+			<label for="eventName">Event Name:</label><input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />
+			<div id="eventcreatorID">made by this userID</div>
+need to send dummy val			->>>><div id="selectGroup">select group</div>
+			<label for="eventTime">Event Time:</label><input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
+			<label for="eventDuration">Duration:</label><input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
+			<div id="eventDate">Event Date: </div>
+			<label for="eventDesc">Description:</label><br /><textarea id="eventDesc" name="eventDesc" rows="2" cols="20"></textarea><br />	
+
+
+
+
+
+
+*/
+
 	YAHOO.util.Connect.setForm(form);
 	
 	//var transaction = YAHOO.util.Connect.asyncRequest("POST", ".jsp", callback);
@@ -233,25 +273,30 @@ function showNewRtTool() {
 }
 
 function hideRtDetailsTool() {
-	document.getElementById("rtDetails").style.visibility = "hidden";	
+	document.getElementById("rtDetailTool").style.display = "none";	
 }
 
 function showRtDetailsTool() {
-	document.getElementById("rtDetailTool").style.top = "135px";
-	document.getElementById("rtDetailTool").style.right = "89px";
-	document.getElementById("rtDetailTool").style.left = "";
 	document.getElementById("rtDetails").style.visibility = "visible";
-	document.getElementById("saveRtDiv").style.visibility = "visible";
-	document.getElementById("modifyRtDiv").style.visibility = "hidden";
+	
+	toggleModifyRtDetail(false);
+	
+	div = document.getElementById("rtDetailTool");
+	div.style.top = "135px";
+	div.style.right = "89px";
+	div.style.left = "";
+	div.style.display = "block";
 }
 
 function hideNewEvent() {
-	document.getElementById("newEvent").style.display = "none";	
+	document.getElementById("newEvent").style.display = "none";
+	toggleModifyRtDetail(true);
 }
 
 function showNewEvent() {
 	document.getElementById("newEvent").style.display = "block";
 	document.getElementById("newEvent").style.visibility = "visible";
+	toggleModifyEvtDetail(false);
 }
 
 //  ***********************************************************************
@@ -260,6 +305,7 @@ function showNewEvent() {
 function enableEditRtDetail(enable) {
 	document.getElementById("routeName").disabled = enable;
 	document.getElementById("routeDesc").disabled = enable;
+	document.getElementById("color-picker-button-button").disabled = enable;
 }
 
 function enableEditNewEvent(enable) {
@@ -275,8 +321,10 @@ function enableEditNewEvent(enable) {
 function resetRtDetail() {
 	document.getElementById("routeName").value = "";
 	document.getElementById("routeDesc").value = "";
-	document.getElementById("distance").innerHTML = "0 miles";
+	document.getElementById("rtDist").innerHTML = "0 miles";
 	removeRoute();
+	document.getElementById("current-color").style.backgroundColor = " #0000AF"; // Slight BUG HERE... need minor fix: colorpicker.setValue([0, 0, 175], false) not working...
+	lineColor = "#0000af";
 }
 
 function resetNewEvent() {
@@ -298,25 +346,32 @@ function resetNewEvent() {
 //  Function: switch out buttons dynamically (save, cancel --> modify or create event)
 //  ***********************************************************************
 function toggleModifyRtDetail(enableModify) {
+	var savDiv = document.getElementById("saveRtDiv");
+	var modifyDiv = document.getElementById("modifyRtDiv");
+	
 	if (enableModify) {
-		document.getElementById("saveRtDiv").style.display = "none";
-		document.getElementById("modifyRtDiv").style.display = "block";
-		document.getElementById("modifyRtDiv").style.visibility = "visible";
+		savDiv.style.display = "none";
+		modifyDiv.style.display = "block";
+		modifyDiv.style.visibility = "visible";
 		} else {
-		document.getElementById("saveRtDiv").style.display = "block";
-		document.getElementById("modifyRtDiv").style.display = "none";
-		document.getElementById("modifyRtDiv").style.visibility = "hidden";
+		savDiv.style.display = "block";
+		savDiv.style.visibility = "visible";
+		modifyDiv.style.display = "none";
+		//document.getElementById("modifyRtDiv").style.visibility = "hidden";
 	}
 }
 
 function toggleModifyEvtDetail(enableModify) {
+	var savDiv = document.getElementById("saveEventDiv");
+	var modifyDiv = document.getElementById("modifyEventDiv");
+	
 	if (enableModify) {
-		document.getElementById("saveEventDiv").style.display = "none";
-		document.getElementById("modifyEventDiv").style.display = "block";
+		savDiv.style.display = "none";
+		modifyDiv.style.display = "block";
 		} 
 	else {
-		document.getElementById("saveEventDiv").style.display = "block";
-		document.getElementById("modifyEventDiv").style.display = "none";
+		savDiv.style.display = "block";
+		modifyDiv.style.display = "none";
 	}
 }
 
@@ -329,7 +384,7 @@ function onButtonOption() {
 	/* Create a new ColorPicker instance, placing it inside the body 
 	   element of the Menu instance.
 	*/
-	var oColorPicker = new YAHOO.widget.ColorPicker(oColorPickerMenu.body.id, {
+	oColorPicker = new YAHOO.widget.ColorPicker(oColorPickerMenu.body.id, {
 						red: 0, green: 0, blue: 175,
 						showcontrols: false,
 						images: {
@@ -354,7 +409,7 @@ function onButtonOption() {
 	});
             
 	// Remove this event listener so that this code runs only once
-	this.unsubscribe("option", onButtonOption);
+	this.unsubscribe("option", onButtonOption);	
 }
 
 // Create a Menu instance to house the ColorPicker instance
@@ -394,6 +449,117 @@ oButton.on("appendTo", function () {
 		drawOverlay();
 	});  
 });
+
+//  ***********************************************************************
+//  Function: Calendar for Events
+//  ***********************************************************************
+(function () {	
+	var Event = YAHOO.util.Event,
+		Dom = YAHOO.util.Dom;
+
+	Event.onDOMReady(function () {
+		var oCalendarMenu;
+
+		var onButtonClick = function () {			
+			// Create a Calendar instance and render it into the body 
+			// element of the Overlay.
+			var oCalendar = new YAHOO.widget.Calendar("buttoncalendar", oCalendarMenu.body.id);
+			oCalendar.render();
+
+			// Subscribe to the Calendar instance's "select" event to 
+			// update the month, day, year form fields when the user
+			// selects a date.
+			oCalendar.selectEvent.subscribe(function (p_sType, p_aArgs) {
+				var aDate;
+
+				if (p_aArgs) {
+						
+					aDate = p_aArgs[0][0];
+						
+					//Dom.get("month-field").value = aDate[1];
+					//Dom.get("day-field").value = aDate[2];
+					//Dom.get("year-field").value = aDate[0];
+				}				
+				oCalendarMenu.hide();			
+			});
+
+			// Pressing the Esc key will hide the Calendar Menu and send focus back to 
+			// its parent Button
+			Event.on(oCalendarMenu.element, "keydown", function (p_oEvent) {			
+				if (Event.getCharCode(p_oEvent) === 27) {
+					oCalendarMenu.hide();
+					this.focus();
+				}			
+			}, null, this);
+						
+			var focusDay = function () {
+				var oCalendarTBody = Dom.get("buttoncalendar").tBodies[0],
+					aElements = oCalendarTBody.getElementsByTagName("a"),
+					oAnchor;
+				
+				if (aElements.length > 0) {				
+					Dom.batch(aElements, function (element) {					
+						if (Dom.hasClass(element.parentNode, "today")) {
+							oAnchor = element;
+						}
+					
+					});
+										
+					if (!oAnchor) {
+						oAnchor = aElements[0];
+					}
+
+					// Focus the anchor element using a timer since Calendar will try 
+					// to set focus to its next button by default				
+					YAHOO.lang.later(0, oAnchor, function () {
+						try {
+							oAnchor.focus();
+						}
+						catch(e) {}
+					});				
+				}				
+			};
+
+			// Set focus to either the current day, or first day of the month in 
+			// the Calendar	when it is made visible or the month changes
+			oCalendarMenu.subscribe("show", focusDay);
+			oCalendar.renderEvent.subscribe(focusDay, oCalendar, true);
+
+			// Give the Calendar an initial focus			
+			focusDay.call(oCalendar);
+
+			// Re-align the CalendarMenu to the Button to ensure that it is in the correct
+			// position when it is initial made visible			
+			oCalendarMenu.align();
+			
+			// Unsubscribe from the "click" event so that this code is 
+			// only executed once
+			this.unsubscribe("click", onButtonClick);
+		};
+
+		// Create an Overlay instance to house the Calendar instance
+		oCalendarMenu = new YAHOO.widget.Overlay("calendarmenu", { visible: false });
+
+		// Create a Button instance of type "menu"	
+		var oButton = new YAHOO.widget.Button({ 
+											type: "menu", 
+											id: "calendarpicker", 
+											menu: oCalendarMenu, 
+											container: "eventDate" });
+
+		oButton.on("appendTo", function () {
+			// Create an empty body element for the Overlay instance in order 
+			// to reserve space to render the Calendar instance into.		
+			oCalendarMenu.setBody("&#32;");		
+			oCalendarMenu.body.id = "calendarcontainer";			
+		});
+
+		// Add a "click" event listener that will render the Overlay, and 
+		// instantiate the Calendar the first time the Button instance is 
+		// clicked.
+		oButton.on("click", onButtonClick);
+	});	
+}());
 
 //  ***********************************************************************
 //  Drag and Drop Utility --> TODO: STILL PROBLEMS WITH DRAG AND DROP BOUNDARIES!!!
@@ -457,8 +623,6 @@ YAHOO.util.Event.addListener("saveEvent", "click", saveEvent);
 YAHOO.util.Event.addListener("modifyEvent", "click", modifyEvent);
 YAHOO.util.Event.addListener("cancelEvent", "click", cancelEvent);
 YAHOO.util.Event.addListener("finishEvent", "click", finishEvent);
-
-
 
 YAHOO.util.Event.onDOMReady(setupMap);
 YAHOO.util.Event.onDOMReady(setupdd);
