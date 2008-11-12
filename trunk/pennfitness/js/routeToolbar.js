@@ -36,13 +36,14 @@ function saveRt() {
 		alert("please draw a route before saving!");
 		return;
 	}
-	disableMap();
-	
-	// TODO: FINISH THIS: Save the information: name, description, points, distance, color
-	
+		
 	var successHandler = function(o) {
-		if (o.responseText == '1') { // POSSIBLY CHANGE ?
+		if (o.responseText != '-1') { // POSSIBLY CHANGE ?
 			alert("Route saved successfully");
+			document.getElementById("routeID").value = o.responseText;
+			disableMap();
+			enableEditRtDetail("disabled");
+			toggleModifyRtDetail(true);
 		}
 		else {
 		alert("Route is not saved");
@@ -56,71 +57,45 @@ function saveRt() {
 	var callback = {
 		failure:failureHandler,
 		success:successHandler,
-		timeout:3000
+		timeout:3000,
 	}
-
-	// Connection manager will automatically get routeName and routeDesc from form.
-	// Still need: distance, routeColor, and pvalue for the route points
-	var form = document.getElementById("frmRouteDetails");
-
-	// Route points (pvalue)
-	// clear previous pvalues	
-	while((pvalue = document.getElementById("pvalue")) != null)
-	{
-		form.removeChild(pvalue);
-	}
-
-	var newPoint;
-	newPoint = document.createElement("textarea");
-	newPoint.style.visibility = "hidden";
-	newPoint.name = "pvalue";
-	newPoint.id = "pvalue";
+	
+	// POST string data
+	var strData = "";
+	strData += "routeName=" + document.getElementById("routeName").value + "&";
+	strData += "routeDesc=" + document.getElementById("routeDesc").value + "&";
+	
+	// Append routeColor to strData
+	var strColor = document.getElementById("current-color").innerHTML;
+	var index = strColor.indexOf("#");
+	strColor = strColor.substring(index, strColor.length - 1);
+	
+	strData += "routeColor=" + strColor + "&";
+	
+	// Append distance to strData
+	var strDist = document.getElementById("rtDist").innerHTML;
+	index = strDist.indexOf("miles");
+	strDist = strDist.substring(0, index);
+	
+	strData += "distance=" + strDist + "&";
+	
+	// Append pvalue to strData
 	var strPt = "";
-	for(i = 0 ; i < markers.length ;i++) {		
+	
+	for (var i = 0 ; i < markers.length ;i++) {		
 		if (i < markers.length - 1) {
 			strPt += markers[i].getLatLng().lat() + "," + markers[i].getLatLng().lng() + ";";	
 		} else {
 			strPt += markers[i].getLatLng().lat() + "," + markers[i].getLatLng().lng(); 
-		}
-		
+		}		
 	}
 	
-	newPoint.value = strPt;
-	form.appendChild(newPoint);			
+	strData += "pvalue=" + strPt + "&";
 	
-	// Route color
-	if ( (rtColor = document.getElementById("routeColor")) != null) {
-		form.removeChild(rtColor);
-	}
+	// Append RouteID to strData
+	strData += "routeID=" + document.getElementById("routeID").value;
 	
-	var routeColor = document.createElement("input");
-	routeColor.type = "hidden";
-	routeColor.name = "routeColor";
-	routeColor.id = "routeColor";
-	var strColor = document.getElementById("current-color").innerHTML;
-	var index = strColor.indexOf("#");
-	strColor = strColor.substring(index, strColor.length - 1);
-	routeColor.value = strColor;
-	form.appendChild(routeColor);
-	
-	// Distance
-	
-	var routeDistance = document.createElement("input");
-	routeDistance.type = "hidden";
-	routeDistance.name = "distance";
-	routeDistance.id = "distance";
-	
-	var strDist = document.getElementById("rtDist").innerHTML;
-	index = strDist.indexOf("miles");
-	strDist = strDist.substring(0, index);
-	routeDistance.value = strDist;
-	form.appendChild(routeDistance);
-	
-	YAHOO.util.Connect.setForm(form);
-	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback);
-	
-	enableEditRtDetail("disabled");
-	toggleModifyRtDetail(true);
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback, strData);
 }
 
 //  ***********************************************************************
