@@ -277,7 +277,7 @@ YAHOO.pf.route.submitForm = function() {
 	
 	YAHOO.util.Connect.setForm(form);
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("POST", "second.jsp", callback);
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "view/allRoutes.jsp", callback);
 }
 
 YAHOO.util.Event.addListener("Save", "click", YAHOO.pf.route.submitForm);
@@ -308,7 +308,7 @@ YAHOO.pf.route.getRouteNames = function() {
 	
 	var form = document.getElementById("frmRoutes");
 
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", "second.jsp", callback);
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/allRoutes.jsp", callback);
 }
 
 YAHOO.util.Event.addListener("Refresh", "click", YAHOO.pf.route.getRouteNames);
@@ -394,7 +394,7 @@ YAHOO.pf.route.getRouteMultiple = function(route) {
 		timeout:3000
 	}
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", "third.jsp?routeName=" + route, callback);
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByName.jsp?routeName=" + route, callback);
 }
 
 
@@ -434,7 +434,7 @@ YAHOO.pf.route.getRoute = function(route) {
 		timeout:3000
 	}
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", "third.jsp?routeName=" + route, callback);
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByName.jsp?routeName=" + route, callback);
 }
 
 YAHOO.pf.route.clear = function(route) {
