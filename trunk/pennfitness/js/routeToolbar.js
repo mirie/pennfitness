@@ -36,7 +36,6 @@ function saveRt() {
 		alert("please draw a route before saving!");
 		return;
 	}
-	enableEditRtDetail("disabled");
 	disableMap();
 	
 	// TODO: FINISH THIS: Save the information: name, description, points, distance, color
@@ -64,7 +63,7 @@ function saveRt() {
 	// Still need: distance, routeColor, and pvalue for the route points
 	var form = document.getElementById("frmRouteDetails");
 
-	/* Route points (pvalue) */
+	// Route points (pvalue)
 	// clear previous pvalues	
 	while((pvalue = document.getElementById("pvalue")) != null)
 	{
@@ -72,18 +71,24 @@ function saveRt() {
 	}
 
 	var newPoint;
-	for(i = 0 ; i < markers.length ;i++) {
-
-		newPoint = document.createElement("input");
-		newPoint.type = "hidden";
-		newPoint.name = "pvalue";
-		newPoint.id = "pvalue";
-		newPoint.value = markers[i].getLatLng().lat() + "," + markers[i].getLatLng().lng();
-
-		form.appendChild(newPoint);			
+	newPoint = document.createElement("textarea");
+	newPoint.style.visibility = "hidden";
+	newPoint.name = "pvalue";
+	newPoint.id = "pvalue";
+	var strPt = "";
+	for(i = 0 ; i < markers.length ;i++) {		
+		if (i < markers.length - 1) {
+			strPt += markers[i].getLatLng().lat() + "," + markers[i].getLatLng().lng() + ";";	
+		} else {
+			strPt += markers[i].getLatLng().lat() + "," + markers[i].getLatLng().lng(); 
+		}
+		
 	}
-
-	/* Route color */
+	
+	newPoint.value = strPt;
+	form.appendChild(newPoint);			
+	
+	// Route color
 	if ( (rtColor = document.getElementById("routeColor")) != null) {
 		form.removeChild(rtColor);
 	}
@@ -98,7 +103,8 @@ function saveRt() {
 	routeColor.value = strColor;
 	form.appendChild(routeColor);
 	
-	/* Distance */
+	// Distance
+	
 	var routeDistance = document.createElement("input");
 	routeDistance.type = "hidden";
 	routeDistance.name = "distance";
@@ -113,6 +119,7 @@ function saveRt() {
 	YAHOO.util.Connect.setForm(form);
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback);
 	
+	enableEditRtDetail("disabled");
 	toggleModifyRtDetail(true);
 }
 
