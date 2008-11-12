@@ -39,7 +39,9 @@ public class RouteSaveServlet extends HttpServlet{
     	//HttpSession
     	//creatorId will be read from cookies. 
     	Route route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, 1/*creatorId*/ );
-    	   	
+    	
+    	//RouteID of the currently saved route is going to be returned as result.
+    	//-1 is returned if there is an error saving route
         out.println( DBUtilRoute.saveRoute( route ) );
         
     }
