@@ -112,7 +112,7 @@ function leftClick(overlay, point) {
 //  ***********************************************************************
 function drawOverlay(){
 	var distance;
-	var distanceDiv = document.getElementById("distance");
+	var distanceDiv = document.getElementById("rtDist");
 	unit = " miles";
         
 	var latlng;
