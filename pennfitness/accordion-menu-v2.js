@@ -403,3 +403,55 @@ var AccordionMenu =(function()
  
 })();
 
+function onMyMenuOpen(obj)
+{		
+	var dl = obj.dl;
+	var dt = obj.dt;
+	var dd = obj.dd;
+	var d = document.createElement('div');
+	d.className = 'debug';
+	d.innerHTML =  dt.innerHTML + ' is opened' ;
+	document.body.insertBefore( d , dl.nextSibling);
+};
+
+function onMyMenuClose(obj)
+{
+	var dl = obj.dl;
+	var dt = obj.dt;
+	var dd = obj.dd;
+	var d = document.createElement('div');
+	d.className = 'debug';
+	d.innerHTML =  dt.innerHTML + ' is closed' ;
+	document.body.insertBefore( d , dl.nextSibling);
+};
+
+var oOptions=
+{	
+	//all options are optional
+	//[ bool ] if dependent is false, then each menu open/close independently
+	dependent:false,
+	
+	// [function] callback when a menu is opened
+	onOpen:onMyMenuOpen,
+	
+	// [function] ccallback when a menu is closed
+	onClose:onMyMenuClose,
+	
+	// [array] cdefault ids of opened menues' <dt>
+	openedIds:['my-dt-1','my-dt-3'],
+	
+	//[number ] seconds for animations
+	seconds:0.2,
+	
+	//[ bool ] set true if the animation is to be played slower and slower and vise versa
+	easeOut:false,
+	
+	// bool ] set true if the animation is to be played
+	animation:true
+}
+var setting = new AccordionMenu.setting('my-dl',oOptions);
+
+/*---------------Drag and Drop variable------------------------*/
+var dd1 = new YAHOO.util.DD("my-dl");
+
+
