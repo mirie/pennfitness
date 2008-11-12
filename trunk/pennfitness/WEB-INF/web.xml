@@ -6,7 +6,7 @@
 
   <servlet>
     <servlet-name>RouteSaveServlet</servlet-name>
-    <servlet-class>model.user.UserRegisterServlet</servlet-class>
+    <servlet-class>model.RouteSaveServlet</servlet-class>
   </servlet>
 
   <!-- Map URLs to that servlet. -->

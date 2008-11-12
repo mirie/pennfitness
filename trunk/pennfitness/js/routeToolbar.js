@@ -96,7 +96,7 @@ function saveRt() {
 	
 	YAHOO.util.Connect.setForm(form);
 	
-	//var transaction = YAHOO.util.Connect.asyncRequest("POST", "second.jsp", callback);
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback);
 	
 	toggleModifyRtDetail(true);
 }
