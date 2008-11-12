@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+  <display-name>cis550</display-name>
+
+  <!-- Declare the existence of a servlet. -->
+
+  <servlet>
+    <servlet-name>RouteSaveServlet</servlet-name>
+    <servlet-class>model.user.UserRegisterServlet</servlet-class>
+  </servlet>
+
+  <!-- Map URLs to that servlet. -->
+
+  <servlet-mapping>
+    <servlet-name>RouteSaveServlet</servlet-name>
+    <url-pattern>/saveRoute.do</url-pattern>
+  </servlet-mapping>
+ 
+</web-app>
