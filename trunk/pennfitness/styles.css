@@ -142,7 +142,6 @@ div.yuimenu .bd {
 	height: 1em;
 	overflow: hidden;
 	text-indent: 1em;
-	background-color: #fff;
 	white-space: nowrap;
 	border: solid 1px #000;
 	background-color: #0000AF;
@@ -168,6 +167,28 @@ div.yuimenu .bd {
 	padding: .5em .25em;
 	margin-top: .5em;
 }  /* END color picker for right toolbar */
+
+#calendarcontainer {
+	padding:10px;
+}
+
+#calendarmenu {
+	position: absolute;
+}
+
+#calendarpicker button {
+	background: url(assets/calendar_icon.gif) center center no-repeat;
+	text-align: left;
+	text-indent: -10em;
+	overflow: hidden;
+	*margin-left: 10em; /* For IE */
+	*padding: 0 3em;    /* For IE */
+	white-space: nowrap;
+}
+
+#calendarpicker  {	
+	vertical-align: baseline;		
+}  /* END calendar for toolbar */
 
 #newEvent {
 	padding: 10px;

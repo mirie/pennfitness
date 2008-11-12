@@ -132,8 +132,7 @@ function finishRoute() {
 	enableEditRtDetail("disabled");
 	disableMap();
 	hideRtDetailsTool();
-	showNewRtTool();	
-	document.getElementById("modifyRtDiv").style.visibility = "hidden";
+	showNewRtTool();
 }
 
 //  ***********************************************************************
@@ -205,6 +204,7 @@ function modifyEvent() {
 //  ***********************************************************************
 function cancelEvent() {
 	document.getElementById("modifyRtDiv").style.visibility = "visible";
+	toggleModifyEvtDetail(false);
 	enableEditNewEvent("disabled");
 	hideNewEvent();
 }
@@ -233,6 +233,8 @@ function showNewRtTool() {
 }
 
 function hideRtDetailsTool() {
+	document.getElementById("saveRtDiv").style.visibility = "hidden";
+	document.getElementById("modifyRtDiv").style.visibility = "hidden";
 	document.getElementById("rtDetails").style.visibility = "hidden";	
 }
 
@@ -241,8 +243,7 @@ function showRtDetailsTool() {
 	document.getElementById("rtDetailTool").style.right = "89px";
 	document.getElementById("rtDetailTool").style.left = "";
 	document.getElementById("rtDetails").style.visibility = "visible";
-	document.getElementById("saveRtDiv").style.visibility = "visible";
-	document.getElementById("modifyRtDiv").style.visibility = "hidden";
+	toggleModifyRtDetail(false);
 }
 
 function hideNewEvent() {
@@ -260,6 +261,7 @@ function showNewEvent() {
 function enableEditRtDetail(enable) {
 	document.getElementById("routeName").disabled = enable;
 	document.getElementById("routeDesc").disabled = enable;
+	document.getElementById("color-picker-button-button").disabled = enable;
 }
 
 function enableEditNewEvent(enable) {
@@ -277,6 +279,8 @@ function resetRtDetail() {
 	document.getElementById("routeDesc").value = "";
 	document.getElementById("distance").innerHTML = "0 miles";
 	removeRoute();
+document.getElementById("current-color").style.backgroundColor = " #0000AF"; // Slight BUG HERE... need minor fix: colorpicker.setValue([0, 0, 175], false) not working...
+	lineColor = "#0000af";
 }
 
 function resetNewEvent() {
@@ -305,6 +309,7 @@ function toggleModifyRtDetail(enableModify) {
 		} else {
 		document.getElementById("saveRtDiv").style.display = "block";
 		document.getElementById("modifyRtDiv").style.display = "none";
+		document.getElementById("saveRtDiv").style.visibility = "visible";
 		document.getElementById("modifyRtDiv").style.visibility = "hidden";
 	}
 }
@@ -329,7 +334,7 @@ function onButtonOption() {
 	/* Create a new ColorPicker instance, placing it inside the body 
 	   element of the Menu instance.
 	*/
-	var oColorPicker = new YAHOO.widget.ColorPicker(oColorPickerMenu.body.id, {
+	oColorPicker = new YAHOO.widget.ColorPicker(oColorPickerMenu.body.id, {
 						red: 0, green: 0, blue: 175,
 						showcontrols: false,
 						images: {
@@ -354,7 +359,7 @@ function onButtonOption() {
 	});
             
 	// Remove this event listener so that this code runs only once
-	this.unsubscribe("option", onButtonOption);
+	this.unsubscribe("option", onButtonOption);	
 }
 
 // Create a Menu instance to house the ColorPicker instance
@@ -394,6 +399,117 @@ oButton.on("appendTo", function () {
 		drawOverlay();
 	});  
 });
+
+//  ***********************************************************************
+//  Function: Calendar for Events
+//  ***********************************************************************
+(function () {	
+	var Event = YAHOO.util.Event,
+		Dom = YAHOO.util.Dom;
+
+	Event.onDOMReady(function () {
+		var oCalendarMenu;
+
+		var onButtonClick = function () {			
+			// Create a Calendar instance and render it into the body 
+			// element of the Overlay.
+			var oCalendar = new YAHOO.widget.Calendar("buttoncalendar", oCalendarMenu.body.id);
+			oCalendar.render();
+
+			// Subscribe to the Calendar instance's "select" event to 
+			// update the month, day, year form fields when the user
+			// selects a date.
+			oCalendar.selectEvent.subscribe(function (p_sType, p_aArgs) {
+				var aDate;
+
+				if (p_aArgs) {
+						
+					aDate = p_aArgs[0][0];
+						
+					//Dom.get("month-field").value = aDate[1];
+					//Dom.get("day-field").value = aDate[2];
+					//Dom.get("year-field").value = aDate[0];
+				}				
+				oCalendarMenu.hide();			
+			});
+
+			// Pressing the Esc key will hide the Calendar Menu and send focus back to 
+			// its parent Button
+			Event.on(oCalendarMenu.element, "keydown", function (p_oEvent) {			
+				if (Event.getCharCode(p_oEvent) === 27) {
+					oCalendarMenu.hide();
+					this.focus();
+				}			
+			}, null, this);
+						
+			var focusDay = function () {
+				var oCalendarTBody = Dom.get("buttoncalendar").tBodies[0],
+					aElements = oCalendarTBody.getElementsByTagName("a"),
+					oAnchor;
+				
+				if (aElements.length > 0) {				
+					Dom.batch(aElements, function (element) {					
+						if (Dom.hasClass(element.parentNode, "today")) {
+							oAnchor = element;
+						}
+					
+					});
+										
+					if (!oAnchor) {
+						oAnchor = aElements[0];
+					}
+
+					// Focus the anchor element using a timer since Calendar will try 
+					// to set focus to its next button by default				
+					YAHOO.lang.later(0, oAnchor, function () {
+						try {
+							oAnchor.focus();
+						}
+						catch(e) {}
+					});				
+				}				
+			};
+
+			// Set focus to either the current day, or first day of the month in 
+			// the Calendar	when it is made visible or the month changes
+			oCalendarMenu.subscribe("show", focusDay);
+			oCalendar.renderEvent.subscribe(focusDay, oCalendar, true);
+
+			// Give the Calendar an initial focus			
+			focusDay.call(oCalendar);
+
+			// Re-align the CalendarMenu to the Button to ensure that it is in the correct
+			// position when it is initial made visible			
+			oCalendarMenu.align();
+			
+			// Unsubscribe from the "click" event so that this code is 
+			// only executed once
+			this.unsubscribe("click", onButtonClick);
+		};
+
+		// Create an Overlay instance to house the Calendar instance
+		oCalendarMenu = new YAHOO.widget.Overlay("calendarmenu", { visible: false });
+
+		// Create a Button instance of type "menu"	
+		var oButton = new YAHOO.widget.Button({ 
+											type: "menu", 
+											id: "calendarpicker", 
+											menu: oCalendarMenu, 
+											container: "eventDate" });
+
+		oButton.on("appendTo", function () {
+			// Create an empty body element for the Overlay instance in order 
+			// to reserve space to render the Calendar instance into.		
+			oCalendarMenu.setBody("&#32;");		
+			oCalendarMenu.body.id = "calendarcontainer";			
+		});
+
+		// Add a "click" event listener that will render the Overlay, and 
+		// instantiate the Calendar the first time the Button instance is 
+		// clicked.
+		oButton.on("click", onButtonClick);
+	});	
+}());
 
 //  ***********************************************************************
 //  Drag and Drop Utility --> TODO: STILL PROBLEMS WITH DRAG AND DROP BOUNDARIES!!!
@@ -457,8 +573,6 @@ YAHOO.util.Event.addListener("saveEvent", "click", saveEvent);
 YAHOO.util.Event.addListener("modifyEvent", "click", modifyEvent);
 YAHOO.util.Event.addListener("cancelEvent", "click", cancelEvent);
 YAHOO.util.Event.addListener("finishEvent", "click", finishEvent);
-
-
 
 YAHOO.util.Event.onDOMReady(setupMap);
 YAHOO.util.Event.onDOMReady(setupdd);
