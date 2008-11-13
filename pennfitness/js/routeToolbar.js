@@ -44,6 +44,7 @@ function saveRt() {
 			disableMap();
 			enableEditRtDetail("disabled");
 			toggleModifyRtDetail(true);
+			leftTB.route.getNewRouteNames();
 		}
 		else {
 		alert("Route is not saved");
