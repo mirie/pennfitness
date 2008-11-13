@@ -186,7 +186,7 @@ function saveEvent() {
 	// eventID, eventName, groupID, eventTime, eventDuration, eventDate, eventDesc
 	var form = document.getElementById("frmCreateEvent");
 	
-	// NO ERROR CHECKING YET!!!!!!
+	// TODO:: NO ERROR CHECKING YET!!!!!!
 	YAHOO.util.Connect.setForm(form);
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveEvent.do", callback);
 	
@@ -325,7 +325,6 @@ function toggleModifyRtDetail(enableModify) {
 		savDiv.style.display = "block";
 		savDiv.style.visibility = "visible";
 		modifyDiv.style.display = "none";
-		//document.getElementById("modifyRtDiv").style.visibility = "hidden";
 	}
 }
 
