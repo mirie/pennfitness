@@ -79,6 +79,7 @@ var getRoute = function(route) {
 
 //YAHOO.util.Event.addListener("GetRouteNames", "click", YAHOO.leftTB.route.getRouteNames);
 
-YAHOO.util.Event.onContentReady(getNewRouteNames());
+// Turn on this to get new route when loading(should fix bug) - inseob
+//YAHOO.util.Event.onContentReady(getNewRouteNames());
 
 
