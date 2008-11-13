@@ -105,6 +105,12 @@ public class DBUtilRoute {
 		return routes;
 	}
 	
+	/**
+	 * Saves a new route with the given information
+	 * 
+	 * @param route
+	 * @return the ID of newly inserted route if transaction is successful. -1 if not.
+	 */
 	public static int saveRoute( Route route ){
 			
 		String saveQuery = 
@@ -126,7 +132,8 @@ public class DBUtilRoute {
 			try {
 				ResultSet  result = DBConnector.getQueryResult( "SELECT MAX(routeID) FROM Routes" );
 				if( result != null )
-					return result.getInt( 1 );
+					if( result.next() )
+						return result.getInt( 1 );
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				System.out.println("DBUtilRoute.saveRoute() : Error getting ID of saved route"  );
@@ -137,6 +144,32 @@ public class DBUtilRoute {
 			
 		return -1;
 	}
+	
+	
+	/**
+	 * Updates the given route with the given ID.
+	 * 
+	 * @param route
+	 * @return 1 if the update is successful. -1 if not
+	 */
+	public static int modifyRoute( Route route ){
+		
+		String updateQuery = 
+			"UPDATE Routes " +
+			"SET name='" + route.getName()+ "', " +
+				"routeColor='"+ route.getColor() +"'," +
+				"points='"+ route.getPtValues() + "'," +
+				"distance='"+ route.getDistance() + "'," +
+				"description='"+ route.getDistance() + "' " +
+			"WHERE routeID='"+ route.getId() +"'"; 
+		
+		if( DBConnector.executeUpdateQuery( updateQuery ) )
+			return 1;
+		else
+			return -1;
+				
+	}
+	
 	
 	/**
 	 * Utility function that gets Route object from a resultset row
