@@ -190,14 +190,14 @@ function saveEvent() {
 	
 	// TODO:: NO ERROR CHECKING YET!!!!!!
 	if ( (evtRtID = document.getElementById("evtRouteID")) != null) {	
-		evtRouteID.value = document.getElementById("routeID").value;
+		evtRtID.value = document.getElementById("routeID").value;
 	} else {
-		var evtRouteID = document.createElement("input");
-		evtRouteID.type = "hidden";
-		evtRouteID.name = "routeID";
-		evtRouteID.id = "evtRouteID";
-		evtRouteID.value = document.getElementById("routeID").value;
-		form.appendChild(evtRouteID);
+		var evtRtID = document.createElement("input");
+		evtRtID.type = "hidden";
+		evtRtID.name = "routeID";
+		evtRtID.id = "evtRouteID";
+		evtRtID.value = document.getElementById("routeID").value;
+		form.appendChild(evtRtID);
 		}
 	
 	YAHOO.util.Connect.setForm(form);
