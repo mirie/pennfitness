@@ -99,9 +99,9 @@ function saveRt() {
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback, strData);
 	
 	// TEMP --> ERASE THIS LATER...
-	//disableMap();
-	//enableEditRtDetail("disabled");
-	//toggleModifyRtDetail(true);
+	disableMap();
+	enableEditRtDetail("disabled");
+	toggleModifyRtDetail(true);
 }
 
 //  ***********************************************************************
@@ -188,6 +188,17 @@ function saveEvent() {
 	var form = document.getElementById("frmCreateEvent");
 	
 	// TODO:: NO ERROR CHECKING YET!!!!!!
+	if ( (evtRtID = document.getElementById("evtRouteID")) != null) {	
+		evtRouteID.value = document.getElementById("routeID").value;
+	} else {
+		var evtRouteID = document.createElement("input");
+		evtRouteID.type = "hidden";
+		evtRouteID.name = "routeID";
+		evtRouteID.id = "evtRouteID";
+		evtRouteID.value = document.getElementById("routeID").value;
+		form.appendChild(evtRouteID);
+		}
+	
 	YAHOO.util.Connect.setForm(form);
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveEvent.do", callback);
 	
