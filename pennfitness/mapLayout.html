@@ -1,4 +1,4 @@
-<!-- Version: 11/11/08, Last Edited by: Mai Irie -->
+<!-- Version: 11/12/08, Last Edited by: Mai Irie -->
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
@@ -126,7 +126,7 @@
 
 <div id="rtDetailTool">
 	<div id="rtDetails">
-		<div class="handle" id="rtHandle"><input type="button" id="finishRoute" value="x"/> <!-- Temporary 'close' button --></div>
+		<div class="handle" id="rtHandle">Route Details <input type="button" id="finishRoute" value="x"/> <!-- Temporary 'close' button --></div>
 		<form name="frmRouteDetails" id="frmRouteDetails" method="POST" action="#">
 			<input type="hidden" name="routeID" id="routeID" value="-1"/>
 			Route Name: <input type="text" name="routeName" id="routeName" size="10" maxlength="30" /> <div id="stars"></div><br />
@@ -146,14 +146,17 @@
 		</form>
 	</div>
 	<div id="newEvent">
+		<strong> Event Details </strong>
+		<hr />
 		<form name="frmCreateEvent" id="frmCreateEvent" method="POST" action="#">
-			<label for="eventName">Event Name:</label><input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />
-			<div id="eventcreatorID">made by this userID</div>
-			<div id="selectGroup">select group</div>
-			<label for="eventTime">Event Time:</label><input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
-			<label for="eventDuration">Duration:</label><input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
-			<div id="eventDate">Event Date: </div>
-			<label for="eventDesc">Description:</label><br /><textarea id="eventDesc" name="eventDesc" rows="2" cols="20"></textarea><br />			
+			<input type="hidden" name="eventID" id="eventID" value="-1" />
+			Event Name: <input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />
+			<div id="eventcreatorID">made by: userID</div>
+			<div id="selectGroup">select group name</div><input type="hidden" name="groupID" id="groupID" value="-1" />
+			Event Time: <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
+			Duration: <input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
+			<div id="date">Event Date: <input type="text" name="eventDate" id="eventDate"  size="10" maxlength="10"/></div>
+			Description: <br /><textarea id="eventDesc" name="eventDesc" rows="2" cols="20"></textarea><br />			
 			<div id="saveEventDiv">
 				<input type="button" id="saveEvent" value="Save" />
 				<input type="reset"  id="clearEvent" value="Reset" />
@@ -166,6 +169,8 @@
 		</form>
 		</div>
 </div>
+
+
 
 <div id="map">mapArea</div>
 </div> <!-- End of body div tag -->
