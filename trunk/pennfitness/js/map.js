@@ -1,6 +1,5 @@
-// Map Functions
-// Mai Irie
-// version 11/06/2008
+/* Map Functions */
+
 
 // Global Map Variables
 var map;

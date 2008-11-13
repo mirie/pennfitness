@@ -38,7 +38,7 @@ function saveRt() {
 	}
 		
 	var successHandler = function(o) {
-		if (o.responseText != '-1') { // POSSIBLY CHANGE ?
+		if (o.responseText != '-1') { // RouteID passed back
 			alert("Route saved successfully");
 			document.getElementById("routeID").value = o.responseText;
 			disableMap();
@@ -96,6 +96,11 @@ function saveRt() {
 	strData += "routeID=" + document.getElementById("routeID").value;
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback, strData);
+	
+	// TEMP --> ERASE THIS LATER...
+	//disableMap();
+	//enableEditRtDetail("disabled");
+	//toggleModifyRtDetail(true);
 }
 
 //  ***********************************************************************
@@ -156,12 +161,11 @@ function saveEvent() {
 		return;
 	}
 	
-	enableEditNewEvent("disabled");
-	
-	// TODO: FINISH THIS: Save the information: name, description, time, date, duration, group		
 	var successHandler = function(o) {
-		if (o.responseText == '1') { // POSSIBLY CHANGE?
+		if (o.responseText != '-1') { 
 			alert("Event saved successfully");
+			enableEditNewEvent("disabled");
+			toggleModifyEvtDetail(true);	
 		}
 		else {
 			alert("Route is not saved");
@@ -179,38 +183,16 @@ function saveEvent() {
 	}
 
 	// Connection manager will automatically get the following from form:
-	// eventName, eventDesc
+	// eventID, eventName, groupID, eventTime, eventDuration, eventDate, eventDesc
 	var form = document.getElementById("frmCreateEvent");
 	
-
-/*	
-groupID (optional parameter)
-eventDate
-eventTime (I added this one)
-eventDuration
-eventDesc
-eventTypeID 
-
-			<label for="eventName">Event Name:</label><input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />
-			<div id="eventcreatorID">made by this userID</div>
-need to send dummy val			->>>><div id="selectGroup">select group</div>
-			<label for="eventTime">Event Time:</label><input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
-			<label for="eventDuration">Duration:</label><input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
-			<div id="eventDate">Event Date: </div>
-			<label for="eventDesc">Description:</label><br /><textarea id="eventDesc" name="eventDesc" rows="2" cols="20"></textarea><br />	
-
-
-
-
-
-
-*/
-
+	// NO ERROR CHECKING YET!!!!!!
 	YAHOO.util.Connect.setForm(form);
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveEvent.do", callback);
 	
-	//var transaction = YAHOO.util.Connect.asyncRequest("POST", ".jsp", callback);
-	
-	toggleModifyEvtDetail(true);	
+	// temp HERE: ERASE THIS:
+	//enableEditNewEvent("disabled");
+	//toggleModifyEvtDetail(true);	
 }
 
 //  ***********************************************************************
@@ -301,6 +283,7 @@ function enableEditNewEvent(enable) {
 //  Function: Resets form elements
 //  ***********************************************************************
 function resetRtDetail() {
+	document.getElementById("routeID").value = "-1";
 	document.getElementById("routeName").value = "";
 	document.getElementById("routeDesc").value = "";
 	document.getElementById("rtDist").innerHTML = "0 miles";
@@ -314,6 +297,9 @@ function resetNewEvent() {
 	document.getElementById("eventTime").value = "";
 	document.getElementById("eventDuration").value = "";
 	document.getElementById("eventDesc").value = "";
+	document.getElementById("eventDate").value = "";
+	document.getElementById("groupID").value = "-1";
+	document.getElementById("eventID").value = "-1";
 }
 
 //  ***********************************************************************
@@ -527,7 +513,7 @@ oButton.on("appendTo", function () {
 											type: "menu", 
 											id: "calendarpicker", 
 											menu: oCalendarMenu, 
-											container: "eventDate" });
+											container: "date" });
 
 		oButton.on("appendTo", function () {
 			// Create an empty body element for the Overlay instance in order 

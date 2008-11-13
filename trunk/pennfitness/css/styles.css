@@ -1,12 +1,12 @@
-/* Version: 11/11/08, Last Edited by: Mai Irie */
+/* Version: 11/12/08, Last Edited by: Mai Irie */
 
 
 /* STANDARD HTML ELEMENT CSS */
 
 body{
 	height: 100%;
-	margin: 0 0 0 0;
-	padding: 0 0 0 0;
+	margin: 0;
+	padding: 0;
 }
 
 html {
@@ -93,7 +93,7 @@ html {
 	position: absolute;
 	right: 89px;
 	top: 150px;
-	width: 195px;
+	width: 210px;
 	visibility: hidden;
 	z-index: 4;
 	text-align: left;
@@ -169,6 +169,29 @@ div.yuimenu .bd {
 	margin-top: .5em;
 }  /* END color picker for right toolbar */
 
+#calendarcontainer {
+	padding: 10px;
+	width: 185px;
+}
+
+#calendarmenu {
+	position: absolute;
+}
+
+#calendarpicker button {
+	background: url(../assets/calendar_icon.gif) center center no-repeat;
+	text-align: left;
+	text-indent: -10em;
+	overflow: hidden;
+	*margin-left: 10em; /* For IE */
+	*padding: 0 3em;    /* For IE */
+	white-space: nowrap;
+}
+
+#calendarpicker  {	
+	vertical-align: bottom;		
+}  /* END calendar for toolbar */
+
 #newEvent {
 	padding: 10px;
 	background-color: lightsteelblue;
@@ -177,7 +200,21 @@ div.yuimenu .bd {
 
 #modifyEventDiv {
 	display:none;
-}  /* END route/event details (right) toolbar */
+}  
+
+#eventTime, #eventDate {
+	width: 5.5em;
+}
+
+#eventDuration {
+	width: 8em;
+}
+
+/*#eventcreatorID {
+	font-size: 
+} */
+
+/* END route/event details (right) toolbar */
 
 .accordion-menu {
 	margin: 0;
