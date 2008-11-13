@@ -60,21 +60,20 @@ public class DBConnector {
 	}
 	
 
-	public static boolean executeUpdateQuery( String query ){		
+	public static int executeUpdateQuery( String query ){		
 		
 		initializeDBConnection();
 		
 		try {
-			s.executeUpdate( query );
+			return s.executeUpdate( query );
 		} 
 		catch (SQLException e) {
 			System.out.println("DBConnector.sth() :  Error executing resultset query" + query);
 			e.printStackTrace();
 			closeDBConnection();
-			return false;
 		}
 		
-		return true;
+		return -1;
 	}
 	
 	
