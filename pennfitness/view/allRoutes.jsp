@@ -6,10 +6,10 @@
 	Iterator<Route> iterator = routes.iterator();
 	
 	Route route;
-	Strng result = "";
+	String result = "";
 	while(iterator.hasNext()){
 		route = iterator.next();
-		result += route.getId() + "-" + route.getName() + ";"
+		result += route.getId() + "-" + route.getName() + ";" ;
 	}
 	
 	out.println(result);

@@ -5,10 +5,10 @@
 	Iterator<Event> iterator = events.iterator();
 	
 	Event event;
-	Strng result = "";
+	String result = "";
 	while(iterator.hasNext()){
-		event; = iterator.next();
-		result += event.getEventID() + "-" + event.getName() + ";"
+		event = iterator.next();
+		result += event.getEventID() + "-" + event.getName() + ";";
 	}
 	
 	out.println(result);
