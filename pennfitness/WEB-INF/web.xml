@@ -8,12 +8,19 @@
     <servlet-name>RouteSaveServlet</servlet-name>
     <servlet-class>model.RouteSaveServlet</servlet-class>
   </servlet>
-
+  <servlet>
+    <servlet-name>EventSaveServlet</servlet-name>
+    <servlet-class>model.EventSaveServlet</servlet-class>
+  </servlet>
   <!-- Map URLs to that servlet. -->
 
   <servlet-mapping>
     <servlet-name>RouteSaveServlet</servlet-name>
     <url-pattern>/saveRoute.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EventSaveServlet</servlet-name>
+    <url-pattern>/saveEvent.do</url-pattern>
   </servlet-mapping>
  
 </web-app>
