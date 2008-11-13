@@ -127,7 +127,7 @@ public class DBUtilRoute {
 										"'"+ new Date( System.currentTimeMillis() ) +"'," +
 										"'"+ new Date( System.currentTimeMillis() ) + "')";
 		
-		if( DBConnector.executeUpdateQuery( saveQuery ) ){
+		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
 			
 			try {
 				ResultSet  result = DBConnector.getQueryResult( "SELECT MAX(routeID) FROM Routes" );
@@ -163,11 +163,8 @@ public class DBUtilRoute {
 				"description='"+ route.getDistance() + "' " +
 			"WHERE routeID='"+ route.getId() +"'"; 
 		
-		if( DBConnector.executeUpdateQuery( updateQuery ) )
-			return 1;
-		else
-			return -1;
-				
+		return DBConnector.executeUpdateQuery( updateQuery );
+			
 	}
 	
 	
@@ -217,8 +214,5 @@ public class DBUtilRoute {
 		
 		return null;
 	}
-	
-	
-	
 	
 }
