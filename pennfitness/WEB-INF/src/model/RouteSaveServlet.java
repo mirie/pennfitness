@@ -28,9 +28,13 @@ public class RouteSaveServlet extends HttpServlet{
     	
     	PrintWriter out = resp.getWriter();
     	
+    	
+    	String routeID = req.getParameter("routeID");
+    	
     	String routeName  = req.getParameter("routeName");
     	String routeDist  = req.getParameter("distance");
     	String routeDesc  = req.getParameter("routeDesc");
+    	
     	String routeColor = req.getParameter("routeColor");
     	String routePts   = req.getParameter("pvalue");
     	
@@ -40,9 +44,18 @@ public class RouteSaveServlet extends HttpServlet{
     	//creatorId will be read from cookies. 
     	Route route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, 1/*creatorId*/ );
     	
-    	//RouteID of the currently saved route is going to be returned as result.
-    	//-1 is returned if there is an error saving route
-        out.println( DBUtilRoute.saveRoute( route ) );
-        
+    	//Save route
+    	if( routeID.equals("-1") ){
+     
+        	//RouteID of the currently saved route is going to be returned as result.
+        	//-1 is returned if there is an error saving route
+            out.println( DBUtilRoute.saveRoute( route ) );
+    	}
+    	//Modify route
+    	else{
+    		route.setId( Integer.valueOf( routeID.trim() ) );
+    		out.println( DBUtilRoute.modifyRoute( route ) );
+    	}
+    	       
     }
 }
