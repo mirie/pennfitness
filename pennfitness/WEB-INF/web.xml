@@ -12,6 +12,11 @@
     <servlet-name>EventSaveServlet</servlet-name>
     <servlet-class>model.EventSaveServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UserLoginServlet</servlet-name>
+    <servlet-class>model.UserLoginServlet</servlet-class>
+  </servlet>
+
   <!-- Map URLs to that servlet. -->
 
   <servlet-mapping>
@@ -21,6 +26,10 @@
   <servlet-mapping>
     <servlet-name>EventSaveServlet</servlet-name>
     <url-pattern>/saveEvent.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserLoginServlet</servlet-name>
+    <url-pattern>/loginUser.do</url-pattern>
   </servlet-mapping>
  
 </web-app>
