@@ -15,15 +15,17 @@ public class DBConnector {
 	private static String dbUserPassword = "zzzz1234";
 	
 	//Connection parameters
-	private static Statement s;
-	private static Connection con;
+	private static Statement s = null ;
+	private static Connection con = null ;
 
 	
 	//TODO
 	//Connection pool
 	public static boolean initializeDBConnection(){
 		try {
-			con=null;
+			// check whether a connection was already made
+			if( con != null && con.isValid(0) ) return true; // Should check s too? - inseob
+			
 			Class.forName("com.mysql.jdbc.Driver");
 //			con=DriverManager.getConnection(
 //					"jdbc:mysql://" + hostName, dbUserName, dbUserPassword); 
@@ -79,8 +81,14 @@ public class DBConnector {
 	
 	public static boolean closeDBConnection(){
 		try {
-			s.close();
-			con.close();
+			if( s != null ) {
+				s.close();
+				s = null;
+			}
+			if( con != null ) {
+				con.close();
+				con = null;
+			}
 		} catch (SQLException e) {
 			System.out.println("DBConnector.closeDBConnection() : Error closing DB connection");
 			e.printStackTrace();
