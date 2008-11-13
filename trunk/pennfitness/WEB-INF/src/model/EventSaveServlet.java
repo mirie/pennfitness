@@ -27,7 +27,7 @@ public class EventSaveServlet extends HttpServlet {
     	PrintWriter out = resp.getWriter();
     	
     	String eventID = req.getParameter("eventID");    	
-    	String routeID = req.getParameter("routeID");
+    	String routeID = req.getParameter("routeID").trim();
     	String groupID = req.getParameter("groupID");
     	
     	String eventName        = req.getParameter("eventName");
