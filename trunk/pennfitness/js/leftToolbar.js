@@ -74,4 +74,4 @@ leftTB.route.getRoute = function(route) {
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", "?routeName=" + route, callback); //TODO: put the appropriate servlet/jsp
 }
 
-YAHOO.util.Event.addListener("GetRouteNames", "click", YAHOO.leftTB.route.getRouteNames);
+//YAHOO.util.Event.addListener("GetRouteNames", "click", YAHOO.leftTB.route.getRouteNames);
