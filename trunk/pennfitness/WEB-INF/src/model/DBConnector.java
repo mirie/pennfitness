@@ -53,7 +53,7 @@ public class DBConnector {
 			return s.executeQuery( query );	
 		}
 		catch (SQLException e) {
-			System.out.println("DBConnector.getQueryResult() : Error executing resultset query" + query);
+			System.out.println("DBConnector.getQueryResult() : Error executing resultset query : " + query);
 			e.printStackTrace();
 		}
 		
@@ -70,7 +70,7 @@ public class DBConnector {
 			return s.executeUpdate( query );
 		} 
 		catch (SQLException e) {
-			System.out.println("DBConnector.sth() :  Error executing resultset query" + query);
+			System.out.println("DBConnector.sth() :  Error executing resultset query : " + query);
 			e.printStackTrace();
 			closeDBConnection();
 		}

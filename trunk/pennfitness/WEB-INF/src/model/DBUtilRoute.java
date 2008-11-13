@@ -19,7 +19,7 @@ public class DBUtilRoute {
 	 */
 	public static Route getRouteById( String id ){
 		
-		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Routes WHERE id='"+id+"'" );
+		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Routes WHERE routeID='"+id+"'" );
 		try {
 			if( resultSet.next() ){
 				return resultSetToRoute( resultSet );
