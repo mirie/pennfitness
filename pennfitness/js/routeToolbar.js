@@ -165,6 +165,7 @@ function saveEvent() {
 	var successHandler = function(o) {
 		if (o.responseText != '-1') { 
 			alert("Event saved successfully");
+			document.getElementById("eventID").value = o.responseText;
 			enableEditNewEvent("disabled");
 			toggleModifyEvtDetail(true);	
 		}
