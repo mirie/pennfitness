@@ -22,7 +22,7 @@ public class DBUtilEvent {
 					
 		String saveQuery = 
 			"INSERT INTO Event ( name, description, groupID, publicity, creatorID, createdDate, modifiedDate, " +
-								"routeID, eventTypeID, eventDate, duration, eventTime, publicity  )"+
+								"routeID, eventTypeID, eventDate, duration, eventTime  )"+
 							   " VALUES ('"+ event.getName()+"'," +
 										"'"+ event.getDescription()+"'," +
 										"'"+ event.getGroupID()+"'," +
@@ -34,7 +34,6 @@ public class DBUtilEvent {
 										"'"+ event.getEventTypeID() +"'," +
 										"'"+ event.getEventDate() +"'," +
 										"'"+ event.getDuration() +"'," +
-										"'"+ event.getPublicity() +"'," +
 										"'"+ event.getEventTime() +"')"; 
 												
 		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
@@ -66,7 +65,7 @@ public class DBUtilEvent {
 		
 		String updateQuery = 
 			"UPDATE Event " +
-			"SET eventName='" + event.getName() + "'," +
+			"SET name='" + event.getName() + "'," +
 			    "duration='" + event.getDuration() + "'," +
 			    "description='" + event.getDescription() + "'," +
 			    "routeID='" + event.getRouteID() + "'," +
