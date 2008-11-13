@@ -1,12 +1,13 @@
 
-<%@ page import="java.util.*, model.*, entities.Route, net.sf.json.*" %>
+<%@ page import="java.util.*, model.*, entities.Route" %>
 
 <% 
 	String routeName = request.getParameter("routeName");
 	
 	if( routeName != null ){
-		Route route = DBUtilRoute.getRouteByName( routeName ); 
-		
+		Route route = DBUtilRoute.getRouteById( routeName ); 
+
+%>
 		<!--Map map = new HashMap();
 		map.put( "routeName", route.getName() );
 		map.put( "routeColor", route.getColor() );
@@ -19,7 +20,7 @@
 		catch(Exception e){
 			out.println(e.toString());
 		}-->
-		
+<%		
 		out.println( route.getName() + ";" + route.getColor() + ";" + route.getPtValues() );
 	}
 %>
