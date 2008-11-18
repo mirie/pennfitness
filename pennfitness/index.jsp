@@ -61,7 +61,7 @@
 
 <script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/element/element-beta-min.js"></script> 
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAa4hhebteU8gfF26s-F8yRxRi_j0U6kJrkFvY4-OX2XYmEAa76BSap98EWKTMZCV7YM0hBbWJRb-A5g" type="text/javascript"></script>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAiUy24FJ2pI4aK2GRl7uYJRRyJaKxKEBa7ZCCRoWpGBgWzNSuoBTM3814vdtXsPWQBBJcr7o22Ufqfw" type="text/javascript"></script>
 
 <!-- Dependencies --> 
 <script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/utilities/utilities.js" ></script>

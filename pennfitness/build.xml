@@ -1,0 +1,97 @@
+<project name="pennfitness" default="compile" basedir=".">
+
+  <property name="app.name"                     value="pennfitness"/>
+  <property name="app.path"                     value="${basedir}"/>
+  <property name="app.version"          	value="0.1-dev"/>
+  <property name="build.home"			value="${basedir}"/>
+  <property name="src.home"                     value="${basedir}/WEB-INF/src"/>
+  <property name="lib.home"			value="${basedir}/WEB-INF/lib"/>
+
+<!-- Ant Task Definitions -->
+
+<!-- Compilation Control Options -->
+
+  <property name="compile.debug"                value="true"/>
+  <property name="compile.deprecation"  	value="false"/>
+  <property name="compile.optimize"             value="true"/>
+
+<!-- External Dependencies -->
+  <property name="tomcathome" value="/opt/apache-tomcat-6.0.14"/>
+<!--  <property name="gdata" value="../lib/gdata/java/lib"/>
+  <property name="javamail" value="../lib/javamail-1.4.1"/>
+  <property name="pastry" value="../lib/FreePastry"/>
+  <property name="jetty" value="../lib/jetty-6.1.9/lib"/> -->
+
+<!-- Compilation Classpath -->
+
+  <path id="compile.classpath">
+    <!-- Custom JAR file that will be included in /WEB-INF/lib -->
+    <pathelement location="${tomcathome}/lib"/>
+	<file file="${tomcathome}/lib/servlet-api.jar"/>
+	<file file="${lib.home}/mysql-connector-java-5.1.7-bin.jar"/>
+	<file file="${tomcathome}/lib/annotations-api.jar"/>
+	<file file="${tomcathome}/lib/jasper.jar"/>
+
+<!--    <file file="${pastry}/FreePastry-2.0_03.jar"/> 
+        <file file="${jetty}/servlet-api-2.5-6.1.9.jar"/> -->
+
+  </path>
+
+<!-- =================  Targets ================= -->
+
+<!-- == All Target == -->
+
+  <target name="all" depends="clean,compile"
+   description="Clean build, then compile"/>
+
+<!-- == Clean Target == -->
+
+  <target name="clean"
+   description="Delete old builds">
+    <delete dir="${build.home}"/>
+  </target>
+
+<!-- == Compile Target == -->
+
+  <target name="compile">
+
+  <mkdir dir="${build.home}/WEB-INF/classes"/>
+  <javac srcdir="${src.home}"
+        destdir="${build.home}/WEB-INF/classes"
+                  debug="${compile.debug}"
+        deprecation="${compile.deprecation}"
+           optimize="${compile.optimize}">
+          <classpath refid="compile.classpath"/>
+  </javac>
+
+  </target>
+
+<!-- == Prepare Target == -->
+<!--
+  <target name="prepare">
+
+    <mkdir dir="${build.home}"/>
+        <mkdir dir="${build.home}/WEB-INF"/>
+        <mkdir dir="${build.home}/WEB-INF/classes"/>
+
+        <copy todir="${build.home}">
+          <fileset dir="${web.home}"/>
+        </copy>
+
+        <mkdir dir="${build.home}/WEB-INF/lib"/>
+
+    <copy todir="${build.home}/WEB-INF/classes">
+          <fileset dir="${dht}/bin"/>
+        </copy>
+
+   <copy todir="${build.home}/WEB-INF/lib" file="${gdata}/gdata-client-1.0.jar"/>
+   <copy todir="${build.home}/WEB-INF/lib" file="${gdata}/gdata-core-1.0.jar"/>
+   <copy todir="${build.home}/WEB-INF/lib" file="${gdata}/gdata-youtube-1.0.jar"/>
+   <copy todir="${build.home}/WEB-INF/lib" file="${gdata}/gdata-youtube-meta-1.0.jar"/>
+   <copy todir="${build.home}/WEB-INF/lib" file="${gdata}/gdata-media-1.0.jar"/>
+   <copy todir="${build.home}/WEB-INF/lib" file="${javamail}/mail.jar"/>
+   <copy todir="${build.home}/WEB-INF/lib" file="${pastry}/FreePastry-2.0_03.jar"/>
+
+  </target>
+-->
+</project>
