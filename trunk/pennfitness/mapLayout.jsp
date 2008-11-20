@@ -148,7 +148,7 @@ Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
 			Route Name: <input type="text" name="routeName" id="routeName" size="10" maxlength="30" /> <div id="stars"></div><br />
 			<!-- <div id="rtcreatorID">made by _____</div>--><div id="rtDist">0 miles</div>
 			Description:<br />
-			<textarea id="routeDesc" name="routeDesc" rows="2" cols="20"></textarea><br />
+			<textarea id="routeDesc" name="routeDesc" rows="2" cols="20"></textarea><input type="button" id="magnify" value="?" disabled="disabled"/> <!-- Temporary 'magnify' button --><br />
 			<div id="rtColor-container">Route Color: </div>
 			<div id="saveRtDiv">
 				<input type="button" id="saveRoute" value="Save"/>
@@ -167,8 +167,12 @@ Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
 		<form name="frmCreateEvent" id="frmCreateEvent" method="POST" action="#">
 			<input type="hidden" name="eventID" id="eventID" value="-1" />
 			Event Name: <input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />
-			<div id="eventcreatorID">made by: userID</div>
-			<div id="selectGroup">select group name</div><input type="hidden" name="groupID" id="groupID" value="-1" />
+			<!-- <div id="eventcreatorID">made by: userID</div> --> <!-- for the username -->
+			<!-- Group Name: <select name="evtGroup"> <option value="None" selected="selected">None</option>
+			
+			WORKING HERE 
+			
+			input type="hidden" name="groupID" id="groupID" value="-1" /> <!-- this group pulldown is populated based on user id -->
 			Event Time: <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
 			Duration: <input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
 			<div id="date">Event Date: <input type="text" name="eventDate" id="eventDate"  size="10" maxlength="10"/></div>
