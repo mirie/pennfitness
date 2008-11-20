@@ -22,9 +22,9 @@ YAHOO.leftTB.route.getNewRouteNames = function() {
 	    	
 	    	rlist.innerHTML = "";
 			
-			for (var i = 0 ; i < strList.length -1; i++) {
+			for (var i = 0 ; i < routeList.length -1; i++) {
 				var k = i + 1;
-				var route = strList[i].split("-");
+				var route = routeList[i].split("-");
 				content += k + ". <a href=\"javascript:YAHOO.leftTB.route.getRoute('" + route[0] + "')\">" + route[1] + "</a><br />";			
 			}
 			
@@ -67,11 +67,14 @@ YAHOO.leftTB.route.getRoute = function(routeID) {
 			document.getElementById("routeColor").value = response.DATA.ROUTE_COLOR;
 			
 			removeRoute();
+			
 			lineColor = response.DATA.ROUTE_COLOR; // routeColor;
-									
+			
+			//alert(lineColor);
+			enableMap();
 			// Add markers and draw route
 			var pointData = response.DATA.ROUTE_PTS.split(";");
-			for (var i = 2; i < pointData.length; i++) {
+			for (var i = 0; i < pointData.length; i++) {
 				//if (pointData[i] == "") break;
 				var point = pointData[i].split(",");
 				var lat = point[0];
@@ -80,7 +83,7 @@ YAHOO.leftTB.route.getRoute = function(routeID) {
 			}
 
 			drawOverlay();
-			  
+//			disableMap();  
 			hideNewRtTool();
 			showRtDetailsTool();
 			enableEditRtDetail(false);
@@ -100,7 +103,7 @@ YAHOO.leftTB.route.getRoute = function(routeID) {
 		timeout:3000
 	}
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByName.jsp?routeByID=" + routeID, callback); //TODO: put the appropriate servlet/jsp
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByID.jsp?routeID=" + routeID, callback); //TODO: put the appropriate servlet/jsp
 }
 
 
