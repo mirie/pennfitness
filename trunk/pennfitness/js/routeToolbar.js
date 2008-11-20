@@ -1,6 +1,4 @@
 // Route Toolbar
-// Mai Irie
-// version 11/12/2008
 
 
 //  ***********************************************************************
@@ -8,6 +6,19 @@
 //  ***********************************************************************
 var ddCreateRoute, ddRouteDetails;
 YAHOO.namespace("route.toolbar");
+String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); }
+
+//  ***********************************************************************
+//  TEMPORARY STUFF HERE
+//  ***********************************************************************
+//  Make a list of (groupNames to display in event detail 
+
+
+
+
+
+
+
 
 //  ***********************************************************************
 //  Function: createNewRt
@@ -44,7 +55,7 @@ function saveRt() {
 			disableMap();
 			enableEditRtDetail("disabled");
 			toggleModifyRtDetail(true);
-			leftTB.route.getNewRouteNames();
+			//leftTB.route.getNewRouteNames();
 		}
 		else {
 		alert("Route is not saved");
@@ -94,14 +105,14 @@ function saveRt() {
 	strData += "pvalue=" + strPt + "&";
 	
 	// Append RouteID to strData
-	strData += "routeID=" + document.getElementById("routeID").value;
+	strData += "routeID=" + document.getElementById("routeID").value.trim();
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback, strData);
 	
 	// TEMP --> ERASE THIS LATER...
-	disableMap();
-	enableEditRtDetail("disabled");
-	toggleModifyRtDetail(true);
+	//disableMap();
+	//enableEditRtDetail("disabled");
+	//toggleModifyRtDetail(true);
 }
 
 //  ***********************************************************************
@@ -135,6 +146,7 @@ function finishRoute() {
 	enableEditRtDetail("disabled");
 	disableMap();
 	hideRtDetailsTool();
+	removeRoute();
 	showNewRtTool();	
 }
 
