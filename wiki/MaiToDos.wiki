@@ -24,6 +24,7 @@
 
 *Event Details*
   # Add publicity pulldown option (private/public, default = public)
+  # Change group name to pull down boxes (only need to send groupName because names should be unique regardless)
   # Change event time to pull down boxes
   # Change event duration to pull down box
   # Link Calendar widget to text field for date
