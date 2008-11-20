@@ -173,12 +173,12 @@ Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
 			<input type="hidden" name="eventID" id="eventID" value="-1" />
 			Event Name: <input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />
 			<!-- <div id="eventcreatorID">made by: userID</div> --> <!-- for the username -->
-			<!-- Group Name: <select name="evtGroup"> <option value="None" selected="selected">None</option>
+			<!-- Group Name: <select name="evtGroup"> <option value="None" selected="selected">None</option> 
 			
 			WORKING HERE 
 			
-			input type="hidden" name="groupID" id="groupID" value="-1" /> <!-- this group pulldown is populated based on user id -->
-			Event Time: <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
+			input type="hidden" name="groupID" id="groupID" value="-1" /> --> <!-- this group pulldown is populated based on user id -->
+	 		Event Time: <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
 			Duration: <input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
 			<div id="date">Event Date: <input type="text" name="eventDate" id="eventDate"  size="10" maxlength="10"/></div>
 			Description: <br /><textarea id="eventDesc" name="eventDesc" rows="2" cols="20"></textarea><br />			
@@ -188,9 +188,9 @@ Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
 				<input type="button" id="cancelEvent" value="Cancel" />
 			</div>
 			<div id="modifyEventDiv">
-				<input type="button" id="modifyEvent" value="Modify" />
-				<input type="button" id="finishEvent" value="Finished!"/> <!-- Temporary 'close' button -->
-			</div>
+			<input type="button" id="modifyEvent" value="Modify" />
+ 			<input type="button" id="finishEvent" value="Finished!"/> <!-- Temporary 'close' button -->
+  		</div>
 		</form>
 		</div>
 </div>
