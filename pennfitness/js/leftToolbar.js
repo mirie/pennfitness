@@ -2,8 +2,7 @@
 
 YAHOO.namespace("leftTB.route");
 
-var getNewRouteNames = function() {
-
+YAHOO.leftTB.route.getNewRouteNames = function() {
 	var successHandler = function(o) {		
 		var strList = o.responseText.split(";");
 		var rlist = document.getElementById("newRtList");
@@ -15,7 +14,7 @@ var getNewRouteNames = function() {
 			//TODO bug here --> link is NOT working
 //			content += k + ". <a href=\"javascript:view/routeByName.jsp?routeName=" + strList[i] + ";\">" + strList[i] + "</a><br />";
 
-			content += k + ". <a href=\"javascript:getRoute('" + strList[i] + "')\">" + strList[i] + "</a><br />";
+			content += k + ". <a href=\"javascript:YAHOO.leftTB.route.getRoute('" + strList[i] + "')\">" + strList[i] + "</a><br />";
 			
 			//content += k + ". <a href=\"javascript:view/routeByName.jsp?routeName=" + strList[i] + "\>" + strList[i] + "</a><br />";
 			
@@ -41,7 +40,7 @@ var getNewRouteNames = function() {
 }
 
 
-var getRoute = function(route) {
+YAHOO.leftTB.route.getRoute = function(route) {
 	var successHandler = function(o) {
 		// TEMP: currently expecting the following order: distance?
 		// routeID, routeName, routeDesc, routeColor
@@ -91,6 +90,6 @@ var getRoute = function(route) {
 //YAHOO.util.Event.addListener("GetRouteNames", "click", YAHOO.leftTB.route.getRouteNames);
 
 // Turn on this to get new route when loading(should fix bug) - inseob
-YAHOO.util.Event.onContentReady(getNewRouteNames());
+YAHOO.util.Event.onDOMReady(YAHOO.leftTB.route.getNewRouteNames);
 
 
