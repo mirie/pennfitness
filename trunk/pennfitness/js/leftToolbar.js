@@ -4,26 +4,35 @@ YAHOO.namespace("leftTB.route");
 
 YAHOO.leftTB.route.getNewRouteNames = function() {
 	var successHandler = function(o) {		
-		var strList = o.responseText.split(";");
-		var rlist = document.getElementById("newRtList");
-		var content = "";
-		rlist.innerHTML = "";
+		var response;
 		
-		for (var i = 0 ; i < strList.length -1; i++) {
-			var k = i + 1;
-			//TODO bug here --> link is NOT working
-//			content += k + ". <a href=\"javascript:view/routeByName.jsp?routeName=" + strList[i] + ";\">" + strList[i] + "</a><br />";
-
-			content += k + ". <a href=\"javascript:YAHOO.leftTB.route.getRoute('" + strList[i] + "')\">" + strList[i] + "</a><br />";
+	    // Use the JSON Utility to parse the data returned from the server
+	    try {
+	       response = YAHOO.lang.JSON.parse(o.responseText); 
+	    }
+	    catch (x) {
+	        alert("JSON Parse failed!");
+	        return;
+	    }
+	    
+	    if (response.STATUS == 'Success') {	    	
+	    	var rlist = document.getElementById("newRtList");
+	    	var routeList = response.DATA.ROUTES.split(";")
+	    	var content ="";
+	    	
+	    	rlist.innerHTML = "";
 			
-			//content += k + ". <a href=\"javascript:view/routeByName.jsp?routeName=" + strList[i] + "\>" + strList[i] + "</a><br />";
+			for (var i = 0 ; i < strList.length -1; i++) {
+				var k = i + 1;
+				var route = strList[i].split("-");
+				content += k + ". <a href=\"javascript:YAHOO.leftTB.route.getRoute('" + route[0] + "')\">" + route[1] + "</a><br />";			
+			}
 			
-			
-			//var strRoute = strList[i].split("-"); // temp: expecting routeID:routeName
-			//content += (k) + ". <a href=\"javascript:getRoute('" + strRoute[0] + "')\">" + strRoute[1] + "</a><br>";
-		}
-		
-		rlist.innerHTML = content;
+			rlist.innerHTML = content;
+	    	
+	    } else {
+	    	alert("Could not load routes!");
+	    }	    
 	}
 
 	var failureHandler = function(o) {
@@ -40,38 +49,45 @@ YAHOO.leftTB.route.getNewRouteNames = function() {
 }
 
 
-YAHOO.leftTB.route.getRoute = function(route) {
+YAHOO.leftTB.route.getRoute = function(routeID) {
 	var successHandler = function(o) {
-		// TEMP: currently expecting the following order: distance?
-		// routeID, routeName, routeDesc, routeColor
-		// out.println( route.getName() + ";" + route.getColor() + ";" + route.getPtValues()
-		routeData = o.responseText.split(";");
+		var response;
 		
-		//document.getElementById("routeID").value = routeData[0];
-		document.getElementById("routeName").value = routeData[0];
-		//document.getElementById("routeDesc").value = routeData[2];
-		document.getElementById("routeColor").value = routeData[1]; //TODO: not working - inseob
+	    // Use the JSON Utility to parse the data returned from the server
+	    try {
+	       response = YAHOO.lang.JSON.parse(o.responseText); 
+	    }
+	    catch (x) {
+	        alert("JSON Parse failed!");
+	        return;
+	    }
 		
-//		document.getElementById("current-color").style.backgroundColor = routeColor; // Slight BUG HERE... need minor fix: colorpicker.setValue() not working...
-		lineColor = routeData[1]; // routeColor;
-	
-		removeRoute();
+		if (response.STATUS == 'Success') {
+			document.getElementById("routeName").value = response.DATA.ROUTE_NAME;
+			document.getElementById("routeColor").value = response.DATA.ROUTE_COLOR;
+			
+			removeRoute();
+			lineColor = response.DATA.ROUTE_COLOR; // routeColor;
+									
+			// Add markers and draw route
+			var pointData = response.DATA.ROUTE_PTS.split(";");
+			for (var i = 2; i < pointData.length; i++) {
+				//if (pointData[i] == "") break;
+				var point = pointData[i].split(",");
+				var lat = point[0];
+				var lng = point[1];
+				addMarkerPoint(lat, lng);
+			}
 
-		var pointData = routeData[2];
-		// add markers
-		for (var i = 2; i < pointData.length; i++) {
-			if (pointData[i] == "") break;
-			var lat = pointData[i].split(",")[0];
-			var lng = pointData[i].split(",")[1];
-			addMarkerPoint(lat, lng);
+			drawOverlay();
+			  
+			hideNewRtTool();
+			showRtDetailsTool();
+			enableEditRtDetail(false);
+			toggleModifyRtDetail(true);						
+		} else {
+			alert("Retrieving routeID: " + routeID + "failed!");
 		}
-
-		drawOverlay();
-		  
-		hideNewRtTool();
-		showRtDetailsTool();
-		enableEditRtDetail(false);
-		toggleModifyRtDetail(true);
 	}
 	
 	var failureHandler = function(o) {
@@ -84,12 +100,10 @@ YAHOO.leftTB.route.getRoute = function(route) {
 		timeout:3000
 	}
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByName.jsp?routeName=" + route, callback); //TODO: put the appropriate servlet/jsp
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByName.jsp?routeByID=" + routeID, callback); //TODO: put the appropriate servlet/jsp
 }
 
-//YAHOO.util.Event.addListener("GetRouteNames", "click", YAHOO.leftTB.route.getRouteNames);
 
-// Turn on this to get new route when loading(should fix bug) - inseob
 YAHOO.util.Event.onDOMReady(YAHOO.leftTB.route.getNewRouteNames);
 
 
