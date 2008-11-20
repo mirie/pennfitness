@@ -13,6 +13,7 @@
 		data.put("ROUTE_NAME",route.getName());
 		data.put("ROUTE_COLOR",route.getColor());
 		data.put("ROUTE_PTS",route.getPtValues());
+		data.put("ROUTE_DESCRIPTION", route.getDescription());
 	  	
 	  	JSONObject result = new JSONObject();
 	  	result.put("STATUS","Success");
