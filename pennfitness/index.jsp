@@ -39,7 +39,6 @@
 
 <!-- <body class="yui-skin-sam" onload="setupMap()" onunload="GUnload()"> -->
 <body class="yui-skin-sam" >
-<script>alert('<%=request.getRemoteHost()%>')</script>
 <div id="doc" class="yui=tl">
 <div id="hd">This is the header defined by Architecture</div>
 <div id="bd">
