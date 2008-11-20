@@ -23,17 +23,16 @@
   # Figure out flow for this magnifying button (when to show, when to disable)
 
 *Event Details*
-  # Add publicity pulldown option (private/public, default = public)
-  # Change group name to pull down boxes (only need to send groupName because names should be unique regardless)
+
+  # Only need to send groupName because names should be unique regardless) --> check server side
   # Change event time to pull down boxes
   # Change event duration to pull down box
-  # Link Calendar widget to text field for date
+  # Link Calendar widget to text field for date (calendar --> txtfield DONE, txtfield --> calendar TODO)
   # Error check before send to server
-
+  # Event Type ???
 
 *Bug List*
 
-  # Modify Route: servlet returns 1 for successful modification, -1 for failure. However, expecting the routeID upon success. 
   # Modify event: I believe this WILL experience the same problem, haven't checked yet...
   # Route Color widget: how to change the color displayed w/in the color picker properly (currently faking it by changing the displayed color, this is not changing the actual color displayed when opening the color picker)
 
@@ -42,11 +41,7 @@
 
 *Add Features*
 
-  # Display newly created routes in 'New Routes' section
-  # On click of a route listed, draw route and display route detail toolbar.
   # Display newly created events in 'New Events' section
   # On click of a event listed, draw route and display route detail and event detail toolbar.
 
 *Bug List*
-
-  # Well...toolbar not working!
