@@ -63,12 +63,11 @@ YAHOO.leftTB.route.getRoute = function(routeID) {
 	    }
 		
 		if (response.STATUS == 'Success') {
-			document.getElementById("routeName").value = response.DATA.ROUTE_NAME;
-			document.getElementById("routeColor").value = response.DATA.ROUTE_COLOR;
-			
 			removeRoute();
 			
-			lineColor = response.DATA.ROUTE_COLOR; // routeColor;
+			document.getElementById("routeName").value = response.DATA.ROUTE_NAME;			
+			document.getElementById("routeColor").value = response.DATA.ROUTE_COLOR;
+
 			
 			//alert(lineColor);
 			enableMap();
@@ -82,8 +81,11 @@ YAHOO.leftTB.route.getRoute = function(routeID) {
 				addMarkerPoint(lat, lng);
 			}
 
+			//alert(lineColor);
+			//lineColor = response.DATA.ROUTE_COLOR; // routeColor;
+			lineColor = response.DATA.ROUTE_COLOR;
 			drawOverlay();
-//			disableMap();  
+			disableMap();  
 			hideNewRtTool();
 			showRtDetailsTool();
 			enableEditRtDetail(false);
