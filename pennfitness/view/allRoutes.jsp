@@ -14,7 +14,7 @@
 	}
 	
 	JSONObject data = new JSONObject();
-	data.put("ROUTES",result);
+	data.put("ROUTES"resultStr);
 	
   	JSONObject result = new JSONObject();
   	if( resultStr.equals("") )
