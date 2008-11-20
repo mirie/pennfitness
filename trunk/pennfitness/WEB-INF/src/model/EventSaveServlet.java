@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 import entities.Event;
 
 public class EventSaveServlet extends HttpServlet {
@@ -54,12 +56,42 @@ public class EventSaveServlet extends HttpServlet {
     	if( eventID.equals("-1") ){    
         	//EventID of the currently saved event is going to be returned as result.
         	//-1 is returned if there is an error saving event
-            out.println( DBUtilEvent.saveEvent( event ) );
+    		//The output format is as follows:
+    		// {"DATA":{"EventID":68},"STATUS":"Success"}
+    		
+    		JSONObject result = new JSONObject();
+    		JSONObject data = new JSONObject();
+    		
+    		int transaction = DBUtilEvent.saveEvent( event );
+    		if( transaction == -1 )
+    			result.put( "STATUS", "Failure" );		
+    		else
+    			result.put( "STATUS", "Success");
+    		
+    		data.put( "EventID", transaction );
+    		result.put( "DATA",  result );
+    		
+            out.println( result );
+            System.out.println( result );
     	}
     	//Modify event
     	else{
     		event.setEventID( Integer.valueOf( eventID.trim() ) );
-    		out.println( DBUtilEvent.modifyEvent( event ) );
+    		
+    		JSONObject result = new JSONObject();
+    		JSONObject data = new JSONObject();
+    		
+    		int transaction = DBUtilEvent.modifyEvent( event );
+    		
+    		if( transaction == -1 )
+    			result.put( "STATUS", "Failure" );		
+    		else
+    			result.put( "STATUS", "Success");
+    		
+    		data.put( "EventID", routeID.trim() );
+    		result.put( "DATA",  data );
+    			
+            out.println( result );
     	}
     	       
     }	
