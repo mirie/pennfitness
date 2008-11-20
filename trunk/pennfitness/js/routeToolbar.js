@@ -12,11 +12,17 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); }
 //  TEMPORARY STUFF HERE
 //  ***********************************************************************
 //  Make a list of (groupNames to display in event detail) 
+var fakeGrps = ['group1', 'group2', 'group3', 'group3', 'group4'];
 
-
-
-
-
+function populateGroup() {
+	var groupSelect = document.getElementById("evtGroup");
+	for (var i = 0; i < fakeGrps.length; i++) {
+		var option = document.createElement('option');
+		option.setAttribute('value',fakeGrps[i]);
+		option.appendChild(document.createTextNode(fakeGrps[i]));
+		groupSelect.appendChild(option);
+	}
+}
 
 
 
@@ -48,6 +54,22 @@ function saveRt() {
 		return;
 	}
 		
+	// var successHandler = function(o) {
+		// if (o.responseText != '-1') { // RouteID passed back
+			// alert("Route saved successfully");
+			// if (document.getElementById("routeID").value == '-1') 
+				// document.getElementById("routeID").value = o.responseText;
+			// disableMap();
+			// enableEditRtDetail("disabled");
+			// toggleModifyRtDetail(true);
+			// //leftTB.route.getNewRouteNames();
+		// }
+		// else {
+		// alert("Route is not saved");
+		// }
+	// }
+	
+		// FOR JSON STUFF WHEN IMPLEMENTED BY KEREM
 	var successHandler = function(o) {
         var response = [];
 		
@@ -122,7 +144,7 @@ function saveRt() {
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback, strData);
 	
-	// TEMP --> ERASE THIS LATER...
+	// TEMP --> ERASE THIS LATER...used to continue on in case error saving
 	//disableMap();
 	//enableEditRtDetail("disabled");
 	//toggleModifyRtDetail(true);
@@ -350,7 +372,8 @@ function resetNewEvent() {
 	document.getElementById("eventDuration").value = "";
 	document.getElementById("eventDesc").value = "";
 	document.getElementById("eventDate").value = "";
-	document.getElementById("groupID").value = "-1";
+	document.getElementById("publicity").selectedIndex = 1;
+	document.getElementById("evtGroup").selectedIndex = 1;
 	document.getElementById("eventID").value = "-1";
 }
 
@@ -554,6 +577,19 @@ oButton.on("appendTo", function () {
 			// Unsubscribe from the "click" event so that this code is 
 			// only executed once
 			this.unsubscribe("click", onButtonClick);
+			
+			
+			var handleSelect =  function(type,args,obj) {
+				var dates = args[0];
+				var date = dates[0];
+				var year = date[0], month = date[1], day = date[2];
+
+				var txtDate1 = document.getElementById("eventDate");
+				txtDate1.value = month + "/" + day + "/" + year;
+			}
+			
+			oCalendarMenu.selectEvent.subscribe(handleSelect, oCalendar, true);
+
 		};
 
 		// Create an Overlay instance to house the Calendar instance
@@ -579,6 +615,8 @@ oButton.on("appendTo", function () {
 		oButton.on("click", onButtonClick);
 	});	
 }());
+
+
 
 //  ***********************************************************************
 //  Drag and Drop Utility --> TODO: STILL PROBLEMS WITH DRAG AND DROP BOUNDARIES!!!
@@ -645,3 +683,7 @@ YAHOO.util.Event.addListener("finishEvent", "click", finishEvent);
 
 YAHOO.util.Event.onDOMReady(setupMap);
 YAHOO.util.Event.onDOMReady(setupdd);
+
+
+// TEMPORARY JUNK HERE
+YAHOO.util.Event.onDOMReady(populateGroup);
