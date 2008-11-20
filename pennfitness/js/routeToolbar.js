@@ -86,7 +86,7 @@ function saveRt() {
 	    if (response.STATUS == 'Success') { // RouteID passed back if just saved a new route
 			alert("Route saved successfully");
 			if (document.getElementById("routeID").value == -1) {
-				alert('saving routeID: ' + response.DATA.RouteID);
+				//alert('saving routeID: ' + response.DATA.RouteID);
 				document.getElementById("routeID").value = response.DATA.RouteID;
 			} 
 			disableMap();
@@ -226,7 +226,7 @@ function saveEvent() {
 		if (response.STATUS == 'Success') { 
 			alert("Event saved successfully");
 			if (document.getElementById("eventID").value == -1) {
-				alert('saving eventID: ' + response.DATA.EventID);
+				//alert('saving eventID: ' + response.DATA.EventID);
 				document.getElementById("eventID").value = response.DATA.EventID;  
 			} 
 			enableEditNewEvent("disabled");
@@ -616,8 +616,8 @@ function setupdd() {
 	ddRouteDetails = new YAHOO.util.DD("rtDetailTool");
 	ddRouteDetails.setHandleElId("rtHandle");
 	
-	ddSetConstraints(ddCreateRoute, "createRt");
-	ddSetConstraints(ddRouteDetails, "rtDetails");
+	//ddSetConstraints(ddCreateRoute, "createRt");
+	//ddSetConstraints(ddRouteDetails, "rtDetails");
 	YAHOO.util.DDM.useShim = true; 
 }
 
