@@ -11,7 +11,7 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); }
 //  ***********************************************************************
 //  TEMPORARY STUFF HERE
 //  ***********************************************************************
-//  Make a list of (groupNames to display in event detail 
+//  Make a list of (groupNames to display in event detail) 
 
 
 
@@ -49,16 +49,29 @@ function saveRt() {
 	}
 		
 	var successHandler = function(o) {
-		if (o.responseText != '-1') { // RouteID passed back
+        var response = [];
+		
+        // Use the JSON Utility to parse the data returned from the server
+        try {
+            response = YAHOO.lang.JSON.parse(o.responseText);
+        }
+        catch (x) {
+            alert("JSON Parse failed!");
+            return;
+        }
+		var m = response[0];
+		if (m.returnCode == '1') { // RouteID passed back if just saved a new route
 			alert("Route saved successfully");
-			document.getElementById("routeID").value = o.responseText;
+			if (document.getElementById("routeID").value == -1) {
+				document.getElementById("routeID").value = m.routeID;
+		} 
 			disableMap();
 			enableEditRtDetail("disabled");
 			toggleModifyRtDetail(true);
 			//leftTB.route.getNewRouteNames();
 		}
 		else {
-		alert("Route is not saved");
+			alert("Route was not saved!");
 		}
 	}
 
@@ -175,14 +188,28 @@ function saveEvent() {
 	}
 	
 	var successHandler = function(o) {
-		if (o.responseText != '-1') { 
+		var response = [];
+		
+        // Use the JSON Utility to parse the data returned from the server
+        try {
+            response = YAHOO.lang.JSON.parse(o.responseText);
+        }
+        catch (x) {
+            alert("JSON Parse failed!");
+            return;
+        }
+		
+		var m = response[0];
+		if (m.returnCode == '1') { 
 			alert("Event saved successfully");
-			document.getElementById("eventID").value = o.responseText;
+			if (document.getElementById("eventID").value == -1) {
+				document.getElementById("eventID").value = m.eventID;
+			} 
 			enableEditNewEvent("disabled");
 			toggleModifyEvtDetail(true);	
 		}
 		else {
-			alert("Route is not saved");
+			alert("Event was not saved!");
 		}
 	}
 
