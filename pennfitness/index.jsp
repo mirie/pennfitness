@@ -13,7 +13,7 @@
 
 <!-- =============================== Google Map Scripts =============================== -->
 <%-- Change Google Map key --%>
-<% if( request.getRemoteHost().startsWith("spam.seas") ) { %>
+<% if( request.getLocalAddr().equals("158.130.6.223") ) { %>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAiUy24FJ2pI4aK2GRl7uYJRRyJaKxKEBa7ZCCRoWpGBgWzNSuoBTM3814vdtXsPWQBBJcr7o22Ufqfw" 
         type="text/javascript"></script>
 <% } else { %>
@@ -39,6 +39,7 @@
 
 <!-- <body class="yui-skin-sam" onload="setupMap()" onunload="GUnload()"> -->
 <body class="yui-skin-sam" >
+<script>alert('<%=request.getRemoteHost()%>')</script>
 <div id="doc" class="yui=tl">
 <div id="hd">This is the header defined by Architecture</div>
 <div id="bd">
