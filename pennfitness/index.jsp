@@ -12,9 +12,14 @@
 <link rel="stylesheet" type="text/css" href="css/styles.css" />
 
 <!-- =============================== Google Map Scripts =============================== -->
+<%-- Change Google Map key --%>
+<% if( request.getRemoteHost().startsWith("spam.seas") ) { %>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAiUy24FJ2pI4aK2GRl7uYJRRyJaKxKEBa7ZCCRoWpGBgWzNSuoBTM3814vdtXsPWQBBJcr7o22Ufqfw" 
+        type="text/javascript"></script>
+<% } else { %>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAwNRsCttn_9209vEUNVvtyxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQkSsxzavUfI4qYgHd_KyuAMbdCzQ" 
         type="text/javascript"></script>
-
+<% } %>
 <!--  =============================== Yahoo YUI Scripts =============================== -->
 
 <!-- Combo-handled YUI CSS files: -->
