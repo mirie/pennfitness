@@ -7,6 +7,7 @@
 var ddCreateRoute, ddRouteDetails;
 YAHOO.namespace("route.toolbar");
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); }
+var colorButton;
 
 //  ***********************************************************************
 //  TEMPORARY STUFF HERE
@@ -53,23 +54,7 @@ function saveRt() {
 		alert("please draw a route before saving!");
 		return;
 	}
-		
-// OLD HANDLING OF RESPONSE FROM SERVER
-//	var successHandler = function(o) {
-//		if (o.responseText != '-1') { // RouteID passed back
-//			alert("Route saved successfully");
-//			if (document.getElementById("routeID").value == '-1') 
-//				document.getElementById("routeID").value = o.responseText;
-//			disableMap();
-//			enableEditRtDetail("disabled");
-//			toggleModifyRtDetail(true);
-//			YAHOO.leftTB.route.getNewRouteNames();
-//		}
-//		else {
-//		alert("Route is not saved");
-//		}
-//	}
-	
+			
 	// FOR JSON Handling
 	var successHandler = function(o) {	
 		var response;
@@ -115,11 +100,7 @@ function saveRt() {
 	strData += "routeDesc=" + document.getElementById("routeDesc").value + "&";
 	
 	// Append routeColor to strData
-	var strColor = document.getElementById("current-color").innerHTML;
-	var index = strColor.indexOf("#");
-	strColor = strColor.substring(index, strColor.length - 1);
-	
-	strData += "routeColor=" + strColor + "&";
+	strData += "routeColor=" + colorButton.get("value") + "&";
 	
 	// Append distance to strData
 	var strDist = document.getElementById("rtDist").innerHTML;
@@ -204,7 +185,7 @@ function createEvent() {
 //  Function: saveEvent
 //  Saves the event.
 //  ***********************************************************************
-function saveEvent() {
+function saveEvent() { //TODO: eventType
 	if (YAHOO.util.Dom.get("eventName").value == "" || YAHOO.util.Dom.get("eventTime").value == "" ||
 													   YAHOO.util.Dom.get("eventDuration").value == "") {
 		alert("Please complete the event details before saving!");
@@ -447,7 +428,7 @@ function onButtonOption() {
 		lineColor = sColor;
 		drawOverlay();
 		
-		oButton.set("value", sColor);
+		colorButton.set("value", sColor);
 		YAHOO.util.Dom.setStyle("current-color", "backgroundColor", sColor);
 		YAHOO.util.Dom.get("current-color").innerHTML = "Current color is " + sColor;
 	});
@@ -460,14 +441,14 @@ function onButtonOption() {
 var oColorPickerMenu = new YAHOO.widget.Menu("color-picker-menu");
 
 // Create a Button instance of type "split"
-var oButton = new YAHOO.widget.Button({ 
+colorButton = new YAHOO.widget.Button({ 
 				type: "split", 
 				id: "color-picker-button", 
 				label: "<em id=\"current-color\">Current color is #0000AF.</em>", 
 				menu: oColorPickerMenu, 
 				container: "rtColor-container" });
 			
-oButton.on("appendTo", function () {
+colorButton.on("appendTo", function () {
 	/* Create an empty body element for the Menu instance in order to 
 	   reserve space to render the ColorPicker instance into.
 	*/
@@ -484,11 +465,11 @@ oButton.on("appendTo", function () {
 	   first time the Button's Menu instance is requested to be displayed
 	   by the user.
 	*/ 
-	oButton.on("option", onButtonOption);
+	colorButton.on("option", onButtonOption);
         
 	/* Add a listener for the "click" event.
 	*/
-	oButton.on("click", function () {
+	colorButton.on("click", function () {
 		lineColor = this.get("value");
 		drawOverlay();
 	});  
@@ -585,13 +566,13 @@ oButton.on("appendTo", function () {
 		oCalendarMenu = new YAHOO.widget.Overlay("calendarmenu", { visible: false });
 
 		// Create a Button instance of type "menu"	
-		var oButton = new YAHOO.widget.Button({ 
+		var colorButton = new YAHOO.widget.Button({ 
 											type: "menu", 
 											id: "calendarpicker", 
 											menu: oCalendarMenu, 
 											container: "date" });
 
-		oButton.on("appendTo", function () {
+		colorButton.on("appendTo", function () {
 			// Create an empty body element for the Overlay instance in order 
 			// to reserve space to render the Calendar instance into.		
 			oCalendarMenu.setBody("&#32;");		
@@ -601,7 +582,7 @@ oButton.on("appendTo", function () {
 		// Add a "click" event listener that will render the Overlay, and 
 		// instantiate the Calendar the first time the Button instance is 
 		// clicked.
-		oButton.on("click", onButtonClick);
+		colorButton.on("click", onButtonClick);
 	});	
 }());
 
