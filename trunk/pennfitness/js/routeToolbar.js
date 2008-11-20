@@ -62,7 +62,7 @@ function saveRt() {
 			disableMap();
 			enableEditRtDetail("disabled");
 			toggleModifyRtDetail(true);
-			leftTB.route.getNewRouteNames();
+			YAHOO.leftTB.route.getNewRouteNames();
 		}
 		else {
 		alert("Route is not saved");
