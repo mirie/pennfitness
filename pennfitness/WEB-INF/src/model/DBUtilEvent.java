@@ -108,6 +108,31 @@ public class DBUtilEvent {
 	
 	
 	/**
+	 *
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Event getEventById( String id ){
+		
+		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Event WHERE eventID='"+id+"'" );
+		try {
+			if( resultSet.next() ){
+				return resultSetToEvent( resultSet );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getEventById() : Error getting event");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Utility function that gets Event object from a resultset row
 	 * 
 	 * @param resultSet
