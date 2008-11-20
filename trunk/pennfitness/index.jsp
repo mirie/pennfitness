@@ -79,7 +79,7 @@ Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
 			<div class="bd" id="newRtList">New routes appear here</div>
 		</dd>
 
-		<dt class="a-m-t" id="my-dt-2"> Favourite Routes </dt>
+		<dt class="a-m-t" id="my-dt-2"> Favorite Routes </dt>
 		<dd class="a-m-d">
 			<div class="bd">
 				<div><strong>1)</strong> Around campus</br></div>
@@ -172,7 +172,6 @@ Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
 			<input type="hidden" name="eventID" id="eventID" value="-1" />
 			Event Name: <input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />
 			<!-- <div id="eventcreatorID">made by: userID</div> --> <!-- for the username -->
-<<<<<<< .mine
 			<select id="publicity" name="publicity">
 				<option value="Y selected="selected">Public Event</option>
 				<option value="N">Private Event</option>
@@ -180,14 +179,6 @@ Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
 			Group Name: <select id="evtGroup" name="groupName"><option value="-1" selected="selected">None</option></select><br />
 			<!-- <input type="hidden" name="groupID" id="groupID" value="-1" /> --> <!-- this group pulldown is populated based on user id -->
 			Event Time: <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
-=======
-			<!-- Group Name: <select name="evtGroup"> <option value="None" selected="selected">None</option> 
-			
-			WORKING HERE 
-			
-			input type="hidden" name="groupID" id="groupID" value="-1" /> --> <!-- this group pulldown is populated based on user id -->
-	 		Event Time: <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
->>>>>>> .r75
 			Duration: <input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
 			<div id="date">Event Date: <input type="text" name="eventDate" id="eventDate"  size="10" maxlength="10"/></div>
 			Description: <br /><textarea id="eventDesc" name="eventDesc" rows="2" cols="20"></textarea><br />			

@@ -54,48 +54,48 @@ function saveRt() {
 		return;
 	}
 		
-	// var successHandler = function(o) {
-		// if (o.responseText != '-1') { // RouteID passed back
-			// alert("Route saved successfully");
-			// if (document.getElementById("routeID").value == '-1') 
-				// document.getElementById("routeID").value = o.responseText;
-			// disableMap();
-			// enableEditRtDetail("disabled");
-			// toggleModifyRtDetail(true);
-			// //leftTB.route.getNewRouteNames();
-		// }
-		// else {
-		// alert("Route is not saved");
-		// }
-	// }
-	
-		// FOR JSON STUFF WHEN IMPLEMENTED BY KEREM
 	var successHandler = function(o) {
-        var response = [];
-		
-        // Use the JSON Utility to parse the data returned from the server
-        try {
-            response = YAHOO.lang.JSON.parse(o.responseText);
-        }
-        catch (x) {
-            alert("JSON Parse failed!");
-            return;
-        }
-		var m = response[0];
-		if (m.returnCode == '1') { // RouteID passed back if just saved a new route
+		if (o.responseText != '-1') { // RouteID passed back
 			alert("Route saved successfully");
-			if (document.getElementById("routeID").value == -1) {
-				document.getElementById("routeID").value = m.routeID;
-		} 
+			if (document.getElementById("routeID").value == '-1') 
+				document.getElementById("routeID").value = o.responseText;
 			disableMap();
 			enableEditRtDetail("disabled");
 			toggleModifyRtDetail(true);
 			//leftTB.route.getNewRouteNames();
 		}
 		else {
-			alert("Route was not saved!");
+		alert("Route is not saved");
 		}
 	}
+	
+		// // FOR JSON STUFF WHEN IMPLEMENTED BY KEREM
+	// var successHandler = function(o) {
+        // var response = [];
+		
+        // // Use the JSON Utility to parse the data returned from the server
+        // try {
+            // response = YAHOO.lang.JSON.parse(o.responseText);
+        // }
+        // catch (x) {
+            // alert("JSON Parse failed!");
+            // return;
+        // }
+		// var m = response[0];
+		// if (m.returnCode == '1') { // RouteID passed back if just saved a new route
+			// alert("Route saved successfully");
+			// if (document.getElementById("routeID").value == -1) {
+				// document.getElementById("routeID").value = m.routeID;
+		// } 
+			// disableMap();
+			// enableEditRtDetail("disabled");
+			// toggleModifyRtDetail(true);
+			// //leftTB.route.getNewRouteNames();
+		// }
+		// else {
+			// alert("Route was not saved!");
+		// }
+	// }
 
 	var failureHandler = function(o) {
 		alert("Error + " + o.status + " : " + o.statusText);
@@ -372,8 +372,8 @@ function resetNewEvent() {
 	document.getElementById("eventDuration").value = "";
 	document.getElementById("eventDesc").value = "";
 	document.getElementById("eventDate").value = "";
-	document.getElementById("publicity").selectedIndex = 1;
-	document.getElementById("evtGroup").selectedIndex = 1;
+	document.getElementById("publicity").selectedIndex = 0;
+	document.getElementById("evtGroup").selectedIndex = 0;
 	document.getElementById("eventID").value = "-1";
 }
 
@@ -515,13 +515,13 @@ oButton.on("appendTo", function () {
 				var aDate;
 
 				if (p_aArgs) {
-						
-					aDate = p_aArgs[0][0];
-						
-					//Dom.get("month-field").value = aDate[1];
-					//Dom.get("day-field").value = aDate[2];
-					//Dom.get("year-field").value = aDate[0];
-				}				
+					var date = p_aArgs[0][0];
+					var year = date[0], month = date[1], day = date[2];
+
+					var txtDate1 = document.getElementById("eventDate");
+					txtDate1.value = month + "/" + day + "/" + year;
+				}
+				
 				oCalendarMenu.hide();			
 			});
 
@@ -576,20 +576,7 @@ oButton.on("appendTo", function () {
 			
 			// Unsubscribe from the "click" event so that this code is 
 			// only executed once
-			this.unsubscribe("click", onButtonClick);
-			
-			
-			var handleSelect =  function(type,args,obj) {
-				var dates = args[0];
-				var date = dates[0];
-				var year = date[0], month = date[1], day = date[2];
-
-				var txtDate1 = document.getElementById("eventDate");
-				txtDate1.value = month + "/" + day + "/" + year;
-			}
-			
-			oCalendarMenu.selectEvent.subscribe(handleSelect, oCalendar, true);
-
+			this.unsubscribe("click", onButtonClick);			
 		};
 
 		// Create an Overlay instance to house the Calendar instance

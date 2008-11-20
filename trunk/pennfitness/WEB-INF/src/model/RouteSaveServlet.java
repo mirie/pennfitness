@@ -54,7 +54,7 @@ public class RouteSaveServlet extends HttpServlet{
     	//Modify route
     	else{
     		route.setId( Integer.valueOf( routeID.trim() ) );
-    		out.println( DBUtilRoute.modifyRoute( route ) );  // Kerem: is it possible to just change
+    		out.println( DBUtilRoute.modifyRoute( route ) );
     	}
     	       
     }
