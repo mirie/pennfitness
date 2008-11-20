@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
 import entities.Route;
 
 
@@ -49,12 +51,42 @@ public class RouteSaveServlet extends HttpServlet{
      
         	//RouteID of the currently saved route is going to be returned as result.
         	//-1 is returned if there is an error saving route
-            out.println( DBUtilRoute.saveRoute( route ) );
+    		//The output format is as follows:
+    		// {"DATA":{"RouteID":68},"STATUS":"Success"}
+            
+            JSONObject result = new JSONObject();
+    		JSONObject data = new JSONObject();
+    		
+    		int transaction = DBUtilRoute.saveRoute( route );
+    		if( transaction == -1 )
+    			result.put( "STATUS", "Failure" );		
+    		else
+    			result.put( "STATUS", "Success");
+    		
+    		data.put( "RouteID", transaction );
+    		result.put( "DATA",  data );
+    		
+            out.println( result );
+            
     	}
     	//Modify route
     	else{
     		route.setId( Integer.valueOf( routeID.trim() ) );
-    		out.println( DBUtilRoute.modifyRoute( route ) );
+    		
+    		JSONObject result = new JSONObject();
+    		JSONObject data = new JSONObject();
+    		
+    		int transaction = DBUtilRoute.saveRoute( route );
+    		
+    		if( transaction == -1 )
+    			result.put( "STATUS", "Failure" );		
+    		else
+    			result.put( "STATUS", "Success");
+    		
+    		data.put( "RouteID", routeID.trim() );
+    		result.put( "DATA",  data );
+    		
+            out.println( result );
     	}
     	       
     }
