@@ -1,4 +1,3 @@
-<!-- Version: 11/12/08, Last Edited by: Mai Irie -->
 <%@ page language="java" import="entities.User" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
@@ -173,12 +172,22 @@ Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
 			<input type="hidden" name="eventID" id="eventID" value="-1" />
 			Event Name: <input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />
 			<!-- <div id="eventcreatorID">made by: userID</div> --> <!-- for the username -->
+<<<<<<< .mine
+			<select id="publicity" name="publicity">
+				<option value="Y selected="selected">Public Event</option>
+				<option value="N">Private Event</option>
+			</select><br />
+			Group Name: <select id="evtGroup" name="groupName"><option value="-1" selected="selected">None</option></select><br />
+			<!-- <input type="hidden" name="groupID" id="groupID" value="-1" /> --> <!-- this group pulldown is populated based on user id -->
+			Event Time: <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
+=======
 			<!-- Group Name: <select name="evtGroup"> <option value="None" selected="selected">None</option> 
 			
 			WORKING HERE 
 			
 			input type="hidden" name="groupID" id="groupID" value="-1" /> --> <!-- this group pulldown is populated based on user id -->
 	 		Event Time: <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
+>>>>>>> .r75
 			Duration: <input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
 			<div id="date">Event Date: <input type="text" name="eventDate" id="eventDate"  size="10" maxlength="10"/></div>
 			Description: <br /><textarea id="eventDesc" name="eventDesc" rows="2" cols="20"></textarea><br />			
