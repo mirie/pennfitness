@@ -16,6 +16,11 @@
     <servlet-name>UserLoginServlet</servlet-name>
     <servlet-class>model.UserLoginServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UserRegisterServlet</servlet-name>
+    <servlet-class>model.UserRegisterServlet</servlet-class>
+  </servlet>
+
 
   <!-- Map URLs to that servlet. -->
 
@@ -30,6 +35,10 @@
   <servlet-mapping>
     <servlet-name>UserLoginServlet</servlet-name>
     <url-pattern>/loginUser.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserRegisterServlet</servlet-name>
+    <url-pattern>/registerUser.do</url-pattern>
   </servlet-mapping>
  
 </web-app>

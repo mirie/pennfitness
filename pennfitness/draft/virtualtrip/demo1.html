@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>Penn Fitness :: Virtual Trip Demo</title> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/reset/reset-min.css"> 
+<!-- Skin CSS files resize.css must load before layout.css --> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/assets/skins/sam/resize.css"> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/assets/skins/sam/layout.css"> 
+<link type="text/css" rel="stylesheet" href="http://yui.yahooapis.com/2.6.0/build/logger/assets/skins/sam/logger.css"> 
+<!-- Utility Dependencies --> 
+<script src="http://yui.yahooapis.com/2.6.0/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script src="http://yui.yahooapis.com/2.6.0/build/dragdrop/dragdrop-min.js"></script> 
+<script src="http://yui.yahooapis.com/2.6.0/build/element/element-beta-min.js"></script> 
+<!-- Optional Animation Support--> 
+<script src="http://yui.yahooapis.com/2.6.0/build/animation/animation-min.js"></script> 
+<!-- Optional Resize Support --> 
+<script src="http://yui.yahooapis.com/2.6.0/build/resize/resize-min.js"></script> 
+<!-- Source file for the Layout Manager --> 
+<script src="http://yui.yahooapis.com/2.6.0/build/layout/layout-min.js"></script> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/container/assets/skins/sam/container.css" /> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/container/container-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/logger/logger-min.js"></script> 
+<!-- local 
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAevXPNCPhLRjjN1uuI1OlGxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQX9TRWtxibN_dgX-yKUPtVlmGyxg" type="text/javascript"></script>
+--> 
+ 
+<!-- seas --> 
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAiUy24FJ2pI4aK2GRl7uYJRS13f0NDYWu728arYXQAQvm7yhZqhTDQeKZ23S6QyEaO6qH3RLQCLm1Og" type="text/javascript"></script> 
+ 
+ 
+ 
+<style type="text/css"> 
+body {
+	font: Verdana, Arial, Helvetica, sans-serif;
+}
+ 
+#map {
+	background-color:#666666;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+#content {
+	font: 70% Verdana, Arial, Helvetica, sans-serif;
+}
+.yui-skin-sam .yui-panel .bd {
+	padding: 0px;
+}
+#svArea {
+	height: 300px;
+	background-color: #CCCCCC;
+}
+#svControllers {
+	background-color: #CCCCCC;
+	padding: 5px;
+	line-height: 25px;
+	text-align:center;
+}
+.yui-skin-sam .yui-log p {
+	font-size: 110%;
+}
+#header {
+	padding-top: 5px;
+	padding-left: 5px;
+	font: 120% Verdana, Arial, Helvetica, sans-serif;
+ 
+}
+</style> 
+<script type="text/javascript"> 
+ 
+// Global variables
+var map;
+var poly;
+var count = 0;
+var points = new Array();
+var markers = new Array();
+var svPoints = new Array();
+var lineColor = "#0000af";
+var lineWeight = 3;
+var lineOpacity = .8;
+var fillOpacity = .2;
+var distance;
+var pano;
+var svOverlay;
+var svIdx = 0;
+var blueicon = new GIcon();
+var redicon = new GIcon();
+var manicon = new GIcon();
+var panoClient;
+var ptPerPath = 5; // sv points per segment
+var bStreetviewOn = false;
+var unit = 0.00036;
+var angles = new Array();
+var csvIdx = 0;
+var man = null;
+var timeUnit = 200;
+var timer;
+ 
+var waitpanel; 
+ 
+function init()
+{
+	// Layout
+	var layout = new YAHOO.widget.Layout({
+		units: [
+			{ position: 'top', height: 40, body: 'header', },
+			{ position: 'center', body: 'content' }
+		]
+	});
+	layout.render();
+ 
+	// Load Google map
+	if (GBrowserIsCompatible()) {
+		map = new GMap2(document.getElementById("map"), {draggableCursor:"auto", draggingCursor:"move"});
+		map.setCenter(new GLatLng(39.95005, -75.191674), 15);
+		map.addControl(new GScaleControl());
+		map.disableDoubleClickZoom();
+		GEvent.addListener(map, "click", leftClick);
+		
+		svOverlay = new GStreetviewOverlay();
+ 
+		// icons for sv points		
+		blueicon.image = "./icons/blue.png"; 
+		blueicon.iconSize = new GSize(12, 12);
+		blueicon.iconAnchor = new GPoint(6, 6);
+ 
+		redicon.image = "./icons/red.png"; 
+		redicon.iconSize = new GSize(12, 12);
+		redicon.iconAnchor = new GPoint(6, 6);
+ 
+		manicon.image = "./icons/man.png"; 
+		manicon.iconSize = new GSize(21, 28);
+		manicon.iconAnchor = new GPoint(10, 14);
+		
+		panoClient = new GStreetviewClient();
+	}
+	
+	var panel2 = new YAHOO.widget.Panel("panel1", { width:"400px", visible:true, draggable:true, close:false } );
+	panel2.render("content");
+ 
+	waitpanel = new YAHOO.widget.Panel("wait",
+				{ width:"240px", 
+				  fixedcenter:true, 
+				  close:false, 
+				  draggable:false, 
+				  zindex:4,
+				  modal:true,
+				  visible:false
+				} 
+			);
+	
+	waitpanel.setHeader("Loading, please wait...");
+	waitpanel.setBody('<img src="http://us.i1.yimg.com/us.yimg.com/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
+	waitpanel.render(document.body); 
+ 
+ 
+	
+	var currentLoc = new GLatLng(39.95005, -75.191674);
+//	pano = new GStreetviewPanorama(document.getElementById("svArea"), { latlng:currentLoc });
+ 
+	// show YAHOO logger
+	var myConfig = {
+			width: "500px",
+			top: "500px",
+			verboseOutput: false,
+			footerEnabled: false
+	};
+	var myLogReader = new YAHOO.widget.LogReader(null, myConfig);
+	
+}
+</script> 
+<script type="text/javascript"> 
+ 
+// Google map related
+function addMarker(point)
+{
+  // Make markers draggable
+  var marker = new GMarker(point, {draggable:true, bouncy:false});
+  map.addOverlay(marker);
+  marker.content = count;
+  markers.push(marker);
+  marker.tooltip = "Point "+ count;
+ 
+  // Drag listener
+  GEvent.addListener(marker, "drag", function() {
+   drawOverlay();
+  });
+ 
+  // Drag listener
+  GEvent.addListener(marker, "dragend", function() {
+   drawSVOverlay();
+  });
+ 
+  // Second click listener
+  GEvent.addListener(marker, "click", function() {
+	  // Find out which marker to remove
+	  for(var n = 0; n < markers.length; n++) {
+	   if(markers[n] == marker) {
+		map.removeOverlay(markers[n]);
+		break;
+	   }
+	  }
+	
+	  // Shorten array of markers and adjust counter
+	  markers.splice(n, 1);
+	  if(markers.length == 0) {
+		count = 0;
+	  }
+	   else {
+		count = markers[markers.length-1].content;
+	  }
+      drawOverlay();
+	  drawSVOverlay();
+  }); // end of second click
+}
+ 
+function addMarker2(lat, lng)
+{
+	addMarker(new GLatLng(lat, lng));
+}
+ 
+function leftClick(overlay, point) {
+ 
+ if(point) {
+ 
+  if( pano != undefined )
+  {
+  	pano.setLocationAndPOV(point);
+  }
+  
+ 
+  count++;
+ 
+  addMarker(point);
+ 
+  drawOverlay();
+  drawSVOverlay();
+ 
+ }
+}
+ 
+function drawOverlay(){
+ 
+ if(poly) { map.removeOverlay(poly); }
+ points.length = 0;
+ 
+ 
+// var pointDiv = document.getElementById("PointsDiv");
+// pointDiv.innerHTML = "";
+// var temp, strLatLng;
+ 
+ for(i = 0; i < markers.length; i++) {
+    points.push(markers[i].getLatLng());
+ }
+  poly = new GPolyline(points, lineColor, lineWeight, lineOpacity);
+  map.addOverlay(poly);
+ 
+}
+ 
+ 
+/*
+ * Draws StreetView points
+ */
+function drawSVOverlay() {
+ 
+ // clear intermediate points
+ for(i = 0 ; i < svPoints.length ; i++) {
+ 	map.removeOverlay(svPoints[i]); 
+ }
+ svPoints.length = 0;
+ angles.length = 0; // clear angle
+ 
+ // if there is only one marker, no need to draw sv points.
+ if( markers.length < 2 ) return;
+ YAHOO.log("creating sv points");
+ 
+/*
+  for(i = 0 ; i < markers.length - 1 ; i++) {
+  	var pt1_lat = markers[i].getLatLng().lat();
+	var pt1_lng = markers[i].getLatLng().lng();
+  	var pt2_lat = markers[i+1].getLatLng().lat();
+	var pt2_lng = markers[i+1].getLatLng().lng();
+  
+    var diff_lat = ( pt2_lat - pt1_lat ) / (ptPerPath-1);
+    var diff_lng = ( pt2_lng - pt1_lng ) / (ptPerPath-1);
+  
+    for(j = 0 ; j < ptPerPath ; j++) {
+		pt3_lat = pt1_lat + j * diff_lat;
+		pt3_lng = pt1_lng + j * diff_lng;
+		var tMarker = new GMarker(new GLatLng(pt3_lat, pt3_lng), {icon:redicon})
+		svPoints.push(tMarker);
+	}
+*/
+  for(i = 0 ; i < markers.length - 1 ; i++) {
+ 
+	var p1 = markers[i].getLatLng();
+	var p2 = markers[i+1].getLatLng();
+	
+	var x1 = p1.lat();
+	var x2 = p2.lat();
+	var y1 = p1.lng();
+	var y2 = p2.lng();
+	var xDiff = x2 - x1;
+	var yDiff = y2 - y1;
+	
+	var angle = Math.atan(xDiff / yDiff);
+	var angle_degree = angle * 180 / Math.PI;
+	YAHOO.log("angle = " + angle_degree);
+//	angles.push(angle);
+	
+	var k = 0;
+	while(true) {
+		pt3_lat = x1 + k*unit*Math.sin(angle);
+		pt3_lng = y1 + k*unit*Math.cos(angle);
+		if((x2 >= x1 && pt3_lat > x2) || (x2 <= x1 && pt3_lat < x2)) {
+			break;
+		}
+		var tMarker = new GMarker(new GLatLng(pt3_lat, pt3_lng), {icon:redicon})
+		svPoints.push(tMarker);
+		angles.push(angle_degree);
+		k++;
+	}
+		
+/*	
+	for(j = 1 ; j < ptPerPath ; j++) {
+		pt3_lat = x1 + j*unit*Math.sin(angle);
+		pt3_lng = y1 + j*unit*Math.cos(angle);
+		var tMarker = new GMarker(new GLatLng(pt3_lat, pt3_lng), {icon:redicon})
+		svPoints.push(tMarker);
+	}
+*/
+	
+  }
+ 
+	YAHOO.log( svPoints.length + " sv points are added");
+ 
+    // if sv points were added, check whether streetviews are available for those points
+	if(svPoints.length > 1 ) {
+		svIdx = 0;
+//		document.getElementById('svArea').innerHTML = "";
+		waitpanel.show();
+		panoClient.getNearestPanorama(svPoints[0].getLatLng(), addIntMarker);
+	}
+ 
+ 
+//  }
+}
+ 
+function enableSV() {
+	if(bStreetviewOn) {
+		map.removeOverlay(svOverlay);
+		document.getElementById('btnToggleSV').value = "StreetView On";
+	}
+	else {
+		map.addOverlay(svOverlay);
+		document.getElementById('btnToggleSV').value = "StreetView Off";
+	}
+	
+	bStreetviewOn = !bStreetviewOn;
+}
+ 
+function addIntMarker(panoData)
+{
+	if( panoData.code != 200 ) {
+	// delete marker
+	// Shorten array of markers and adjust counter
+	// svPoints.splice(svIdx, 1);
+	  YAHOO.log("No SV data : " + svIdx);
+//	  svPoints[svIdx] = "";
+//	  svPoints[svIdx] = new GMarker(panoData.location.latlng, {icon:blueicon});
+	}
+	else {
+		svPoints[svIdx] = new GMarker(panoData.location.latlng, {icon:blueicon});
+//		document.getElementById('svArea').innerHTML += svIdx + "-" + panoData.location.latlng + "<br>";
+	}
+//	document.getElementById('svArea').innerHTML += svIdx + "-" + svPoints[svIdx].getLatLng() + "<br>";
+ 
+	svIdx++;
+	
+	if(svIdx < svPoints.length) {
+//		sleep(10);
+		panoClient.getNearestPanorama(svPoints[svIdx].getLatLng(), addIntMarker);
+	}
+	else {
+		// If every sv points were retrieved
+		waitpanel.hide();
+		
+		for(i = 0 ; i < svPoints.length ; i++) {
+			if( svPoints[i].getIcon() == redicon ) {
+				YAHOO.log("Ignoring sv points : " + i);
+			}
+			map.addOverlay(svPoints[i]);
+		}
+		
+		// set street view
+		var cyaw = 90 - angles[0];
+//		YAHOO.log("yaw : " + cyaw);
+	
+		if(man != null) map.removeOverlay(man);
+		man =  new GMarker(svPoints[csvIdx].getLatLng(), {icon:manicon});
+		map.addOverlay(man);
+ 
+		pano = new GStreetviewPanorama(document.getElementById("svArea"), 
+			{ latlng:svPoints[0].getLatLng(),
+			   pov : {yaw: cyaw}
+			});
+ 
+		
+	}
+}
+ 
+function next()
+{
+	if( csvIdx < svPoints.length -1 ) {
+		csvIdx++;
+		updateStreetView();
+		return true;
+	}
+	
+	return false;
+ 
+}
+ 
+function prev()
+{
+	if( csvIdx > 0 ) {
+		csvIdx--;
+		updateStreetView();
+		return true;
+	}
+	
+	return false;
+}
+ 
+function goStart()
+{
+	csvIdx = 0;
+	updateStreetView();
+}
+ 
+function goEnd()
+{
+	csvIdx = svPoints.length - 1;
+	updateStreetView();
+}
+ 
+function updateStreetView()
+{
+		if(man != null) map.removeOverlay(man);
+		man =  new GMarker(svPoints[csvIdx].getLatLng(), {icon:manicon});
+		map.addOverlay(man);
+ 
+		var cyaw = 90 - angles[csvIdx];
+//		YAHOO.log("yaw : " + cyaw);
+		pano.setLocationAndPOV(svPoints[csvIdx].getLatLng(), {yaw: cyaw});	
+}
+ 
+function vtStart()
+{
+	timer = window.setInterval(vtProcess, document.getElementById('tbxSpeed').value * timeUnit);
+}
+ 
+function vtProcess()
+{
+	if(!next()) vtPause();
+}
+ 
+function vtPause()
+{
+	clearInterval(timer);
+}
+ 
+function vtChangeTimer()
+{
+//	vtPause();
+//	vtStart();
+}
+ 
+</script> 
+</head> 
+<body class="yui-skin-sam" onload="init();"> 
+<div id="header"> 
+  <p>Virtual Trip</p> 
+</div> 
+<div id="content"> 
+  <div id="map"> map area </div> 
+  <div id="panel1"> 
+    <div class="hd">Virtual Trip</div> 
+    <div class="bd"> 
+      <div id="svArea">StreeView Area</div> 
+      <div id="svControllers"> 
+        <input type="button" value="START" onclick="vtStart()" /> 
+        &nbsp;
+        <input type="button" value="STOP"  onclick="vtPause()"/> 
+        &nbsp;
+        SPEED
+        <input type="text" value="5" size="3" maxlength="3" id="tbxSpeed" onchange="vtChangeTimer()"/> 
+        &nbsp;&nbsp;
+        <input type="button" value="&lt;&lt;" onclick="goStart()"/> 
+        &nbsp;
+        <input type="button" value=" &lt; " onclick="prev()"/> 
+        &nbsp;
+        <input type="button" value=" &gt; " onclick="next()"/> 
+        &nbsp;
+        <input type="button" value="&gt;&gt;" onclick="goEnd()"/> 
+        <br /> 
+        <input type="button" value="StreetView On" id="btnToggleSV" onclick="enableSV();"/> 
+        &nbsp; </div> 
+    </div> 
+  </div> 
+</div> 
+</body> 
+</html> 

@@ -9,6 +9,8 @@
 
 <!-- =============================== CSS files =============================== -->
 <link rel="stylesheet" type="text/css" href="css/styles.css" />
+<link rel="stylesheet" type="text/css" href="css/styles_user.css" />
+<link rel="stylesheet" type="text/css" href="css/styles_overlay.css" />
 
 <!-- =============================== Google Map Scripts =============================== -->
 <%-- Change Google Map key --%>
@@ -24,7 +26,7 @@
 <!-- Combo-handled YUI CSS files: -->
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.6.0/build/reset-fonts-grids/reset-fonts-grids.css&2.6.0/build/base/base-min.css&2.6.0/build/assets/skins/sam/skin.css">
 <!-- Combo-handled YUI JS files: -->
-<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/utilities/utilities.js&2.6.0/build/container/container-min.js&2.6.0/build/menu/menu-min.js&2.6.0/build/button/button-min.js&2.6.0/build/calendar/calendar-min.js&2.6.0/build/slider/slider-min.js&2.6.0/build/colorpicker/colorpicker-min.js&2.6.0/build/cookie/cookie-min.js&2.6.0/build/json/json-min.js&2.6.0/build/paginator/paginator-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/utilities/utilities.js&2.6.0/build/container/container-min.js&2.6.0/build/menu/menu-min.js&2.6.0/build/button/button-min.js&2.6.0/build/calendar/calendar-min.js&2.6.0/build/slider/slider-min.js&2.6.0/build/colorpicker/colorpicker-min.js&2.6.0/build/cookie/cookie-min.js&2.6.0/build/json/json-min.js&2.6.0/build/paginator/paginator-min.js&2.6.0/build/tabview/tabview-min.js"></script>
 
 
 <!--  ================================= Custom Scripts ================================ -->
@@ -33,6 +35,7 @@
 <script type="text/javascript" src="js/accordion-menu-v2.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/leftToolbar.js"></script>
+<script type="text/javascript" src="js/search.js"></script>
 
 </head>
 
@@ -55,18 +58,21 @@ if(user == null) {
 ID: <input type="text" name="userID" id="userID" size=5 maxlength="10" style="width:5em"/>
 PASS: <input type="password" name="password" id="password" size="10" maxlength="10" style="width:5em"/>
 <input type="button" name="login" id="loginBtn" value="Login" onclick="Login()"/>
+<input type="button" name="userRegDialogBtn" id="userRegDialogBtn" value="Sign up" onclick="ShowUserRegDialog()"/>
 <%
 } // end of if(user == null) 
 else {
 	// if logged in
 %>
 Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
+<input type="button" name="myAccountDialogBtn" id="myAccountDialogBtn" value="My Account" onclick="ShowMyAccountDialog()"/>
 <input type="button" name="logout" id="logoutBtn" value="Logout" onclick="Logout()"/>
 <% // end of else
 }
 %>
 	</span>
 	<span id="showbtns">
+		<input type="button" name="searchDialogBtn" id="searchDialogBtn" value="Search" onclick="ShowSearchDialog()"/>
 		<input type="button" name="temp" id="temp" value="Show New" onclick="showNewRtTool()"/>
 		<input type="button" name="temp2" id="temp2" value="Hide New" onclick="hideNewRtTool()"/>
 	</span>
@@ -195,6 +201,348 @@ Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
 		</div>
 </div>
 
+<!-- =============================== User Registration DIALOG Structure:  =============================== -->
+<div id="userRegDialog">
+	<div class="hd">New User Registration</div>
+	<div class="bd">
+		<form method="POST" action="">
+			<label for="reg_userName">Name:</label><input type="textbox" name="reg_userName" />
+			<label for="reg_userID">User ID:</label><input type="textbox" name="reg_userID" />
+			<label for="reg_password">Password:</label><input type="password" name="reg_password" />
+			<label for="reg_email">E-mail:</label><input type="textbox" name="reg_email" /> 
+
+			<div class="clear"></div>
+
+			<label for="reg_publicNotify">Notified for public events:</label><input type="checkbox" name="reg_publicNotify" value="Y" />
+
+			<div class="clear"></div>
+
+			<label for="reg_height">Height:</label><input type="textbox" name="reg_height" />
+			<label for="reg_weight">Weight:</label><input type="textbox" name="reg_weight" />
+				<div class="clear"></div>
+			<label for="reg_gender">Gender:</label>
+			<input type="radio" name="reg_gender[]" value="N" checked/> N/A
+			<input type="radio" name="reg_gender[]" value="M"/> Male
+			<input type="radio" name="reg_gender[]" value="F" /> Female
+
+		</form>
+	</div>
+</div>
+
+<!-- =============================== My Account DIALOG Structure:  =============================== -->
+	<div id="panel1">
+		<div id = "overlayTabOne" class="overlayOne">
+			<ul class = "yui-nav">
+				<li class = "selected">
+					<a href = "#tab1"><em>Personal Information</em></a>
+				</li>
+				<li><a href = "#tab2"><em>Group Information</em></a>
+				</li>
+				<li><a href = "#tab3"><em>Event Information</em></a>
+				</li>
+				<li><a href = "#tab4"><em>Route Information</em></a>
+				</li>
+			</ul>
+			<div class = "yui-content">
+				<div>
+					<div class = "personalInfo">
+						<p>Name:
+						<span class="userName">Sandy Qian Liu</span><br>
+						Gender:<span class="userGender">Female</span><br>
+						Hobbies:<span class="userHobbies">Jogging, Cooking, Japanese Anime</span><br>
+						</p>
+					</div>
+				</div>		
+				<div>
+						<div id = "GroupInfoTab" class="GroupInfo">
+							<ul class = "yui-nav">
+								<li class = "selected">
+									<a href = "#tab1"><em>My Groups</em></a>
+								</li>
+								<li><a href = "#tab2"><em>Created Groups</em></a>
+								</li>
+								<li><a href = "#tab3"><em>Create a Group</em></a>
+								</li>
+							</ul>
+							<div class = "yui-content">
+								<div class = "myGroups">
+									<div class="myGroupList">
+										<div class="myGroupItem">
+											<span class="number">1.</span>
+									  		<a href="function_to_show_group_detail">jogging group 1</a>
+									  		<span class="createdDate">since Nov. 1st, 2008</span>
+									  		<span class="createdBy">by lq</span>
+									  		<span class="memberCount"># 10</span>
+									  		<p>This is an awesome group where members meet every Wednesday night in front of Towne to start a one hour jogging 
+												trip</p>
+									 	</div>
+									 	<div class="myGroupItem">
+									 		<span class="number">2.</span>
+									  		<a href="function_to_show_group_detail">crazy buddies</a>
+									  		<span class="createdDate">since May. 25th, 2009</span>
+									  		<span class="createdBy">by Mai</span>
+									  		<span class="memberCount"># 7</span>
+									  		<a href="function_to_show_group_detail">more...</a>
+									 	</div>
+										<div class="myGroupItem">
+									 		<span class="number">3.</span>
+									  		<a href="function_to_show_group_detail">stress out run</a>
+									  		<span class="createdDate">since Jan. 15th, 2009</span>
+									  		<span class="createdBy">by Inseob</span>
+									  		<span class="memberCount"># 13</span>
+									  		<a href="function_to_show_group_detail">more...</a>
+									 	</div>
+									</div>
+									<div class="myGroupsButtons">
+										<input type="button" value="Send Emails" id="SendEmails">
+										<input type="button" value="Unsubscribe" id="Unsubscribe">
+									</div>					
+								</div>
+								<div class = "createdGroups">
+									<div class="createdGroupList">
+										<div class="createdGroupItem">
+											<span class="number">1.</span>
+									  		<a href="function_to_show_group_detail">my Created Group 1</a>
+									  		<span class="createdDate">since Nov. 1st, 2008</span>
+									  		<span class="memberCount"># 5</span>
+									  		<p>This is an awesome group where members meet every Wednesday night in front of Towne to start a one hour jogging 
+												trip</p>
+									 	</div>
+									 	<div class="createdGroupItem">
+									 		<span class="number">2.</span>
+									  		<a href="function_to_show_group_detail">my Created Group 2</a>
+									  		<span class="createdDate">since May. 25th, 2009</span>
+									  		<span class="memberCount">#8</span>
+									  		<a href="function_to_show_group_detail">more...</a>
+									 	</div>
+										<div class="myGroupItem">
+									 		<span class="number">3.</span>
+									  		<a href="function_to_show_group_detail">my Created Group 3</a>
+									  		<span class="createdDate">since Jan. 15th, 2009</span>
+									  		<span class="memberCount"># 15</span>
+									  		<a href="function_to_show_group_detail">more...</a>
+									 	</div>
+									</div>
+									<div id="buttons">
+										<input type="button" value="Send Emails" id="SendEmails">
+										<input type="button" value="Modify" id="Modify">
+									</div>
+
+								</div>
+								<div class = "createAGroup">
+										<form name="frmCreateGroupData" id="frmCreateGroupData">
+										Name <input type="text" name="Group Name" size="10" id="groupName"><br>
+										Description <input type="text" name="Description" size="30" id="Description"><br>
+										<input type="button" name="Create" value="Create" id="Create"><br>
+										</form>
+								</div>
+
+							</div>
+						</div>
+
+				</div>
+				<div>
+					<div id ="EventInfoTab" class="EventInfo">
+						<ul class = "yui-nav">
+							<li class = "selected">
+								<a href = "#tab1"><em>Registered Events</em></a>
+							</li>
+							<li><a href = "#tab2"><em>Created Events</em></a>
+							</li>
+						</ul>
+						<div class = "yui-content">
+							<div class = "registeredEvents">
+								<div class="registeredEventList">
+									<div class="registeredEventItem">
+										<a href="function_to_show_event">Inseob Event 007</a>
+									</div>
+									<div class="RouteInfoItem">
+										<a href="function_to_show_event">Girls go jogging</a>
+									</div>
+									<div class="RouteInfoItem">
+										<a href="function_to_show_event">Sansom E. Halloween jogging</a>
+									</div>
+								</div>
+							</div>
+							<div class = "createdEvents">
+								<div class="createdEventList">
+									<div class="createdEventItem">
+										<a href="function_to_show_event">Sandy Event 1</a>
+									</div>
+									<div class="createdEventItem">
+										<a href="function_to_show_event">Sandy Event 2</a>
+									</div>
+									<div class="createdEventItem">
+										<a href="function_to_show_event">Sandy Event 3</a>
+									</div>
+									<div class="createdEventItem">
+										<a href="function_to_show_event">Sandy Event 4</a>
+									</div>
+									<div class="createdEventItem">
+										<a href="function_to_show_event">Sandy Event 5</a>
+									</div>
+									<div class="createdEventItem">
+										<a href="function_to_show_event">Sandy Event 6</a>
+									</div>
+									<div class="createdEventItem">
+										<a href="function_to_show_event">Sandy Event 7</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="RouteInfoList">
+						<div class="RouteInfoItem">
+							<a href="function_to_show_route">Difficult Route 001</a>
+						</div>
+						<div class="RouteInfoItem">
+							<a href="function_to_show_route">Coolest Route Ever</a>
+						</div>
+						<div class="RouteInfoItem">
+							<a href="function_to_show_route">Sweet Path in Philly</a>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+<!-- =============================== Search DIALOG Structure:  =============================== -->	
+	<div id="panel2">
+		<div id = "overlayTabTwo" class="overlayTwo">
+			<ul class = "yui-nav">
+				<li class = "selected">
+					<a href = "#tab1"><em>Event Search</em></a>
+				</li>
+				<li><a href = "#tab2"><em>Group Search</em></a>
+				</li>
+				<li><a href = "#tab3"><em>Route Search</em></a>
+				</li>
+			</ul>
+			<div class = "yui-content">
+				<div>
+					<div class = "eventSearch">
+						<form name="frmGroupSearchData" id="frmGroupSearchData">
+						Key Word <input type="text" name="Key Word" size="10" id="keyWord"><br>
+					 	Type <input type="text" name="Type" size="10" id="Type"><br>
+						<div>
+							Date
+							<label>from: </label>
+							<input type = "text" name = "dobfield" id = "dobfield">
+							<img id = "calico" src = "calendar_icon.jpg"
+									alt = "Open the Calendar control">
+						</div>
+						<div id = "eventcalFrom"></div>
+						<div>
+							<label>to: </label>
+							<input type = "text" name = "dobfield" id = "dobfield">
+							<img id = "calico" src = "calendar_icon.jpg"
+									alt = "Open the Calendar control">
+						</div>
+						<div id = "eventcalTo"></div>
+						<input type="submit" value="Search"/>
+						</form>
+						<div class = "Result">
+							<div class="EventInfoList">
+								<div class="registeredEventItem">
+									<a href="function_to_show_event">Inseob Event 007</a>
+								</div>
+								<div class="RouteInfoItem">
+									<a href="function_to_show_event">Girls go jogging</a>
+								</div>
+								<div class="RouteInfoItem">
+									<a href="function_to_show_event">Sansom E. Halloween jogging</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<div class = "groupSearch">
+						<form name="frmGroupSearchData" id="frmGroupSearchData">
+						Key Word <input type="text" name="Key Word" size="10" id="keyWord"><br>
+						Member <input type="text" name="Member" size="10" id="Member"><br>
+						<input type="submit" value="Search"/>
+						</form>
+						<div class = "Result">
+							<div class = "myGroups">
+								<div class="myGroupList">
+									<div class="myGroupItem">
+										<span class="number">1.</span>
+								  		<a href="function_to_show_group_detail">jogging group 1</a>
+								  		<span class="createdDate">since Nov. 1st, 2008</span>
+								  		<span class="createdBy">by lq</span>
+								  		<span class="memberCount"># 10</span>
+								  		<p>This is an awesome group where members meet every Wednesday night in front of Towne to start a one hour jogging 
+											trip</p>
+								 	</div>
+								 	<div class="myGroupItem">
+								 		<span class="number">2.</span>
+								  		<a href="function_to_show_group_detail">crazy buddies</a>
+								  		<span class="createdDate">since May. 25th, 2009</span>
+								  		<span class="createdBy">by Mai</span>
+								  		<span class="memberCount"># 7</span>
+								  		<a href="function_to_show_group_detail">more...</a>
+								 	</div>
+									<div class="myGroupItem">
+								 		<span class="number">3.</span>
+								  		<a href="function_to_show_group_detail">stress out run</a>
+								  		<span class="createdDate">since Jan. 15th, 2009</span>
+								  		<span class="createdBy">by Inseob</span>
+								  		<span class="memberCount"># 13</span>
+								  		<a href="function_to_show_group_detail">more...</a>
+								 	</div>
+								</div>					
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class = "routeSearch">	
+						<form name="frmRouteSearchData" id="frmRouteSearchData">
+						Key Word <input type="text" name="Key Word" size="10" id="keyWord"><br>
+						Distance <input type="text" name="Distance" size="10" id="Distance"><br>
+						<div>
+							Date
+							<label>from: </label>
+							<input type = "text" name = "dobfield" id = "dobfield">
+							<img id = "calico" src = "calendar_icon.jpg"
+									alt = "Open the Calendar control">
+						</div>
+						<div id = "mycalFrom"></div>
+						<div>
+							<label>to: </label>
+							<input type = "text" name = "dobfield" id = "dobfield">
+							<img id = "calico" src = "calendar_icon.jpg"
+									alt = "Open the Calendar control">
+						</div>
+						<div id = "mycalTo"></div>
+						<input type="submit" value="Search"/>
+						</form>
+						<div class = "Result">
+							<div class="RouteInfoList">
+								<div class="RouteInfoItem">
+									<a href="function_to_show_route">Difficult Route 001</a>
+								</div>
+								<div class="RouteInfoItem">
+									<a href="function_to_show_route">Coolest Route Ever</a>
+								</div>
+								<div class="RouteInfoItem">
+									<a href="function_to_show_route">Sweet Path in Philly</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 <div id="map">mapArea</div>

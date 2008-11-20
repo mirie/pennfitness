@@ -1,0 +1,83 @@
+
+div.overlayOne{
+}
+div.overlayOne ul.yui-nav{
+	width:100%;
+}
+
+div.overlayOne div.yui-content{
+	height:400px;
+	Scroll:{by:[0,200]};
+}
+
+div.overlayOne div.yui-content div.GroupInfo {
+	margin:5px;
+}
+div.overlayOne div.yui-content div.GroupInfo div.yui-content {
+	height:200px;
+}
+div.overlayOne div.yui-content div.GroupInfo div.yui-content div.myGroups div.myGroupList{
+	margin:5px;
+}
+div.overlayOne div.yui-content div.GroupInfo div.yui-content div.createdGroups div.createdGroupList{
+	margin:5px;
+}
+div.overlayOne div.yui-content div.GroupInfo div.yui-content div.creatAGroup{
+	margin:5px;
+}
+div.overlayOne div.yui-content div.EventInfo {
+	margin:5px;
+}
+div.overlayOne div.yui-content div.EventInfo div.yui-content {
+	height:200px;
+}
+div.overlayOne div.yui-content div.RouteInfoList {
+	margin:5px;
+}
+div.overlayTwo{
+	top:0;
+	left:0;
+
+}
+div.overlayTwo ul.yui-nav{
+	width:100%;
+}
+
+div.overlayTwo div.yui-content{
+	height:400px;
+}
+div.overlayTwo div.yui-content div.eventSearch{
+	margin:5px;
+}
+div.overlayTwo div.yui-content div.groupSearch{
+	margin:5px;
+}
+div.overlayTwo div.yui-content div.routeSearch{
+	margin:5px;
+}
+.desctText{
+	position : absolute;
+	top : 400;
+	left : 300px;
+	color:yellow;
+}
+
+
+#panel1 {
+//	position:absolute;
+//	left:300px;
+//	top:200px;
+	width:800px;
+	height:400px;
+	background:blue;
+}
+#panel2 {
+//	position:absolute;
+//	left:300px;
+//	top:200px;
+	width:800px;
+	height:400px;
+	background:blue;
+}
+
+
