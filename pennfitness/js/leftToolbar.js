@@ -10,9 +10,16 @@ var getNewRouteNames = function() {
 		var content = "";
 		rlist.innerHTML = "";
 		
-		for (var i = 0 ; i < strList.length ; i++) {
-			var strRoute = strList[i].split("-"); // temp: expecting routeID:routeName
-			content += (i + 1) + ". <a href=\"javascript:getRoute('" + strRoute[0] + "')\">" + strRoute[1] + "</a><br>";
+		for (var i = 0 ; i < strList.length -1; i++) {
+			var k = i + 1;
+			//TODO bug here --> link is NOT working
+			content += k + ". <a href=\"javascript:view/routeByName.jsp?routeName=" + strList[i] + ";\">" + strList[i] + "</a><br />";
+			
+			//content += k + ". <a href=\"javascript:view/routeByName.jsp?routeName=" + strList[i] + "\>" + strList[i] + "</a><br />";
+			
+			
+			//var strRoute = strList[i].split("-"); // temp: expecting routeID:routeName
+			//content += (k) + ". <a href=\"javascript:getRoute('" + strRoute[0] + "')\">" + strRoute[1] + "</a><br>";
 		}
 		
 		rlist.innerHTML = content;
@@ -36,23 +43,25 @@ var getRoute = function(route) {
 	var successHandler = function(o) {
 		// TEMP: currently expecting the following order: distance?
 		// routeID, routeName, routeDesc, routeColor
-		
+		// out.println( route.getName() + ";" + route.getColor() + ";" + route.getPtValues()
 		routeData = o.responseText.split(";");
-		document.getElementById("routeID").value = routeData[0];
-		document.getElementById("routeName").value = routeData[1];
-		document.getElementById("routeDesc").value = routeData[2];
-		document.getElementById("routeColor").value = routeData[3]; //TODO: not working - inseob
+		
+		//document.getElementById("routeID").value = routeData[0];
+		document.getElementById("routeName").value = routeData[0];
+		//document.getElementById("routeDesc").value = routeData[2];
+		document.getElementById("routeColor").value = routeData[1]; //TODO: not working - inseob
 		
 //		document.getElementById("current-color").style.backgroundColor = routeColor; // Slight BUG HERE... need minor fix: colorpicker.setValue() not working...
-		lineColor = routeData[3]; // routeColor;
+		lineColor = routeData[1]; // routeColor;
 	
 		removeRoute();
 
+		var pointData = routeData[2];
 		// add markers
-		for (var i = 4; i < routeData.length; i++) {
-			if (routeData[i] == "") continue;
-			var lat = routeData[i].split(",")[0];
-			var lng = routeData[i].split(",")[1];
+		for (var i = 2; i < pointData.length; i++) {
+			if (pointData[i] == "") break;
+			var lat = pointData[i].split(",")[0];
+			var lng = pointData[i].split(",")[1];
 			addMarkerPoint(lat, lng);
 		}
 
@@ -80,6 +89,6 @@ var getRoute = function(route) {
 //YAHOO.util.Event.addListener("GetRouteNames", "click", YAHOO.leftTB.route.getRouteNames);
 
 // Turn on this to get new route when loading(should fix bug) - inseob
-//YAHOO.util.Event.onContentReady(getNewRouteNames());
+YAHOO.util.Event.onContentReady(getNewRouteNames());
 
 
