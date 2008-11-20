@@ -54,48 +54,50 @@ function saveRt() {
 		return;
 	}
 		
-	var successHandler = function(o) {
-		if (o.responseText != '-1') { // RouteID passed back
+// OLD HANDLING OF RESPONSE FROM SERVER
+//	var successHandler = function(o) {
+//		if (o.responseText != '-1') { // RouteID passed back
+//			alert("Route saved successfully");
+//			if (document.getElementById("routeID").value == '-1') 
+//				document.getElementById("routeID").value = o.responseText;
+//			disableMap();
+//			enableEditRtDetail("disabled");
+//			toggleModifyRtDetail(true);
+//			YAHOO.leftTB.route.getNewRouteNames();
+//		}
+//		else {
+//		alert("Route is not saved");
+//		}
+//	}
+	
+	// FOR JSON Handling
+	var successHandler = function(o) {	
+		var response;
+		
+	    // Use the JSON Utility to parse the data returned from the server
+	    try {
+	       response = YAHOO.lang.JSON.parse(o.responseText); 
+	    }
+	    catch (x) {
+	        alert("JSON Parse failed!");
+	        return;
+	    }        
+	
+	    if (response.STATUS == 'Success') { // RouteID passed back if just saved a new route
 			alert("Route saved successfully");
-			if (document.getElementById("routeID").value == '-1') 
-				document.getElementById("routeID").value = o.responseText;
+			if (document.getElementById("routeID").value == -1) {
+				alert('saving routeID: ' + response.DATA.RouteID);
+				document.getElementById("routeID").value = response.DATA.RouteID;
+			} 
 			disableMap();
 			enableEditRtDetail("disabled");
 			toggleModifyRtDetail(true);
 			YAHOO.leftTB.route.getNewRouteNames();
 		}
 		else {
-		alert("Route is not saved");
+			alert("Route was not saved!");
 		}
 	}
-	
-		// // FOR JSON STUFF WHEN IMPLEMENTED BY KEREM
-	// var successHandler = function(o) {
-        // var response = [];
-		
-        // // Use the JSON Utility to parse the data returned from the server
-        // try {
-            // response = YAHOO.lang.JSON.parse(o.responseText);
-        // }
-        // catch (x) {
-            // alert("JSON Parse failed!");
-            // return;
-        // }
-		// var m = response[0];
-		// if (m.returnCode == '1') { // RouteID passed back if just saved a new route
-			// alert("Route saved successfully");
-			// if (document.getElementById("routeID").value == -1) {
-				// document.getElementById("routeID").value = m.routeID;
-		// } 
-			// disableMap();
-			// enableEditRtDetail("disabled");
-			// toggleModifyRtDetail(true);
-			// //leftTB.route.getNewRouteNames();
-		// }
-		// else {
-			// alert("Route was not saved!");
-		// }
-	// }
 
 	var failureHandler = function(o) {
 		alert("Error + " + o.status + " : " + o.statusText);
@@ -210,7 +212,7 @@ function saveEvent() {
 	}
 	
 	var successHandler = function(o) {
-		var response = [];
+		var response;
 		
         // Use the JSON Utility to parse the data returned from the server
         try {
@@ -220,12 +222,12 @@ function saveEvent() {
             alert("JSON Parse failed!");
             return;
         }
-		
-		var m = response[0];
-		if (m.returnCode == '1') { 
+				
+		if (response.STATUS == 'Success') { 
 			alert("Event saved successfully");
 			if (document.getElementById("eventID").value == -1) {
-				document.getElementById("eventID").value = m.eventID;
+				alert('saving eventID: ' + response.DATA.EventID);
+				document.getElementById("eventID").value = response.DATA.EventID;  
 			} 
 			enableEditNewEvent("disabled");
 			toggleModifyEvtDetail(true);	
