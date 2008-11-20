@@ -438,7 +438,7 @@ var oOptions=
 	onClose:onMyMenuClose,
 	
 	// [array] cdefault ids of opened menues' <dt>
-	openedIds:['my-dt-1','my-dt-3'],
+	openedIds:[],
 	
 	//[number ] seconds for animations
 	seconds:0.2,
