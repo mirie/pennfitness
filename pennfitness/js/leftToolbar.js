@@ -13,7 +13,9 @@ var getNewRouteNames = function() {
 		for (var i = 0 ; i < strList.length -1; i++) {
 			var k = i + 1;
 			//TODO bug here --> link is NOT working
-			content += k + ". <a href=\"javascript:view/routeByName.jsp?routeName=" + strList[i] + ";\">" + strList[i] + "</a><br />";
+//			content += k + ". <a href=\"javascript:view/routeByName.jsp?routeName=" + strList[i] + ";\">" + strList[i] + "</a><br />";
+
+			content += k + ". <a href=\"javascript:getRoute('" + strList[i] + "')\">" + strList[i] + "</a><br />";
 			
 			//content += k + ". <a href=\"javascript:view/routeByName.jsp?routeName=" + strList[i] + "\>" + strList[i] + "</a><br />";
 			

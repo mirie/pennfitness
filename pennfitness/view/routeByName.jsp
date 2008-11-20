@@ -7,8 +7,8 @@
 	if( routeName != null ){
 		Route route = DBUtilRoute.getRouteById( routeName ); 
 
-%>
-		<!--Map map = new HashMap();
+/*
+		Map map = new HashMap();
 		map.put( "routeName", route.getName() );
 		map.put( "routeColor", route.getColor() );
 		map.put( "routeInfo",route.getRouteInfo() );
@@ -19,8 +19,9 @@
 		}
 		catch(Exception e){
 			out.println(e.toString());
-		}-->
-<%		
+		}
+*/
+
 		out.println( route.getName() + ";" + route.getColor() + ";" + route.getPtValues() );
 	}
 %>
