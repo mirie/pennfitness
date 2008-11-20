@@ -41,6 +41,33 @@ public class DBUtilUser {
 	}
 	
 	/**
+	 * Chec whether the user exists or not
+	 * @param id
+	 * @return
+	 */
+	public static Boolean checkUser( String id ) {
+		if( id == null ) return false;
+		
+		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM User WHERE userID='"+id+"'" );
+		try {
+			if( resultSet.next() ){
+				return true;
+			}
+			else return false;
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilUser.loginUser() : Error getting route");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+
+		return false;
+	}
+	
+	
+	/**
 	 * 
 	 * @param id
 	 * @return

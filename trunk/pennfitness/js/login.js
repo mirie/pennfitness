@@ -8,6 +8,70 @@
 //  ***********************************************************************
 // YAHOO.namespace("login");
 
+var userRegPanel;
+
+YAHOO.util.Event.onDOMReady(setupUser);
+
+function setupUser() {
+
+	// Define various event handlers for Dialog
+	var handleSubmit = function() {
+		this.submit();
+	};
+	var handleCancel = function() {
+		this.cancel();
+	};
+	var handleSuccess = function(o) {
+		var response = o.responseText;
+		alert(response);
+//		response = response.split("<!")[0]; 
+//		document.getElementById("resp").innerHTML = response; 
+	}; 
+	var handleFailure = function(o) { 
+		alert("Submission failed: " + o.status); 
+	}; 
+	
+	// Instantiate the Dialog
+	userRegPanel = new YAHOO.widget.Dialog("userRegDialog", 
+				{ width : "400px",
+				  fixedcenter : true,
+				  visible : false, 
+				  modal : true,
+				  constraintoviewport : true,
+				  buttons : [ { text:"Register", handler:handleSubmit, isDefault:true },
+							  { text:"Cancel", handler:handleCancel } ]
+				 } );	
+
+	// Validate the entries in the form to require that both first and last name are entered 
+	userRegPanel.validate = function() { 
+		var data = this.getData(); 
+/*
+		if (data.firstname == "" || data.lastname == "") { 
+			alert("Please enter your first and last names."); 
+			return false; 
+		} else { 
+			return true; 
+		} 
+*/
+ 		return true;
+	}; 
+
+	// Wire up the success and failure handlers 
+	userRegPanel.callback = { success: handleSuccess, 
+						     failure: handleFailure }; 
+
+
+	userRegPanel.render("bd");
+
+	YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true); 
+
+}
+
+function ShowMyAccountDialog() {
+	YAHOO.example.container.InfoToSearch();
+}
+
+
 
 function Login() {
 	if (YAHOO.util.Dom.get("userID").value == "") {
@@ -27,6 +91,7 @@ function Login() {
 	var successHandler = function(o) {
 		if (o.responseText != -1) { // welcome message passed back
 			YAHOO.util.Dom.get("user").innerHTML = o.responseText + 
+				"<input type=\"button\" name=\"myAccountDialogBtn\" id=\"myAccountDialogBtn\" value=\"My Account\" onclick=\"ShowMyAccountDialog()\"/>" +			
 				"<input type=\"button\" name=\"logout\" id=\"logoutBtn\" value=\"Logout\" onclick=\"Logout()\"/>";
 		}
 		else {
@@ -81,6 +146,13 @@ function Logout() {
 	}
 
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "loginUser.do", callback, "action=logout");
+
+}
+
+// Displays the user registration dialog
+function ShowUserRegDialog() {
+
+
 
 }
 

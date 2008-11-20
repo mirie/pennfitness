@@ -62,6 +62,22 @@ div.overlayTwo div.yui-content div.routeSearch{
 	color:yellow;
 }
 
+#panel1 {
+	position:absolute;
+	left:300px;
+	top:200px;
+	width:800px;
+	height:400px;
+	background:blue;
+}
+#panel2 {
+	position:absolute;
+	left:300px;
+	top:200px;
+	width:800px;
+	height:400px;
+	background:blue;
+}
 
 
 
