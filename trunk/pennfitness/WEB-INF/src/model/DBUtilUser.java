@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class DBUtilUser {
 	}
 	
 	/**
-	 * Chec whether the user exists or not
+	 * Check whether the user exists or not
 	 * @param id
 	 * @return
 	 */
@@ -101,29 +103,23 @@ public class DBUtilUser {
 	 * @param user
 	 * @return the ID of newly inserted route if transaction is successful. -1 if not.
 	 */
-	public static User registerUser( User user ){
-			
+	public static boolean registerUser( User user ){
+		
 		String registerQuery = 
 			"INSERT INTO User VALUES ('" + user.getUserID()   + "'," +
 									 "'" + user.getUserName() + "'," +
-									 "'PASSWORD(" + user.getPassword() + ")'," +
+									 "PASSWORD('" + user.getPassword() + "')," +
 									 "'" + user.getEmail() + "'," +
-									 "'" + new Date( System.currentTimeMillis() ) + "'," + // lastLoginDate
-									 "'" + new Date( System.currentTimeMillis() ) + "'," + // registeredDate
+									 "NOW()," + // lastLoginDate
+									 "NOW()," + // registeredDate
 									 "'" + user.getHeight() + "'," +
 									 "'" + user.getWeight() + "'," +
 									 "'" + user.getGender() + "'," +
 									 "'" + user.getPublicEventNotify() + "'," +
 									 "'" + 0 + "'" + // user rating
 									 ")";
-
-		if( DBConnector.executeUpdateQuery( registerQuery ) != 1 ){
-			return getUserById( user.getUserID() ); // connection closes inside
-		}
-		else {
-			DBConnector.closeDBConnection();
-			return null;
-		}
+		
+		return DBConnector.executeUpdateQuery( registerQuery ) == 1;
 	}
 	
 	
