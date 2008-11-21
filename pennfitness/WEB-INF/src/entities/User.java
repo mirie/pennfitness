@@ -37,12 +37,13 @@ public class User {
 	private float weight;
 	private char gender;
 		
-	public User( String userID, String userName, String password, String email, float height, float weight, char gender ) {
+	public User( String userID, String userName, String password, String email, float height, float weight, char gender, char publicEventNotify ) {
 		this.userID = userID;
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
 		
+		this.publicEventNotify = publicEventNotify;
 		this.height = height;
 		this.weight = weight;
 		this.gender = gender;
