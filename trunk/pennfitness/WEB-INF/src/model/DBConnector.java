@@ -72,6 +72,8 @@ public class DBConnector {
 		catch (SQLException e) {
 			System.out.println("DBConnector.sth() :  Error executing resultset query : " + query);
 			e.printStackTrace();
+		}
+		finally {
 			closeDBConnection();
 		}
 		
