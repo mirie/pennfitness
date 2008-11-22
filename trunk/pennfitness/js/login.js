@@ -89,14 +89,16 @@ function Login() {
 	YAHOO.util.Dom.get("loginBtn").disabled = true;
 		
 	var successHandler = function(o) {
-		if (o.responseText != -1) { // welcome message passed back
-			YAHOO.util.Dom.get("user").innerHTML = o.responseText + 
+		if( (response = parseByJSON(o.responseText)) == null ) return;
+	    
+	    if (response.STATUS != 'Success') {
+			alert(response.MSG);		
+			YAHOO.util.Dom.get("loginBtn").disabled = false;
+	    }
+	    else {	    	
+			YAHOO.util.Dom.get("user").innerHTML = response.DATA + 
 				"<input type=\"button\" name=\"myAccountDialogBtn\" id=\"myAccountDialogBtn\" value=\"My Account\" onclick=\"ShowMyAccountDialog()\"/>" +			
 				"<input type=\"button\" name=\"logout\" id=\"logoutBtn\" value=\"Logout\" onclick=\"Logout()\"/>";
-		}
-		else {
-			alert("invalid user/password!");
-			YAHOO.util.Dom.get("loginBtn").disabled = false;
 		}
 	}
 
@@ -119,9 +121,8 @@ function Login() {
 function Logout() {
 
 	var successHandler = function(o) {
-		if (o.responseText != 1) {
-			//TODO: should do something here? 
-		}
+		if( (response = parseNCheckByJSON(o.responseText)) == null ) return;
+
 		makeUserLoginForm();
 	}
 

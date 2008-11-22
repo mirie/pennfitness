@@ -30,6 +30,7 @@
 
 
 <!--  ================================= Custom Scripts ================================ -->
+<script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/routeToolbar.js"></script>
 <script type="text/javascript" src="js/accordion-menu-v2.js"></script>
