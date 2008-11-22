@@ -4,7 +4,10 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import entities.Event;
 import entities.Route;
@@ -106,6 +109,67 @@ public class DBUtilEvent {
 		return events;
 	}
 	
+	/**
+	 * Function that search DB for events that meets given search criteria
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public static List<Event> searchForEvents( Map<String,String> params ){
+		String searchQuery = 
+			"SELECT * " +
+			"FROM Event " +
+			"WHERE " + getSearchCriteria( params );
+		
+		List<Event> events = new ArrayList<Event>();
+		ResultSet resultSet = DBConnector.getQueryResult( searchQuery );	
+		
+		try {
+			while( resultSet.next() ){				
+				events.add( resultSetToEvent( resultSet ) );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilEvent.searchForEvents() : Error searching for events");
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+			
+		return events;
+	}
+	
+	/**
+	 * Some of the search criteria may be empty
+	 * So only the ones that are filled are going to be included in 
+	 * WHERE clause
+	 * 
+	 * @param params
+	 * @return
+	 */
+	private static String getSearchCriteria( Map<String,String> params ){
+		StringBuffer sbuf = new StringBuffer();
+		
+		 Set<String> keySet = params.keySet();
+		 Iterator<String> iterator = keySet.iterator();
+		 
+		 String key, value;
+		 while( iterator.hasNext() ){
+			 key   = iterator.next();
+			 value = params.get( key );
+			 
+			 if( !value.contains("'null'") && !value.contains("'%null%'") )
+				 sbuf.append( key ).append( value ).append(" AND");
+		 }
+		 
+		if( sbuf.length() == 0 )
+			return "1=1";
+		else{
+			return sbuf.substring(0, sbuf.length()-3/*to remove last AND*/);
+		}
+	}
 	
 	/**
 	 *
