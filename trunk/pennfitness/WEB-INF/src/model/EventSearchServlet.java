@@ -62,7 +62,7 @@ public class EventSearchServlet extends HttpServlet{
 	    		event = iterator.next();
 	    		sbuf.append("\t\t<div class=\"registeredEventItem\">\n").
 	    			 append("\t\t\t<a href=\"function_to_show_event\">"+ event.getName() +"</a>\n").
-	    			 append("</div>\n");
+	    			 append("\t\t</div>\n");
 	    	}
 	    	
 	    	sbuf.append("\t</div>\n").
@@ -71,8 +71,6 @@ public class EventSearchServlet extends HttpServlet{
 	    	
 	    	result.put( "STATUS", "Success");
 	    	result.put( "DATA", sbuf.toString() );
-	    	
-	    	out.println( sbuf.toString() );
 	    	
     	}
     	else{
