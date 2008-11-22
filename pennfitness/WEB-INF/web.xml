@@ -20,6 +20,10 @@
     <servlet-name>UserRegisterServlet</servlet-name>
     <servlet-class>model.UserRegisterServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>EventSearchServlet</servlet-name>
+    <servlet-class>model.EventSearchServlet</servlet-class>
+  </servlet>
 
 
   <!-- Map URLs to that servlet. -->
@@ -39,6 +43,10 @@
   <servlet-mapping>
     <servlet-name>UserRegisterServlet</servlet-name>
     <url-pattern>/registerUser.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EventSearchServlet</servlet-name>
+    <url-pattern>/searchEvent.do</url-pattern>
   </servlet-mapping>
  
 </web-app>
