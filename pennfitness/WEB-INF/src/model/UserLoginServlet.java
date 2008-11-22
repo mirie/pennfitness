@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entities.User;
+import org.json.simple.JSONObject;
 
 public class UserLoginServlet extends HttpServlet {
 
@@ -26,14 +27,8 @@ public class UserLoginServlet extends HttpServlet {
     {      
     	PrintWriter out = resp.getWriter();
 		HttpSession session = req.getSession();
+		JSONObject result = new JSONObject();
 
-		// BEGIN TEMPORARY
-		User ouser = (User) session.getAttribute("user");
-		if(ouser != null ) {
-			out.println("user is logged in");			
-		}
-		// END TEMPORARY
-    	
     	String userID   = req.getParameter("userID");    	
     	String password = req.getParameter("password");
     	String action   = req.getParameter("action");
@@ -41,23 +36,49 @@ public class UserLoginServlet extends HttpServlet {
     	// logout process
     	if(action != null && action.equals("logout")) {
     		session.invalidate();
-    		out.println(1);
-    		return;
+    		result.put("STATUS", "Success");
+    		result.put("MSG", "");
     	}
+    	// BEGIN login process
+    	// Check arguments
+    	else if( userID == null || password == null )
+    	{
+    		result.put("STATUS", "Failure");
+    		result.put("MSG", "Invalid argument");
+    	}
+		// Check whether the user exists
+    	else if( DBUtilUser.checkUser(userID) )
+		{
+	    	User user = DBUtilUser.loginUser(userID, password);
+	    	
+	    	if( user == null ) {
+	    		result.put("STATUS", "Failure");
+	    		result.put("MSG", "Wrong password");
+	    	}
+	    	else {
+	    		// login successful
+	    		result.put("STATUS", "Success");
+	    		result.put("MSG", "");
+	    		result.put("DATA","Welcome " + user.getUserName() + "(" + user.getUserID() + ")!");
+	    		
+	    		// store user in HttpSession
+	    		session.setAttribute("user", user);
+	    	}
+		}
+		else // if no user
+		{
+			result.put("STATUS", "Failure");
+			result.put("MSG", "User " + userID + " does not exists.");
+		}
+    	// END login process
     	
-    	User user = DBUtilUser.loginUser(userID, password);
-    	
-    	if( user == null ) {
-    		out.println(-1); // TODO: check error code
-    	}
-    	else {
-    		// login successful
-    		out.println("Welcome " + user.getUserName() + "(" + user.getUserID() + ")!"); // TODO: what information to return?
-
-    		// store user in HttpSession
-    		session.setAttribute("user", user);
-    		
-    	}
+    	out.println( result );
     	       
     }	
 }
+
+
+
+
+
+

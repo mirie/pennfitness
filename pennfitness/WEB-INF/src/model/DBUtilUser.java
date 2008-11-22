@@ -15,8 +15,7 @@ import entities.User;
 public class DBUtilUser {
 
 	/**
-	 * 
-	 * 
+	 * Perform login
 	 * @param id, password
 	 * @return a valid user object when id and password matches
 	 */
@@ -29,6 +28,14 @@ public class DBUtilUser {
 		try {
 			if( resultSet.next() ){
 				returnUser = resultSetToUser( resultSet );
+				
+				// Update last login date
+				int updateCnt = DBConnector.executeUpdateQuery("UPDATE User SET lastLoginDate = NOW() WHERE userID = '" + id + "'");
+
+				// If failed to update last login date, cancel login
+				if( updateCnt != 1 ) {
+					returnUser = null;
+				}
 			}
 		} 
 		catch (SQLException e) {
@@ -45,7 +52,7 @@ public class DBUtilUser {
 	/**
 	 * Check whether the user exists or not
 	 * @param id
-	 * @return
+	 * @return true if the user exists
 	 */
 	public static Boolean checkUser( String id ) {
 		if( id == null ) return false;
@@ -58,7 +65,7 @@ public class DBUtilUser {
 			else return false;
 		} 
 		catch (SQLException e) {
-			System.out.println("DBUtilUser.loginUser() : Error getting route");
+			System.out.println("DBUtilUser.loginUser() : Error getting user");
 			e.printStackTrace();
 		}
 		finally{
@@ -86,7 +93,7 @@ public class DBUtilUser {
 			}
 		} 
 		catch (SQLException e) {
-			System.out.println("DBUtilUser.getUserById() : Error getting route");
+			System.out.println("DBUtilUser.getUserById() : Error getting user");
 			e.printStackTrace();
 		}
 		finally{
@@ -157,7 +164,7 @@ public class DBUtilUser {
 				
 		} 
 		catch (SQLException e) {
-			System.out.println("DBFunctionUtil.resultSetToUser() : Error getting route");
+			System.out.println("DBFunctionUtil.resultSetToUser() : Error getting user");
 			e.printStackTrace();
 		}
 		
