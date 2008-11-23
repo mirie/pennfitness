@@ -1,0 +1,79 @@
+@charset "utf-8";
+/* Basic Styling for index.jsp -- CSS Document */
+
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+body  {
+	margin: 0;
+}
+
+#header { 
+	background: #003; 
+	padding: 15px;
+	color: #FF0;
+	position: relative;
+} 
+
+#upperbar {
+	background-color: #D5DDF2;
+	text-align: right;
+	padding: 5px 15px 3px 0;
+	position: relative;
+}
+
+#container { 
+	position: relative;
+	height: 85%;
+	min-height: 380px;
+	min-width: 700px;
+	overflow: hidden;
+	width: 100%;
+} 
+
+#sidebar {
+	position: absolute;
+	top: 0;
+	width: 175px;
+	height: 100%;
+	overflow: hidden;
+	background: #EBEBEB;
+	border: 1px solid #003;
+	padding: 5px;
+}
+
+#map {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height:100%;
+	border: 1px solid #003;
+}
+
+#map-wrapper {
+	position: relative;
+	height: 100%;
+}
+
+
+body.yui-skin-sam #sidebar {
+	left: 0;	
+}
+
+
+body.yui-skin-sam #map-wrapper {
+	margin-left: 180px;	
+}
+
+
+#footer { 
+	padding: 5px; /* this padding matches the left alignment of the elements in the divs that appear above it. */
+	background:#003; 
+	color: #FF0;
+	position: relative;
+} 
