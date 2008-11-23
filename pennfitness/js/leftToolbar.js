@@ -1,8 +1,19 @@
 // Left Toolbar functions (new routes/events, favorites, etc)
 
-YAHOO.namespace("leftTB.route");
+YAHOO.namespace("leftMenu.route");
+ 
+YAHOO.leftMenu.route.initCalendar = function() {
+	YAHOO.leftMenu.route.calendar = new YAHOO.widget.Calendar("calendar","leftEventCalendar");
+	YAHOO.leftMenu.route.calendar.render();
+}
 
-YAHOO.leftTB.route.getNewRouteNames = function() {
+
+var leftMenuEvtTab = new YAHOO.widget.TabView('eventListTabArea');
+var leftMenuRtTab = new YAHOO.widget.TabView('routeListTabArea');
+
+
+
+YAHOO.leftMenu.route.getNewRouteNames = function() {
 	var successHandler = function(o) {		
 		var response;
 		
@@ -16,7 +27,7 @@ YAHOO.leftTB.route.getNewRouteNames = function() {
 	    }
 	    
 	    if (response.STATUS == 'Success') {	    	
-	    	var rlist = document.getElementById("newRtList");
+	    	var rlist = document.getElementById("newRtListTab");
 	    	var routeList = response.DATA.ROUTES.split(";")
 	    	var content ="";
 	    	
@@ -25,7 +36,7 @@ YAHOO.leftTB.route.getNewRouteNames = function() {
 			for (var i = 0 ; i < routeList.length -1; i++) {
 				var k = i + 1;
 				var route = routeList[i].split("-");
-				content += k + ". <a href=\"javascript:YAHOO.leftTB.route.getRoute('" + route[0] + "')\">" + route[1] + "</a><br />";			
+				content += k + ". <a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route[0] + "')\">" + route[1] + "</a><br />";			
 			}
 			
 			rlist.innerHTML = content;
@@ -49,66 +60,6 @@ YAHOO.leftTB.route.getNewRouteNames = function() {
 }
 
 
-YAHOO.leftTB.route.getRoute = function(routeID) {
-	var successHandler = function(o) {
-		var response;
-		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }
-		
-		if (response.STATUS == 'Success') {
-			removeRoute();
-			
-			document.getElementById("routeName").value = response.DATA.ROUTE_NAME;			
-			document.getElementById("routeColor").value = response.DATA.ROUTE_COLOR;
-
-			
-			//alert(lineColor);
-			enableMap();
-			// Add markers and draw route
-			var pointData = response.DATA.ROUTE_PTS.split(";");
-			for (var i = 0; i < pointData.length; i++) {
-				//if (pointData[i] == "") break;
-				var point = pointData[i].split(",");
-				var lat = point[0];
-				var lng = point[1];
-				addMarkerPoint(lat, lng);
-			}
-
-			//alert(lineColor);
-			//lineColor = response.DATA.ROUTE_COLOR; // routeColor;
-			lineColor = response.DATA.ROUTE_COLOR;
-			drawOverlay();
-			disableMap();  
-			hideNewRtTool();
-			showRtDetailsTool();
-			enableEditRtDetail(false);
-			toggleModifyRtDetail(true);						
-		} else {
-			alert("Retrieving routeID: " + routeID + "failed!");
-		}
-	}
-	
-	var failureHandler = function(o) {
-		alert("Error + " + o.status + " : " + o.statusText);
-	}
-	
-	var callback = {
-		success:successHandler,
-		failure:failureHandler,
-		timeout:3000
-	}
-	
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByID.jsp?routeID=" + routeID, callback); //TODO: put the appropriate servlet/jsp
-}
-
-
-YAHOO.util.Event.onDOMReady(YAHOO.leftTB.route.getNewRouteNames);
-
+YAHOO.util.Event.onDOMReady(YAHOO.leftMenu.route.getNewRouteNames);
+YAHOO.util.Event.onDOMReady(YAHOO.leftMenu.route.initCalendar);
 

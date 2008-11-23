@@ -5,3 +5,18 @@
 #userRegDialog label { display:block;float:left;width:45%;clear:left; }
 
 .clear { clear:both; }
+
+#user a {
+	padding: 0 10px 10px 0;
+	margin-left: 5px;
+}
+
+#showbtns a {
+	padding: 0 10px 10px 0;
+}
+#topMenuBar {
+	background-color: #D5DDF2;
+	text-align: right;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
