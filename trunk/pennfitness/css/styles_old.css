@@ -1,0 +1,305 @@
+/* Version: 11/12/08, Last Edited by: Mai Irie */
+
+
+/* STANDARD HTML ELEMENT CSS */
+
+body{
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+    overflow: hidden;
+}  /* END standard html element css */ 
+
+
+/* HEADER/FOOTER DEFINED BY ARCHITECTURE GROUP */
+
+#hd {
+	position: absolute;
+	left: 0px;
+	width: 100%;
+	height: 35px;
+	background-color: black;
+	color: white;
+	text-align: center;
+	padding-top: 5px;
+}
+
+#ft {
+	height: 25px;
+	background-color: black;
+	color: white;
+	text-align: center;
+	padding-top: 5px;
+	margin-top: 10px;
+}  /* END header/footer defined by architecture group */
+
+
+/* UPPER MENU BAR */
+
+#upperbar {
+	position: absolute;
+	left: 0px;
+	top: 35px;
+	background-color: beige;
+	width: 100%;
+	height: 27px;
+	text-align: right;
+	padding-top: 3px;
+}  /* END upper menu bar */
+
+
+
+#map {
+	position: absolute;
+	left: 0px;
+	top: 65px;
+	height:100%;
+	width: 100%;
+}
+
+
+/* TOOLBAR SECTION */
+
+.handle {
+	padding: 12px;
+	background-color: darkslategray;
+	margin-bottom: 10px;
+}
+
+#createRtTool {
+	position: absolute;
+	right: 100px;
+	top: 135px;
+	width: 160px;
+	background-color: lavender;
+	visibility: hidden;
+	z-index: 3;
+	text-align: left;
+}
+
+#createRt {
+	padding: 0 10px 10px 10px;
+} /* END create/select route (upper right) toolbar */
+
+#rtHandle {
+	padding: 0;
+	text-align: right;
+}
+
+#rtDetailTool {
+	position: absolute;
+	right: 89px;
+	top: 150px;
+	width: 210px;
+	visibility: hidden;
+	z-index: 4;
+	text-align: left;
+}
+
+#rtDetails {
+	padding: 0 10px 10px 10px;
+	background-color: palegoldenrod;
+}
+
+#modifyRtDiv {
+	display:none;
+} 
+
+/* Set the "zoom" property to "normal" since it is set to "1" by the 
+   ".example-container .bd" rule in yui.css and this causes a Menu
+   instance's width to expand to 100% of the browser viewport.
+*/ 
+div.yuimenu .bd {  
+	zoom: normal;
+}
+
+#rtColor-container {
+	padding: .5em;
+}
+
+#color-picker-button {
+	vertical-align: baseline;
+}
+
+#color-picker-button button {
+	outline: none;  /* Safari */
+	line-height: 1.5;
+}
+
+/*  Style the Button instance's label as a square whose background color 
+	represents the current value of the ColorPicker instance.
+*/
+#current-color {
+	display: block;
+	display: inline-block;
+	*display: block;    /* For IE */
+	margin-top: .5em;
+	*margin: .25em 0;    /* For IE */
+	width: 1em;
+	height: 1em;
+	overflow: hidden;
+	text-indent: 1em;
+	background-color: #fff;
+	white-space: nowrap;
+	border: solid 1px #000;
+	background-color: #0000AF;
+}
+
+/* Hide default colors for the ColorPicker instance. */
+#color-picker-container .yui-picker-controls,
+#color-picker-container .yui-picker-swatch,
+#color-picker-container .yui-picker-websafe-swatch {
+	display: none;
+}
+
+/*  Size the body element of the Menu instance to match the dimensions of 
+	the ColorPicker instance.
+*/
+#color-picker-menu .bd {
+	width: 220px;    
+	height: 190px;
+}
+
+#rtColor-container {
+	border-top: solid 1px #000;
+	padding: .5em .25em;
+	margin-top: .5em;
+}  /* END color picker for right toolbar */
+
+#calendarcontainer {
+	padding: 10px;
+	width: 185px;
+}
+
+#calendarmenu {
+	position: absolute;
+}
+
+#calendarpicker button {
+	background: url(../assets/calendar_icon.gif) center center no-repeat;
+	text-align: left;
+	text-indent: -10em;
+	overflow: hidden;
+	*margin-left: 10em; /* For IE */
+	*padding: 0 3em;    /* For IE */
+	white-space: nowrap;
+}
+
+#calendarpicker  {	
+	vertical-align: bottom;		
+}  /* END calendar for toolbar */
+
+#newEvent {
+	padding: 10px;
+	background-color: lightsteelblue;
+	display: none;
+}  
+
+#modifyEventDiv {
+	display:none;
+}  
+
+#eventTime, #eventDate {
+	width: 5.5em;
+}
+
+#eventDuration {
+	width: 8em;
+}
+
+/*#eventcreatorID {
+	font-size: 
+} */
+
+/* END route/event details (right) toolbar */
+
+.accordion-menu {
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	left: 25px;
+	top: 135px;
+	width: 15em;
+	background:white;
+	z-index:4;
+}
+
+dl.accordion-menu {
+	margin: 0;
+	padding: 0;
+	width: 15em;
+	background:white;
+	z-index:999;
+	display: block;
+	visibility: visible;
+}
+
+dl.accordion-menu dt.a-m-t {
+	margin: 0;
+	background: #aaaaaa;
+	padding: 0.3em 1em;
+	color: #444444;
+	border: solid 1px #222222;
+	border-left-color: #dfdfdf;
+	border-top-color: #dfdfdf;
+}
+
+dl.accordion-menu dt.a-m-t-hover{
+	background:#cdcdcd;
+}
+
+
+dl.accordion-menu dt.a-m-t-down{
+	border: solid 1px #222222;
+	border-right-color: #dfdfdf;
+	border-bottom-color: #dfdfdf;
+}
+
+html.accordion-menu-js dt.a-m-t{
+	cursor:pointer;
+	zoom:1;
+}
+
+dl.accordion-menu dd.a-m-d {
+	margin: 0;
+	padding: 0;
+	padding:0;
+}
+
+html.accordion-menu-js dd.a-m-d{
+	display:none;
+}
+
+
+html.accordion-menu-js dd.a-m-d-expand {
+	display:block;
+}
+
+html.accordion-menu-js dd.a-m-d-before-expand {
+	display:block;
+	position:relative;
+	z-index:-1;
+	opacity:0;
+	height:auto !important;
+	visibility:hidden;
+	overflow:visible;
+}
+
+html.accordion-menu-js dt.a-m-t-expand {
+	border-left-color:#222222;
+	color:black;
+	background:#c0c0c0;
+}
+
+html.accordion-menu-js dd.a-m-d-anim {
+	overflow:hidden;
+	display:block;  
+}
+
+dl.accordion-menu dd.a-m-d .bd{
+	padding:0.5em;
+	border:Solid 1px #aaaaaa;
+}  /* END route list (left) toolbar */

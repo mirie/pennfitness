@@ -1,0 +1,148 @@
+@charset "utf-8";
+/* Basic Styling for index.jsp -- CSS Document */
+
+
+body {
+	margin:0;
+	padding:0;
+}
+
+.yui-skin-sam .yui-layout { 
+	background-color: #003; 
+} 
+
+.yui-skin-sam .yui-layout .yui-resize-proxy div { 
+	background-color: #003;
+}
+
+.yui-skin-sam .yui-layout .yui-layout-unit div.yui-layout-bd {
+	background-color: #003;
+}
+
+.yui-layout-unit-left {
+	background-color: #003;
+}
+
+#archHeader {
+	background-color: #003;
+	color: #FF0;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#archFooter{
+	background-color: #003;
+	color: #FF0;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;	
+}
+
+.leftMenuTitle {
+	background-color: #003;
+	color: #FF0;
+	text-align: center;
+	height: 100%;		
+}
+
+#centerArea, #map {	
+	height: 100%;
+}
+
+
+#leftEventCalendar {
+	color: #000;	
+}
+
+
+/* Accordion Left Menu */
+.accordion-menu {
+	margin: 0;
+	padding: 0;
+	background: #003;
+}
+
+dl.accordion-menu {
+	margin: 0;
+	padding: 0;
+	background: #003;
+	display: block;
+	visibility: visible;
+}
+
+dl.accordion-menu dt.a-m-t {
+	margin: 0;
+	background: #003;
+	padding: 0.3em 1em;
+	color: #FF0;
+	border: solid 1px #009;
+	border-left-color: #009;
+	border-top-color: #009;
+	font-weight:800;
+}
+
+dl.accordion-menu dt.a-m-t-hover{
+	background: #006;
+}
+
+
+dl.accordion-menu dt.a-m-t-down{
+	border: solid 1px #009;
+	border-right-color: #009;
+	border-bottom-color: #009;
+}
+
+html.accordion-menu-js dt.a-m-t{
+	cursor:pointer;
+	zoom:1;
+}
+
+dl.accordion-menu dd.a-m-d {
+	margin: 0;
+	padding: 0;
+	padding:0;
+}
+
+html.accordion-menu-js dd.a-m-d{
+	display:none;
+}
+
+
+html.accordion-menu-js dd.a-m-d-expand {
+	display:block;
+}
+
+html.accordion-menu-js dd.a-m-d-before-expand {
+	display:block;
+	position:relative;
+	z-index:-1;
+	opacity:0;
+	height:auto !important;
+	visibility:hidden;
+	overflow:visible;
+}
+
+html.accordion-menu-js dt.a-m-t-expand {
+	border-left-color:#009;
+	color: #FF0;
+	background:#039;
+	font-weight:800;
+}
+
+html.accordion-menu-js dd.a-m-d-anim {
+	overflow:hidden;
+	display:block;  
+}
+
+dl.accordion-menu dd.a-m-d .bd{
+	padding:0.5em;
+	border:Solid 1px #009;
+}
+
+#eventListTabArea, #routeListTabArea {
+	color: black;
+	text-align: left;
+}
+
+

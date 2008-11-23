@@ -3,8 +3,8 @@
 
 // Global Map Variables
 var map;
-var phillyLat = 39.952202;
-var phillyLng = -75.175406;
+var phillyLat = 39.955702;
+var phillyLng = -75.179999;
 var phillyZoomLev = 15;
 var mapControl_x = 10;
 var mapControl_y = 35;
@@ -49,6 +49,7 @@ function setupMap() {
         // Center on Philly
         map.setCenter(new GLatLng(phillyLat, phillyLng), phillyZoomLev);       
 		mapLimits = YAHOO.util.Dom.getRegion("map");
+
     } else { 
         alert("Sorry, the Google Maps API is not compatible with this browser"); 
     }
@@ -111,7 +112,7 @@ function leftClick(overlay, point) {
 //  ***********************************************************************
 function drawOverlay(){
 	var distance;
-	var distanceDiv = document.getElementById("rtDist");
+	var distanceDiv = document.getElementById("routeDistance");
 	unit = " miles";
         
 	var latlng;
@@ -130,7 +131,10 @@ function drawOverlay(){
     distanceDiv.innerHTML = distance + unit;
 }
 
-
+//***********************************************************************
+//Function: Removes a route from the map.
+//
+//***********************************************************************
 function removeRoute() {
 	for (i = 0; i < markers.length; i++) {
 		map.removeOverlay(markers[i]);
@@ -140,10 +144,8 @@ function removeRoute() {
 	if (polylines) {  map.removeOverlay(polylines); }       
 }
 
-
-
 //  ***********************************************************************
-//  Function: 
+//  Function: Disable map and map marker functions.
 //  
 //  ***********************************************************************
 function disableMap() {
@@ -184,3 +186,6 @@ function enableMarkerListeners() {
 		markers[i].enableDragging();
 	}
 }
+
+
+YAHOO.util.Event.onDOMReady(setupMap);
