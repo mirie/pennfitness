@@ -207,12 +207,12 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg) {
 			document.getElementById("routeGeneral").style.display = "block";
 			document.getElementById("routeNameTxtDiv").style.display = "none";
 			document.getElementById("routeName").innerHTML = response.DATA.ROUTE_NAME;
-			document.getElementById("routeCreator").innerHTML = "need user from server";
-			document.getElementById("routeCreatedDate").innerHTML = "need date from server";		
+			document.getElementById("routeCreator").innerHTML = " by " + response.DATA.ROUTE_CREATOR;
+			document.getElementById("routeCreatedDate").innerHTML = "Created on: " + response.DATA.ROUTE_DATE;		
 			
-			document.getElementById("rtRatings").innerHTML = "Ratings: need from server";
+			document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+response.DATA.ROUTE_RATING;
 
-			document.getElementById("routeDesc").innerHTML = response.DATA.ROUTE_DESCRIPTION;
+			document.getElementById("routeDesc").innerHTML = "Description:"+response.DATA.ROUTE_DESCRIPTION;
 			document.getElementById("routeDescTxt").style.display = "none";
 
 			document.getElementById("rtColor-container").style.display = "none";
