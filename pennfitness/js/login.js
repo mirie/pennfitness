@@ -63,7 +63,7 @@ function setupUser() {
 
 	userRegPanel.render("bd");
 
-	YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true); 
+	//YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true); 
 
 }
 
@@ -86,7 +86,7 @@ function Login() {
 		return;
 	}
 	
-	YAHOO.util.Dom.get("loginBtn").disabled = true;
+	//YAHOO.util.Dom.get("loginBtn").disabled = true;
 		
 	var successHandler = function(o) {
 		if( (response = parseByJSON(o.responseText)) == null ) return;
@@ -97,14 +97,15 @@ function Login() {
 	    }
 	    else {	    	
 			YAHOO.util.Dom.get("user").innerHTML = response.DATA + 
-				"<input type=\"button\" name=\"myAccountDialogBtn\" id=\"myAccountDialogBtn\" value=\"My Account\" onclick=\"ShowMyAccountDialog()\"/>" +			
-				"<input type=\"button\" name=\"logout\" id=\"logoutBtn\" value=\"Logout\" onclick=\"Logout()\"/>";
+   				"<a href=\"javascript:ShowMyAccountDialog()\"/>My Account</a> " +
+   				"<a href=\"javascript:createRt()\"/>Create a New Route</a> " + 
+				"<a href=\"javascript:Logout()\"/>Logout</a> ";
 		}
 	}
 
 	var failureHandler = function(o) {
 		alert("Error + " + o.status + " : " + o.statusText);
-		YAHOO.util.Dom.get("loginBtn").disabled = false;
+		//YAHOO.util.Dom.get("loginBtn").disabled = false;
 	}
 
 	var callback = {
@@ -135,9 +136,10 @@ function Logout() {
 
 	var makeUserLoginForm = function() {
 		YAHOO.util.Dom.get("user").innerHTML = 
-		"ID: <input type=\"text\" name=\"userID\" id=\"userID\" size=5 maxlength=\"10\" style=\"width:5em\"/>" +
-		"PASS: <input type=\"password\" name=\"password\" id=\"password\" size=\"10\" maxlength=\"10\" style=\"width:5em\"/>" +
-		"<input type=\"button\" name=\"login\" id=\"loginBtn\" value=\"Login\" onclick=\"Login()\"/>";
+		"username: <input type=\"text\" name=\"userID\" id=\"userID\" size=5 maxlength=\"10\" style=\"width:5em\"/> " +
+		"password: <input type=\"password\" name=\"password\" id=\"password\" size=\"10\" maxlength=\"10\" style=\"width:5em\"/> " +
+		"<a href=\"javascript:Login()\"/>Login</a> " +
+		"<a href=\"javascript:ShowUserRegDialog()\"/>Sign Up!</a> ";
 	}
 
 	var callback = {
@@ -153,7 +155,7 @@ function Logout() {
 // Displays the user registration dialog
 function ShowUserRegDialog() {
 
-
+	userRegPanel.show();
 
 }
 
