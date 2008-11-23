@@ -1,5 +1,5 @@
 
-<%@ page import="java.util.*, model.*, entities.Route, org.json.simple.JSONObject" %>
+<%@ page import="java.util.*, model.*, entities.Route, entities.User, org.json.simple.JSONObject" %>
 
 <% 
 	String routeID = request.getParameter("routeID");
@@ -14,6 +14,17 @@
 		data.put("ROUTE_COLOR",route.getColor());
 		data.put("ROUTE_PTS",route.getPtValues());
 		data.put("ROUTE_DESCRIPTION", route.getDescription());
+		data.put("ROUTE_DATE", route.getCreatedDate()+"" );
+		data.put("ROUTE_RATING", new Float( route.getPt_rate() ));
+		
+		System.out.println("Creator : " + route.getCreatorID());
+		
+		User user = DBUtilUser.getUserById( route.getCreatorID()+"" );
+		if( user != null )
+			data.put("ROUTE_CREATOR", user.getUserName());
+		else
+			data.put("ROUTE_CREATOR", "");
+				
 	  	
 	  	JSONObject result = new JSONObject();
 	  	result.put("STATUS","Success");
