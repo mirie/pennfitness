@@ -160,7 +160,7 @@ public class DBUtilRoute {
 				"routeColor='"+ route.getColor() +"'," +
 				"points='"+ route.getPtValues() + "'," +
 				"distance='"+ route.getDistance() + "'," +
-				"description='"+ route.getDistance() + "' " +
+				"description='"+ route.getDescription() + "' " +
 			"WHERE routeID='"+ route.getId() +"'"; 
 		
 		return DBConnector.executeUpdateQuery( updateQuery );

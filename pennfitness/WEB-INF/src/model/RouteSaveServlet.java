@@ -76,7 +76,7 @@ public class RouteSaveServlet extends HttpServlet{
     		JSONObject result = new JSONObject();
     		JSONObject data = new JSONObject();
     		
-    		int transaction = DBUtilRoute.saveRoute( route );
+    		int transaction = DBUtilRoute.modifyRoute( route );
     		
     		if( transaction == -1 )
     			result.put( "STATUS", "Failure" );		
