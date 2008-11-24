@@ -34,7 +34,7 @@ public class UserRegisterServlet extends HttpServlet {
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
 
-		String publicEventNotify = req.getParameter("publicEventNotify") == null ? "Y" : req.getParameter("publicEventNotify");
+		String publicEventNotify = req.getParameter("publicEventNotify") == null ? "N" : req.getParameter("publicEventNotify");
 		
 		float height;
 		if( req.getParameter("height") == null )
