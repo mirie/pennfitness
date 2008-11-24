@@ -8,10 +8,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
 import entities.Route;
+import entities.User;
 
 
 
@@ -30,6 +32,8 @@ public class RouteSaveServlet extends HttpServlet{
     	
     	PrintWriter out = resp.getWriter();
     	
+    	HttpSession session = req.getSession();
+    	User user = (User)session.getAttribute("user");
     	
     	String routeID = req.getParameter("routeID");
     	
@@ -40,11 +44,11 @@ public class RouteSaveServlet extends HttpServlet{
     	String routeColor = req.getParameter("routeColor");
     	String routePts   = req.getParameter("pvalue");
     	
-    	
-    	//TODO
-    	//HttpSession
-    	//creatorId will be read from cookies. 
-    	Route route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, 1/*creatorId*/ );
+    	Route route;
+    	if( user != null )
+    		route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, Integer.parseInt( user.getUserID() ) );
+    	else
+    		route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, 1/*creatorId*/ );
     	
     	//Save route
     	if( routeID.equals("-1") ){
