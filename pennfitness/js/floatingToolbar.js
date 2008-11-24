@@ -281,9 +281,11 @@ function modifyRt() {
 }
 
 function cancelRt() {
-	if (routeID == -1) {
+
+// commented by inseob : should call removeRoute when closed 
+//	if (routeID == -1) {
 		removeRoute();
-	}
+//	}
 	
 	disableMap();
 	YAHOO.pennfitness.float.toolbar.hide();
