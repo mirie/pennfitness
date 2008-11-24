@@ -46,9 +46,9 @@ public class RouteSaveServlet extends HttpServlet{
     	
     	Route route;
     	if( user != null )
-    		route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, Integer.parseInt( user.getUserID() ) );
+    		route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, user.getUserID() );
     	else
-    		route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, 1/*creatorId*/ );
+    		route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, "1"/*creatorId*/ );
     	
     	//Save route
     	if( routeID.equals("-1") ){
