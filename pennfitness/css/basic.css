@@ -23,6 +23,7 @@ body {
 	background-color: #003;
 }
 
+/*
 #archHeader {
 	background-color: #003;
 	color: #FF0;
@@ -31,6 +32,7 @@ body {
 	padding-bottom: 10px;
 }
 
+
 #archFooter{
 	background-color: #003;
 	color: #FF0;
@@ -38,6 +40,7 @@ body {
 	padding-top: 10px;
 	padding-bottom: 10px;	
 }
+*/
 
 .leftMenuTitle {
 	background-color: #003;
@@ -143,6 +146,128 @@ dl.accordion-menu dd.a-m-d .bd{
 #eventListTabArea, #routeListTabArea {
 	color: black;
 	text-align: left;
+}
+
+
+/* For template by architecture team */
+
+div.archHeader {
+	margin:0;
+	min-width:960px;
+	width:100%;
+	background-color:#011F5B;
+	height:auto;
+}
+
+
+
+table.top
+{
+    width:100%;
+    height:72px;  
+       
+}
+
+table.top td
+{
+    font-family:Andalus;    
+    color:White;
+        
+}
+
+table.top td.im
+{
+    font-family:Andalus;    
+    color:White;
+    width:200px;
+        
+}
+
+table.top td.appname
+{
+    font-family:Andalus;    
+    color:#AE94FC;
+    font-size:xx-large;
+    font-weight:bold;
+    
+}
+
+table.top td.links
+{
+    font-family:Andalus;    
+    color:white;
+    width:400px;
+     
+}
+
+a.link
+{
+    color:White;
+    text-decoration:none;
+}
+
+
+a.link2
+{
+   color:#3333FF;
+}
+
+a.image
+{
+    color:#011F5B;
+    text-decoration:none;
+}
+
+
+div.archFooter
+{
+    width:100%;
+    background-color:#011F5B;
+    min-width:960px;
+    height:20px;  
+    color:White;
+    
+}
+
+table.bottom
+{
+    width:100%;
+         
+}
+
+table.bottom td.on
+{
+   background-color:#3333FF;
+   height:20px;
+}
+
+table.bottom td.off
+{
+   background-color:Transparent;
+    
+}
+
+a.ft
+{
+    color:White;
+    font-size:small;
+    text-decoration:none;
+    font-family:Andalus;
+}
+
+a.ft2
+{
+   color:#3333FF;
+   font-size:small;
+   text-decoration:none;
+   font-family:Andalus;
+}
+
+td.spacing
+{
+    color:White;
+    font-size:small;
+    font-family:Andalus;
 }
 
 
