@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Route {
 	
 	private int id;
-	private int creatorID;
+	private String creatorID;
 	
 	private String name;
 	private String color;
@@ -22,7 +22,7 @@ public class Route {
 	private Date createdDate;
 	private Date modifiedDate;
 	
-	public Route( String name, String color, String ptValues, float distance, String description, int creatorID ){
+	public Route( String name, String color, String ptValues, float distance, String description, String creatorID ){
 		this.name = name;
 		this.color = color;
 		this.ptValues = ptValues;
@@ -32,7 +32,7 @@ public class Route {
 	}
 	
 	
-	public Route( int id, String name, int creatorID, String ptValues, String description, String color, 
+	public Route( int id, String name, String creatorID, String ptValues, String description, String color, 
 				  float distance, int ps_scenery, int pt_difficulty, int pt_safety, float pt_rate,
 				  Date routeDate, Date createdDate, Date modifiedDate ){
 		
@@ -157,11 +157,11 @@ public class Route {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public int getCreatorID() {
+	public String getCreatorID() {
 		return creatorID;
 	}
 
-	public void setCreatorID(int creatorID) {
+	public void setCreatorID(String creatorID) {
 		this.creatorID = creatorID;
 	}
 	
