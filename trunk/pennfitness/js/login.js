@@ -74,8 +74,8 @@ function setupUserReg() {
 
 	userRegPanel.render("bd");
 
-	YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true); 
-
+	YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true);
+	
 }
 
 function ShowMyAccountDialog() {
@@ -158,6 +158,9 @@ function Logout() {
 		success:successHandler,
 		timeout:3000,
 	}
+	
+	// close floating toolbar if opened
+	YAHOO.pennfitness.float.toolbar.hide();
 
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "loginUser.do", callback, "action=logout");
 
