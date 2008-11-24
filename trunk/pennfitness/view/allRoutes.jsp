@@ -17,10 +17,15 @@
 	data.put("ROUTES",resultStr);
 	
   	JSONObject result = new JSONObject();
-  	if( resultStr.equals("") )
+  	if( resultStr.equals("") ) {
   		result.put("STATUS","Failure");
-  	else
+  		result.put("MSG", "Database error");
+  	}
+  	else {
   		result.put("STATUS","Success");
+  		result.put("MSG", "");
+  	}
+  	
   	result.put("DATA",data );
   	
   		// The output is of format

@@ -3,6 +3,8 @@
 
 <% 
 	String routeID = request.getParameter("routeID");
+
+	JSONObject result = new JSONObject();
 	
 	if( routeID != null ){
 		Route route = DBUtilRoute.getRouteById( routeID ); 
@@ -26,11 +28,9 @@
 			data.put("ROUTE_CREATOR", "");
 				
 	  	
-	  	JSONObject result = new JSONObject();
 	  	result.put("STATUS","Success");
 	  	result.put("DATA",data );
 	  	
-		
 		// The output is of format
 		// {"STATUS":"Success",
 		//  "DATA":
@@ -40,8 +40,12 @@
 		// 	   "ROUTE_COLOR":"#0000AF"
 		// 	  }
 		//  } 
-		
-		out.println(result);
-		
 	}
+	else {
+		result.put("STATUS","Failure");
+		result.put("MSG", "Unknown error");
+	}		
+	
+	out.println(result);
+
 %>
