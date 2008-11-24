@@ -176,9 +176,9 @@ public class DBUtilRoute {
 	 */
 	private static Route resultSetToRoute( ResultSet resultSet ){
 		
-		int id, creatorId;
+		int id;
 		String name;
-		String color, ptValues, description;
+		String color, ptValues, description,creatorId;
 		
 		float distance;
 		int ps_scenery, pt_difficulty, pt_safety;
@@ -189,7 +189,7 @@ public class DBUtilRoute {
 		try {
 			id = resultSet.getInt("routeID");
 			name = resultSet.getString( "name" );
-			creatorId = resultSet.getInt("creatorId");
+			creatorId = resultSet.getString("creatorId");
 			ptValues = resultSet.getString( "points" );
 			description = resultSet.getString("description");
 			color = resultSet.getString( "routeColor" );
