@@ -10,9 +10,9 @@
 
 var userRegPanel;
 
-YAHOO.util.Event.onDOMReady(setupUser);
+YAHOO.util.Event.onDOMReady(setupUserReg);
 
-function setupUser() {
+function setupUserReg() {
 
 	// Define various event handlers for Dialog
 	var handleSubmit = function() {
@@ -22,10 +22,9 @@ function setupUser() {
 		this.cancel();
 	};
 	var handleSuccess = function(o) {
-		var response = o.responseText;
-		alert(response);
-//		response = response.split("<!")[0]; 
-//		document.getElementById("resp").innerHTML = response; 
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		alert("Successfully registered");
 	}; 
 	var handleFailure = function(o) { 
 		alert("Submission failed: " + o.status); 
@@ -43,16 +42,28 @@ function setupUser() {
 				 } );	
 
 	// Validate the entries in the form to require that both first and last name are entered 
+
 	userRegPanel.validate = function() { 
+
 		var data = this.getData(); 
-/*
-		if (data.firstname == "" || data.lastname == "") { 
-			alert("Please enter your first and last names."); 
+
+		if (data.userID == "") { 
+			alert("Please enter user ID."); 
 			return false; 
-		} else { 
-			return true; 
 		} 
-*/
+		else if(data.userName == "") {
+			alert("Please enter user name."); 
+			return false; 
+		}
+		else if(data.password == "") {
+			alert("Please enter user password."); 
+			return false; 
+		}
+		else if(data.email == "") {
+			alert("Please enter your email address."); 
+			return false; 
+		}
+
  		return true;
 	}; 
 
@@ -63,7 +74,7 @@ function setupUser() {
 
 	userRegPanel.render("bd");
 
-	//YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true); 
+	YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true); 
 
 }
 
@@ -156,6 +167,7 @@ function Logout() {
 function ShowUserRegDialog() {
 
 	userRegPanel.show();
+
 
 }
 
