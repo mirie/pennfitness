@@ -90,7 +90,7 @@
                 <div class="bd" id="evtListSection">
                     <div id="eventListTabArea" class="yui-navset">
                     	<ul class="yui-nav">
-                        	<li><a href="#dateEvtListTab"><em>By Date</em></a></li>
+                        	<li class="selected"><a href="#dateEvtListTab"><em>By Date</em></a></li>
                             <li><a href="#newEvtListTab"><em>New</em></a></li>
                         </ul>
                         <div class="yui-content">
@@ -106,7 +106,7 @@
                     <div id="routeListTabArea" class="yui-navset">
 	                    <ul class="yui-nav">
        	                   	<li><a href="#popularRtListTab"><em>Popular</em></a></li>
-                            <li><a href="#newRtListTab"><em>New</em></a></li>
+                            <li class="selected"><a href="#newRtListTab"><em>New</em></a></li>
                         </ul>
                         <div class="yui-content">
 	                        <div id="popularRtListTab"><p>Popular Routes Listed Here</p></div>
@@ -225,25 +225,25 @@
     <div id="userRegDialog">
         <div class="hd">New User Registration</div>
         <div class="bd">
-            <form method="POST" action="">
-                <label for="reg_userName">Name:</label><input type="text" name="reg_userName" />
-                <label for="reg_userID">User ID:</label><input type="text" name="reg_userID" />
-                <label for="reg_password">Password:</label> <input type="password" name="reg_password" />                    
-                <label for="reg_email">E-mail:</label><input type="text" name="reg_email" /> 
+            <form method="POST" action="registerUser.do">
+                <label for="userName">Name:</label><input type="text" name="userName" />
+                <label for="userID">User ID:</label><input type="text" name="userID" />
+                <label for="password">Password:</label> <input type="password" name="password" />                    
+                <label for="email">E-mail:</label><input type="text" name="email" /> 
     
                 <div class="clear"></div>
     
-                <label for="reg_publicNotify">Notified for public events:</label> <input type="checkbox" name="reg_publicNotify" value="Y" />
+                <label for="publicNotify">Notified for public events:</label> <input type="checkbox" name="publicNotify" value="Y" checked/>
     
                 <div class="clear"></div>
     
-                <label for="reg_height">Height:</label> <input type="text" name="reg_height" />
-                <label for="reg_weight">Weight:</label> <input type="text" name="reg_weight" />
+                <label for="height">Height:</label> <input type="text" name="height" />
+                <label for="weight">Weight:</label> <input type="text" name="weight" />
                     <div class="clear"></div>
-                <label for="reg_gender">Gender:</label>
-                <input type="radio" name="reg_gender[]" value="N" /> N/A
-                <input type="radio" name="reg_gender[]" value="M" /> Male
-                <input type="radio" name="reg_gender[]" value="F" /> Female    
+                <label for="gender">Gender:</label>
+                <input type="radio" name="gender" value="N" /> N/A
+                <input type="radio" name="gender" value="M" /> Male
+                <input type="radio" name="gender" value="F" /> Female    
             </form>
         </div>
     </div>
