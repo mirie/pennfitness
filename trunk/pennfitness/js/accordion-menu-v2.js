@@ -452,6 +452,6 @@ var oOptions=
 var setting = new AccordionMenu.setting('my-dl',oOptions);
 
 /*---------------Drag and Drop variable------------------------*/
-var dd1 = new YAHOO.util.DD("my-dl");
+// var dd1 = new YAHOO.util.DD("my-dl");
 
 
