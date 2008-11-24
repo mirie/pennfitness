@@ -87,7 +87,7 @@ public class DBUtilRoute {
 	public static List<Route> getAllRoutes( ){
 		
 		List<Route> routes = new ArrayList<Route>();
-		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Routes" );	
+		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Routes ORDER BY createdDate DESC" );	
 		
 		try {
 			while( resultSet.next() ){				
@@ -123,9 +123,9 @@ public class DBUtilRoute {
 										"'"+ route.getColor()+"'," +
 										"'"+ route.getDistance()+"'," +
 										"'"+ 0 +"','"+ 0 +"','"+ 0 +"','"+ 0 +"'," +
-										"'"+ new Date( System.currentTimeMillis() ) +"'," + 
-										"'"+ new Date( System.currentTimeMillis() ) +"'," +
-										"'"+ new Date( System.currentTimeMillis() ) + "')";
+										"NOW()," + 
+										"NOW()," +
+										"NOW())";
 		
 		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
 			
