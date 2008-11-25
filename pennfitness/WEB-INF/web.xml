@@ -9,6 +9,10 @@
     <servlet-class>model.RouteSaveServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>GroupSaveServlet</servlet-name>
+    <servlet-class>model.GroupSaveServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>EventSaveServlet</servlet-name>
     <servlet-class>model.EventSaveServlet</servlet-class>
   </servlet>
@@ -31,6 +35,10 @@
   <servlet-mapping>
     <servlet-name>RouteSaveServlet</servlet-name>
     <url-pattern>/saveRoute.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GroupSaveServlet</servlet-name>
+    <url-pattern>/saveGroup.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>EventSaveServlet</servlet-name>
