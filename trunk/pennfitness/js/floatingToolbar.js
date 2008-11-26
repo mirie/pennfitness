@@ -62,7 +62,7 @@ YAHOO.pennfitness.float.toolbar = new YAHOO.widget.Panel("floatingToolbar",
 
 //***********************************************************************
 //Function: Color picker functions for the route color.
-//***********************************************************************
+//***********************************************************************/
 YAHOO.util.Event.onContentReady("rtColor-container", function () {
 
 function onButtonOption() {
@@ -281,6 +281,7 @@ function modifyRt() {
 }
 
 function cancelRt() {
+	removeRoute();
 
 // commented by inseob : should call removeRoute when closed 
 //	if (routeID == -1) {
