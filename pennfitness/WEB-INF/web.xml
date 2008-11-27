@@ -28,6 +28,10 @@
     <servlet-name>EventSearchServlet</servlet-name>
     <servlet-class>model.EventSearchServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>RouteSearchServlet</servlet-name>
+    <servlet-class>model.RouteSearchServlet</servlet-class>
+  </servlet>
 
 
   <!-- Map URLs to that servlet. -->
@@ -55,6 +59,10 @@
   <servlet-mapping>
     <servlet-name>EventSearchServlet</servlet-name>
     <url-pattern>/searchEvent.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RouteSearchServlet</servlet-name>
+    <url-pattern>/searchRoute.do</url-pattern>
   </servlet-mapping>
  
 </web-app>
