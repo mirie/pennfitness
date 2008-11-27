@@ -6,7 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import entities.Event;
 import entities.Route;
 
 public class DBUtilRoute {
@@ -166,6 +169,42 @@ public class DBUtilRoute {
 		return DBConnector.executeUpdateQuery( updateQuery );
 			
 	}
+	
+	/**
+	 * Function that search DB for routes that meets given search criteria
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public static List<Route> searchForRoutes( List<QueryParameter> params ){
+		String searchQuery = 
+			"SELECT * " +
+			"FROM Routes " +
+			"WHERE " + DBUtil.getSearchCriteria( params );
+		
+		System.out.println("Search Query:" + searchQuery);
+		
+		List<Route> routes = new ArrayList<Route>();
+		ResultSet resultSet = DBConnector.getQueryResult( searchQuery );	
+		
+		try {
+			while( resultSet.next() ){				
+				routes.add( resultSetToRoute( resultSet ) );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilRoute.searchForRoutes() : Error searching for routes");
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+			
+		return routes;
+	}
+	
+
 	
 	
 	/**
