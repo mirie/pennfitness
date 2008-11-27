@@ -79,9 +79,8 @@ function setupUserReg() {
 }
 
 function ShowMyAccountDialog() {
-	YAHOO.example.container.InfoToSearch();
+	YAHOO.search.InfoToSearch();
 }
-
 
 
 function Login() {
