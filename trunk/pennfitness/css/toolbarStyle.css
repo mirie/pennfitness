@@ -116,3 +116,13 @@
 	padding: .5em .25em;
 	margin-top: .5em;
 }  /* END color picker for right toolbar */
+
+/* New Event Dialog */
+
+#eventDialog label { display:block;float:left;width:45%;clear:left; }
+
+#eventDescTxt {
+	height: 75px;
+	width: 350px;
+}
+

@@ -475,4 +475,4 @@ YAHOO.util.Event.addListener("deleteRouteBtn", "click", function() {
 
 // MORE TEMPORARY JUNK HERE
 YAHOO.util.Event.onDOMReady(populateGroup);
-YAHOO.util.Event.onDOMReady(populateEventType);
+//YAHOO.util.Event.onDOMReady(populateEventType);
