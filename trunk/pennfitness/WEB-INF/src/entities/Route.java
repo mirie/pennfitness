@@ -18,7 +18,6 @@ public class Route {
     private int pt_safety;
     private float pt_rate;
 	
-	private Date routeDate;
 	private Date createdDate;
 	private Date modifiedDate;
 	
@@ -34,7 +33,7 @@ public class Route {
 	
 	public Route( int id, String name, String creatorID, String ptValues, String description, String color, 
 				  float distance, int ps_scenery, int pt_difficulty, int pt_safety, float pt_rate,
-				  Date routeDate, Date createdDate, Date modifiedDate ){
+				  Date createdDate, Date modifiedDate ){
 		
 		this.id = id;
 		this.name = name;
@@ -47,7 +46,6 @@ public class Route {
 		this.pt_difficulty = pt_difficulty;
 		this.pt_safety = pt_safety;
 		this.pt_rate = pt_rate;
-		this.routeDate = routeDate;
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
 	}
@@ -131,14 +129,6 @@ public class Route {
 
 	public void setPt_rate(float pt_rate) {
 		this.pt_rate = pt_rate;
-	}
-
-	public Date getRouteDate() {
-		return routeDate;
-	}
-
-	public void setRouteDate(Date routeDate) {
-		this.routeDate = routeDate;
 	}
 
 	public Date getCreatedDate() {
