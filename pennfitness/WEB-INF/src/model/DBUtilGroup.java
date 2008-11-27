@@ -9,6 +9,7 @@ import java.util.List;
 
 import entities.Group;
 import entities.Route;
+import entities.User;
 
 public class DBUtilGroup {
 
@@ -36,7 +37,32 @@ public class DBUtilGroup {
 		
 		return null;
 	}
-	
+	/**
+	 *
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Boolean checkGroup( String id ) {
+		if( id == null ) return false;
+		
+		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Groups WHERE groupID='"+id+"'" );
+		try {
+			if( resultSet.next() ){
+				return true;
+			}
+			else return false;
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilGroup.checkGroup() : Error getting group");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+
+		return false;
+	}
 	/**
 	 * 
 	 * @param name
@@ -67,6 +93,16 @@ public class DBUtilGroup {
 	 * 
 	 * @return
 	 */
+	public static int modifyGroup( Group group ){
+		
+		String updateQuery = 
+			"UPDATE Groups " +
+			"SET name='" + group.getName()+ "', " +
+			"description='"+ group.getDescription() + "' "+
+			"WHERE groupID='"+ group.getId() +"'"; 
+		return DBConnector.executeUpdateQuery( updateQuery );
+			
+	}
 	public static List<String> getGroupNames(){
 		
 		List<Group> groups = getAllGroups();
@@ -115,11 +151,11 @@ public class DBUtilGroup {
 	public static int saveGroup( Group group ){
 			
 		String saveQuery = 
-			"INSERT INTO Routes ( name, creatorID,  description, createdDate)" +
+			"INSERT INTO Groups ( name, creatorID,  description, createdDate)" +
 								" VALUES ('"+ group.getName()+"'," +
 										"'"+ group.getCreatorID()+"'," +
 										"'"+ group.getDescription()+"'," +
-										"'"+ new Date( System.currentTimeMillis() ) + "')";
+										" NOW() )";
 
 		
 		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
@@ -139,42 +175,48 @@ public class DBUtilGroup {
 			
 		return -1;
 	}
-	
-	/**
-	 * Updates the given group with the given ID.
-	 * 
-	 * @param route
-	 * @return 1 if the update is successful. -1 if not
-	 */
-	public static int modifyGroup( Group group ){
-		
-		String updateQuery = 
-			"UPDATE Groups " +
-			"SET name='" + group.getName()+ "', " +
-				"description='"+ group.getDescription() + "' " +
-			"WHERE groupID='"+ group.getId() +"'"; 
-		
-		return DBConnector.executeUpdateQuery( updateQuery );
+	public static int joinGroup( Group group, String userID, String notify){
+		String saveQuery = 
+			"INSERT INTO GroupReg ( groupID, userID,  notify, registeredDate)" +
+								" VALUES ('"+ group.getId()+"'," +
+										"'"+ userID+"'," +
+										"'"+ notify+"'," +
+										"NOW() )";
+		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
 			
+			try {
+				ResultSet  result = DBConnector.getQueryResult( "SELECT MAX(groupID) FROM Groups" );
+				if( result != null )
+					if( result.next() )
+						return result.getInt( 1 );
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("DBUtilGroup.joinGroup() : Error getting ID of group to join"  );
+				e.printStackTrace();
+			}
+			
+		}
+		return -1;
 	}
+	
 
-	/**
-	 * Function that search DB for groups that meets given search criteria
-	 * 
-	 * @param params
-	 * @return
-	 */
+/**
+ * Function that search DB for groups that meets given search criteria
+ * 
+ * @param params
+ * @return
+ */
 	public static List<Group> searchForGroups( List<QueryParameter> params ){
 		String searchQuery = 
 			"SELECT * " +
 			"FROM Groups " +
 			"WHERE " + DBUtil.getSearchCriteria( params );
-		
+	
 		System.out.println("Search Query:" + searchQuery);
-		
+	
 		List<Group> groups = new ArrayList<Group>();
 		ResultSet resultSet = DBConnector.getQueryResult( searchQuery );	
-		
+	
 		try {
 			while( resultSet.next() ){				
 				groups.add( resultSetToGroup( resultSet ) );
@@ -188,11 +230,10 @@ public class DBUtilGroup {
 		finally{
 			DBConnector.closeDBConnection();
 		}
-			
+		
 		return groups;
 	}
-	
-	
+
 	/**
 	 * Utility function that gets Group object from a resultset row
 	 * 
@@ -201,14 +242,13 @@ public class DBUtilGroup {
 	 */
 	private static Group resultSetToGroup( ResultSet resultSet ){
 		
-		int id;
+		String id, creatorId;
 		String name;
 		String description;
-		String creatorId;
 		Date createdDate;
 		
 		try {
-			id = resultSet.getInt("groupID");
+			id = resultSet.getString("groupID");
 			name = resultSet.getString( "name" );
 			creatorId = resultSet.getString("creatorId");
 			description = resultSet.getString("description");
