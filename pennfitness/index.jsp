@@ -198,7 +198,7 @@
             </form>
             <div id="routeEvents">
                 <span id="totalEvents">0 Events</span> 
-                <span id="newEventBtn">New Event</span>
+                <a href="javascript:ShowNewEventDialog()"/>New Event</a>
             </div>
 
         
@@ -232,26 +232,27 @@
 
     <div id="eventDialog">
         <div class="hd">Edit Event Details</div>
-        <div class="hd">
+        <div class="bd">
             <form name="frmCreateEvent" id="frmCreateEvent" method="post" action="#">
-                <label for="eventName">Event Name:</label> <input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />
-                <select id="publicity" name="publicity">
-                    <option value="Y" selected="selected">Public Event</option>
-                    <option value="N">Private Event</option>
-                </select><br />
+                <label for="eventName">Event Name:</label> <input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />                                
+				
+				<label for="publicity">Publicity:</label>
+                <input type="radio" name="publicity" value="Y" /> Public Event
+                <input type="radio" name="publicity" value="N" /> Private Event <br />
+                
                 <label for="evtGroup">Group Name:</label> <select id="evtGroup" name="groupName">
                     <option value="-1" selected="selected">None</option>
                 </select><br />
-                 <label for="evtGroup">Event Type:</label> <select id="evtType" name="eventTypeID">
-                    <option value="-1" selected="selected"></option>
+                 <label for="evtType">Event Type:</label><select id="evtType" name="eventTypeID">
+                    <option value="-1" selected="selected">Please select a type</option>
                 </select><br />
-                <label for="eventName">Event Time:</label> <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
+                <label for="eventTime">Event Time:</label> <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
                 <label for="eventDuration">Duration:</label> <input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
                 <div id="date">
                     <label for="eventDate">Event Date:</label> <input type="text" name="eventDate" id="eventDate"  size="10" maxlength="10"/>
                 </div>
-                <label for="eventDesc">Description:</label><br />
-                <textarea id="eventDesc" name="eventDesc" rows="2" cols="20"></textarea><br />			
+                <p>Description:</p>
+                <textarea id="eventDescTxt" name="eventDesc" wrap="virtual"></textarea><br />			
             </form>
         </div>
     </div>        
