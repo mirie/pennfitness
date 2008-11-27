@@ -460,6 +460,49 @@ function saveRt() {
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback, strData);
 }
 
+function deleteRt() {
+	// FOR JSON Handling
+	var successHandler = function(o) {	
+		var response;
+		
+	    // Use the JSON Utility to parse the data returned from the server
+	    try {
+	       response = YAHOO.lang.JSON.parse(o.responseText); 
+	    }
+	    catch (x) {
+	        alert("JSON Parse failed!");
+	        return;
+	    }        
+	
+	    if (response.STATUS == 'Success') { // RouteID passed back if just saved a new route
+			alert("Route deleted successfully");
+			routeID = -1;
+			YAHOO.pennfitness.float.toolbar.hide();
+			removeRoute();
+			
+			YAHOO.leftMenu.route.getNewRouteNames();			
+		}
+		else {
+			alert(response.MSG);
+		}
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+	var strData = "routeID=" + routeID + "&";
+	strData += "action=delete";
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback, strData);
+}
+
+
 
 YAHOO.util.Event.onDOMReady(initToolbar);
 YAHOO.util.Event.onDOMReady(setupNewEvtDialog);
@@ -469,8 +512,7 @@ YAHOO.util.Event.onDOMReady(setupNewEvtDialog);
 YAHOO.util.Event.addListener("cancelRouteBtn", "click", cancelRt);
 YAHOO.util.Event.addListener("saveRouteBtn", "click", saveRt);	
 YAHOO.util.Event.addListener("modifyRouteBtn", "click", modifyRt);	
-YAHOO.util.Event.addListener("deleteRouteBtn", "click", function() {
-	alert("not implemented yet!");});
+YAHOO.util.Event.addListener("deleteRouteBtn", "click", deleteRt);
 
 
 // MORE TEMPORARY JUNK HERE

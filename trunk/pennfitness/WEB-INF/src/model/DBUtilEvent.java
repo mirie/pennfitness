@@ -31,7 +31,7 @@ public class DBUtilEvent {
 										"'"+ event.getGroupID()+"'," +
 										"'"+ event.getPublicity()+"'," +
 										"'"+ event.getCreatorID()+"'," +
-										"'"+ new Date( System.currentTimeMillis() ) +"'," +
+										"'"+ new Date( System.currentTimeMillis() ) +"'," + // TODO: CHANGE TO NOW()?
 										"'"+ new Date( System.currentTimeMillis() ) +"'," +
 										"'"+ event.getRouteID() +"'," +
 										"'"+ event.getEventTypeID() +"'," +
