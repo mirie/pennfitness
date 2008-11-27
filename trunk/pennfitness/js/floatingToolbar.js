@@ -212,7 +212,7 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg) {
 			
 			document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+response.DATA.ROUTE_RATING;
 
-			document.getElementById("routeDesc").innerHTML = "Description:"+response.DATA.ROUTE_DESCRIPTION;
+			document.getElementById("routeDesc").innerHTML = response.DATA.ROUTE_DESCRIPTION;
 			document.getElementById("routeDescTxt").style.display = "none";
 
 			document.getElementById("rtColor-container").style.display = "none";
@@ -234,6 +234,8 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg) {
 			drawOverlay();
 			disableMap();  
 			YAHOO.pennfitness.float.toolbar.show();
+			
+			YAHOO.leftMenu.route.getNewRouteNames();
 			
 		} else {
 			alert("Retrieving routeID: " + routeID + "failed!");
@@ -287,7 +289,7 @@ function cancelRt() {
 //	if (routeID == -1) {
 		removeRoute();
 //	}
-	
+	//TODO: if cancelling a current route --> display it's description crap. 
 	disableMap();
 	YAHOO.pennfitness.float.toolbar.hide();
 }
@@ -326,27 +328,8 @@ function saveRt() {
 			if (routeID == -1) {
 				routeID = response.DATA.RouteID;
 			} 
-			disableMap();
-			colorButton.disabled = true; //TODO: Bug -- not disabled.
 			
-			document.getElementById("routeGeneral").style.display = "block";
-			document.getElementById("routeName").innerHTML = document.getElementById("routeNameTxt").value;
-			document.getElementById("routeNameTxtDiv").style.display = "none";
-			
-			document.getElementById("routeCreator").innerHTML = "need user from server";
-			document.getElementById("routeCreatedDate").innerHTML = "need date from server";		
-			
-			document.getElementById("rtRatings").innerHTML = "Ratings: need from server";
-
-			document.getElementById("routeDesc").innerHTML = document.getElementById("routeDescTxt").value;
-			document.getElementById("routeDescTxt").style.display = "none";
-
-			document.getElementById("rtColor-container").style.display = "none";
-			
-			document.getElementById("saveRoute").style.display = "none";
-			document.getElementById("modifyRoute").style.display = "block";
-			
-			YAHOO.leftMenu.route.getNewRouteNames();
+			YAHOO.pennfitness.float.getRoute(routeID);	
 		}
 		else {
 			alert("Route was not saved!");
