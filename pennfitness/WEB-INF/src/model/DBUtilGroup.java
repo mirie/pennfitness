@@ -158,6 +158,40 @@ public class DBUtilGroup {
 			
 	}
 
+	/**
+	 * Function that search DB for groups that meets given search criteria
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public static List<Group> searchForGroups( List<QueryParameter> params ){
+		String searchQuery = 
+			"SELECT * " +
+			"FROM Groups " +
+			"WHERE " + DBUtil.getSearchCriteria( params );
+		
+		System.out.println("Search Query:" + searchQuery);
+		
+		List<Group> groups = new ArrayList<Group>();
+		ResultSet resultSet = DBConnector.getQueryResult( searchQuery );	
+		
+		try {
+			while( resultSet.next() ){				
+				groups.add( resultSetToGroup( resultSet ) );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilRoute.searchForGroups() : Error searching for groups");
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+			
+		return groups;
+	}
+	
 	
 	/**
 	 * Utility function that gets Group object from a resultset row
