@@ -5,18 +5,18 @@ import java.sql.Date;
 public class Group {
 	
 	private int id;
-	private int creatorID;
+	private String creatorID;
 	
 	private String name;
 	private String description;
 	private Date createdDate;
 	
-	public Group( String name, String description, int creatorID){		
+	public Group( String name, String description, String creatorID){		
 		this.name = name;
 		this.description = description;
 		this.creatorID = creatorID;
 	}
-	public Group( int id, String name, int creatorID, String description, Date createdDate ){		
+	public Group( int id, String name, String creatorID, String description, Date createdDate ){		
 		this.id = id;
 		this.name = name;
 		this.creatorID = creatorID;
@@ -57,11 +57,11 @@ public class Group {
 		this.createdDate = createdDate;
 	}
 
-	public int getCreatorID() {
+	public String getCreatorID() {
 		return creatorID;
 	}
 
-	public void setCreatorID(int creatorID) {
+	public void setCreatorID(String creatorID) {
 		this.creatorID = creatorID;
 	}
 	
