@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="css/styles_overlay.css" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/toolbarStyle.css" />
-
+ 
 <!-- =============================== Google Map Scripts =============================== -->
 <%-- Change Google Map key --%>
 <% if( request.getLocalAddr().equals("158.130.6.223") ) { %>
@@ -18,7 +18,6 @@
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAwNRsCttn_9209vEUNVvtyxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQkSsxzavUfI4qYgHd_KyuAMbdCzQ" 
         type="text/javascript"></script>
 <% } %>
-
 
 
 <!-- Combo-handled YUI CSS files: -->
@@ -72,8 +71,8 @@
                 if(user == null) {
                     // if not logged in
                 %>
-                username: <input type="text" name="userID" id="userID" size=5 maxlength="10" style="width:5em"/> 
-                password: <input type="password" name="password" id="password" size="10" maxlength="10" style="width:5em"/> 
+                username: <input type="text" name="userID" id="userID" size=5 maxlength="10" /> 
+                password: <input type="password" name="password" id="password" size=5 maxlength="10" /> 
                 <a href="javascript:Login()"/>Login</a>
 				<a href="javascript:ShowUserRegDialog()"/>Sign Up!</a>
                 <%
@@ -103,7 +102,7 @@
         
         <tr align="center">
         
-        <td class="spacing" align="left">Copyright © System for Penn Active Maps</td>
+        <td class="spacing" align="left">Copyright (c) System for Penn Active Maps</td>
         <td></td><td></td>
         <td align = "right">
         <a class="ft" onmouseover="this.className='ft2'" onmouseout="this.className='ft'" href="http://spam.seas.upenn.edu/about">About</a> | 
