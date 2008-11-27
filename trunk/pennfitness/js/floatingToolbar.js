@@ -135,6 +135,86 @@ colorButton.on("click", function () {
 	});
 });
 
+//***********************************************************************
+//Function: Initializes the create event dialog
+//***********************************************************************
+function setupNewEvtDialog(){
+
+	// Define various event handlers for Dialog
+	var handleSubmit = function() {
+		this.submit();
+	};
+	var handleCancel = function() {
+		this.cancel();
+	};
+	var handleSuccess = function(o) {
+		//if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		alert("Successfully registered");
+	}; 
+	var handleFailure = function(o) { 
+		alert("Submission failed: " + o.status); 
+	}; 
+	
+	// Instantiate the Dialog
+	newEventPanel = new YAHOO.widget.Dialog("eventDialog", 
+				{ width : "400px",
+				  fixedcenter : true,
+				  visible : false, 
+				  modal : true,
+				  constraintoviewport : true,
+				  buttons : [ { text:"Save", handler:handleSubmit, isDefault:true },
+							  { text:"Cancel", handler:handleCancel } ]
+				 } );	
+
+	// Validate the entries in the form to require that both first and last name are entered 
+
+	newEventPanel.validate = function() { 
+
+		var data = this.getData(); 
+
+		if (data.eventName == "") { 
+			alert("Please enter the Event Name."); 
+			return false; 
+		} 
+		else if(data.eventTime == "") {
+			alert("Please enter the Event Time ."); 
+			return false; 
+		}
+		else if(data.eventDuration == "") {
+			alert("Please enter a duration for the event."); 
+			return false; 
+		}
+		else if(data.eventDate == "") {
+			alert("Please enter a date for the event."); 
+			return false; 
+		}
+
+ 		return true;
+	}; 
+
+	// Wire up the success and failure handlers 
+	newEventPanel.callback = { success: handleSuccess, 
+						     failure: handleFailure }; 
+
+
+	newEventPanel.render("bd");
+
+	//YAHOO.util.Event.addListener("userRegDialogBtn", "click", newEventPanel.show, newEventPanel, true);	
+}
+
+//Displays the user registration dialog
+function ShowNewEventDialog() {
+	newEventPanel.show();
+}
+
+
+
+
+
+
+
+
 // ***********************************************************************
 // Function: Resets route details toolbar for editing
 // ***********************************************************************
@@ -382,6 +462,7 @@ function saveRt() {
 
 
 YAHOO.util.Event.onDOMReady(initToolbar);
+YAHOO.util.Event.onDOMReady(setupNewEvtDialog);
 
 
 // Listeners
