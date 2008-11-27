@@ -78,19 +78,12 @@ public class RouteSearchServlet extends HttpServlet{
 		    	Route route;
 		    	while( iterator.hasNext() ){
 		    		route = iterator.next(); 		
-	/*
-	<div class="RouteResults">
-	  <div class="RouteResultItem">
-	  	<a href="#" class="RRrouteName">This is the route name</a> by <span class="RRuserID">UserID</span> on <span class="RRcreatedDate">2008-11-27</span> Avg.Rate: 0.0 <br/>
-	    <span class="RRdescription">This is description</span>
-	  </div>
-	</div>
-	javascript:YAHOO.pennfitness.float.getRoute('156')
-	 */	    		
 					sbuf.append("<div class=\"RouteResultItem\">\n").
-						append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "')\" class=\"RRrouteName\">" + route.getName() + "</a> by <span class=\"RRuserID\">").
-						append(route.getCreatorID() + "</span> on <span class=\"RRcreatedDate\">").
-						append(route.getCreatedDate().toString() + "</span> Avg.Rate: " + route.getDistance() + "<br/>\n").
+						append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "')\" class=\"RRrouteName\">" + route.getName() + "</a> by ").
+						append("<span class=\"RRuserID\">" + route.getCreatorID() + "</span> on ").
+						append("<span class=\"RRcreatedDate\">" + route.getCreatedDate().toString() + "</span>").
+						append("<span class=\"RRdistance\">(" + route.getDistance() + " miles)</span> ").
+						append("<span class=\"RRrating\">Avg rating : " + route.getPt_rate() + "</span><br \\>\n").
 						append("<span class=\"RRdescription\">" + route.getDescription() + "</span>\n").
 						append("</div>\n");
 		    	}
