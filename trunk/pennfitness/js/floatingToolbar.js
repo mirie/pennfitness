@@ -25,20 +25,39 @@ function populateGroup() {
 		groupSelect.appendChild(option);
 	}
 }
-
-// Make a list of (eventTypes to display in event detail) 
-var fakeEventTypes = ['Casual', 'General Workout', 'Fat-Burning', 'Intense Workout'];
-
-function populateEventType() {
-	var eventTypeSelect = document.getElementById("evtType");
-	for (var i = 0; i < fakeEventTypes.length; i++) {
-		var option = document.createElement('option');
-		option.setAttribute('value', i);
-		option.appendChild(document.createTextNode(fakeEventTypes[i]));
-		eventTypeSelect.appendChild(option);
-	}
-}
 // END OF TEMPORARY SECTION
+
+function populateTimeRange() {
+	var evtTimeStartSelect = document.getElementById("evtTimeStart");
+//	var evtTimeStopSelect = document.getElementById("evtTimeStop");	
+	
+	for (var hour = 1; hour <= 12; hour++) {
+		
+		//var optionStop = document.createElement('option');
+		
+		for (var min = 0; min <= 45; min = min + 15 ) {
+			var optionStart = document.createElement('option');
+			if (min < 15) {
+				optionStart.setAttribute('value', hour + ":" + min + "0");
+				optionStart.appendChild(document.createTextNode(hour + ":" + min + "0"));
+			}
+			else {
+				optionStart.setAttribute('value', hour + ":" + min);
+				optionStart.appendChild(document.createTextNode(hour + ":" + min));
+			}
+			evtTimeStartSelect.appendChild(optionStart);
+		}
+		
+	}
+	
+}
+
+
+
+
+
+
+
 
 
 
@@ -136,6 +155,120 @@ colorButton.on("click", function () {
 });
 
 //***********************************************************************
+//Function: Calendar for Events
+//***********************************************************************
+(function () {	
+var Event = YAHOO.util.Event,
+	Dom = YAHOO.util.Dom;
+
+Event.onDOMReady(function () {
+	var oCalendarMenu;
+
+	var onButtonClick = function () {			
+		// Create a Calendar instance and render it into the body 
+		// element of the Overlay.
+		var oCalendar = new YAHOO.widget.Calendar("buttoncalendar", oCalendarMenu.body.id);
+		oCalendar.render();
+
+		// Subscribe to the Calendar instance's "select" event to 
+		// update the month, day, year form fields when the user
+		// selects a date.
+		oCalendar.selectEvent.subscribe(function (p_sType, p_aArgs) {
+			var aDate;
+
+			if (p_aArgs) {
+				var date = p_aArgs[0][0];
+				var year = date[0], month = date[1], day = date[2];
+
+				var txtDate1 = document.getElementById("eventDate");
+				txtDate1.value = month + "/" + day + "/" + year;
+			}
+			
+			oCalendarMenu.hide();			
+		});
+
+		// Pressing the Esc key will hide the Calendar Menu and send focus back to 
+		// its parent Button
+		Event.on(oCalendarMenu.element, "keydown", function (p_oEvent) {			
+			if (Event.getCharCode(p_oEvent) === 27) {
+				oCalendarMenu.hide();
+				this.focus();
+			}			
+		}, null, this);
+					
+		var focusDay = function () {
+			var oCalendarTBody = Dom.get("buttoncalendar").tBodies[0],
+				aElements = oCalendarTBody.getElementsByTagName("a"),
+				oAnchor;
+			
+			if (aElements.length > 0) {				
+				Dom.batch(aElements, function (element) {					
+					if (Dom.hasClass(element.parentNode, "today")) {
+						oAnchor = element;
+					}
+				
+				});
+									
+				if (!oAnchor) {
+					oAnchor = aElements[0];
+				}
+
+				// Focus the anchor element using a timer since Calendar will try 
+				// to set focus to its next button by default				
+				YAHOO.lang.later(0, oAnchor, function () {
+					try {
+						oAnchor.focus();
+					}
+					catch(e) {}
+				});				
+			}				
+		};
+
+		// Set focus to either the current day, or first day of the month in 
+		// the Calendar	when it is made visible or the month changes
+		oCalendarMenu.subscribe("show", focusDay);
+		oCalendar.renderEvent.subscribe(focusDay, oCalendar, true);
+
+		// Give the Calendar an initial focus			
+		focusDay.call(oCalendar);
+
+		// Re-align the CalendarMenu to the Button to ensure that it is in the correct
+		// position when it is initial made visible			
+		oCalendarMenu.align();
+		
+		// Unsubscribe from the "click" event so that this code is 
+		// only executed once
+		this.unsubscribe("click", onButtonClick);			
+	};
+
+	// Create an Overlay instance to house the Calendar instance
+	oCalendarMenu = new YAHOO.widget.Overlay("calendarmenu", { visible: false });
+
+	// Create a Button instance of type "menu"	
+	var calButton = new YAHOO.widget.Button({ 
+										type: "menu", 
+										id: "calendarpicker", 
+										menu: oCalendarMenu, 
+										container: "date" });
+
+	calButton.on("appendTo", function () {
+		// Create an empty body element for the Overlay instance in order 
+		// to reserve space to render the Calendar instance into.		
+		oCalendarMenu.setBody("&#32;");		
+		oCalendarMenu.body.id = "calendarcontainer";			
+	});
+
+	// Add a "click" event listener that will render the Overlay, and 
+	// instantiate the Calendar the first time the Button instance is 
+	// clicked.
+	calButton.on("click", onButtonClick);
+});	
+}());
+
+
+
+
+//***********************************************************************
 //Function: Initializes the create event dialog
 //***********************************************************************
 function setupNewEvtDialog(){
@@ -157,7 +290,7 @@ function setupNewEvtDialog(){
 	}; 
 	
 	// Instantiate the Dialog
-	newEventPanel = new YAHOO.widget.Dialog("eventDialog", 
+	YAHOO.pennfitness.float.newEventPanel = new YAHOO.widget.Dialog("eventDialog", 
 				{ width : "400px",
 				  fixedcenter : true,
 				  visible : false, 
@@ -169,7 +302,7 @@ function setupNewEvtDialog(){
 
 	// Validate the entries in the form to require that both first and last name are entered 
 
-	newEventPanel.validate = function() { 
+	YAHOO.pennfitness.float.newEventPanel.validate = function() { 
 
 		var data = this.getData(); 
 
@@ -194,26 +327,19 @@ function setupNewEvtDialog(){
 	}; 
 
 	// Wire up the success and failure handlers 
-	newEventPanel.callback = { success: handleSuccess, 
+	YAHOO.pennfitness.float.newEventPanel.callback = { success: handleSuccess, 
 						     failure: handleFailure }; 
 
 
-	newEventPanel.render("bd");
+	YAHOO.pennfitness.float.newEventPanel.render("bd");
 
-	//YAHOO.util.Event.addListener("userRegDialogBtn", "click", newEventPanel.show, newEventPanel, true);	
+	//YAHOO.util.Event.addListener("userRegDialogBtn", "click", YAHOO.pennfitness.float.newEventPanel.show, newEventPanel, true);	
 }
 
 //Displays the user registration dialog
-function ShowNewEventDialog() {
-	newEventPanel.show();
-}
-
-
-
-
-
-
-
+//function ShowNewEventDialog() {
+//	YAHOO.pennfitness.float.newEventPanel.show();
+//}
 
 // ***********************************************************************
 // Function: Resets route details toolbar for editing
@@ -245,7 +371,7 @@ function resetRtDetail() {
 	var rtColor = document.getElementById("rtColor-container");
 	rtColor.style.display = "block";
 	
-	colorButton.disabled = false;
+	//colorButton.disabled = false;
 	colorButton.set("value", "#0000af");
 	YAHOO.util.Dom.setStyle("current-color", "backgroundColor", "#0000af");
 	YAHOO.util.Dom.get("current-color").innerHTML = "Current color is " + "#0000af";
@@ -258,6 +384,7 @@ function resetRtDetail() {
 // Enables the map for route creation and displays route 
 // detail toolbar.
 // *******************************************************
+
 function createRt() {
 	resetRtDetail();
 	YAHOO.pennfitness.float.toolbar.show();
@@ -268,6 +395,7 @@ function createRt() {
 //  function: YAHOO.pennfitness.float.getRoute 
 //  Used to draw selected route and display its associated route details
 //  ***********************************************************************
+
 YAHOO.pennfitness.float.getRoute = function(routeIDArg) {
 	var successHandler = function(o) {
 		var response;
@@ -380,6 +508,7 @@ function cancelRt() {
 // Displays alert if missing route name or a drawing for the route 
 // (at least 2 points).
 // ***********************************************************************
+
 function saveRt() {
 	if (YAHOO.util.Dom.get("routeNameTxt").value == "") {
 		alert("Please give the route a name before saving!");
@@ -457,7 +586,7 @@ function saveRt() {
 	// Append RouteID to strData
 	strData += "routeID=" + routeID;
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback, strData);
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgRoute.do", callback, strData);
 }
 
 function deleteRt() {
@@ -499,8 +628,79 @@ function deleteRt() {
 	var strData = "routeID=" + routeID + "&";
 	strData += "action=delete";
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveRoute.do", callback, strData);
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgRoute.do", callback, strData);
 }
+
+//*******************************************************
+//Function: createEvt
+//*******************************************************
+function createEvt() {
+	resetNewEvt();	
+	YAHOO.pennfitness.float.newEventPanel.show();
+}
+
+
+//***********************************************************************
+//Function: Resets new event details dialog for editing
+//***********************************************************************
+function resetNewEvt() {
+	eventID = -1;
+
+	document.getElementById("eventNameTxt").value = "";
+	
+	document.getElementById("publicEvt").checked = true;
+	document.getElementById("evtGroup").options[0].selected = true;
+	document.getElementById("evtType").options[0].selected = true;
+	
+	document.getElementById("evtTimeStart").options[0].selected = true;
+	document.getElementById("eventDurationTxt").value = "";
+	document.getElementById("eventDateTxt").value = "";
+	document.getElementById("eventDescTxt").value = "";
+}
+
+
+
+
+function saveEvt() {
+	// FOR JSON Handling
+	var successHandler = function(o) {	
+		var response;
+		
+	    // Use the JSON Utility to parse the data returned from the server
+	    try {
+	       response = YAHOO.lang.JSON.parse(o.responseText); 
+	    }
+	    catch (x) {
+	        alert("JSON Parse failed!");
+	        return;
+	    }        
+	
+	    if (response.STATUS == 'Success') { // eventID passed back if just saved a new event
+		
+		}
+		else {
+			//alert(response.MSG);
+		}
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+	//var strData = "routeID=" + routeID + "&";
+	//strData += "action=delete";
+	
+	//var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgRoute.do", callback, strData);
+	
+}
+
+
+
 
 
 
@@ -514,7 +714,7 @@ YAHOO.util.Event.addListener("saveRouteBtn", "click", saveRt);
 YAHOO.util.Event.addListener("modifyRouteBtn", "click", modifyRt);	
 YAHOO.util.Event.addListener("deleteRouteBtn", "click", deleteRt);
 
+YAHOO.util.Event.onDOMReady(populateTimeRange);
 
 // MORE TEMPORARY JUNK HERE
 YAHOO.util.Event.onDOMReady(populateGroup);
-//YAHOO.util.Event.onDOMReady(populateEventType);

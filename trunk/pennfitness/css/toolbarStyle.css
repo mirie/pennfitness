@@ -126,3 +126,26 @@
 	width: 350px;
 }
 
+#calendarcontainer {
+	padding: 10px;
+	width: 185px;
+}
+
+#calendarmenu {
+	position: absolute;
+}
+
+#calendarpicker button {
+	background: url(../assets/calendar_icon.gif) center center no-repeat;
+	text-align: left;
+	text-indent: -10em;
+	overflow: hidden;
+	*margin-left: 10em; /* For IE */
+	*padding: 0 3em;    /* For IE */
+	white-space: nowrap;
+}
+
+#calendarpicker  {	
+	vertical-align: bottom;		
+}  /* END calendar for toolbar */
+
