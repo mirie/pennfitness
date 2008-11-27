@@ -9,7 +9,7 @@ public class Event {
 	private String description; 	
 	private int groupID;	
 	private char publicity;	
-	private int creatorID; 	
+	private String creatorID; 	
 	private Date createdDate; 	
 	private Date modifiedDate; 	
 	private int routeID;	
@@ -19,7 +19,7 @@ public class Event {
 	private float duration;
 	
 
-	public Event( String name, float duration, String description, int routeID, int groupID, int creatorID, 
+	public Event( String name, float duration, String description, int routeID, int groupID, String creatorID, 
 				  String eventTime, Date eventDate, char publicity ){
 		this.name = name;
 		this.description = description;
@@ -31,7 +31,7 @@ public class Event {
 		this.publicity = publicity;
 	}
 	
-	public Event( int eventID, String name, String description, int groupID, char publicity, int creatorID, 
+	public Event( int eventID, String name, String description, int groupID, char publicity, String creatorID, 
 				  Date createdDate, Date modifiedDate,  int routeID, int eventTypeID, Date eventDate, String eventTime, float duration){
 		this.eventID = eventID;
 		this.name = name;
@@ -78,10 +78,10 @@ public class Event {
 	public void setPublicity(char publicity) {
 		this.publicity = publicity;
 	}
-	public int getCreatorID() {
+	public String getCreatorID() {
 		return creatorID;
 	}
-	public void setCreatorID(int creatorID) {
+	public void setCreatorID(String creatorID) {
 		this.creatorID = creatorID;
 	}
 	public Date getCreatedDate() {
