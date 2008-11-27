@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import entities.Group;
+import entities.Route;
 
 public class DBUtilGroup {
 
@@ -139,7 +140,23 @@ public class DBUtilGroup {
 		return -1;
 	}
 	
-	
+	/**
+	 * Updates the given group with the given ID.
+	 * 
+	 * @param route
+	 * @return 1 if the update is successful. -1 if not
+	 */
+	public static int modifyGroup( Group group ){
+		
+		String updateQuery = 
+			"UPDATE Groups " +
+			"SET name='" + group.getName()+ "', " +
+				"description='"+ group.getDescription() + "' " +
+			"WHERE groupID='"+ group.getId() +"'"; 
+		
+		return DBConnector.executeUpdateQuery( updateQuery );
+			
+	}
 
 	
 	/**
