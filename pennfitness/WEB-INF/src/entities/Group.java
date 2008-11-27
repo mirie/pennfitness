@@ -4,20 +4,23 @@ import java.sql.Date;
 
 public class Group {
 	
-	private int id;
+	private String groupID;
 	private String creatorID;
 	
 	private String name;
 	private String description;
 	private Date createdDate;
 	
-	public Group( String name, String description, String creatorID){		
+	public Group(String groupID){		
+		this.groupID = groupID;
+	}
+	public Group( String name, String description, String creatorID){			
 		this.name = name;
 		this.description = description;
 		this.creatorID = creatorID;
 	}
-	public Group( int id, String name, String creatorID, String description, Date createdDate ){		
-		this.id = id;
+	public Group( String groupID, String name, String creatorID, String description, Date createdDate ){		
+		this.groupID = groupID;
 		this.name = name;
 		this.creatorID = creatorID;
 		this.description = description;
@@ -33,12 +36,12 @@ public class Group {
 		this.description = description;
 	}
 
-	public int getId() {
-		return id;
+	public String getId() {
+		return groupID;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(String groupID) {
+		this.groupID = groupID;
 	}
 
 	public String getName() {

@@ -64,6 +64,32 @@ public class DBUtilGroup {
 		return false;
 	}
 	/**
+	 *
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Boolean checkGroupReg( String groupID, String userID ) {
+		if( groupID == null || userID==null ) return false;
+		
+		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM GroupReg WHERE groupID='"+groupID+"'and userID='"+userID+"'" );
+		try {
+			if( resultSet.next() ){
+				return true;
+			}
+			else return false;
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilGroup.checkGroup() : Error getting group");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+
+		return false;
+	}
+	/**
 	 * 
 	 * @param name
 	 * @return
@@ -198,7 +224,25 @@ public class DBUtilGroup {
 		}
 		return -1;
 	}
-	
+	public static int leaveGroup( Group group, String userID){
+		String saveQuery = 
+			"DELETE FROM GroupReg WHERE groupID='"+group.getId()+"'and userID='"+userID+"';";
+		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
+			
+			try {
+				ResultSet  result = DBConnector.getQueryResult( "SELECT MAX(groupID) FROM Groups" );
+				if( result != null )
+					if( result.next() )
+						return result.getInt( 1 );
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("DBUtilGroup.joinGroup() : Error removing GroupReg entry"  );
+				e.printStackTrace();
+			}
+			
+		}
+		return -1;
+	}
 
 /**
  * Function that search DB for groups that meets given search criteria
