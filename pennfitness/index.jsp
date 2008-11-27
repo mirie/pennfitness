@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ page language="java" import="entities.User, java.util.List, java.util.Iterator,  model.DBUtilEventType, entities.EventType" %>
+<%@ page language="java" import="entities.User, model.DBUtilEventType" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -33,6 +33,7 @@
 <script type="text/javascript" src="js/leftToolbar.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/search.js"></script>
+<script type="text/javascript" src="js/myaccount.js"></script>
 <script type="text/javascript" src="js/accordion-menu-v2.js"></script>
 
 
@@ -245,22 +246,7 @@
                 </select><br />
                  <label for="evtType">Event Type:</label><select id="evtType" name="eventTypeID">
                     <option value="-1" selected="selected">Please select a type</option>
-                    <% 
-						List<EventType> eventTypeList = DBUtilEventType.getAllEventTypes(); 	
-						Iterator<EventType> iterator = eventTypeList.iterator();
-						
-						EventType eventType;
-						//String resultStr = "";
-						while(iterator.hasNext()){
-							eventType = iterator.next();
-							//resultStr += eventType.getEventTypeID() + "-" + eventType.getDescription() + ";";
-					%>
-					 <option value="<%= eventType.getEventTypeID() %>"><%= eventType.getDescription() %></option>
-								
-					<%	} // End while
-                    
-                    %>
-
+                    <%= DBUtilEventType.getAllEventTypesOptions() %>
                 </select><br />
                 <label for="eventTime">Event Time:</label> <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
                 <label for="eventDuration">Duration:</label> <input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
@@ -494,37 +480,33 @@
                 </li>
             </ul>
             <div class = "yui-content">
-                <div>
-                    <div class = "eventSearch">
-                        <form name="frmGroupSearchData" id="frmGroupSearchData">
-                        Key Word <input type="text" name="Key Word" size="10" id="keyWord" /><br>
-                        Type <input type="text" name="Type" size="10" id="Type" /><br>
-                        <div>
-                            Date
-                            <label>from: </label>
-                            <input type = "text" name = "dobfield" id = "dobfield" />
-                            <img id = "calico" src = "calendar_icon.jpg" alt = "Open the Calendar control" />
-                        </div>
-                        <div id = "eventcalFrom"></div>
-                        <div>
-                            <label>to: </label>
-                            <input type = "text" name = "dobfield" id = "dobfield" />
-                            <img id = "calico" src = "calendar_icon.jpg" alt = "Open the Calendar control" />
-                        </div>
-                        <div id = "eventcalTo"></div>
-                        <input type="submit" value="Search"/>
-                        </form>
-                        <div class = "Result">
-                            <div class="EventInfoList">
-                                <div class="registeredEventItem">
-                                    <a href="function_to_show_event">Inseob Event 007</a>
-                                </div>
-                                <div class="RouteInfoItem">
-                                    <a href="function_to_show_event">Girls go jogging</a>
-                                </div>
-                                <div class="RouteInfoItem">
-                                    <a href="function_to_show_event">Sansom E. Halloween jogging</a>
-                                </div>
+                <div class = "eventSearch">
+                    <form name="frmEventSearch" id="frmEventSearch">
+                    <p>
+                    	Keyword :<input type="text" size=10 name="keyword" id="ESKeyword" />&nbsp;&nbsp;
+                    	<label for="evtType">Event Type:</label><select id="ESevtType" name="eventTypeID">
+                    	<option value="-1" selected="selected">All types</option>
+                  		  <%= DBUtilEventType.getAllEventTypesOptions() %>
+                		</select><br />
+                    	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="ESFromDate" />
+<!-- 	                    		  <img id="calico" src="assets/calendar_icon.gif"/>--> ~ 
+                    		  <input type="text" size=10 maxlength=10 name="toDate" id="ESToDate" />
+<!-- 								  <img id="calico" src="assets/calendar_icon.gif"/>-->
+						<input type="button" value="Search" onclick="searchEvent()">
+                    </p>
+                    
+                    </form>
+                    <br />
+                    <div class = "Result">
+                        <div class="EventInfoList">
+                            <div class="registeredEventItem">
+                                <a href="function_to_show_event">Inseob Event 007</a>
+                            </div>
+                            <div class="RouteInfoItem">
+                                <a href="function_to_show_event">Girls go jogging</a>
+                            </div>
+                            <div class="RouteInfoItem">
+                                <a href="function_to_show_event">Sansom E. Halloween jogging</a>
                             </div>
                         </div>
                     </div>
@@ -572,25 +554,22 @@
                 <div>
                     <div class = "routeSearch">	
                         <form name="frmRouteSearchData" id="frmRouteSearchData">
-                        Key Word <input type="text" name="Key Word" size="10" id="keyWord" /><br>
-                        Distance <input type="text" name="Distance" size="10" id="Distance" /><br>
-                        <div>
-                            Date
-                            <label>from: </label>
-                            <input type = "text" name = "dobfield" id = "dobfield" />
-                            <img id = "calico" src = "calendar_icon.jpg" alt = "Open the Calendar control" />
-                        </div>
-                        <div id = "mycalFrom"></div>
-                        <div>
-                            <label>to: </label>
-                            <input type = "text" name = "dobfield" id = "dobfield" />
-                            <img id = "calico" src = "calendar_icon.jpg" alt = "Open the Calendar control" />
-                        </div>
-                        <div id = "mycalTo"></div>
-                        <input type="submit" value="Search"/>
+	                    <p>
+	                    	Keyword :<input type="text" size=10 name="keyword" id="eventKeyword" />&nbsp;&nbsp;
+	                    	Distance :<input type="text" size=3 maxlength=3 name="fromDistance" id="routeFromDistance" />~
+	                    			  <input type="text" size=3 maxlength=3 name="toDistance" id="routeToDistance" /><br />
+	                    	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="eventFromDate" />
+<!-- 	                    		  <img id="calico" src="assets/calendar_icon.gif"/>--> ~ 
+	                    		  <input type="text" size=10 maxlength=10 name="toDate" id="eventToDate" />
+<!-- 								  <img id="calico" src="assets/calendar_icon.gif"/>-->
+							<input type="button" value="Search" onclick="searchRoute()">
+	                    </p>
+	                    
+
                         </form>
                         <div class = "Result">
-                            <div class="RouteInfoList">
+<!-- 
+                             <div class="RouteInfoList">
                                 <div class="RouteInfoItem">
                                     <a href="function_to_show_route">Difficult Route 001</a>
                                 </div>
@@ -601,6 +580,7 @@
                                     <a href="function_to_show_route">Sweet Path in Philly</a>
                                 </div>
                             </div>
+-->                            
                         </div>
                     </div>
                 </div>

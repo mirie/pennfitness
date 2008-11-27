@@ -87,6 +87,27 @@ public class DBUtilEventType {
 		return eventTypes;
 	}
 	
+	/*
+	 * Returns all event types in OPTION format 
+	 * <option value="...">...</option>
+	 * <option value="...">...</option>
+	 * ...
+	 */
+	public static String getAllEventTypesOptions(){
+		StringBuffer sb = new StringBuffer();
+		List<EventType> eventTypeList = DBUtilEventType.getAllEventTypes(); 	
+		Iterator<EventType> iterator = eventTypeList.iterator();
+		
+		EventType eventType;
+		while(iterator.hasNext()){
+			eventType = iterator.next();
+			sb.append("<option value\"" + eventType.getEventTypeID() + "\">" + eventType.getDescription() + "</option>\n");
+		}
+		
+		return sb.toString();
+	}
+	
+	
 	
 	/**
 	 * Utility function that gets EventType object from a resultset row
