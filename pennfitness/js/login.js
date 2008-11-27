@@ -74,7 +74,7 @@ function setupUserReg() {
 
 	userRegPanel.render("bd");
 
-	YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true);
+	//YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true);
 	
 }
 
@@ -168,9 +168,6 @@ function Logout() {
 
 // Displays the user registration dialog
 function ShowUserRegDialog() {
-
 	userRegPanel.show();
-
-
 }
 

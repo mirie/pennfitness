@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ page language="java" import="entities.User" %>
+<%@ page language="java" import="entities.User, java.util.List, java.util.Iterator,  model.DBUtilEventType, entities.EventType" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -245,6 +245,22 @@
                 </select><br />
                  <label for="evtType">Event Type:</label><select id="evtType" name="eventTypeID">
                     <option value="-1" selected="selected">Please select a type</option>
+                    <% 
+						List<EventType> eventTypeList = DBUtilEventType.getAllEventTypes(); 	
+						Iterator<EventType> iterator = eventTypeList.iterator();
+						
+						EventType eventType;
+						//String resultStr = "";
+						while(iterator.hasNext()){
+							eventType = iterator.next();
+							//resultStr += eventType.getEventTypeID() + "-" + eventType.getDescription() + ";";
+					%>
+					 <option value="<%= eventType.getEventTypeID() %>"><%= eventType.getDescription() %></option>
+								
+					<%	} // End while
+                    
+                    %>
+
                 </select><br />
                 <label for="eventTime">Event Time:</label> <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
                 <label for="eventDuration">Duration:</label> <input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />

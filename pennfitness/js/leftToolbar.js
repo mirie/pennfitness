@@ -56,7 +56,7 @@ YAHOO.leftMenu.route.getNewRouteNames = function() {
 		timeout:3000,
 	}
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/allRoutes.jsp", callback); //TODO: put the appropriate servlet/jsp
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/allRoutes.jsp", callback);
 }
 
 
