@@ -42,9 +42,9 @@ public class EventSearchServlet extends HttpServlet{
     	
     	List<QueryParameter> params = new ArrayList<QueryParameter>();
     	params.add( new QueryParameter(" ( name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%')" ) );
-    	params.add( new QueryParameter(" groupID", " = '"+type+"'" ) );
-    	params.add( new QueryParameter(" eventDate", " > '" +fromDate+ "'") );
-    	params.add( new QueryParameter(" eventDate", " < '" +toDate+ "'") );
+    	params.add( new QueryParameter(" eventTypeID", " = '"+type+"'" ) );
+    	params.add( new QueryParameter(" eventDate", " >= '" +fromDate+ "'") );
+    	params.add( new QueryParameter(" eventDate", " <= '" +toDate+ "'") );
 
     	
     	List<Event> events = DBUtilEvent.searchForEvents( params );
