@@ -9,6 +9,7 @@ body {
 
 .yui-skin-sam .yui-layout { 
 	background-color: #003; 
+	text-align: left;
 } 
 
 .yui-skin-sam .yui-layout .yui-resize-proxy div { 
