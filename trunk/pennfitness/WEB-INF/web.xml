@@ -32,6 +32,10 @@
     <servlet-name>RouteSearchServlet</servlet-name>
     <servlet-class>model.RouteSearchServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>GroupSearchServlet</servlet-name>
+    <servlet-class>model.GroupSearchServlet</servlet-class>
+  </servlet>
 
 
   <!-- Map URLs to that servlet. -->
@@ -63,6 +67,10 @@
   <servlet-mapping>
     <servlet-name>RouteSearchServlet</servlet-name>
     <url-pattern>/searchRoute.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GroupSearchServlet</servlet-name>
+    <url-pattern>/searchGroup.do</url-pattern>
   </servlet-mapping>
  
 </web-app>
