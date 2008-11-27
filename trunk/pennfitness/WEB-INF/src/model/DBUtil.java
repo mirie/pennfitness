@@ -38,8 +38,9 @@ public class DBUtil {
 		}
 	}
 	
-	public static void addQueryParam(  ){
-		
+	public static void addQueryParam( List<QueryParameter> params, Object param, String paramName, String criteria ){
+		if(param == null || param.toString().length() == 0) return;
+		params.add(new QueryParameter(paramName, criteria));
 	}
 	
 }
