@@ -71,7 +71,7 @@ public class DBUtilRoute {
 	 */
 	public static List<String> getRouteNames(){
 		
-		List<Route> routes = getAllRoutes();
+		List<Route> routes = getAllRoutes(0, 0);
 		List<String> names = new ArrayList<String>();
 		
 		Iterator<Route> iterator = routes.iterator();
@@ -90,8 +90,9 @@ public class DBUtilRoute {
 	public static List<Route> getAllRoutes(int recordPerPage, int currentPage){
 		
 		List<Route> routes = new ArrayList<Route>();
-		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Routes ORDER BY createdDate DESC " +
-														  "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage);	
+		String query = "SELECT * FROM Routes ORDER BY createdDate DESC ";
+		if( recordPerPage != 0 || currentPage != 0 ) query += "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
+		ResultSet resultSet = DBConnector.getQueryResult( query );
 		
 		try {
 			while( resultSet.next() ){				
@@ -210,22 +211,7 @@ public class DBUtilRoute {
 		
 		return DBConnector.executeUpdateQuery( deleteQuery );		
 	}
-	
-	/**
-	 * Deletes the given route with the given ID.
-	 * 
-	 * @param route
-	 * @return 1 if the delete is successful. -1 if not
-	 */
-	public static int deleteRoute( Route route ){
 		
-		String deleteQuery = 
-			"DELETE FROM Routes " +
-			"WHERE routeID='"+ route.getId() +"'"; 
-		
-		return DBConnector.executeUpdateQuery( deleteQuery );		
-	}
-	
 	/**
 	 * Function that search DB for routes that meets given search criteria
 	 * 
