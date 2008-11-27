@@ -115,11 +115,11 @@ public class DBUtilEvent {
 	 * @param params
 	 * @return
 	 */
-	public static List<Event> searchForEvents( Map<String,String> params ){
+	public static List<Event> searchForEvents( List<QueryParameter> params ){
 		String searchQuery = 
 			"SELECT * " +
 			"FROM Event " +
-			"WHERE " + getSearchCriteria( params );
+			"WHERE " + DBUtil.getSearchCriteria( params );
 		
 		List<Event> events = new ArrayList<Event>();
 		ResultSet resultSet = DBConnector.getQueryResult( searchQuery );	
@@ -141,35 +141,6 @@ public class DBUtilEvent {
 		return events;
 	}
 	
-	/**
-	 * Some of the search criteria may be empty
-	 * So only the ones that are filled are going to be included in 
-	 * WHERE clause
-	 * 
-	 * @param params
-	 * @return
-	 */
-	private static String getSearchCriteria( Map<String,String> params ){
-		StringBuffer sbuf = new StringBuffer();
-		
-		 Set<String> keySet = params.keySet();
-		 Iterator<String> iterator = keySet.iterator();
-		 
-		 String key, value;
-		 while( iterator.hasNext() ){
-			 key   = iterator.next();
-			 value = params.get( key );
-			 
-			 if( !value.contains("'null'") && !value.contains("'%null%'") )
-				 sbuf.append( key ).append( value ).append(" AND");
-		 }
-		 
-		if( sbuf.length() == 0 )
-			return "1=1";
-		else{
-			return sbuf.substring(0, sbuf.length()-3/*to remove last AND*/);
-		}
-	}
 	
 	/**
 	 *
