@@ -3,6 +3,7 @@ package model;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -39,12 +40,11 @@ public class EventSearchServlet extends HttpServlet{
     	String toDate   = req.getParameter("toDate");
     	
     	
-    	Map<String, String> params = new HashMap<String, String>();
-    	params.put( " name", " LIKE '%"+keyword+"%'" );
-    	params.put( " description", " LIKE '%"+keyword+"%'" );
-    	params.put( " groupID", " = '"+type+"'" );
-    	params.put( " eventDate", " > '" +fromDate+ "'" );
-    	params.put( " eventDate", " < '" +toDate+ "'" );
+    	List<QueryParameter> params = new ArrayList<QueryParameter>();
+    	params.add( new QueryParameter(" name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%'" ) );
+    	params.add( new QueryParameter(" groupID", " = '"+type+"'" ) );
+    	params.add( new QueryParameter(" eventDate", " > '" +fromDate+ "'") );
+    	params.add( new QueryParameter(" eventDate", " < '" +toDate+ "'") );
 
     	
     	List<Event> events = DBUtilEvent.searchForEvents( params );
