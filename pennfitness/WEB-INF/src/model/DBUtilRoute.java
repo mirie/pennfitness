@@ -171,6 +171,21 @@ public class DBUtilRoute {
 	}
 	
 	/**
+	 * Deletes the given route with the given ID.
+	 * 
+	 * @param route
+	 * @return 1 if the delete is successful. -1 if not
+	 */
+	public static int deleteRoute( Route route ){
+		
+		String deleteQuery = 
+			"DELETE FROM Routes " +
+			"WHERE routeID='"+ route.getId() +"'"; 
+		
+		return DBConnector.executeUpdateQuery( deleteQuery );		
+	}
+	
+	/**
 	 * Function that search DB for routes that meets given search criteria
 	 * 
 	 * @param params
