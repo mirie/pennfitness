@@ -564,12 +564,14 @@
                     <div class = "routeSearch">	
                         <form name="frmRouteSearchData" id="frmRouteSearchData">
 	                    <p>
-	                    	Keyword :<input type="text" size=10 name="keyword" id="eventKeyword" />&nbsp;&nbsp;
-	                    	Distance :<input type="text" size=3 maxlength=3 name="fromDistance" id="routeFromDistance" />~
-	                    			  <input type="text" size=3 maxlength=3 name="toDistance" id="routeToDistance" /><br />
-	                    	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="eventFromDate" />
-	                    		  <input type="text" size=10 maxlength=10 name="toDate" id="eventToDate" />
-							<input type="button" value="Search" onclick="searchRoute()">
+	                    	Keyword :<input type="text" size=10 name="keyword" id="RSKeyword" />&nbsp;&nbsp;
+	                    	Distance :<input type="text" size=3 maxlength=3 name="fromDistance" id="RSFromDistance" />~
+	                    			  <input type="text" size=3 maxlength=3 name="toDistance" id="RSToDistance" /><br />
+	                    	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="RSFromDate" />
+	                    		  <input type="text" size=10 maxlength=10 name="toDate" id="RSToDate" />
+							<input type="button" value="Search" onclick="searchRoute()" />
+							<input type="hidden" id="RSrecsPerPage" name="recsPerPage" value="5" />
+							<input type="hidden" id="RScurPage" name="curPage" value="1" />
 	                    </p>
                         </form>
                         <div id="routeSearchResult" class = "Result">

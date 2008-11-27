@@ -32,6 +32,7 @@ public class RouteSearchServlet extends HttpServlet{
 	    throws ServletException, IOException
 	{      
 		JSONObject result = new JSONObject();
+    	StringBuffer sbuf = new StringBuffer();
 		PrintWriter out = resp.getWriter();
 		
 		String keyword 	= req.getParameter("keyword");    	
@@ -48,49 +49,62 @@ public class RouteSearchServlet extends HttpServlet{
 		DBUtil.addQueryParam(params, fromDate, " createdDate", " >= '" +fromDate+ "'" );
 		DBUtil.addQueryParam(params, toDate, " createdDate", " <= '" +toDate+ "'" );
 		
-		List<Route> routes = DBUtilRoute.searchForRoutes( params );
-		  	
-		if( routes != null ){
+		// For paging
 		
-	    	Iterator<Route> iterator = routes.iterator();
-	    	
-	    	StringBuffer sbuf = new StringBuffer();
-	    	sbuf.append("<div class = \"RouteResults\">\n");	    		 
-	    	Route route;
-	    	while( iterator.hasNext() ){
-	    		route = iterator.next();
-	    		
-/*
-<div class="RouteResults">
-  <div class="RouteResultItem">
-  	<a href="#" class="RRrouteName">This is the route name</a> by <span class="RRuserID">UserID</span> on <span class="RRcreatedDate">2008-11-27</span> Avg.Rate: 0.0 <br/>
-    <span class="RRdescription">This is description</span>
-  </div>
-</div>
-javascript:YAHOO.pennfitness.float.getRoute('156')
- */	    		
-				sbuf.append("<div class=\"RouteResultItem\">\n").
-					append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "')\" class=\"RRrouteName\">" + route.getName() + "</a> by <span class=\"RRuserID\">").
-					append(route.getCreatorID() + "</span> on <span class=\"RRcreatedDate\">").
-					append(route.getCreatedDate().toString() + "</span> Avg.Rate: " + route.getDistance() + "<br/>\n").
-					append("<span class=\"RRdescription\">" + route.getDescription() + "</span>\n").
-					append("</div>\n");
-	    	}
-	    	
-	    	sbuf.append("\t</div>\n").
-	    		 append("</div>\n");
-	    	
-	    	
-	    	result.put( "STATUS", "Success");
-	    	result.put( "DATA", sbuf.toString() );
-	    	
+		/* get recsPerPage */
+		String recsPerPageString = req.getParameter("recsPerPage");
+		int recsPerPage = recsPerPageString == null ? DBConnector.DEFAULTRECSPERPAGE : Integer.parseInt(recsPerPageString);
+		
+		/* get curPage */
+		String curPageString = req.getParameter("curPage");
+		int curPage = curPageString == null ? DBConnector.DEFAULTCURRENTPAGE : Integer.parseInt(curPageString);
+
+		/* get total num of records */
+		int totalRecordCnt = DBUtilRoute.getSearchForRoutesCount( params );
+		
+		/* check if exceeding total num pages */
+		if( totalRecordCnt == 0 ) {
+			curPage = 1;
 		}
-		else{
-			result.put( "STATUS", "Failure");
-			//TODO
-			//I'll put more detailed MSG here
-			result.put( "MSG", "Error in searching routes in DB" );
+		else if((curPage-1) * recsPerPage >= totalRecordCnt) {
+			curPage = (int)Math.ceil((double)totalRecordCnt/(double)recsPerPage);
 		}
+		
+		if( totalRecordCnt > 0 ) {
+			List<Route> routes = DBUtilRoute.searchForRoutes( params, recsPerPage, curPage );			  	
+			if( routes != null ){
+		    	Iterator<Route> iterator = routes.iterator();
+		    	
+		    	Route route;
+		    	while( iterator.hasNext() ){
+		    		route = iterator.next(); 		
+	/*
+	<div class="RouteResults">
+	  <div class="RouteResultItem">
+	  	<a href="#" class="RRrouteName">This is the route name</a> by <span class="RRuserID">UserID</span> on <span class="RRcreatedDate">2008-11-27</span> Avg.Rate: 0.0 <br/>
+	    <span class="RRdescription">This is description</span>
+	  </div>
+	</div>
+	javascript:YAHOO.pennfitness.float.getRoute('156')
+	 */	    		
+					sbuf.append("<div class=\"RouteResultItem\">\n").
+						append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "')\" class=\"RRrouteName\">" + route.getName() + "</a> by <span class=\"RRuserID\">").
+						append(route.getCreatorID() + "</span> on <span class=\"RRcreatedDate\">").
+						append(route.getCreatedDate().toString() + "</span> Avg.Rate: " + route.getDistance() + "<br/>\n").
+						append("<span class=\"RRdescription\">" + route.getDescription() + "</span>\n").
+						append("</div>\n");
+		    	}
+			}
+		} // end of if( totalRecordCnt > 0 ) {
+
+		JSONObject data = new JSONObject();
+		data.put("ROUTES", sbuf.toString());
+		data.put("CURPAGE", curPage);
+		data.put("TOTALRECCNT", totalRecordCnt);
+
+		// Can this fail?
+    	result.put( "STATUS", "Success");
+    	result.put( "DATA", data );
 		
 		out.println( result );
 		       
