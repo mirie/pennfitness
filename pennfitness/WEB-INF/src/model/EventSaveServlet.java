@@ -8,10 +8,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
 import entities.Event;
+import entities.User;
 
 public class EventSaveServlet extends HttpServlet {
 
@@ -37,20 +39,36 @@ public class EventSaveServlet extends HttpServlet {
     	String eventDescription = req.getParameter("eventDesc");
     	String eventTime        = req.getParameter("eventTime");
     	//String eventDate = req.getParameter("eventDate");
-    	//String publicity = req.getParameter("publicity");
+    	String publicity = req.getParameter("publicity");
     	
     	//TODO
-    	//HttpSession
-    	//creatorId will be read from cookies. 
-    	Event event = new Event( eventName,  
-    							 Float.valueOf(eventDuration), 
-    							 eventDescription, 
-    							 Integer.valueOf( routeID ), 
-    							 Integer.valueOf( groupID ), 
-    							 1/*creatorId*/,
-    							 eventTime,
-    							 new Date(System.currentTimeMillis())/*eventDate*/,
-    							 'Y'/*char publicity*/);
+    	HttpSession session = req.getSession();
+    	User user = (User)session.getAttribute("user"); 
+    	Event event;
+    	if( user != null ){
+    		event = new Event( eventName,  
+					 Float.valueOf(eventDuration), 
+					 eventDescription, 
+					 Integer.valueOf( routeID ), 
+					 Integer.valueOf( groupID ), 
+					 user.getUserID(),
+					 eventTime,
+					 new Date(System.currentTimeMillis())/*eventDate*/,
+					 publicity.charAt(0));
+    	}
+    	else{
+    		event = new Event( eventName,  
+					 Float.valueOf(eventDuration), 
+					 eventDescription, 
+					 Integer.valueOf( routeID ), 
+					 Integer.valueOf( groupID ), 
+					 "defaultUser",
+					 eventTime,
+					 new Date(System.currentTimeMillis())/*eventDate*/,
+					 publicity.charAt(0));
+    	}
+    	
+    	
     	
     	//Save event
     	if( eventID.equals("-1") ){    
