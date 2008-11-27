@@ -39,15 +39,16 @@ public class GroupSaveServlet extends HttpServlet{
     	// User user = (User)session.getAttribute("user");
     	
     	String groupID = req.getParameter("groupID");
+    	String creatorID = req.getParameter("userID");
     	
     	String groupName  = req.getParameter("groupName");
     	String groupDesc  = req.getParameter("groupDesc");
     	
     	Group group;
-    	if( user != null )
-    		group = new Group(groupName, groupDesc, user.getUserID() );
-    	else
-    		group = new Group(groupName, groupDesc, "1" );
+    	//if( user != null )
+    	//	group = new Group(groupName, groupDesc, user.getUserID() );
+    	//else
+    		group = new Group(groupName, groupDesc, 1 );
     	
     	//Save group
     	if( groupID.equals("-1") ){
@@ -72,7 +73,7 @@ public class GroupSaveServlet extends HttpServlet{
             out.println( result );
             
     	}
-    	//Modify route
+    	//Modify group
     	else{
     		group.setId( Integer.valueOf( groupID.trim() ) );
     		
@@ -84,7 +85,7 @@ public class GroupSaveServlet extends HttpServlet{
     		if( transaction == -1 )
     			result.put( "STATUS", "Failure" );		
     		else
-    			result.put( "STATUS", "Success");
+    			result.put( "STATUS", "Modified Successfully");
     		
     		data.put( "GroupID", groupID.trim() );
     		result.put( "DATA",  data );
