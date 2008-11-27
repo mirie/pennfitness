@@ -150,15 +150,16 @@ public class DBUtilGroup {
 	 */
 	private static Group resultSetToGroup( ResultSet resultSet ){
 		
-		int id, creatorId;
+		int id;
 		String name;
 		String description;
+		String creatorId;
 		Date createdDate;
 		
 		try {
 			id = resultSet.getInt("groupID");
 			name = resultSet.getString( "name" );
-			creatorId = resultSet.getInt("creatorId");
+			creatorId = resultSet.getString("creatorId");
 			description = resultSet.getString("description");
 			createdDate = resultSet.getDate("createdDate");
 			
