@@ -17,6 +17,10 @@
     <servlet-class>model.GroupRegisterServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>GroupLeaveServlet</servlet-name>
+    <servlet-class>model.GroupLeaveServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>EventSaveServlet</servlet-name>
     <servlet-class>model.EventSaveServlet</servlet-class>
   </servlet>
@@ -55,6 +59,10 @@
   <servlet-mapping>
     <servlet-name>GroupRegisterServlet</servlet-name>
     <url-pattern>/joinGroup.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GroupLeaveServlet</servlet-name>
+    <url-pattern>/leaveGroup.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>EventSaveServlet</servlet-name>
