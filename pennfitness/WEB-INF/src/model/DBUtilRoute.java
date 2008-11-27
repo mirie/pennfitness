@@ -87,10 +87,11 @@ public class DBUtilRoute {
 	 * 
 	 * @return
 	 */
-	public static List<Route> getAllRoutes( ){
+	public static List<Route> getAllRoutes(int recordPerPage, int currentPage){
 		
 		List<Route> routes = new ArrayList<Route>();
-		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Routes ORDER BY createdDate DESC" );	
+		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Routes ORDER BY createdDate DESC " +
+														  "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage);	
 		
 		try {
 			while( resultSet.next() ){				
@@ -107,6 +108,31 @@ public class DBUtilRoute {
 			
 		return routes;
 	}
+	
+	public static int getAllRoutesCount() {
+
+		ResultSet resultSet = DBConnector.getQueryResult( "SELECT count(*) CNT FROM Routes");
+		int recCount = 0;
+		
+		try {
+			while( resultSet.next() ){				
+				recCount = resultSet.getInt("CNT");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getAllRoutes() : Error getting route");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		
+		return recCount;
+		
+		
+	}
+	
+	
 	
 	/**
 	 * Saves a new route with the given information
@@ -168,6 +194,21 @@ public class DBUtilRoute {
 		
 		return DBConnector.executeUpdateQuery( updateQuery );
 			
+	}
+	
+	/**
+	 * Deletes the given route with the given ID.
+	 * 
+	 * @param route
+	 * @return 1 if the delete is successful. -1 if not
+	 */
+	public static int deleteRoute( Route route ){
+		
+		String deleteQuery = 
+			"DELETE FROM Routes " +
+			"WHERE routeID='"+ route.getId() +"'"; 
+		
+		return DBConnector.executeUpdateQuery( deleteQuery );		
 	}
 	
 	/**

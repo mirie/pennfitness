@@ -147,7 +147,12 @@
                         </ul>
                         <div class="yui-content">
 	                        <div id="popularRtListTab"><p>Popular Routes Listed Here</p></div>
-    	                    <div id="newRtListTab"><p>New Routes listed here</p></div>
+    	                    <div id="newRtListTab">
+								<div id="newRoutesList"></div>
+	    	                    <div id="pag_newRoutesList" class="paginator">
+									<!-- paginator -->
+			                	</div>
+    	                    </div>
                         </div>
                     </div>
               	</div>
@@ -559,29 +564,16 @@
 	                    	Distance :<input type="text" size=3 maxlength=3 name="fromDistance" id="routeFromDistance" />~
 	                    			  <input type="text" size=3 maxlength=3 name="toDistance" id="routeToDistance" /><br />
 	                    	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="eventFromDate" />
-<!-- 	                    		  <img id="calico" src="assets/calendar_icon.gif"/>--> ~ 
 	                    		  <input type="text" size=10 maxlength=10 name="toDate" id="eventToDate" />
-<!-- 								  <img id="calico" src="assets/calendar_icon.gif"/>-->
 							<input type="button" value="Search" onclick="searchRoute()">
 	                    </p>
-	                    
-
                         </form>
-                        <div class = "Result">
-<!-- 
-                             <div class="RouteInfoList">
-                                <div class="RouteInfoItem">
-                                    <a href="function_to_show_route">Difficult Route 001</a>
-                                </div>
-                                <div class="RouteInfoItem">
-                                    <a href="function_to_show_route">Coolest Route Ever</a>
-                                </div>
-                                <div class="RouteInfoItem">
-                                    <a href="function_to_show_route">Sweet Path in Philly</a>
-                                </div>
-                            </div>
--->                            
+                        <div id="routeSearchResult" class = "Result">
+                        	<!-- route search result -->
                         </div>
+		                <div id="pag_routeSearchResult" class="paginator">
+							<!-- paginator -->
+		                </div>
                     </div>
                 </div>
             </div>

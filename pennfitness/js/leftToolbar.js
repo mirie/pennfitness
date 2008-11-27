@@ -12,38 +12,17 @@ var leftMenuEvtTab = new YAHOO.widget.TabView('eventListTabArea');
 var leftMenuRtTab = new YAHOO.widget.TabView('routeListTabArea');
 
 
-
 YAHOO.leftMenu.route.getNewRouteNames = function() {
-	var successHandler = function(o) {		
-		var response;
-		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }
+	YAHOO.leftMenu.route.getNewRouteNamesN(5,1);
+}
+
+YAHOO.leftMenu.route.getNewRouteNamesN = function(recsPerPage, curPage) {
+	var successHandler = function(o) {			
+		var jResponse;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 	    
-	    if (response.STATUS == 'Success') {	    	
-	    	var rlist = document.getElementById("newRtListTab");
-	    	var routeList = response.DATA.ROUTES.split(";")
-	    	var content ="";
-	    	
-	    	rlist.innerHTML = "";
-			
-			for (var i = 0 ; i < routeList.length -1; i++) {
-				var k = i + 1;
-				var route = routeList[i].split("-");
-				content += k + ". <a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route[0] + "')\">" + route[1] + "</a><br />";			
-			}
-			
-			rlist.innerHTML = content;
-	    	
-	    } else {
-	    	alert("Could not load routes!");
-	    }	    
+	    YAHOO.util.Dom.get("newRoutesList").innerHTML = jResponse.DATA.ROUTES; 
+	    pagNewRoutes.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
 	}
 
 	var failureHandler = function(o) {
@@ -56,7 +35,9 @@ YAHOO.leftMenu.route.getNewRouteNames = function() {
 		timeout:3000,
 	}
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/allRoutes.jsp", callback);
+	var connStr = "view/allRoutes.jsp?recsPerPage=" + recsPerPage + "&curPage=" + curPage;
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", connStr, callback);
 }
 
 

@@ -40,14 +40,13 @@ public class RouteSearchServlet extends HttpServlet{
 		String fromDate = req.getParameter("fromDate");
 		String toDate   = req.getParameter("toDate");
 		
-		
 		List<QueryParameter> params = new ArrayList<QueryParameter>();
-		params.add( new QueryParameter(" ( name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%')" ) );
-		params.add( new QueryParameter(" distance", " >= '"+fromDistance+"'" ) );
-		params.add( new QueryParameter(" distance"," <= '"+toDistance+"'" ) );
-		params.add( new QueryParameter(" createdDate", " >= '" +fromDate+ "'" ) );
-		params.add( new QueryParameter(" createdDate", " <= '" +toDate+ "'" ) );
-	
+		
+		DBUtil.addQueryParam(params, keyword, " ( name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%')" ); 
+		DBUtil.addQueryParam(params, fromDistance, " distance", " >= '"+fromDistance+"'" );
+		DBUtil.addQueryParam(params, toDistance, " distance"," <= '"+toDistance+"'" );
+		DBUtil.addQueryParam(params, fromDate, " createdDate", " >= '" +fromDate+ "'" );
+		DBUtil.addQueryParam(params, toDate, " createdDate", " <= '" +toDate+ "'" );
 		
 		List<Route> routes = DBUtilRoute.searchForRoutes( params );
 		  	
@@ -56,15 +55,26 @@ public class RouteSearchServlet extends HttpServlet{
 	    	Iterator<Route> iterator = routes.iterator();
 	    	
 	    	StringBuffer sbuf = new StringBuffer();
-	    	sbuf.append("<div class = \"Result\">\n").
-	    		 append("\t<div class=\"RouteInfoList\">\n");
-	    		 
+	    	sbuf.append("<div class = \"RouteResults\">\n");	    		 
 	    	Route route;
 	    	while( iterator.hasNext() ){
 	    		route = iterator.next();
-	    		sbuf.append("\t\t<div class=\"RouteInfoItem\">\n").
-	    			 append("\t\t\t<a href=\"function_to_show_route\">"+ route.getName() +"</a>\n").
-	    			 append("\t\t</div>\n");
+	    		
+/*
+<div class="RouteResults">
+  <div class="RouteResultItem">
+  	<a href="#" class="RRrouteName">This is the route name</a> by <span class="RRuserID">UserID</span> on <span class="RRcreatedDate">2008-11-27</span> Avg.Rate: 0.0 <br/>
+    <span class="RRdescription">This is description</span>
+  </div>
+</div>
+javascript:YAHOO.pennfitness.float.getRoute('156')
+ */	    		
+				sbuf.append("<div class=\"RouteResultItem\">\n").
+					append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "')\" class=\"RRrouteName\">" + route.getName() + "</a> by <span class=\"RRuserID\">").
+					append(route.getCreatorID() + "</span> on <span class=\"RRcreatedDate\">").
+					append(route.getCreatedDate().toString() + "</span> Avg.Rate: " + route.getDistance() + "<br/>\n").
+					append("<span class=\"RRdescription\">" + route.getDescription() + "</span>\n").
+					append("</div>\n");
 	    	}
 	    	
 	    	sbuf.append("\t</div>\n").
