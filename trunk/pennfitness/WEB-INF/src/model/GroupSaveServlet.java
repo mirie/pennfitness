@@ -48,7 +48,7 @@ public class GroupSaveServlet extends HttpServlet{
     	//if( user != null )
     	//	group = new Group(groupName, groupDesc, user.getUserID() );
     	//else
-    		group = new Group(groupName, groupDesc, 1 );
+    		group = new Group(groupName, groupDesc, "1" );
     	
     	//Save group
     	if( groupID.equals("-1") ){
@@ -75,8 +75,8 @@ public class GroupSaveServlet extends HttpServlet{
     	}
     	//Modify group
     	else{
-    		group.setId( Integer.valueOf( groupID.trim() ) );
-    		
+    		//group.setId( Integer.valueOf( groupID.trim() ) );
+    		group.setId(groupID);
     		JSONObject result = new JSONObject();
     		JSONObject data = new JSONObject();
     		
