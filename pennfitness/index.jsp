@@ -204,7 +204,7 @@
             </form>
             <div id="routeEvents">
                 <span id="totalEvents">0 Events</span> 
-                <a href="javascript:ShowNewEventDialog()"/>New Event</a>
+                <a href="javascript:createEvt()"/>New Event</a>
             </div>
 
         
@@ -240,11 +240,11 @@
         <div class="hd">Edit Event Details</div>
         <div class="bd">
             <form name="frmCreateEvent" id="frmCreateEvent" method="post" action="#">
-                <label for="eventName">Event Name:</label> <input type="text" name="eventName" id="eventName" size="10" maxlength="30" /><br />                                
+                <label for="eventNameTxt">Event Name:</label> <input type="text" name="eventName" id="eventNameTxt" size="10" maxlength="30" /><br />                                
 				
 				<label for="publicity">Publicity:</label>
-                <input type="radio" name="publicity" value="Y" /> Public Event
-                <input type="radio" name="publicity" value="N" /> Private Event <br />
+                <input type="radio" name="publicity" id="publicEvt" value="Y" checked="checked"/> Public Event
+                <input type="radio" name="publicity" id="privateEvt" value="N" /> Private Event <br />
                 
                 <label for="evtGroup">Group Name:</label> <select id="evtGroup" name="groupName">
                     <option value="-1" selected="selected">None</option>
@@ -252,12 +252,16 @@
                  <label for="evtType">Event Type:</label><select id="evtType" name="eventTypeID">
                     <option value="-1" selected="selected">Please select a type</option>
                     <%= DBUtilEventType.getAllEventTypesOptions() %>
+                </select><br />                
+                <label for="evtTimeStart">Event Start Time:</label> <select id="evtTimeStart" name="eventTimeStart" ></select>
+                <select name="AM_PM">
+                	<option value="AM" selected="selected">AM</option>
+                	<option value="PM">PM</option>
                 </select><br />
-                <label for="eventTime">Event Time:</label> <input type="text" name="eventTime" id="eventTime" size="10" maxlength="30" /><br />
-                <label for="eventDuration">Duration:</label> <input type="text" name="eventDuration" id="eventDuration" size="10" maxlength="30" /><br />
+                <label for="eventDurationTxt">Duration: (in hours - e.g., 1.5)</label> <input type="text" name="eventDuration" id="eventDurationTxt" size="10" maxlength="30" /><br />
                 <div id="date">
-                    <label for="eventDate">Event Date:</label> <input type="text" name="eventDate" id="eventDate"  size="10" maxlength="10"/>
-                </div>
+                    <label for="eventDateTxt">Event Date:</label> <input type="text" name="eventDate" id="eventDateTxt"  size="10" maxlength="10"/>
+                </div><div id="buttoncalendar"></div>
                 <p>Description:</p>
                 <textarea id="eventDescTxt" name="eventDesc" wrap="virtual"></textarea><br />			
             </form>

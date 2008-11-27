@@ -5,8 +5,8 @@
   <!-- Declare the existence of a servlet. -->
 
   <servlet>
-    <servlet-name>RouteSaveServlet</servlet-name>
-    <servlet-class>model.RouteSaveServlet</servlet-class>
+    <servlet-name>RouteMgmtServlet</servlet-name>
+    <servlet-class>model.RouteMgmtServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>GroupSaveServlet</servlet-name>
@@ -41,8 +41,8 @@
   <!-- Map URLs to that servlet. -->
 
   <servlet-mapping>
-    <servlet-name>RouteSaveServlet</servlet-name>
-    <url-pattern>/saveRoute.do</url-pattern>
+    <servlet-name>RouteMgmtServlet</servlet-name>
+    <url-pattern>/mgRoute.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>GroupSaveServlet</servlet-name>

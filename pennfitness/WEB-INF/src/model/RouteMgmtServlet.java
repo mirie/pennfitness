@@ -20,7 +20,7 @@ import entities.User;
 
 
 
-public class RouteSaveServlet extends HttpServlet{
+public class RouteMgmtServlet extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
 
