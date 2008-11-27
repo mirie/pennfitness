@@ -205,10 +205,10 @@ public class DBUtilEvent {
 	private static Event resultSetToEvent( ResultSet resultSet ){
 		
 		
-		int eventID, groupID, creatorID, routeID, eventTypeID;
+		int eventID, groupID, routeID, eventTypeID;
 		float duration;
 		char publicity;
-		String name, description, eventTime;
+		String name, description, creatorID, eventTime;
 		Date createdDate, modifiedDate, eventDate; 	 	 	 	 	 	 	 	
 		
 		try {
@@ -217,7 +217,7 @@ public class DBUtilEvent {
 			description = resultSet.getString("description");
 			groupID = resultSet.getInt("groupID");
 			publicity = resultSet.getString("publicity").charAt(0);
-			creatorID = resultSet.getInt("creatorID");
+			creatorID = resultSet.getString("creatorID");
 			createdDate = resultSet.getDate("createdDate");
 			modifiedDate = resultSet.getDate("modifiedDate");
 			routeID = resultSet.getInt("routeID");
