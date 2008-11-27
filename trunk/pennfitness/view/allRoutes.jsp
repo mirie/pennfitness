@@ -3,31 +3,16 @@
 
 <% 
 	// paging
-	
-	int DEFAULTPOSTPERPAGE = 5;
-	int DEFAULTCURRENTPAGE = 1;
-	
-	/* get postsPerPage */
-	String recsPerPageString = request.getParameter("recsPerPage");
-	int recsPerPage;
-	if(recsPerPageString == null) {
-		recsPerPage = DEFAULTPOSTPERPAGE;
-	}
-	else {
-		recsPerPage = Integer.parseInt(recsPerPageString);
-	}
-	
-	/* get currentPage */
-	String curPageString = request.getParameter("curPage");
-	int curPage;
-	if(curPageString == null) {
-		curPage = DEFAULTCURRENTPAGE;
-	}
-	else {
-		curPage = Integer.parseInt(curPageString);
-	}
 
-	/* get total num post */
+	/* get recsPerPage */
+	String recsPerPageString = request.getParameter("recsPerPage");
+	int recsPerPage = recsPerPageString == null ? DBConnector.DEFAULTRECSPERPAGE : Integer.parseInt(recsPerPageString);
+	
+	/* get curPage */
+	String curPageString = request.getParameter("curPage");
+	int curPage = curPageString == null ? DBConnector.DEFAULTCURRENTPAGE : Integer.parseInt(curPageString);
+
+	/* get total num of records */
 	int totalRecordCnt = DBUtilRoute.getAllRoutesCount();
 	
 	/* check if exceeding total num pages */
@@ -40,7 +25,7 @@
 
 	StringBuffer sb = new StringBuffer();
 	
-	if( totalRecordCnt != 0 ) {
+	if( totalRecordCnt > 0 ) {
 		List<Route> routes = DBUtilRoute.getAllRoutes(recsPerPage, curPage); 	
 		Route route;
 		Iterator<Route> iterator = routes.iterator();

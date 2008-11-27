@@ -48,7 +48,8 @@ function searchRoute() {
 		
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 
-		YAHOO.util.Dom.get("routeSearchResult").innerHTML = jResponse.DATA;
+		YAHOO.util.Dom.get("routeSearchResult").innerHTML = jResponse.DATA.ROUTES;
+		pagRouteSearch.set('totalRecords',jResponse.DATA.TOTALRECCNT); 		
 	}
 
 	var failureHandler = function(o) {
@@ -60,7 +61,7 @@ function searchRoute() {
 		success:successHandler,
 		timeout:3000,
 	}
-	
+		
 	YAHOO.util.Connect.setForm("frmRouteSearchData");
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchRoute.do", callback);
@@ -70,6 +71,7 @@ function searchRoute() {
 
 function initPaginators()
 {
+	// Paginator for new route list
 	pagNewRoutes = new YAHOO.widget.Paginator({
 	    rowsPerPage  : 5,
 	    totalRecords : 5,
@@ -80,16 +82,39 @@ function initPaginators()
 						] // or idStr or elem or [ elem, elem ]
 	});	
 	pagNewRoutes.render();
-	pagNewRoutes.subscribe('changeRequest',pagNewRoutesHandler); 
+	pagNewRoutes.subscribe('changeRequest',pagNewRoutesHandler);
+	
+	// Paginator for route search
+	pagRouteSearch = new YAHOO.widget.Paginator({
+	    rowsPerPage  : 5,
+	    totalRecords : 5,
+//	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
+//		previousPageLinkLabel : "&lt;",
+//		nextPageLinkLabel : "&gt;",
+	    containers   : ["pag_routeSearchResult"
+						] // or idStr or elem or [ elem, elem ]
+	});	
+	pagRouteSearch.render();
+	pagRouteSearch.subscribe('changeRequest',pagRouteSearchHandler); 
 }
 
-// Paginator for new routes list
+// Paginator handler for new routes list
 function pagNewRoutesHandler(newState)
 {
 	YAHOO.leftMenu.route.getNewRouteNamesN(newState.rowsPerPage, newState.page);
 	newState.paginator.setState(newState);
 }
 
+// Paginator handler for route search
+function pagRouteSearchHandler(newState)
+{
+	// Set paging values
+	YAHOO.util.Dom.get("RSrecsPerPage").value = newState.rowsPerPage;
+	YAHOO.util.Dom.get("RScurPage").value = newState.page;
+
+	searchRoute();
+	newState.paginator.setState(newState);
+}
 
 
 
