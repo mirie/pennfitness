@@ -111,7 +111,6 @@ public class DBUtilRoute {
 	}
 	
 	public static int getAllRoutesCount() {
-
 		ResultSet resultSet = DBConnector.getQueryResult( "SELECT count(*) CNT FROM Routes");
 		int recCount = 0;
 		
@@ -121,16 +120,13 @@ public class DBUtilRoute {
 			}
 		} 
 		catch (SQLException e) {
-			System.out.println("DBFunctionUtil.getAllRoutes() : Error getting route");
+			System.out.println("DBFunctionUtil.getAllRoutesCount() : Error getting route count");
 			e.printStackTrace();
 		}
 		finally{
 			DBConnector.closeDBConnection();
 		}
-		
 		return recCount;
-		
-		
 	}
 	
 	
@@ -145,7 +141,7 @@ public class DBUtilRoute {
 			
 		String saveQuery = 
 			"INSERT INTO Routes ( name, creatorID, points, description, routeColor, distance," +
-								" pt_scenery, pt_difficulty, pt_safety, pt_rate, routeDate, createdDate, modifiedDate)" +
+								" pt_scenery, pt_difficulty, pt_safety, pt_rate, createdDate, modifiedDate)" +
 								" VALUES ('"+ route.getName()+"'," +
 										"'"+ route.getCreatorID()+"'," +
 										"'"+ route.getPtValues()+"'," +
@@ -153,7 +149,6 @@ public class DBUtilRoute {
 										"'"+ route.getColor()+"'," +
 										"'"+ route.getDistance()+"'," +
 										"'"+ 0 +"','"+ 0 +"','"+ 0 +"','"+ 0 +"'," +
-										"NOW()," + 
 										"NOW()," +
 										"NOW())";
 		
@@ -218,11 +213,13 @@ public class DBUtilRoute {
 	 * @param params
 	 * @return
 	 */
-	public static List<Route> searchForRoutes( List<QueryParameter> params ){
+	public static List<Route> searchForRoutes( List<QueryParameter> params, int recordPerPage, int currentPage ){
 		String searchQuery = 
 			"SELECT * " +
 			"FROM Routes " +
-			"WHERE " + DBUtil.getSearchCriteria( params );
+			"WHERE " + DBUtil.getSearchCriteria( params ) +
+			" ORDER BY createdDate DESC " +
+			"LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
 		
 		System.out.println("Search Query:" + searchQuery);
 		
@@ -246,6 +243,31 @@ public class DBUtilRoute {
 		return routes;
 	}
 	
+	public static int getSearchForRoutesCount(List<QueryParameter> params) {
+		String searchQuery = 
+			"SELECT count(*) CNT " +
+			"FROM Routes " +
+			"WHERE " + DBUtil.getSearchCriteria( params );
+		
+		ResultSet resultSet = DBConnector.getQueryResult(searchQuery);
+
+		int recCount = 0;
+		
+		try {
+			while( resultSet.next() ){				
+				recCount = resultSet.getInt("CNT");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getSearchForRoutesCount() : Error getting route count");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		return recCount;
+	}
+
 
 	
 	
@@ -265,7 +287,7 @@ public class DBUtilRoute {
 		int ps_scenery, pt_difficulty, pt_safety;
 	    float pt_rate;
 		
-		Date routeDate, createdDate, modifiedDate;
+		Date createdDate, modifiedDate;
 		
 		try {
 			id = resultSet.getInt("routeID");
@@ -279,13 +301,12 @@ public class DBUtilRoute {
 			pt_difficulty = resultSet.getInt("pt_difficulty");
 			pt_safety = resultSet.getInt("pt_safety");
 			pt_rate = resultSet.getFloat("pt_rate");
-			routeDate = resultSet.getDate("routeDate");
 			createdDate = resultSet.getDate("createdDate");
 			modifiedDate = resultSet.getDate("modifiedDate");
 			
 			return new Route( id, name, creatorId, ptValues, description, color, distance, 
 							  ps_scenery, pt_difficulty, pt_safety, pt_rate, 
-							  routeDate, createdDate, modifiedDate  );
+							  createdDate, modifiedDate  );
 			
 		} 
 		catch (SQLException e) {
