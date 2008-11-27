@@ -82,7 +82,7 @@ public class RouteSearchServlet extends HttpServlet{
 			result.put( "MSG", "Error in searching routes in DB" );
 		}
 		
-		out.println( result.get("DATA") );
+		out.println( result );
 		       
 	}	
 
