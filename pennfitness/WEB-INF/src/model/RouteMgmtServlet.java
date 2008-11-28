@@ -64,9 +64,9 @@ public class RouteMgmtServlet extends HttpServlet{
     		if (user != null) { // user logged in
     			List<QueryParameter> params = new ArrayList<QueryParameter>();
     			params.add(new QueryParameter("routeID", "= " + routeID));
-    			List<Event> queryResult = DBUtilEvent.searchForEvents(params);
+    			int eventCnt = DBUtilEvent.getSearchForEventsCount(params);
     			
-    			if (queryResult != null && queryResult.size() == 0 ) { // there are NO events associated with this route 
+    			if (eventCnt == 0) { // there are NO events associated with this route 
     				Route route = DBUtilRoute.getRouteById(routeID);
     				String creatorID = route.getCreatorID();
     				if (user.getUserID().trim().equalsIgnoreCase(creatorID.trim())){ // userID == creatorID
