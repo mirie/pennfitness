@@ -149,6 +149,7 @@ public class DBUtilEvent {
 	}
 
 	public static int getSearchForEventsCount(List<QueryParameter> params) {
+		/* comment */
 		String searchQuery = 
 			"SELECT count(*) CNT " +
 			"FROM Event " +
@@ -173,7 +174,7 @@ public class DBUtilEvent {
 		return recCount;
 	}
 
-	
+	  
 	
 	/**
 	 *
