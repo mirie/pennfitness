@@ -23,6 +23,7 @@ YAHOO.leftMenu.route.getNewRouteNamesN = function(recsPerPage, curPage) {
 	    
 	    YAHOO.util.Dom.get("newRoutesList").innerHTML = jResponse.DATA.CONTENT; 
 	    pagNewRoutes.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
+	    pagNewRoutes.setPage(jResponse.DATA.CURPAGE, true);
 	}
 
 	var failureHandler = function(o) {
@@ -47,6 +48,7 @@ YAHOO.leftMenu.route.getPopularRouteNamesN = function(recsPerPage, curPage) {
 	    
 	    YAHOO.util.Dom.get("popularRoutesList").innerHTML = jResponse.DATA.CONTENT; 
 	    pagNewRoutes.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
+	    pagPopularRoutes.set('page', jResponse.DATA.CURPAGE);
 	}
 
 	var failureHandler = function(o) {
