@@ -101,7 +101,7 @@ public class DBUtilEventType {
 		EventType eventType;
 		while(iterator.hasNext()){
 			eventType = iterator.next();
-			sb.append("<option value\"" + eventType.getEventTypeID() + "\">" + eventType.getDescription() + "</option>\n");
+			sb.append("<option value=\"" + eventType.getEventTypeID() + "\">" + eventType.getDescription() + "</option>\n");
 		}
 		
 		return sb.toString();
