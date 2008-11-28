@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ page language="java" import="entities.User, model.DBUtilEventType" %>
+<%@ page language="java" import="entities.User, model.DBUtilEventType, model.DBUtilRoute" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -138,6 +138,7 @@
                 </div>
             </dd>  
             <dt class="a-m-t" id="my-dt-2">Routes</dt>
+			<input type="hidden" id="totalRouteCnt" value=<%= DBUtilRoute.getAllRoutesCount() %> />
             <dd class="a-m-d">
                 <div class="bd" id="rtListSection">
                     <div id="routeListTabArea" class="yui-navset">
@@ -146,9 +147,18 @@
                             <li class="selected"><a href="#newRtListTab"><em>New</em></a></li>
                         </ul>
                         <div class="yui-content">
-	                        <div id="popularRtListTab"><p>Popular Routes Listed Here</p></div>
+	                        <div id="popularRtListTab">
+	                        	<div id="popularRoutesList">
+									<%= DBUtilRoute.getPopularRoutesHTML(5, 1) %>
+	                        	</div>
+	    	                    <div id="pag_popularRoutesList" class="paginator">
+									<!-- paginator -->
+			                	</div>
+	                        </div>
     	                    <div id="newRtListTab">
-								<div id="newRoutesList"></div>
+								<div id="newRoutesList">
+									<%= DBUtilRoute.getAllRoutesHTML(5, 1) %>
+								</div>
 	    	                    <div id="pag_newRoutesList" class="paginator">
 									<!-- paginator -->
 			                	</div>
@@ -524,55 +534,33 @@
                 <div>
                     <div class = "groupSearch">
                         <form name="frmGroupSearchData" id="frmGroupSearchData">
-                        Key Word <input type="text" name="Key Word" size="10" id="keyWord" /><br>
-                        Member <input type="text" name="Member" size="10" id="Member" /><br>
-                        <input type="submit" value="Search"/>
+	                    	Keyword :<input type="text" size=10 name="keyword" id="GSKeyword" />&nbsp;&nbsp;
+	                    	Creator ID :<input type="text" size=10 name="creatorID" id="GSCreator" />
+							<input type="button" value="Search" onclick="searchGroup()" />
+							<input type="hidden" id="GSrecsPerPage" name="recsPerPage" />
+							<input type="hidden" id="GScurPage" name="curPage" value="1" />
                         </form>
-                        <div class = "Result">
-                            <div class = "myGroups">
-                                <div class="myGroupList">
-                                    <div class="myGroupItem">
-                                        <span class="number">1.</span>
-                                        <a href="function_to_show_group_detail">jogging group 1</a>
-                                        <span class="createdDate">since Nov. 1st, 2008</span>
-                                        <span class="createdBy">by lq</span>
-                                        <span class="memberCount"># 10</span>
-                                        <p>This is an awesome group where members meet every Wednesday night in front of Towne to start a one hour jogging trip</p>
-                                    </div>
-                                    <div class="myGroupItem">
-                                        <span class="number">2.</span>
-                                        <a href="function_to_show_group_detail">crazy buddies</a>
-                                        <span class="createdDate">since May. 25th, 2009</span>
-                                        <span class="createdBy">by Mai</span>
-                                        <span class="memberCount"># 7</span>
-                                        <a href="function_to_show_group_detail">more...</a>
-                                    </div>
-                                    <div class="myGroupItem">
-                                        <span class="number">3.</span>
-                                        <a href="function_to_show_group_detail">stress out run</a>
-                                        <span class="createdDate">since Jan. 15th, 2009</span>
-                                        <span class="createdBy">by Inseob</span>
-                                        <span class="memberCount"># 13</span>
-                                        <a href="function_to_show_group_detail">more...</a>
-                                    </div>
-                                </div>					
-                            </div>
+	                    <br />
+                        <div id="groupSearchResult" class="Result">
+                        	<!-- group search result -->
                         </div>
+		                <div id="pag_groupSearchResult" class="paginator">
+							<!-- paginator -->
+		                </div>
                     </div>
                 </div>
                 <div>
                     <div class = "routeSearch">	
                         <form name="frmRouteSearchData" id="frmRouteSearchData">
-	                    <p>
 	                    	Keyword :<input type="text" size=10 name="keyword" id="RSKeyword" />&nbsp;&nbsp;
 	                    	Distance :<input type="text" size=3 maxlength=3 name="fromDistance" id="RSFromDistance" />~
 	                    			  <input type="text" size=3 maxlength=3 name="toDistance" id="RSToDistance" /><br />
 	                    	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="RSFromDate" />
 	                    		  <input type="text" size=10 maxlength=10 name="toDate" id="RSToDate" />
 							<input type="button" value="Search" onclick="searchRoute()" />
-							<input type="hidden" id="RSrecsPerPage" name="recsPerPage" value="5" />
+							<input type="hidden" id="RSrecsPerPage" name="recsPerPage"  />
 							<input type="hidden" id="RScurPage" name="curPage" value="1" />
-	                    </p>
+	                    <br />
                         </form>
                         <div id="routeSearchResult" class = "Result">
                         	<!-- route search result -->

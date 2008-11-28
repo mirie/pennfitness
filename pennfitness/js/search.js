@@ -5,7 +5,7 @@ YAHOO.util.Event.onDOMReady(initPaginators);
 YAHOO.util.Event.onDOMReady(switchTabs);
 
 // paginators
-var pagNewRoutes;
+var pagNewRoutes, pagPopularRoutes, pagRouteSearch, pagGroupSearch;
 
 YAHOO.namespace("search");
 YAHOO.search.InfoToSearch = function() {
@@ -40,15 +40,11 @@ function ShowSearchDialog() {
 }
 
 function searchRoute() {
-
-	// FOR JSON Handling
 	var successHandler = function(o) {	
 		var response;
-//		alert(o.responseText);
-		
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 
-		YAHOO.util.Dom.get("routeSearchResult").innerHTML = jResponse.DATA.ROUTES;
+		YAHOO.util.Dom.get("routeSearchResult").innerHTML = jResponse.DATA.CONTENT;
 		pagRouteSearch.set('totalRecords',jResponse.DATA.TOTALRECCNT); 		
 	}
 
@@ -61,11 +57,30 @@ function searchRoute() {
 		success:successHandler,
 		timeout:3000,
 	}
-		
 	YAHOO.util.Connect.setForm("frmRouteSearchData");
-	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchRoute.do", callback);
+}
 
+function searchGroup() {
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		YAHOO.util.Dom.get("groupSearchResult").innerHTML = jResponse.DATA.CONTENT;
+		pagGroupSearch.set('totalRecords',jResponse.DATA.TOTALRECCNT); 		
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+	YAHOO.util.Connect.setForm("frmGroupSearchData");
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchGroup.do", callback);
 }
 
 
@@ -74,34 +89,64 @@ function initPaginators()
 	// Paginator for new route list
 	pagNewRoutes = new YAHOO.widget.Paginator({
 	    rowsPerPage  : 5,
-	    totalRecords : 5,
+	    totalRecords : parseInt(YAHOO.util.Dom.get('totalRouteCnt').value),
 	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
 		previousPageLinkLabel : "&lt;",
 		nextPageLinkLabel : "&gt;",
-	    containers   : ["pag_newRoutesList"
-						] // or idStr or elem or [ elem, elem ]
+		pageLinks    : 6,
+	    containers   : ["pag_newRoutesList"] // or idStr or elem or [ elem, elem ]
 	});	
 	pagNewRoutes.render();
 	pagNewRoutes.subscribe('changeRequest',pagNewRoutesHandler);
+
+	// Paginator for popular route list
+	pagPopularRoutes = new YAHOO.widget.Paginator({
+	    rowsPerPage  : 5,
+	    totalRecords : parseInt(YAHOO.util.Dom.get('totalRouteCnt').value),
+	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
+		previousPageLinkLabel : "&lt;",
+		nextPageLinkLabel : "&gt;",
+		pageLinks    : 6,
+	    containers   : ["pag_popularRoutesList"] // or idStr or elem or [ elem, elem ]
+	});	
+	pagPopularRoutes.render();
+	pagPopularRoutes.subscribe('changeRequest',pagPopularRoutesHandler);
 	
 	// Paginator for route search
 	pagRouteSearch = new YAHOO.widget.Paginator({
-	    rowsPerPage  : 5,
-	    totalRecords : 5,
-//	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
-//		previousPageLinkLabel : "&lt;",
-//		nextPageLinkLabel : "&gt;",
-	    containers   : ["pag_routeSearchResult"
-						] // or idStr or elem or [ elem, elem ]
-	});	
+		rowsPerPage  : 5,
+	    totalRecords : 1,
+	    containers   : ["pag_routeSearchResult"], // or idStr or elem or [ elem, elem ]
+//	    template     : "{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}",
+//	    rowsPerPageOptions : [ 10, 25, 50, 100 ] 
+	});		
+	YAHOO.util.Dom.get('RSrecsPerPage').value = pagRouteSearch.getState().rowsPerPage;
 	pagRouteSearch.render();
 	pagRouteSearch.subscribe('changeRequest',pagRouteSearchHandler); 
+
+	// Paginator for group search
+	pagGroupSearch = new YAHOO.widget.Paginator({
+		rowsPerPage  : 5,
+	    totalRecords : 1,
+	    containers   : ["pag_groupSearchResult"] // or idStr or elem or [ elem, elem ]
+	});
+	YAHOO.util.Dom.get('GSrecsPerPage').value = pagGroupSearch.getState().rowsPerPage;
+	pagGroupSearch.render();
+	pagGroupSearch.subscribe('changeRequest',pagGroupSearchHandler); 
+
 }
 
 // Paginator handler for new routes list
 function pagNewRoutesHandler(newState)
 {
 	YAHOO.leftMenu.route.getNewRouteNamesN(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+}
+
+// Paginator handler for new routes list
+function pagPopularRoutesHandler(newState)
+{
+	YAHOO.leftMenu.route.getPopularRouteNamesN(newState.rowsPerPage, newState.page);
 	newState.paginator.setState(newState);
 }
 
@@ -116,6 +161,16 @@ function pagRouteSearchHandler(newState)
 	newState.paginator.setState(newState);
 }
 
+// Paginator handler for group search
+function pagGroupSearchHandler(newState)
+{
+	// Set paging values
+	YAHOO.util.Dom.get("GSrecsPerPage").value = newState.rowsPerPage;
+	YAHOO.util.Dom.get("GScurPage").value = newState.page;
+
+	searchGroup();
+	newState.paginator.setState(newState);
+}
 
 
 

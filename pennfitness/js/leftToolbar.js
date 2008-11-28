@@ -21,7 +21,7 @@ YAHOO.leftMenu.route.getNewRouteNamesN = function(recsPerPage, curPage) {
 		var jResponse;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 	    
-	    YAHOO.util.Dom.get("newRoutesList").innerHTML = jResponse.DATA.ROUTES; 
+	    YAHOO.util.Dom.get("newRoutesList").innerHTML = jResponse.DATA.CONTENT; 
 	    pagNewRoutes.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
 	}
 
@@ -40,7 +40,30 @@ YAHOO.leftMenu.route.getNewRouteNamesN = function(recsPerPage, curPage) {
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", connStr, callback);
 }
 
+YAHOO.leftMenu.route.getPopularRouteNamesN = function(recsPerPage, curPage) {
+	var successHandler = function(o) {			
+		var jResponse;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+	    
+	    YAHOO.util.Dom.get("popularRoutesList").innerHTML = jResponse.DATA.CONTENT; 
+	    pagNewRoutes.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
+	}
 
-YAHOO.util.Event.onDOMReady(YAHOO.leftMenu.route.getNewRouteNames);
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+		timeout:3000,
+	}
+	
+	var connStr = "view/popularRoutes.jsp?recsPerPage=" + recsPerPage + "&curPage=" + curPage;
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", connStr, callback);
+}
+
+// YAHOO.util.Event.onDOMReady(YAHOO.leftMenu.route.getNewRouteNames);
 YAHOO.util.Event.onDOMReady(YAHOO.leftMenu.route.initCalendar);
 

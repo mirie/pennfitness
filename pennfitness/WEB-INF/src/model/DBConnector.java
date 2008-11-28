@@ -18,9 +18,6 @@ public class DBConnector {
 	private static Statement s = null ;
 	private static Connection con = null ;
 
-	public static final int DEFAULTRECSPERPAGE = 5;
-	public static final int DEFAULTCURRENTPAGE = 1;
-	
 	//TODO
 	//Connection pool
 	public static boolean initializeDBConnection(){
