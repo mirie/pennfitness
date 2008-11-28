@@ -12,9 +12,12 @@ public class Paging {
 	
 	private int recsPerPage = DEFAULTRECSPERPAGE;
 	private int curPage = DEFAULTCURRENTPAGE;
+	private int totalRecordCnt = 0;
 	
-	public Paging(HttpServletRequest req)
+	public Paging(HttpServletRequest req, int totalRecordCnt)
 	{
+		this.totalRecordCnt = totalRecordCnt;
+		
 		// get recsPerPage
 		if(req.getParameter("recsPerPage") != null) {
 			recsPerPage = Integer.parseInt(req.getParameter("recsPerPage"));
@@ -25,33 +28,28 @@ public class Paging {
 			curPage = Integer.parseInt(req.getParameter("curPage"));
 		}
 		
-		
-	}
-	
-	public void test()
-	{
-		// For paging
-		
-		/* get recsPerPage */
-		String recsPerPageString = req.getParameter("recsPerPage");
-		int recsPerPage = recsPerPageString == null ? DBConnector.DEFAULTRECSPERPAGE : 
-		
-		/* get curPage */
-		String curPageString = req.getParameter("curPage");
-		int curPage = curPageString == null ? DBConnector.DEFAULTCURRENTPAGE : Integer.parseInt(curPageString);
-
-		/* get total num of records */
-		int totalRecordCnt = DBUtilRoute.getSearchForRoutesCount( params );
-		
-		/* check if exceeding total num pages */
+		/* check if exceeding total number of pages */
 		if( totalRecordCnt == 0 ) {
 			curPage = 1;
 		}
 		else if((curPage-1) * recsPerPage >= totalRecordCnt) {
 			curPage = (int)Math.ceil((double)totalRecordCnt/(double)recsPerPage);
 		}
-
 	}
 	
+	public int getTotalRecordCnt()
+	{
+		return totalRecordCnt;  
+	}
+	
+	public int getRecsPerPage()
+	{
+		return recsPerPage;
+	}
+	
+	public int getCurPage()
+	{
+		return curPage;
+	}
 	
 }

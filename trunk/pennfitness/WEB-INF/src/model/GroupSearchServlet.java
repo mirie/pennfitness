@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 
 import entities.Group;
-
+import entities.Paging;
+import entities.Route;
 
 public class GroupSearchServlet extends HttpServlet{
 
@@ -31,15 +32,53 @@ public class GroupSearchServlet extends HttpServlet{
     {      
     	JSONObject result = new JSONObject();
     	PrintWriter out = resp.getWriter();
-    	
+    	StringBuffer sbuf = new StringBuffer();
+   	
     	String keyword = req.getParameter("keyword");    	
-    	String user	   = req.getParameter("member");
+    	String creatorID = req.getParameter("creatorID");
     	
     	List<QueryParameter> params = new ArrayList<QueryParameter>();
     	
 		DBUtil.addQueryParam(params, keyword, " ( name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%')" ); 
-		DBUtil.addQueryParam(params, user, " creatorID", " LIKE '%"+user+"%'" );
+		DBUtil.addQueryParam(params, creatorID, " creatorID", " LIKE '%"+creatorID+"%'" );
 
+		// For paging
+		Paging paging = new Paging(req, DBUtilGroup.getSearchForGroupsCount(params));
+		
+		if( paging.getTotalRecordCnt() > 0 ) {
+			List<Group> groups = DBUtilGroup.searchForGroups( params, paging.getRecsPerPage(), paging.getCurPage() );			  	
+			if( groups != null ){
+		    	Iterator<Group> iterator = groups.iterator();
+		    	
+		    	Group group;
+				int cnt = (paging.getCurPage()-1)*paging.getRecsPerPage() + 1;
+				
+		    	while( iterator.hasNext() ){
+		    		group = iterator.next(); 		
+
+		    		sbuf.append("\t\t<div class=\"myGroupItem\">\n").
+	    			 append("\t\t\t<span class=\"number\">"+ (cnt++) +".</span>").
+	    			 append("\t\t\t<a href=\"javascript:joinGroup(" + group.getId() + ")\" title=\"Join this group\">"+ group.getName() +"</a>\n").
+	    			 append("\t\t\t<span class=\"createdDate\"> since "+group.getCreatedDate()+"</span>").
+	    			 append("\t\t\t<span class=\"createdBy\"> by "+ group.getCreatorID() +"</span>").
+	    			 append("<p>"+group.getDescription()+"</p>").
+	    			 append("\t\t</div>\n");
+		    	}
+			}
+		} // end of if( totalRecordCnt > 0 ) {
+
+		JSONObject data = new JSONObject();
+		data.put("CONTENT", sbuf.toString());
+		data.put("CURPAGE", paging.getCurPage());
+		data.put("TOTALRECCNT", paging.getTotalRecordCnt());
+
+		// Can this fail?
+    	result.put( "STATUS", "Success");
+    	result.put( "DATA", data );
+    	
+		
+/*
+		if( paging.getTotalRecordCnt() > 0 ) {
     	List<Group> groups = DBUtilGroup.searchForGroups( params, 5, 1 );
     	  	
     	if( groups != null ){
@@ -85,7 +124,7 @@ public class GroupSearchServlet extends HttpServlet{
     		//I'll put more detailed MSG here
     		result.put( "MSG", "Error in getting group search results DB" );
     	}
-    	
+*/    	
     	out.println( result );
     	       
     }		

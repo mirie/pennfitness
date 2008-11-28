@@ -17,6 +17,7 @@ import org.json.simple.JSONObject;
 
 import entities.Event;
 import entities.Route;
+import entities.Paging;
 
 public class RouteSearchServlet extends HttpServlet{
 	
@@ -50,28 +51,10 @@ public class RouteSearchServlet extends HttpServlet{
 		DBUtil.addQueryParam(params, toDate, " createdDate", " <= '" +toDate+ "'" );
 		
 		// For paging
+		Paging paging = new Paging(req, DBUtilRoute.getSearchForRoutesCount( params )); 
 		
-		/* get recsPerPage */
-		String recsPerPageString = req.getParameter("recsPerPage");
-		int recsPerPage = recsPerPageString == null ? DBConnector.DEFAULTRECSPERPAGE : Integer.parseInt(recsPerPageString);
-		
-		/* get curPage */
-		String curPageString = req.getParameter("curPage");
-		int curPage = curPageString == null ? DBConnector.DEFAULTCURRENTPAGE : Integer.parseInt(curPageString);
-
-		/* get total num of records */
-		int totalRecordCnt = DBUtilRoute.getSearchForRoutesCount( params );
-		
-		/* check if exceeding total num pages */
-		if( totalRecordCnt == 0 ) {
-			curPage = 1;
-		}
-		else if((curPage-1) * recsPerPage >= totalRecordCnt) {
-			curPage = (int)Math.ceil((double)totalRecordCnt/(double)recsPerPage);
-		}
-		
-		if( totalRecordCnt > 0 ) {
-			List<Route> routes = DBUtilRoute.searchForRoutes( params, recsPerPage, curPage );			  	
+		if( paging.getTotalRecordCnt() > 0 ) {
+			List<Route> routes = DBUtilRoute.searchForRoutes( params, paging.getRecsPerPage(), paging.getCurPage() );			  	
 			if( routes != null ){
 		    	Iterator<Route> iterator = routes.iterator();
 		    	
@@ -91,9 +74,9 @@ public class RouteSearchServlet extends HttpServlet{
 		} // end of if( totalRecordCnt > 0 ) {
 
 		JSONObject data = new JSONObject();
-		data.put("ROUTES", sbuf.toString());
-		data.put("CURPAGE", curPage);
-		data.put("TOTALRECCNT", totalRecordCnt);
+		data.put("CONTENT", sbuf.toString());
+		data.put("CURPAGE", paging.getCurPage());
+		data.put("TOTALRECCNT", paging.getTotalRecordCnt());
 
 		// Can this fail?
     	result.put( "STATUS", "Success");

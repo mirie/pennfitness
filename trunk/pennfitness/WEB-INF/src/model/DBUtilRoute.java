@@ -110,6 +110,22 @@ public class DBUtilRoute {
 		return routes;
 	}
 	
+	public static String getAllRoutesHTML(int recordPerPage, int currentPage) {
+		List<Route> routes = DBUtilRoute.getAllRoutes(recordPerPage, currentPage); 	
+		StringBuffer sb = new StringBuffer();
+		Route route;
+		Iterator<Route> iterator = routes.iterator();
+
+		int cnt = (currentPage-1)*recordPerPage + 1;
+		while(iterator.hasNext()){
+			route = iterator.next();
+			
+			sb.append("<div class=\"AllRouteResultItem\">\n").
+			   append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getRoute(" + route.getId() + ")\" class=\"ARRrouteName\">" + route.getName() + "</a> by <span class=\"ARRuserID\">" + route.getCreatorID() + "</span>\n</div>\n");
+		}
+		return sb.toString();
+	}
+	
 	public static int getAllRoutesCount() {
 		String searchQuery = "SELECT count(*) CNT FROM Routes";
 		
@@ -131,7 +147,45 @@ public class DBUtilRoute {
 		return recCount;
 	}
 	
-	
+	public static List<Route> getPopularRoutes(int recordPerPage, int currentPage){
+		
+		List<Route> routes = new ArrayList<Route>();
+		String query = "SELECT * FROM Routes ORDER BY pt_rate DESC, createdDate DESC ";
+		if( recordPerPage != 0 || currentPage != 0 ) query += "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			while( resultSet.next() ){				
+				routes.add( resultSetToRoute( resultSet ) );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getPopularRoutes() : Error getting route");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+			
+		return routes;
+	}
+
+	public static String getPopularRoutesHTML(int recordPerPage, int currentPage) {
+		List<Route> routes = DBUtilRoute.getPopularRoutes(recordPerPage, currentPage); 	
+		StringBuffer sb = new StringBuffer();
+		Route route;
+		Iterator<Route> iterator = routes.iterator();
+
+		int cnt = (currentPage-1)*recordPerPage + 1;
+		while(iterator.hasNext()){
+			route = iterator.next();
+			
+			sb.append("<div class=\"PopularRouteResultItem\">\n").
+			   append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getRoute(" + route.getId() + ")\" class=\"PRRrouteName\">" + route.getName() + "</a> by <span class=\"PRRuserID\">" + route.getCreatorID() + "</span>\n</div>\n");
+		}
+		return sb.toString();
+	}
+
 	
 	/**
 	 * Saves a new route with the given information
