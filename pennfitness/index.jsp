@@ -504,35 +504,25 @@
             </ul>
             <div class = "yui-content">
                 <div class = "eventSearch">
-                    <form name="frmEventSearch" id="frmEventSearch">
-                    <p>
+                    <form name="frmEventSearchData" id="frmEventSearchData">
                     	Keyword :<input type="text" size=10 name="keyword" id="ESKeyword" />&nbsp;&nbsp;
-                    	<label for="evtType">Event Type:</label><select id="ESevtType" name="eventTypeID">
-                    	<option value="-1" selected="selected">All types</option>
+                    	<label for="evtType">Event Type:</label><select id="ESevtType" name="type">
+                    	<option value="" selected="selected">All types</option>
                   		  <%= DBUtilEventType.getAllEventTypesOptions() %>
                 		</select><br />
                     	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="ESFromDate" />
-<!-- 	                    		  <img id="calico" src="assets/calendar_icon.gif"/>--> ~ 
                     		  <input type="text" size=10 maxlength=10 name="toDate" id="ESToDate" />
-<!-- 								  <img id="calico" src="assets/calendar_icon.gif"/>-->
 						<input type="button" value="Search" onclick="searchEvent()">
-                    </p>
-                    
+						<input type="hidden" id="ESrecsPerPage" name="recsPerPage" />
+						<input type="hidden" id="EScurPage" name="curPage" value="1" />
                     </form>
                     <br />
-                    <div class = "Result">
-                        <div class="EventInfoList">
-                            <div class="registeredEventItem">
-                                <a href="function_to_show_event">Inseob Event 007</a>
-                            </div>
-                            <div class="RouteInfoItem">
-                                <a href="function_to_show_event">Girls go jogging</a>
-                            </div>
-                            <div class="RouteInfoItem">
-                                <a href="function_to_show_event">Sansom E. Halloween jogging</a>
-                            </div>
-                        </div>
+                    <div id="eventSearchResult" class="Result">
+                    	<!-- group search result -->
                     </div>
+	                <div id="pag_eventSearchResult" class="paginator">
+						<!-- paginator -->
+	                </div>
                 </div>
 
                 <div>

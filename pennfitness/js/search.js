@@ -5,7 +5,7 @@ YAHOO.util.Event.onDOMReady(initPaginators);
 YAHOO.util.Event.onDOMReady(switchTabs);
 
 // paginators
-var pagNewRoutes, pagPopularRoutes, pagRouteSearch, pagGroupSearch;
+var pagNewRoutes, pagPopularRoutes, pagEventSearch, pagRouteSearch, pagGroupSearch;
 
 YAHOO.namespace("search");
 YAHOO.search.InfoToSearch = function() {
@@ -38,6 +38,29 @@ function switchTabs() {
 function ShowSearchDialog() {
 	YAHOO.search.SearchToInfo();
 }
+
+function searchEvent() {
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		YAHOO.util.Dom.get("eventSearchResult").innerHTML = jResponse.DATA.CONTENT;
+		pagEventSearch.set('totalRecords',jResponse.DATA.TOTALRECCNT); 		
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+	YAHOO.util.Connect.setForm("frmEventSearchData");
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchEvent.do", callback);
+}
+
 
 function searchRoute() {
 	var successHandler = function(o) {	
@@ -111,6 +134,16 @@ function initPaginators()
 	});	
 	pagPopularRoutes.render();
 	pagPopularRoutes.subscribe('changeRequest',pagPopularRoutesHandler);
+
+	// Paginator for event search
+	pagEventSearch = new YAHOO.widget.Paginator({
+		rowsPerPage  : 5,
+	    totalRecords : 1,
+	    containers   : ["pag_eventSearchResult"], // or idStr or elem or [ elem, elem ]
+	});		
+	YAHOO.util.Dom.get('ESrecsPerPage').value = pagEventSearch.getState().rowsPerPage;
+	pagEventSearch.render();
+	pagEventSearch.subscribe('changeRequest',pagEventSearchHandler); 
 	
 	// Paginator for route search
 	pagRouteSearch = new YAHOO.widget.Paginator({
@@ -150,6 +183,18 @@ function pagPopularRoutesHandler(newState)
 	newState.paginator.setState(newState);
 }
 
+// Paginator handler for event search
+function pagEventSearchHandler(newState)
+{
+	// Set paging values
+	YAHOO.util.Dom.get("ESrecsPerPage").value = newState.rowsPerPage;
+	YAHOO.util.Dom.get("EScurPage").value = newState.page;
+
+	searchEvent();
+	newState.paginator.setState(newState);
+}
+
+
 // Paginator handler for route search
 function pagRouteSearchHandler(newState)
 {
@@ -171,8 +216,4 @@ function pagGroupSearchHandler(newState)
 	searchGroup();
 	newState.paginator.setState(newState);
 }
-
-
-
-
 

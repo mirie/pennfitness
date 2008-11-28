@@ -116,12 +116,16 @@ public class DBUtilEvent {
 	 * @param params
 	 * @return
 	 */
-	public static List<Event> searchForEvents( List<QueryParameter> params ){
+	public static List<Event> searchForEvents( List<QueryParameter> params, int recordPerPage, int currentPage ) {
 		String searchQuery = 
 			"SELECT * " +
 			"FROM Event " +
-			"WHERE " + DBUtil.getSearchCriteria( params );
+			"WHERE " + DBUtil.getSearchCriteria( params ) +
+			" ORDER BY eventDate DESC, createdDate DESC " +
+			"LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
 		
+		System.out.println("Search Query:" + searchQuery);
+
 		List<Event> events = new ArrayList<Event>();
 		ResultSet resultSet = DBConnector.getQueryResult( searchQuery );	
 		
@@ -141,6 +145,32 @@ public class DBUtilEvent {
 			
 		return events;
 	}
+
+	public static int getSearchForEventsCount(List<QueryParameter> params) {
+		String searchQuery = 
+			"SELECT count(*) CNT " +
+			"FROM Event " +
+			"WHERE " + DBUtil.getSearchCriteria( params );
+		
+		ResultSet resultSet = DBConnector.getQueryResult(searchQuery);
+
+		int recCount = 0;
+		
+		try {
+			while( resultSet.next() ){				
+				recCount = resultSet.getInt("CNT");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getSearchForEventsCount() : Error getting route count");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		return recCount;
+	}
+
 	
 	
 	/**
