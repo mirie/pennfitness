@@ -5,7 +5,7 @@
 // ******************************************************
 YAHOO.namespace("pennfitness.float");
 var colorButton, oColorPicker;
-var routeID = -1, eventID = -1;
+var routeID = -1, eventID = -1, eventCount = 0;
 
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); }
 
@@ -436,11 +436,48 @@ function createRt() {
 	enableMap();
 }
 
+YAHOO.pennfitness.float.getEventCount = function() {
+	var successHandler = function(o) {
+		var response;
+		
+	    // Use the JSON Utility to parse the data returned from the server
+	    try {
+	       response = YAHOO.lang.JSON.parse(o.responseText); 
+	    }
+	    catch (x) {
+	        alert("JSON Parse failed!");
+	        return;
+	    }
+		
+		if (response.STATUS == 'Success') {
+			document.getElementById("totalEvents").innerHTML = response.DATA.EVENT_COUNT + " Events";			
+		} else {
+			alert("Retrieving event count by routeID: " + routeID + "failed!");
+		}
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+	}
+	
+	//routeID = routeIDArg;
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/eventCount.jsp?routeID=" + routeID, callback); 
+}
+
+
+
+
+
+
 //  ***********************************************************************
 //  function: YAHOO.pennfitness.float.getRoute 
 //  Used to draw selected route and display its associated route details
 //  ***********************************************************************
-
 YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 	var successHandler = function(o) {
 		var response;
@@ -468,7 +505,9 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 			document.getElementById("routeDesc").innerHTML = response.DATA.ROUTE_DESCRIPTION;
 			document.getElementById("routeDescTxt").style.display = "none";
 
-			document.getElementById("rtColor-container").style.display = "none";
+			YAHOO.pennfitness.float.getEventCount();
+			
+			//document.getElementById("rtColor-container").style.display = "none";
 			
 			document.getElementById("saveRoute").style.display = "none";
 			document.getElementById("modifyRoute").style.display = "block";
@@ -503,7 +542,6 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 	var callback = {
 		success:successHandler,
 		failure:failureHandler,
-		timeout:3000
 	}
 	
 	routeID = routeIDArg;
@@ -547,7 +585,6 @@ function cancelRt() {
 // Displays alert if missing route name or a drawing for the route 
 // (at least 2 points).
 // ***********************************************************************
-
 function saveRt() {
 	if (YAHOO.util.Dom.get("routeNameTxt").value == "") {
 		alert("Please give the route a name before saving!");
@@ -697,10 +734,11 @@ function resetNewEvt() {
 	document.getElementById("eventDescTxt").value = "";
 }
 
-
-function saveEvt() {
-	// FOR JSON Handling
-	var successHandler = function(o) {	
+//***********************************************************************
+//function: YAHOO.pennfitness.float.getEvent 
+//***********************************************************************
+YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
+	var successHandler = function(o) {
 		var response;
 		
 	    // Use the JSON Utility to parse the data returned from the server
@@ -710,13 +748,47 @@ function saveEvt() {
 	    catch (x) {
 	        alert("JSON Parse failed!");
 	        return;
-	    }        
-	
-	    if (response.STATUS == 'Success') { // eventID passed back if just saved a new event
+	    }
 		
-		}
-		else {
-			//alert(response.MSG);
+		if (response.STATUS == 'Success') {
+			removeRoute();
+			
+			document.getElementById("routeGeneral").style.display = "block";
+			document.getElementById("routeNameTxtDiv").style.display = "none";
+			document.getElementById("routeName").innerHTML = response.DATA.ROUTE_NAME;
+			document.getElementById("routeCreator").innerHTML = " by " + response.DATA.ROUTE_CREATOR;
+			document.getElementById("routeCreatedDate").innerHTML = "Created on: " + response.DATA.ROUTE_DATE;		
+			
+			document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+response.DATA.ROUTE_RATING;
+	
+			document.getElementById("routeDesc").innerHTML = response.DATA.ROUTE_DESCRIPTION;
+			document.getElementById("routeDescTxt").style.display = "none";
+	
+			document.getElementById("rtColor-container").style.display = "none";
+			
+			document.getElementById("saveRoute").style.display = "none";
+			document.getElementById("modifyRoute").style.display = "block";
+			
+			//enableMap();
+			// Add markers and draw route
+			var pointData = response.DATA.ROUTE_PTS.split(";");
+			for (var i = 0; i < pointData.length; i++) {
+				var point = pointData[i].split(",");
+				var lat = point[0];
+				var lng = point[1];
+				addMarkerPoint(lat, lng);
+			}
+	
+			lineColor = response.DATA.ROUTE_COLOR;
+			drawOverlay();
+			disableMap();  
+			
+			YAHOO.pennfitness.float.toolbar.show();
+			// Calls getNewRouteNames only when necessary
+			if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames();
+			
+		} else {
+			alert("Retrieving eventID: " + eventID + "failed!");
 		}
 	}
 	
@@ -725,10 +797,14 @@ function saveEvt() {
 	}
 	
 	var callback = {
-		failure:failureHandler,
 		success:successHandler,
+		failure:failureHandler,
 	}
+	
+	routeID = routeIDArg;
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/eventByID.jsp?eventID=" + eventID, callback); 
 }
+
 
 YAHOO.util.Event.onDOMReady(initToolbar);
 YAHOO.util.Event.onDOMReady(setupNewEvtDialog);
