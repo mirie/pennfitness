@@ -396,7 +396,7 @@ function createRt() {
 //  Used to draw selected route and display its associated route details
 //  ***********************************************************************
 
-YAHOO.pennfitness.float.getRoute = function(routeIDArg) {
+YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 	var successHandler = function(o) {
 		var response;
 		
@@ -443,7 +443,8 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg) {
 			disableMap();  
 			YAHOO.pennfitness.float.toolbar.show();
 			
-			YAHOO.leftMenu.route.getNewRouteNames();
+			// Calls getNewRouteNames only when necessary
+			if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames();
 			
 		} else {
 			alert("Retrieving routeID: " + routeID + "failed!");
@@ -538,7 +539,7 @@ function saveRt() {
 				routeID = response.DATA.RouteID;
 			} 
 			
-			YAHOO.pennfitness.float.getRoute(routeID);	
+			YAHOO.pennfitness.float.getRoute(routeID, true);	
 		}
 		else {
 			alert("Route was not saved!");

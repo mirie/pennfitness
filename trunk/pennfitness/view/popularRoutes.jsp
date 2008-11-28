@@ -20,7 +20,7 @@
 			route = iterator.next();
 			
 			sb.append("<div class=\"PopularRouteResultItem\">\n").
-			   append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getRoute(" + route.getId() + ")\" class=\"PRRrouteName\">" + route.getName() + "</a> by <span class=\"PRRuserID\">" + route.getCreatorID() + "</span>\n</div>\n");
+			   append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getRoute(" + route.getId() + ", false)\" class=\"PRRrouteName\">" + route.getName() + "</a> by <span class=\"PRRuserID\">" + route.getCreatorID() + "</span>\n</div>\n");
 		}
 */		
 	}

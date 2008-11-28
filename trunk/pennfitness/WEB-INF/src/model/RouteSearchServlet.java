@@ -62,7 +62,7 @@ public class RouteSearchServlet extends HttpServlet{
 		    	while( iterator.hasNext() ){
 		    		route = iterator.next(); 		
 					sbuf.append("<div class=\"RouteResultItem\">\n").
-						append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "')\" class=\"RRrouteName\">" + route.getName() + "</a> by ").
+						append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "', false)\" class=\"RRrouteName\">" + route.getName() + "</a> by ").
 						append("<span class=\"RRuserID\">" + route.getCreatorID() + "</span> on ").
 						append("<span class=\"RRcreatedDate\">" + route.getCreatedDate().toString() + "</span>").
 						append("<span class=\"RRdistance\">(" + route.getDistance() + " miles)</span> ").
