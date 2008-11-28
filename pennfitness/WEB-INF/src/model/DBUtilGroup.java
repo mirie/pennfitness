@@ -250,11 +250,13 @@ public class DBUtilGroup {
  * @param params
  * @return
  */
-	public static List<Group> searchForGroups( List<QueryParameter> params ){
+	public static List<Group> searchForGroups( List<QueryParameter> params, int recordPerPage, int currentPage ){
 		String searchQuery = 
 			"SELECT * " +
 			"FROM Groups " +
-			"WHERE " + DBUtil.getSearchCriteria( params );
+			"WHERE " + DBUtil.getSearchCriteria( params ) +
+			" ORDER BY createdDate DESC " +
+			"LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
 	
 		System.out.println("Search Query:" + searchQuery);
 	
@@ -278,6 +280,32 @@ public class DBUtilGroup {
 		return groups;
 	}
 
+	public static int getSearchForGroupsCount(List<QueryParameter> params ){
+		String searchQuery = 
+			"SELECT count(*) CNT " +
+			"FROM Groups " +
+			"WHERE " + DBUtil.getSearchCriteria( params );
+		
+		ResultSet resultSet = DBConnector.getQueryResult(searchQuery);
+		int recCount = 0;
+		
+		try {
+			while( resultSet.next() ){				
+				recCount = resultSet.getInt("CNT");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getSearchForGroupsCount() : Error getting route count");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		return recCount;
+	}
+
+	
+	
 	/**
 	 * Utility function that gets Group object from a resultset row
 	 * 

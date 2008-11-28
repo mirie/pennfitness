@@ -71,7 +71,6 @@ public class GroupSaveServlet extends HttpServlet{
     		result.put( "DATA",  data );
     		
             out.println( result );
-            
     	}
     	//Modify group
     	else{
