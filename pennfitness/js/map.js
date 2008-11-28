@@ -20,9 +20,6 @@ var lineWeight = 3;
 var lineOpacity = .8;
 var fillOpacity = .2;
 
-
-var mapListener;
-
 // Other variables
 var distance;
 
@@ -70,19 +67,7 @@ function addMarker(point)
 	GEvent.addListener(marker, "drag", function() {  drawOverlay();  });
 
 	// Second click listener: for deleting the marker
-	GEvent.addListener(marker, "click", function() {
-		for (i = 0; i < markers.length; i++) {
-		if (markers[i] == marker) {
-			map.removeOverlay(markers[i]);
-			break;                                          
-			}
-		}
-                
-		// Shorten array of markers
-		markers.splice(i, 1);
-                
-		drawOverlay();
-	}); // end of second click
+	GEvent.addListener(marker, "click", function() { /* Inseob's code here */}); // end of second click
 }
 
 //  ***********************************************************************
@@ -150,39 +135,24 @@ function removeRoute() {
 //  ***********************************************************************
 function disableMap() {
 	disableMarkerListeners();
-	GEvent.removeListener(mapListener);
+	GEvent.clearListeners(map, "click");
 }
 
 function enableMap() {	
-	mapListener = GEvent.addListener(map, "click", leftClick);
+	GEvent.addListener(map, "click", leftClick);
 	enableMarkerListeners();
 }
 
 function disableMarkerListeners() {
-	for (i = 0; i < markers.length; i++) {
-		GEvent.clearListeners(markers[i], "drag");
+	for (var i = 0; i < markers.length; i++) {		
 		GEvent.clearListeners(markers[i], "click");
 		markers[i].disableDragging();
 	}
 }
 
 function enableMarkerListeners() {
-	for (i = 0; i < markers.length; i++) {
-		GEvent.addListener(markers[i], "drag", function() {  drawOverlay();  });
-		GEvent.addListener(markers[i], "click", function() {
-				for (k = 0; k < markers.length; i++) {
-					if (markers[k] == markers[i]) {
-						map.removeOverlay(markers[k]);
-						break;                                          
-					}
-				}
-                
-				// Shorten array of markers
-				markers.splice(k, 1);
-						
-				drawOverlay();
-			});
-				
+	for (var i = 0; i < markers.length; i++) {
+		GEvent.addListener(markers[i], "click", function() { /* Inseob's changes here */});
 		markers[i].enableDragging();
 	}
 }
