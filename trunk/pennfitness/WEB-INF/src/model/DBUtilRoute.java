@@ -111,7 +111,9 @@ public class DBUtilRoute {
 	}
 	
 	public static int getAllRoutesCount() {
-		ResultSet resultSet = DBConnector.getQueryResult( "SELECT count(*) CNT FROM Routes");
+		String searchQuery = "SELECT count(*) CNT FROM Routes";
+		
+		ResultSet resultSet = DBConnector.getQueryResult(searchQuery);
 		int recCount = 0;
 		
 		try {

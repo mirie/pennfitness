@@ -35,13 +35,12 @@ public class GroupSearchServlet extends HttpServlet{
     	String keyword = req.getParameter("keyword");    	
     	String user	   = req.getParameter("member");
     	
-    	
     	List<QueryParameter> params = new ArrayList<QueryParameter>();
-    	params.add( new QueryParameter(" ( name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%')" ) );
-    	params.add( new QueryParameter(" creatorID", " LIKE '%"+user+"%'" ) );
-
     	
-    	List<Group> groups = DBUtilGroup.searchForGroups( params );
+		DBUtil.addQueryParam(params, keyword, " ( name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%')" ); 
+		DBUtil.addQueryParam(params, user, " creatorID", " LIKE '%"+user+"%'" );
+
+    	List<Group> groups = DBUtilGroup.searchForGroups( params, 5, 1 );
     	  	
     	if( groups != null ){
     	
