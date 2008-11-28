@@ -1,4 +1,4 @@
-<%@ page import="model.DBUtilRoute, entities.Paging, org.json.simple.JSONObject" %>
+<%@ page import="model.DBUtilRoute, org.json.simple.JSONObject" %>
 
 <% 
 	String routeID = request.getParameter("routeID");

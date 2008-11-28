@@ -90,7 +90,7 @@ public class DBUtilRoute {
 	public static List<Route> getAllRoutes(int recordPerPage, int currentPage){
 		
 		List<Route> routes = new ArrayList<Route>();
-		String query = "SELECT * FROM Routes ORDER BY createdDate DESC ";
+		String query = "SELECT * FROM Routes ORDER BY modifiedDate DESC ";
 		if( recordPerPage != 0 || currentPage != 0 ) query += "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
 		ResultSet resultSet = DBConnector.getQueryResult( query );
 		

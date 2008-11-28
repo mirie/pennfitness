@@ -12,6 +12,7 @@ var leftMenuEvtTab = new YAHOO.widget.TabView('eventListTabArea');
 var leftMenuRtTab = new YAHOO.widget.TabView('routeListTabArea');
 
 
+// ROUTE TAB
 YAHOO.leftMenu.route.getNewRouteNames = function() {
 	YAHOO.leftMenu.route.getNewRouteNamesN(5,1);
 }
@@ -66,6 +67,35 @@ YAHOO.leftMenu.route.getPopularRouteNamesN = function(recsPerPage, curPage) {
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", connStr, callback);
 }
 
-// YAHOO.util.Event.onDOMReady(YAHOO.leftMenu.route.getNewRouteNames);
+// EVENT TAB
+YAHOO.leftMenu.route.getNewEventNames = function() {
+	YAHOO.leftMenu.route.getNewEventNamesN(5,1);
+}
+
+YAHOO.leftMenu.route.getNewEventNamesN = function(recsPerPage, curPage) {
+	var successHandler = function(o) {			
+		var jResponse;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+	    
+	    YAHOO.util.Dom.get("newEventsList").innerHTML = jResponse.DATA.CONTENT; 
+	    pagNewRoutes.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
+	    pagNewRoutes.setPage(jResponse.DATA.CURPAGE, true);
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+		timeout:3000,
+	}
+	
+	var connStr = "view/allEvents.jsp?recsPerPage=" + recsPerPage + "&curPage=" + curPage;
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", connStr, callback);
+}
+
 YAHOO.util.Event.onDOMReady(YAHOO.leftMenu.route.initCalendar);
 

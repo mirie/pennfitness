@@ -89,10 +89,12 @@ public class DBUtilEvent {
 	 * 
 	 * @return
 	 */
-	public static List<Event> getAllEvents( ){
+	public static List<Event> getAllEvents(int recordPerPage, int currentPage){
 		
 		List<Event> events = new ArrayList<Event>();
-		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Event" );	
+		String query = "SELECT * FROM Event ORDER BY modifiedDate DESC ";	
+		if( recordPerPage != 0 || currentPage != 0 ) query += "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
+		ResultSet resultSet = DBConnector.getQueryResult( query );		
 		
 		try {
 			while( resultSet.next() ){				
@@ -197,6 +199,45 @@ public class DBUtilEvent {
 		
 		return null;
 	}
+	
+	public static int getAllEventsCount() {
+		String searchQuery = "SELECT count(*) CNT FROM Event";
+		
+		ResultSet resultSet = DBConnector.getQueryResult(searchQuery);
+		int recCount = 0;
+		
+		try {
+			while( resultSet.next() ){				
+				recCount = resultSet.getInt("CNT");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getAllEventsCount() : Error getting event count");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		return recCount;
+	}
+	
+	public static String getAllEventsHTML(int recordPerPage, int currentPage) {
+		List<Event> events = DBUtilEvent.getAllEvents(recordPerPage, currentPage); 	
+		StringBuffer sb = new StringBuffer();
+		Event event;
+		Iterator<Event> iterator = events.iterator();
+
+		int cnt = (currentPage-1)*recordPerPage + 1;
+		while(iterator.hasNext()){
+			event = iterator.next();
+			
+			sb.append("<div class=\"AllEventResultItem\">\n").
+			   append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getEvent(" + event.getEventID() + ", false)\" class=\"AEREventName\">" + event.getName() + "</a> by <span class=\"AERuserID\">" + event.getCreatorID() + "</span>\n</div>\n");
+		}
+		return sb.toString();
+	}
+	
+	
 	
 	/**
 	 * Utility function that gets Event object from a resultset row
