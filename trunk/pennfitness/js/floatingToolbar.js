@@ -9,7 +9,6 @@ var routeID = -1, eventID = -1;
 
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); }
 
-
 // ********************************************************
 // TEMPORARY STUFF HERE
 // ********************************************************
@@ -28,7 +27,7 @@ function populateGroup() {
 // END OF TEMPORARY SECTION
 
 function populateTimeRange() {
-	var evtTimeStartSelect = document.getElementById("evtTimeStart");
+	var evtTimeStartSelect = document.getElementById("eventTimeStart");
 //	var evtTimeStopSelect = document.getElementById("evtTimeStop");	
 	
 	for (var hour = 1; hour <= 12; hour++) {
@@ -48,18 +47,8 @@ function populateTimeRange() {
 			evtTimeStartSelect.appendChild(optionStart);
 		}
 		
-	}
-	
+	}	
 }
-
-
-
-
-
-
-
-
-
 
 // *******************************************************
 // Function: initToolbar
@@ -180,8 +169,10 @@ Event.onDOMReady(function () {
 				var date = p_aArgs[0][0];
 				var year = date[0], month = date[1], day = date[2];
 
-				var txtDate1 = document.getElementById("eventDate");
+				var txtDate1 = document.getElementById("evtCalTxt");
 				txtDate1.value = month + "/" + day + "/" + year;
+//				var txtDateHidden = document.getElementById("evtDateTxt");
+//				txtDateHidden.value = year + "-" + month + "-" + day;
 			}
 			
 			oCalendarMenu.hide();			
@@ -266,8 +257,6 @@ Event.onDOMReady(function () {
 }());
 
 
-
-
 //***********************************************************************
 //Function: Initializes the create event dialog
 //***********************************************************************
@@ -275,18 +264,76 @@ function setupNewEvtDialog(){
 
 	// Define various event handlers for Dialog
 	var handleSubmit = function() {
+		
+		document.getElementById("routeIDTxt").value = routeID;
+		document.getElementById("eventIDTxt").value = eventID;
+		
+		// change time and date to: mm/dd/yyyy --> yyyy-mm-dd; time from hh:mm, am/pm --> hh:mm:ss
+		
+		var eventDate = document.getElementById("evtCalTxt").value; // mm/dd/yyyy
+		
+		var firstSlashIndex = eventDate.indexOf('/');		
+		var lastSlashIndex = eventDate.lastIndexOf('/');
+		var dateFormatted = eventDate.substring(lastSlashIndex +1) + "-" + eventDate.substring(0, firstSlashIndex) +
+							"-" + eventDate.substring(firstSlashIndex + 1, lastSlashIndex);
+		
+		document.getElementById("evtDateTxt").value = dateFormatted;
+		
+		var am_pm = document.getElementById("AM_PM");
+		var x = am_pm.selectedIndex;		
+		
+		var time = document.getElementById("eventTimeStart");
+		var y = time.selectedIndex;
+		
+		var timeFormatted = time[y].value;
+		
+		var hour = timeFormatted.substring(0, timeFormatted.indexOf(':'));
+		var min = timeFormatted.substring(timeFormatted.indexOf(':'));
+		
+		if (am_pm[x].value == 'PM') { // hh:mm
+			hour = parseInt(hour, 10) + 12;
+			timeFormatted = hour + min + ':00'; 
+		} else {	
+			if (hour < 10)
+				hour = '0' + hour;
+			timeFormatted = hour + min + ':00';
+		}
+
+		document.getElementById("evtStartTxt").value = timeFormatted;
+		
 		this.submit();
 	};
+	
 	var handleCancel = function() {
 		this.cancel();
 	};
+	
 	var handleSuccess = function(o) {
-		//if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
-
-		alert("Successfully registered");
-	}; 
+		var response;
+		
+	    // Use the JSON Utility to parse the data returned from the server
+	    try {
+	       response = YAHOO.lang.JSON.parse(o.responseText); 
+	    }
+	    catch (x) {
+	        alert("JSON Parse failed!");
+	        return;
+	    }        
+	
+	    if (response.STATUS == 'Success') { // RouteID passed back if just saved a new route
+			alert("Event saved successfully");
+			
+			if (eventID == -1) {
+				eventID = response.DATA.EventID;
+			} 			
+		}
+		else {
+			alert("Event was not saved!");
+		}
+	};
+	 
 	var handleFailure = function(o) { 
-		alert("Submission failed: " + o.status); 
+		alert("Error + " + o.status + " : " + o.statusText);
 	}; 
 	
 	// Instantiate the Dialog
@@ -300,25 +347,32 @@ function setupNewEvtDialog(){
 							  { text:"Cancel", handler:handleCancel } ]
 				 } );	
 
-	// Validate the entries in the form to require that both first and last name are entered 
-
+	
+	// Validate the entries in the form 
 	YAHOO.pennfitness.float.newEventPanel.validate = function() { 
 
 		var data = this.getData(); 
 
+		if (data.routeID == -1) { 
+			alert("You cannot create an event for a nonexistent route."); 
+			return false; 
+		} 
+		
 		if (data.eventName == "") { 
 			alert("Please enter the Event Name."); 
 			return false; 
 		} 
-		else if(data.eventTime == "") {
-			alert("Please enter the Event Time ."); 
+		
+		if (data.eventTypeID == -1) {
+			alert("Please choose an event type."); 
 			return false; 
 		}
-		else if(data.eventDuration == "") {
+		
+		else if(data.eventDuration == "" ) { //TODO: check that it's a float (##.##)
 			alert("Please enter a duration for the event."); 
 			return false; 
 		}
-		else if(data.eventDate == "") {
+		else if(data.evtCalTxt == "") { //TODO: double-check format: ##/##/#### and that date >= curr date
 			alert("Please enter a date for the event."); 
 			return false; 
 		}
@@ -328,18 +382,10 @@ function setupNewEvtDialog(){
 
 	// Wire up the success and failure handlers 
 	YAHOO.pennfitness.float.newEventPanel.callback = { success: handleSuccess, 
-						     failure: handleFailure }; 
-
+						     						   failure: handleFailure };
 
 	YAHOO.pennfitness.float.newEventPanel.render("bd");
-
-	//YAHOO.util.Event.addListener("userRegDialogBtn", "click", YAHOO.pennfitness.float.newEventPanel.show, newEventPanel, true);	
 }
-
-//Displays the user registration dialog
-//function ShowNewEventDialog() {
-//	YAHOO.pennfitness.float.newEventPanel.show();
-//}
 
 // ***********************************************************************
 // Function: Resets route details toolbar for editing
@@ -371,7 +417,6 @@ function resetRtDetail() {
 	var rtColor = document.getElementById("rtColor-container");
 	rtColor.style.display = "block";
 	
-	//colorButton.disabled = false;
 	colorButton.set("value", "#0000af");
 	YAHOO.util.Dom.setStyle("current-color", "backgroundColor", "#0000af");
 	YAHOO.util.Dom.get("current-color").innerHTML = "Current color is " + "#0000af";
@@ -428,7 +473,7 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 			document.getElementById("saveRoute").style.display = "none";
 			document.getElementById("modifyRoute").style.display = "block";
 			
-			enableMap();
+			//enableMap();
 			// Add markers and draw route
 			var pointData = response.DATA.ROUTE_PTS.split(";");
 			for (var i = 0; i < pointData.length; i++) {
@@ -441,8 +486,8 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 			lineColor = response.DATA.ROUTE_COLOR;
 			drawOverlay();
 			disableMap();  
-			YAHOO.pennfitness.float.toolbar.show();
 			
+			YAHOO.pennfitness.float.toolbar.show();
 			// Calls getNewRouteNames only when necessary
 			if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames();
 			
@@ -464,7 +509,6 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 	routeID = routeIDArg;
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByID.jsp?routeID=" + routeID, callback); 
 }
-
 
 
 function modifyRt() {	
@@ -492,13 +536,7 @@ function modifyRt() {
 }
 
 function cancelRt() {
-	removeRoute();
-
-// commented by inseob : should call removeRoute when closed 
-//	if (routeID == -1) {
-		removeRoute();
-//	}
-	//TODO: if cancelling a current route --> display it's description crap. 
+	removeRoute(); 
 	disableMap();
 	YAHOO.pennfitness.float.toolbar.hide();
 }
@@ -553,7 +591,6 @@ function saveRt() {
 	var callback = {
 		failure:failureHandler,
 		success:successHandler,
-		timeout:3000,
 	}
 	
 	// POST string data
@@ -624,7 +661,6 @@ function deleteRt() {
 	var callback = {
 		failure:failureHandler,
 		success:successHandler,
-		timeout:3000,
 	}
 	var strData = "routeID=" + routeID + "&";
 	strData += "action=delete";
@@ -653,13 +689,13 @@ function resetNewEvt() {
 	document.getElementById("evtGroup").options[0].selected = true;
 	document.getElementById("evtType").options[0].selected = true;
 	
-	document.getElementById("evtTimeStart").options[0].selected = true;
+	document.getElementById("eventTimeStart").options[0].selected = true;
+	document.getElementById("AM_PM").options[0].selected = true;
+	
 	document.getElementById("eventDurationTxt").value = "";
-	document.getElementById("eventDateTxt").value = "";
+	document.getElementById("evtCalTxt").value = "";
 	document.getElementById("eventDescTxt").value = "";
 }
-
-
 
 
 function saveEvt() {
@@ -691,19 +727,8 @@ function saveEvt() {
 	var callback = {
 		failure:failureHandler,
 		success:successHandler,
-		timeout:3000,
 	}
-	//var strData = "routeID=" + routeID + "&";
-	//strData += "action=delete";
-	
-	//var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgRoute.do", callback, strData);
-	
 }
-
-
-
-
-
 
 YAHOO.util.Event.onDOMReady(initToolbar);
 YAHOO.util.Event.onDOMReady(setupNewEvtDialog);

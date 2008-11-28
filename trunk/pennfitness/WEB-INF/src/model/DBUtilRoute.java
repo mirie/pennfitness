@@ -216,11 +216,9 @@ public class DBUtilRoute {
 					if( result.next() )
 						return result.getInt( 1 );
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				System.out.println("DBUtilRoute.saveRoute() : Error getting ID of saved route"  );
 				e.printStackTrace();
-			}
-			
+			}			
 		}
 			
 		return -1;
@@ -241,7 +239,8 @@ public class DBUtilRoute {
 				"routeColor='"+ route.getColor() +"'," +
 				"points='"+ route.getPtValues() + "'," +
 				"distance='"+ route.getDistance() + "'," +
-				"description='"+ route.getDescription() + "' " +
+				"description='"+ route.getDescription() + "', " +
+				"modifiedDate= NOW()" +
 			"WHERE routeID='"+ route.getId() +"'"; 
 		
 		return DBConnector.executeUpdateQuery( updateQuery );

@@ -3,6 +3,9 @@ package model;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +24,8 @@ public class EventSaveServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException
-    {    
+    {
+		doPost(req, resp);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -29,77 +33,85 @@ public class EventSaveServlet extends HttpServlet {
     {      
     	
     	PrintWriter out = resp.getWriter();
+
+    	HttpSession session = req.getSession();
+    	User user = (User)session.getAttribute("user");
     	
     	String eventID = req.getParameter("eventID");    	
     	String routeID = req.getParameter("routeID").trim();
-    	String groupID = req.getParameter("groupID");
     	
-    	String eventName        = req.getParameter("eventName");
-    	String eventDuration    = req.getParameter("eventDuration");
-    	String eventDescription = req.getParameter("eventDesc");
-    	String eventTime        = req.getParameter("eventTime");
-    	//String eventDate = req.getParameter("eventDate");
+    	String eventName = req.getParameter("eventName");
+    	
     	String publicity = req.getParameter("publicity");
+    	String groupID = req.getParameter("groupID");    	    	    	
+    	String eventTypeID = req.getParameter("eventTypeID");
     	
-    	//TODO
-    	HttpSession session = req.getSession();
-    	User user = (User)session.getAttribute("user"); 
+    	String eventDate = req.getParameter("eventDate"); //expected format = yyyy-mm-dd
+    	String eventTime = req.getParameter("eventTime"); //expected format = hh:mm:ss 
+
+    	String eventDuration = req.getParameter("eventDuration");    	
+    	
+    	String eventDescription = req.getParameter("eventDesc");
+    	    	
     	Event event;
+    	
+    	int transaction = 0;
+    	
+    	JSONObject result = new JSONObject();
+    	JSONObject data = new JSONObject();
+
     	if( user != null ){
+    		System.out.println(eventDate);
+    		
     		event = new Event( eventName,  
 					 Float.valueOf(eventDuration), 
 					 eventDescription, 
 					 Integer.valueOf( routeID ), 
 					 Integer.valueOf( groupID ), 
 					 user.getUserID(),
-					 eventTime,
-					 new Date(System.currentTimeMillis())/*eventDate*/,
-					 publicity.charAt(0));
-    	}
+					 Date.valueOf(eventDate),
+					 Time.valueOf(eventTime),
+					 publicity.charAt(0),
+					 Integer.valueOf(eventTypeID));
+    	}  
     	else{
     		event = new Event( eventName,  
 					 Float.valueOf(eventDuration), 
 					 eventDescription, 
 					 Integer.valueOf( routeID ), 
 					 Integer.valueOf( groupID ), 
-					 "defaultUser",
-					 eventTime,
-					 new Date(System.currentTimeMillis())/*eventDate*/,
-					 publicity.charAt(0));
+					 "defaultUser",			
+					 Date.valueOf(eventDate),
+					 Time.valueOf(eventTime),
+					 publicity.charAt(0),
+					 Integer.valueOf(eventTypeID));
     	}
-    	
-    	
     	
     	//Save event
     	if( eventID.equals("-1") ){    
         	//EventID of the currently saved event is going to be returned as result.
         	//-1 is returned if there is an error saving event
     		//The output format is as follows:
-    		// {"DATA":{"EventID":68},"STATUS":"Success"}
+    		// {"DATA":{"EventID":68},"STATUS":"Success"}    		
     		
-    		JSONObject result = new JSONObject();
-    		JSONObject data = new JSONObject();
-    		
-    		int transaction = DBUtilEvent.saveEvent( event );
+    		transaction = DBUtilEvent.saveEvent( event );
     		if( transaction == -1 )
     			result.put( "STATUS", "Failure" );		
     		else
     			result.put( "STATUS", "Success");
     		
     		data.put( "EventID", transaction );
-    		result.put( "DATA",  result );
+    		result.put( "DATA",  data );
     		
+    		//System.out.println( result );
             out.println( result );
-            System.out.println( result );
+            
     	}
     	//Modify event
     	else{
     		event.setEventID( Integer.valueOf( eventID.trim() ) );
-    		
-    		JSONObject result = new JSONObject();
-    		JSONObject data = new JSONObject();
-    		
-    		int transaction = DBUtilEvent.modifyEvent( event );
+
+    		transaction = DBUtilEvent.modifyEvent( event );
     		
     		if( transaction == -1 )
     			result.put( "STATUS", "Failure" );		

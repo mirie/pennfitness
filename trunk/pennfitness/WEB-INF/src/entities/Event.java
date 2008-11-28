@@ -1,6 +1,7 @@
 package entities;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class Event {
 	
@@ -15,24 +16,26 @@ public class Event {
 	private int routeID;	
 	private int eventTypeID; 	
 	private Date eventDate;
-	private String eventTime;
+	private Time eventTime;
 	private float duration;
 	
 
 	public Event( String name, float duration, String description, int routeID, int groupID, String creatorID, 
-				  String eventTime, Date eventDate, char publicity ){
+				  Date eventDate, Time eventTime, char publicity, int eventTypeID ){
 		this.name = name;
 		this.description = description;
 		this.routeID = routeID;
 		this.groupID = groupID;
 		this.creatorID = creatorID;
-		this.eventTime = eventTime;
 		this.eventDate = eventDate;
+		this.eventTime = eventTime;
 		this.publicity = publicity;
+		this.eventTypeID = eventTypeID;
+		this.duration = duration;
 	}
 	
 	public Event( int eventID, String name, String description, int groupID, char publicity, String creatorID, 
-				  Date createdDate, Date modifiedDate,  int routeID, int eventTypeID, Date eventDate, String eventTime, float duration){
+				  Date createdDate, Date modifiedDate,  int routeID, int eventTypeID, Date eventDate, Time eventTime, float duration){
 		this.eventID = eventID;
 		this.name = name;
 		this.description = description;
@@ -114,17 +117,16 @@ public class Event {
 	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
 	}
+	public Time getEventTime() {
+		return eventTime;
+	}
+	public void setEventTime(Time eventTime) {
+		this.eventTime = eventTime;
+	}
 	public float getDuration() {
 		return duration;
 	}
 	public void setDuration(float duration) {
 		this.duration = duration;
 	} 	
-	public String getEventTime() {
-		return eventTime;
-	}
-	public void setEventTime(String eventTime) {
-		this.eventTime = eventTime;
-	}
-
 }

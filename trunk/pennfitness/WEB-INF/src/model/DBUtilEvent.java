@@ -3,6 +3,7 @@ package model;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,19 +26,19 @@ public class DBUtilEvent {
 					
 		String saveQuery = 
 			"INSERT INTO Event ( name, description, groupID, publicity, creatorID, createdDate, modifiedDate, " +
-								"routeID, eventTypeID, eventDate, duration, eventTime  )"+
+								"routeID, eventTypeID, eventDate, eventTime, duration  )"+
 							   " VALUES ('"+ event.getName()+"'," +
 										"'"+ event.getDescription()+"'," +
 										"'"+ event.getGroupID()+"'," +
 										"'"+ event.getPublicity()+"'," +
 										"'"+ event.getCreatorID()+"'," +
-										"'"+ new Date( System.currentTimeMillis() ) +"'," + // TODO: CHANGE TO NOW()?
-										"'"+ new Date( System.currentTimeMillis() ) +"'," +
+										" NOW(), " + 
+										" NOW(), " +
 										"'"+ event.getRouteID() +"'," +
 										"'"+ event.getEventTypeID() +"'," +
 										"'"+ event.getEventDate() +"'," +
-										"'"+ event.getDuration() +"'," +
-										"'"+ event.getEventTime() +"')"; 
+										"'"+ event.getEventTime() +"'," +
+										"'"+ event.getDuration() +"')"; 
 												
 		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
 			
@@ -47,7 +48,6 @@ public class DBUtilEvent {
 					if( result.next() )
 						return result.getInt( 1 );
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				System.out.println("DBUtilEvent.saveEvent() : Error getting ID of saved event"  );
 				e.printStackTrace();
 			}
@@ -76,6 +76,7 @@ public class DBUtilEvent {
 			    "creatorID='" + event.getCreatorID() + "'," +
 			    "eventTime='" + event.getEventTime() + "'," +
 			    "eventDate='" + event.getEventDate() + "'," +
+			    "modifiedDate=NOW()," +
 			    "publicity='" + event.getPublicity() + "' " +
 			"WHERE eventID='" + event.getEventID() + "'";
 		
@@ -179,8 +180,9 @@ public class DBUtilEvent {
 		int eventID, groupID, routeID, eventTypeID;
 		float duration;
 		char publicity;
-		String name, description, creatorID, eventTime;
+		String name, description, creatorID;
 		Date createdDate, modifiedDate, eventDate; 	 	 	 	 	 	 	 	
+		Time eventTime;
 		
 		try {
 			eventID = resultSet.getInt("eventID");
@@ -194,7 +196,7 @@ public class DBUtilEvent {
 			routeID = resultSet.getInt("routeID");
 			eventTypeID = resultSet.getInt("eventTypeID");
 			eventDate = resultSet.getDate("eventDate");
-			eventTime = resultSet.getString("eventTime");
+			eventTime = resultSet.getTime("eventTime");
 			duration = resultSet.getFloat("duration");
 			
 			
