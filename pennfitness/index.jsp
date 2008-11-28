@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ page language="java" import="entities.User, model.DBUtilEventType, model.DBUtilRoute" %>
+<%@ page language="java" import="entities.User, model.DBUtilEventType, model.DBUtilRoute, model.DBUtilEvent" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -123,6 +123,7 @@
         <div id="leftEventCalendar"></div>
         <dl class="accordion-menu" id="my-dl">
             <dt class="a-m-t" id="my-dt-1">Events</dt>
+            <input type="hidden" id="totalEventCnt" value=<%= DBUtilEvent.getAllEventsCount() %> />
             <dd class="a-m-d">
                 <div class="bd" id="evtListSection">
                     <div id="eventListTabArea" class="yui-navset">
@@ -131,8 +132,15 @@
                             <li><a href="#newEvtListTab"><em>New</em></a></li>
                         </ul>
                         <div class="yui-content">
-	                        <div id="dateEvtListTab"><p>Events Listed By Date Here</p></div>
-    	                    <div id="newEvtListTab"><p>Events (new) listed by Creation Date Here</p></div>
+	                        <div id="dateEvtListTab"><p>Events Listed By Date connected with CALENDAR Here</p></div>
+    	                    <div id="newEvtListTab">
+    	                    	<div id="newEventsList">
+    	                    		<%= DBUtilEvent.getAllEventsHTML(5,1) %>
+    	                    	</div>
+    	                    	<div id="pag_newEventsList" class="paginator">
+    	                    		<!-- paginator -->
+    	                    	</div
+    	                    </div>
                         </div>
                 	</div>
                 </div>
@@ -213,7 +221,7 @@
                 </div>
             </form>
             <div id="routeEvents">
-                <span id="totalEvents">0 Events</span> 
+                <a id="totalEvents" href="javascript:void()">0 Events</a> 
                 <a href="javascript:createEvt()"/>New Event</a>
             </div>
 

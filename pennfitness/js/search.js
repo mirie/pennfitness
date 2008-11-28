@@ -5,7 +5,7 @@ YAHOO.util.Event.onDOMReady(initPaginators);
 YAHOO.util.Event.onDOMReady(switchTabs);
 
 // paginators
-var pagNewRoutes, pagPopularRoutes, pagEventSearch, pagRouteSearch, pagGroupSearch;
+var pagNewRoutes, pagPopularRoutes, pagNewEvents, pagRouteSearch, pagGroupSearch;
 
 YAHOO.namespace("search");
 YAHOO.search.InfoToSearch = function() {
@@ -145,6 +145,19 @@ function initPaginators()
 	pagEventSearch.render();
 	pagEventSearch.subscribe('changeRequest',pagEventSearchHandler); 
 	
+	// Paginator for new event list
+	pagNewEvents = new YAHOO.widget.Paginator({
+	    rowsPerPage  : 5,
+	    totalRecords : parseInt(YAHOO.util.Dom.get('totalEventCnt').value),
+	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
+		previousPageLinkLabel : "&lt;",
+		nextPageLinkLabel : "&gt;",
+		pageLinks    : 6,
+	    containers   : ["pag_newEventsList"] // or idStr or elem or [ elem, elem ]
+	});	
+	pagNewEvents.render();
+	pagNewEvents.subscribe('changeRequest',pagNewEventsHandler);
+	
 	// Paginator for route search
 	pagRouteSearch = new YAHOO.widget.Paginator({
 		rowsPerPage  : 5,
@@ -216,4 +229,8 @@ function pagGroupSearchHandler(newState)
 	searchGroup();
 	newState.paginator.setState(newState);
 }
+
+
+
+
 

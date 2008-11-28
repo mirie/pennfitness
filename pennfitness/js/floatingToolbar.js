@@ -55,22 +55,22 @@ function populateTimeRange() {
 // Initializes the route detail toolbar
 // *******************************************************
 function initToolbar() {
-//Instantiate a Panel from markup
-YAHOO.pennfitness.float.toolbar = new YAHOO.widget.Panel("floatingToolbar", 
-		{	visible: false, 
-			constraintoviewport: true,
-			width: "260px",
-			autofillheight: "body",
-			context: ['map', 'tr', 'tr'],
-			effect:{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.25}
-		});
-	YAHOO.pennfitness.float.toolbar.render();
-	YAHOO.pennfitness.float.toolbar.hideEvent.subscribe(cancelRt);
+	//Instantiate a Panel from markup
+	YAHOO.pennfitness.float.toolbar = new YAHOO.widget.Panel("floatingToolbar", 
+			{	visible: false, 
+				constraintoviewport: true,
+				width: "260px",
+				autofillheight: "body",
+				context: ['map', 'tr', 'tr'],
+				effect:{effect:YAHOO.widget.ContainerEffect.FADE,duration:0.25}
+			});
+		YAHOO.pennfitness.float.toolbar.render();
+		YAHOO.pennfitness.float.toolbar.hideEvent.subscribe(cancelRt);
 }
 
-//***********************************************************************
-//Function: Color picker functions for the route color.
-//***********************************************************************/
+// ***********************************************************************
+// Function: Color picker functions for the route color.
+// ***********************************************************************/
 YAHOO.util.Event.onContentReady("rtColor-container", function () {
 
 function onButtonOption() {
@@ -143,9 +143,9 @@ colorButton.on("click", function () {
 	});
 });
 
-//***********************************************************************
-//Function: Calendar for Events
-//***********************************************************************
+// ***********************************************************************
+// Function: Calendar for Events
+// ***********************************************************************
 (function () {	
 var Event = YAHOO.util.Event,
 	Dom = YAHOO.util.Dom;
@@ -257,9 +257,9 @@ Event.onDOMReady(function () {
 }());
 
 
-//***********************************************************************
-//Function: Initializes the create event dialog
-//***********************************************************************
+// ***********************************************************************
+// Function: Initializes the create event dialog
+// ***********************************************************************
 function setupNewEvtDialog(){
 
 	// Define various event handlers for Dialog
@@ -436,6 +436,10 @@ function createRt() {
 	enableMap();
 }
 
+
+// *******************************************************
+// Handles displaying the number of events for the current route 
+// *******************************************************
 YAHOO.pennfitness.float.getEventCount = function() {
 	var successHandler = function(o) {
 		var response;
@@ -465,17 +469,11 @@ YAHOO.pennfitness.float.getEventCount = function() {
 		failure:failureHandler,
 	}
 	
-	//routeID = routeIDArg;
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/eventCount.jsp?routeID=" + routeID, callback); 
 }
 
 
-
-
-
-
 //  ***********************************************************************
-//  function: YAHOO.pennfitness.float.getRoute 
 //  Used to draw selected route and display its associated route details
 //  ***********************************************************************
 YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
@@ -705,18 +703,15 @@ function deleteRt() {
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgRoute.do", callback, strData);
 }
 
-//*******************************************************
-//Function: createEvt
-//*******************************************************
 function createEvt() {
 	resetNewEvt();	
 	YAHOO.pennfitness.float.newEventPanel.show();
 }
 
 
-//***********************************************************************
-//Function: Resets new event details dialog for editing
-//***********************************************************************
+// ***********************************************************************
+// Function: Resets new event details dialog for editing
+// ***********************************************************************
 function resetNewEvt() {
 	eventID = -1;
 
@@ -733,6 +728,13 @@ function resetNewEvt() {
 	document.getElementById("evtCalTxt").value = "";
 	document.getElementById("eventDescTxt").value = "";
 }
+
+function displayEventList() {
+	
+	
+}
+
+
 
 //***********************************************************************
 //function: YAHOO.pennfitness.float.getEvent 
@@ -751,41 +753,9 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 	    }
 		
 		if (response.STATUS == 'Success') {
-			removeRoute();
-			
-			document.getElementById("routeGeneral").style.display = "block";
-			document.getElementById("routeNameTxtDiv").style.display = "none";
-			document.getElementById("routeName").innerHTML = response.DATA.ROUTE_NAME;
-			document.getElementById("routeCreator").innerHTML = " by " + response.DATA.ROUTE_CREATOR;
-			document.getElementById("routeCreatedDate").innerHTML = "Created on: " + response.DATA.ROUTE_DATE;		
-			
-			document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+response.DATA.ROUTE_RATING;
-	
-			document.getElementById("routeDesc").innerHTML = response.DATA.ROUTE_DESCRIPTION;
-			document.getElementById("routeDescTxt").style.display = "none";
-	
-			document.getElementById("rtColor-container").style.display = "none";
-			
-			document.getElementById("saveRoute").style.display = "none";
-			document.getElementById("modifyRoute").style.display = "block";
-			
-			//enableMap();
-			// Add markers and draw route
-			var pointData = response.DATA.ROUTE_PTS.split(";");
-			for (var i = 0; i < pointData.length; i++) {
-				var point = pointData[i].split(",");
-				var lat = point[0];
-				var lng = point[1];
-				addMarkerPoint(lat, lng);
-			}
-	
-			lineColor = response.DATA.ROUTE_COLOR;
-			drawOverlay();
-			disableMap();  
-			
-			YAHOO.pennfitness.float.toolbar.show();
+			alert(eventIDArg);
 			// Calls getNewRouteNames only when necessary
-			if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames();
+			//if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames();
 			
 		} else {
 			alert("Retrieving eventID: " + eventID + "failed!");
