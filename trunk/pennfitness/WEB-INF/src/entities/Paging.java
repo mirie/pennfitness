@@ -19,13 +19,17 @@ public class Paging {
 		this.totalRecordCnt = totalRecordCnt;
 		
 		// get recsPerPage
-		if(req.getParameter("recsPerPage") != null) {
-			recsPerPage = Integer.parseInt(req.getParameter("recsPerPage"));
+		if(req.getParameter("recsPerPage") != null ) {
+			try {
+				recsPerPage = Integer.parseInt(req.getParameter("recsPerPage"));
+			} catch(Exception ex) { /* do nothing  */ }
 		}
 		
 		// get curPage
-		if(req.getParameter("curPage") != null) {
-			curPage = Integer.parseInt(req.getParameter("curPage"));
+		if(req.getParameter("curPage") != null ) {
+			try {
+				curPage = Integer.parseInt(req.getParameter("curPage"));
+			} catch(Exception ex) { /* do nothing  */ }
 		}
 		
 		/* check if exceeding total number of pages */
