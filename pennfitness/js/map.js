@@ -25,6 +25,10 @@ var distance;
 
 var mapLimits;
 
+// Listener functions
+var drawOverlay;
+var removeMarker;
+
 //  ***********************************************************************
 //  Function: init()
 //  Initialize Google Map objects.
@@ -64,10 +68,10 @@ function addMarker(point)
 	markers.push(marker);
         
 	// Drag listener
-	GEvent.addListener(marker, "drag", function() {  drawOverlay();  });
+	GEvent.addListener(marker, "drag", drawOverlay);
 
 	// Second click listener: for deleting the marker
-	GEvent.addListener(marker, "click", function() { /* Inseob's code here */}); // end of second click
+	GEvent.addListener(marker, "click", removeMarker); // end of second click
 }
 
 //  ***********************************************************************
@@ -116,10 +120,10 @@ function drawOverlay(){
     distanceDiv.innerHTML = distance + unit;
 }
 
-//***********************************************************************
-//Function: Removes a route from the map.
+//  ***********************************************************************
+//  Function: Removes a route from the map.
 //
-//***********************************************************************
+//  ***********************************************************************
 function removeRoute() {
 	for (i = 0; i < markers.length; i++) {
 		map.removeOverlay(markers[i]);
@@ -127,6 +131,23 @@ function removeRoute() {
 	points.length = 0;
 	markers.length = 0;
 	if (polylines) {  map.removeOverlay(polylines); }       
+}
+
+/***************************************************************************
+ * Function: Removes the selected marker (Should be used as a listener for click event)
+ ***************************************************************************/
+function removeMarker() {
+	for (i = 0; i < markers.length; i++) {
+		if (markers[i] == this) {
+			map.removeOverlay(this);
+			break;                                          
+		}
+	}
+	            
+	// Shorten array of markers
+	markers.splice(i, 1);
+            
+	drawOverlay();
 }
 
 //  ***********************************************************************
@@ -152,10 +173,12 @@ function disableMarkerListeners() {
 
 function enableMarkerListeners() {
 	for (var i = 0; i < markers.length; i++) {
-		GEvent.addListener(markers[i], "click", function() { /* Inseob's changes here */});
+		GEvent.addListener(markers[i], "click", removeMarker);
 		markers[i].enableDragging();
 	}
 }
+
+
 
 
 YAHOO.util.Event.onDOMReady(setupMap);
