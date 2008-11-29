@@ -9,23 +9,6 @@ var routeID = -1, eventID = -1, eventCount = 0;
 
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); }
 
-// ********************************************************
-// TEMPORARY STUFF HERE
-// ********************************************************
-// Make a list of (groupNames to display in event detail) 
-var fakeGrps = ['group1', 'group2', 'group3', 'group3', 'group4'];
-
-function populateGroup() {
-	var groupSelect = document.getElementById("evtGroup");
-	for (var i = 0; i < fakeGrps.length; i++) {
-		var option = document.createElement('option');
-		option.setAttribute('value',fakeGrps[i]);
-		option.appendChild(document.createTextNode(fakeGrps[i]));
-		groupSelect.appendChild(option);
-	}
-}
-// END OF TEMPORARY SECTION
-
 function populateTimeRange() {
 	var evtTimeStartSelect = document.getElementById("eventTimeStart");
 //	var evtTimeStopSelect = document.getElementById("evtTimeStop");	
@@ -256,7 +239,6 @@ Event.onDOMReady(function () {
 });	
 }());
 
-
 // ***********************************************************************
 // Function: Initializes the create event dialog
 // ***********************************************************************
@@ -270,12 +252,8 @@ function setupNewEvtDialog(){
 		
 		// change time and date to: mm/dd/yyyy --> yyyy-mm-dd; time from hh:mm, am/pm --> hh:mm:ss
 		
-		var eventDate = document.getElementById("evtCalTxt").value; // mm/dd/yyyy
-		
-		var firstSlashIndex = eventDate.indexOf('/');		
-		var lastSlashIndex = eventDate.lastIndexOf('/');
-		var dateFormatted = eventDate.substring(lastSlashIndex +1) + "-" + eventDate.substring(0, firstSlashIndex) +
-							"-" + eventDate.substring(firstSlashIndex + 1, lastSlashIndex);
+		var eventDateParts = document.getElementById("evtCalTxt").value.split("/"); // mm/dd/yyyy
+		var dateFormatted = eventDateParts[2] + "-" + eventDateParts[0] + "-" + eventDateParts[1];
 		
 		document.getElementById("evtDateTxt").value = dateFormatted;
 		
@@ -429,61 +407,11 @@ function resetRtDetail() {
 // Enables the map for route creation and displays route 
 // detail toolbar.
 // *******************************************************
-
 function createRt() {
 	resetRtDetail();
 	YAHOO.pennfitness.float.toolbar.show();
 	enableMap();
 }
-
-
-// *******************************************************
-// Handles displaying the number of events for the current route 
-// *******************************************************
-YAHOO.pennfitness.float.getEventCount = function() {
-	var successHandler = function(o) {
-		var response;
-		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }
-		
-		if (response.STATUS == 'Success') {
-			// <a href="javascript:displayEventList()">0 Events</a>
-			if (response.DATA.EVENT_COUNT > 0 ){
-				//if ()
-				document.getElementById("totalEvents").innerHTML = "";
-				
-				var link = document.createElement('a');
-				link.setAttribute('href','javascript:displayEventList()');
-				link.id = "eventCountLink";
-				link.appendChild(document.createTextNode(response.DATA.EVENT_COUNT +  "Events"));				
-				document.getElementById("totalEvents").appendChild(link);
-			} else {
-				document.getElementById("totalEvents").innerHTML = response.DATA.EVENT_COUNT + " Events";
-			}
-		} else {
-			alert("Retrieving event count by routeID: " + routeID + "failed!");
-		}
-	}
-	
-	var failureHandler = function(o) {
-		alert("Error + " + o.status + " : " + o.statusText);
-	}
-	
-	var callback = {
-		success:successHandler,
-		failure:failureHandler,
-	}
-	
-	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/eventCount.jsp?routeID=" + routeID, callback); 
-}
-
 
 //  ***********************************************************************
 //  Used to draw selected route and display its associated route details
@@ -557,7 +485,6 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 	routeID = routeIDArg;
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByID.jsp?routeID=" + routeID, callback); 
 }
-
 
 function modifyRt() {	
 	document.getElementById("routeGeneral").style.display = "none";
@@ -720,6 +647,52 @@ function createEvt() {
 	YAHOO.pennfitness.float.newEventPanel.show();
 }
 
+//*******************************************************
+//Handles displaying the number of events for the current route 
+//*******************************************************
+YAHOO.pennfitness.float.getEventCount = function() {
+	var successHandler = function(o) {
+		var response;
+		
+	    // Use the JSON Utility to parse the data returned from the server
+	    try {
+	       response = YAHOO.lang.JSON.parse(o.responseText); 
+	    }
+	    catch (x) {
+	        alert("JSON Parse failed!");
+	        return;
+	    }
+		
+		if (response.STATUS == 'Success') {
+			// <a href="javascript:displayEventList()">0 Events</a>
+			if (response.DATA.EVENT_COUNT > 0 ){
+				//if ()
+				document.getElementById("totalEvents").innerHTML = "";
+				
+				var link = document.createElement('a');
+				link.setAttribute('href','javascript:displayEventList()');
+				link.id = "eventCountLink";
+				link.appendChild(document.createTextNode(response.DATA.EVENT_COUNT +  " Events"));				
+				document.getElementById("totalEvents").appendChild(link);
+			} else {
+				document.getElementById("totalEvents").innerHTML = response.DATA.EVENT_COUNT + " Events";
+			}
+		} else {
+			alert("Retrieving event count by routeID: " + routeID + "failed!");
+		}
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+	}
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/eventCount.jsp?routeID=" + routeID, callback); 
+}
 
 // ***********************************************************************
 // Function: Resets new event details dialog for editing
@@ -741,7 +714,8 @@ function resetNewEvt() {
 	document.getElementById("eventDescTxt").value = "";
 }
 
-function displayEventList() {
+function displayEventList() 
+{
 	var successHandler = function(o) {	
 		var response;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
@@ -749,7 +723,8 @@ function displayEventList() {
 		YAHOO.util.Dom.get("eventListByRoute").innerHTML = jResponse.DATA.CONTENT;		
 		pagEventListByRoute.set('totalRecords',jResponse.DATA.TOTALRECCNT);
 		//if (jResponse.DATA.TOTALRECCNT > 0)
-		document.getElementById("eventDetails").style.display = "block";		
+		document.getElementById("eventDetails").style.display = "block";
+		document.getElementById("specificEvent").style.display = "none";		
 	};
 
 	var failureHandler = function(o) {
@@ -768,7 +743,10 @@ function displayEventList() {
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "routeEvents.do", callback, strdata);
 }
 
-
+function hideEventList() {
+	document.getElementById("eventDetails").style.display = "none";
+	document.getElementById("specificEvent").style.display = "none";
+}
 
 //***********************************************************************
 //function: YAHOO.pennfitness.float.getEvent 
@@ -776,24 +754,43 @@ function displayEventList() {
 YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 	var successHandler = function(o) {
 		var response;
+
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }
+		document.getElementById("eventDetails").style.display = "none";
+		document.getElementById("specificEvent").style.display = "block";
 		
-		if (response.STATUS == 'Success') {
-			alert(eventIDArg);
-			// Calls getNewRouteNames only when necessary
-			//if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames();
-			
-		} else {
-			alert("Retrieving eventID: " + eventID + "failed!");
+		document.getElementById("eventName").innerHTML = jResponse.DATA.EVENT_NAME;
+		document.getElementById("eventCreator").innerHTML = "by " + jResponse.DATA.EVENT_CREATOR_ID;
+		
+		//var date = ;
+		var dateParts = jResponse.DATA.EVENT_DATE.split("-");
+		var date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+		
+		document.getElementById("eventCreatedDate").innerHTML = "Created on: " + date;
+
+		var timeParts = jResponse.DATA.EVENT_TIME.split(":");
+		var time = "";
+				
+		if (timeParts[0] > 12){
+			var hour = (timeParts[0] - 12);
+			time += hour +  ":" + timeParts[1];
+			time += " PM";
 		}
+		else {
+			time += timeParts[0] + ":" + timeParts[1] + " AM";
+		}
+		
+		document.getElementById("eventStart").innerHTML = time; 
+		document.getElementById("eventDuration").innerHTML = " (" + jResponse.DATA.EVENT_DURATION + " hours)";
+		if (jResponse.DATA.EVENT_PUBLICITY == "Y")
+			document.getElementById("eventPrivacy").innerHTML = "Public";
+		else
+			document.getElementById("eventPrivacy").innerHTML = "Private";
+		
+		document.getElementById("eventType").innerHTML = "evtType: " + jResponse.DATA.EVENT_EVENT_TYPE_ID;
+		document.getElementById("eventGroup").innerHTML = "GrpID: " + jResponse.DATA.EVENT_GROUP_ID;
+		document.getElementById("eventDesc").innerHTML = jResponse.DATA.EVENT_DESCRIPTION;
 	}
 	
 	var failureHandler = function(o) {
@@ -805,8 +802,25 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 		failure:failureHandler,
 	}
 	
-	routeID = routeIDArg;
+	eventID = eventIDArg;
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/eventByID.jsp?eventID=" + eventID, callback); 
+}
+
+function modifyEvent() {
+//	document.getElementById("eventNameTxt").value = "";
+//	
+//	document.getElementById("publicEvt").checked = true;
+//	document.getElementById("evtGroup").options[0].selected = true;
+//	document.getElementById("evtType").options[0].selected = true;
+//	
+//	document.getElementById("eventTimeStart").options[0].selected = true;
+//	document.getElementById("AM_PM").options[0].selected = true;
+//	
+//	document.getElementById("eventDurationTxt").value = "";
+//	document.getElementById("evtCalTxt").value = "";
+//	document.getElementById("eventDescTxt").value = "";
+	
+	YAHOO.pennfitness.float.newEventPanel.show();
 }
 
 
@@ -821,6 +835,3 @@ YAHOO.util.Event.addListener("modifyRouteBtn", "click", modifyRt);
 YAHOO.util.Event.addListener("deleteRouteBtn", "click", deleteRt);
 
 YAHOO.util.Event.onDOMReady(populateTimeRange);
-
-// MORE TEMPORARY JUNK HERE
-YAHOO.util.Event.onDOMReady(populateGroup);
