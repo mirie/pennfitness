@@ -124,7 +124,7 @@
 <div id="centerArea">
 	<div id="leftMenu" class="leftMenuTitle">
         <div id="leftEventCalendar"></div>
-        <input type="hidden" id="eventDatesCurrentMonth" value="<%= DBUtilEvent.getEventDatesByMonth(2008,11) %>" />
+        <input type="hidden" id="eventDatesCurrentMonth" value="<%= DBUtilEvent.getEventDatesForCurMonth() %>" />
         <dl class="accordion-menu" id="my-dl">
             <dt class="a-m-t" id="my-dt-1">Events</dt>
             <input type="hidden" id="totalEventCnt" value=<%= DBUtilEvent.getAllEventsCount() %> />
