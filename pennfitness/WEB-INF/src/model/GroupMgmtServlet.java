@@ -93,13 +93,15 @@ public class GroupMgmtServlet extends HttpServlet{
     		//group.setId(Integer.valueOf( groupID.trim()));
     		JSONObject data = new JSONObject();  		
     		int transaction = DBUtilGroup.saveGroup( group );
-    		if( transaction == -1 )
-    			result.put( "STATUS", "Failed to save group" );		
-    		else
-    			result.put( "STATUS", "Successfully saved group");
-
-    		data.put( "GroupID", transaction );
-    		result.put( "DATA",  data );
+    		if( transaction == -1 ) {
+    			result.put( "STATUS", "Failure" );
+    			result.put( "MSG", "Failed to save group");
+    		}
+    		else {
+    			result.put( "STATUS", "Success");
+	    		data.put( "GroupID", transaction );
+	    		result.put( "DATA",  data );
+    		}
     		
             out.println( result );
     	}
@@ -141,13 +143,15 @@ public class GroupMgmtServlet extends HttpServlet{
     		//group.setId( Integer.valueOf( groupID.trim() ) );
     		JSONObject data = new JSONObject();
     		int transaction = DBUtilGroup.modifyGroup( group );
-    		if( transaction == -1 )
-    			result.put( "STATUS", "Failure" );		
-    		else
-    			result.put( "STATUS", "Modified Successfully");
-    		
-    		data.put( "GroupID", groupID.trim() );
-    		result.put( "DATA",  data );
+    		if( transaction == -1 ) {
+    			result.put( "STATUS", "Failure" );
+    			result.put( "MSG", "Failed to save group");
+    		}
+    		else {
+    			result.put( "STATUS", "Success");
+	    		data.put( "GroupID", groupID.trim() );
+	    		result.put( "DATA",  data );
+    		}
     		
             out.println( result );
     	}
