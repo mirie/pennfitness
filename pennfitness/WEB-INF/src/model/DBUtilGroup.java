@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
+import util.SMTPMail;
+
 import entities.Group;
 import entities.Route;
 import entities.User;
@@ -332,6 +337,43 @@ public class DBUtilGroup {
 			DBConnector.closeDBConnection();
 		}
 		return recCount;
+	}
+	
+	public static boolean sendEmailToGroupMembers( String msgSubject, String msgText, int groupID ){
+		String searchQuery =
+			"SELECT U.email" +
+			"FROM User U, GroupReg GR"+ 
+			"WHERE U.userID = GR.userID"+ 
+			"AND GR.groupID = '"+groupID+"'";
+		
+		ResultSet resultSet = DBConnector.getQueryResult(searchQuery);
+		List<String> emails = new ArrayList<String>();
+		
+		String email;
+		try {
+			while( resultSet.next() ){				
+				email = resultSet.getString( "email" );
+				if( email != null )
+					emails.add( email );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.sendEmailToGroupMembers() : Error getting email addresses before sending");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		
+		try {
+			SMTPMail.send( emails , msgSubject, msgText);
+		} catch (Exception e) {
+			System.out.println("DBUtilGroup.sendEmailToGroupMembers() : Error sending email" );
+			e.printStackTrace();
+			return false;
+		} 
+		
+		return true;
 	}
 
 
