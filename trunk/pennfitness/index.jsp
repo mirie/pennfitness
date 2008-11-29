@@ -25,6 +25,9 @@
 <!-- Combo-handled YUI JS files: -->
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/utilities/utilities.js&2.6.0/build/container/container-min.js&2.6.0/build/menu/menu-min.js&2.6.0/build/button/button-min.js&2.6.0/build/calendar/calendar-min.js&2.6.0/build/slider/slider-min.js&2.6.0/build/colorpicker/colorpicker-min.js&2.6.0/build/json/json-min.js&2.6.0/build/layout/layout-min.js&2.6.0/build/paginator/paginator-min.js&2.6.0/build/tabview/tabview-min.js"></script>
 
+<!--  ================================= Custom CSS to override YUI CSS style ========== -->
+<link rel="stylesheet" type="text/css" href="css/calendar.css" />
+
 <!--  ================================= Custom Scripts ================================ -->
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/layout.js"></script>
@@ -121,6 +124,7 @@
 <div id="centerArea">
 	<div id="leftMenu" class="leftMenuTitle">
         <div id="leftEventCalendar"></div>
+        <input type="hidden" id="eventDatesCurrentMonth" value="<%= DBUtilEvent.getEventDatesByMonth(2008,11) %>" />
         <dl class="accordion-menu" id="my-dl">
             <dt class="a-m-t" id="my-dt-1">Events</dt>
             <input type="hidden" id="totalEventCnt" value=<%= DBUtilEvent.getAllEventsCount() %> />
