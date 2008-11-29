@@ -6,10 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import entities.Event;
 import entities.Route;
 
 public class DBUtilRoute {
@@ -322,30 +319,7 @@ public class DBUtilRoute {
 		}
 		return recCount;
 	}
-
-	public static int getEventCountByRouteId(String id) {
-		int eventCount = 0;		
 		
-		String query = "SELECT COUNT(routeID) CNT FROM Event WHERE routeID='"+id+"'";
-		
-		ResultSet resultSet = DBConnector.getQueryResult(query);
-		try {
-			while( resultSet.next() ){
-				eventCount = resultSet.getInt("CNT");
-			}
-		} 
-		catch (SQLException e) {
-			System.out.println("DBFunctionUtil.getEventCountByRouteId() : Error getting event count for given routeID");
-			e.printStackTrace();
-		}
-		finally{
-			DBConnector.closeDBConnection();
-		}
-		
-		return eventCount;		
-	}
-	
-	
 	/**
 	 * Utility function that gets Route object from a resultset row
 	 * 

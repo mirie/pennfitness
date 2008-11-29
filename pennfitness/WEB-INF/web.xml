@@ -40,7 +40,10 @@
     <servlet-name>GroupSearchServlet</servlet-name>
     <servlet-class>model.GroupSearchServlet</servlet-class>
   </servlet>
-
+  <servlet>
+    <servlet-name>EventListByRouteServlet</servlet-name>
+    <servlet-class>model.EventListByRouteServlet</servlet-class>
+  </servlet>
 
   <!-- Map URLs to that servlet. -->
 
@@ -77,8 +80,11 @@
     <url-pattern>/searchRoute.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>GroupSearchServlet</servlet-name>
+  <servlet-name>GroupSearchServlet</servlet-name>
     <url-pattern>/searchGroup.do</url-pattern>
   </servlet-mapping>
- 
+  <servlet-mapping>  
+  <servlet-name>EventListByRouteServlet</servlet-name>
+    <url-pattern>/routeEvents.do</url-pattern>
+  </servlet-mapping>
 </web-app>
