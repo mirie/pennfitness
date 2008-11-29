@@ -9,16 +9,12 @@
     <servlet-class>model.RouteMgmtServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>GroupSaveServlet</servlet-name>
-    <servlet-class>model.GroupSaveServlet</servlet-class>
+    <servlet-name>GroupMgmtServlet</servlet-name>
+    <servlet-class>model.GroupMgmtServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>GroupRegisterServlet</servlet-name>
-    <servlet-class>model.GroupRegisterServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>GroupLeaveServlet</servlet-name>
-    <servlet-class>model.GroupLeaveServlet</servlet-class>
+    <servlet-name>GroupRegMgmtServlet</servlet-name>
+    <servlet-class>model.GroupRegMgmtServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>EventSaveServlet</servlet-name>
@@ -53,16 +49,12 @@
     <url-pattern>/mgRoute.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>GroupSaveServlet</servlet-name>
-    <url-pattern>/saveGroup.do</url-pattern>
+    <servlet-name>GroupMgmtServlet</servlet-name>
+    <url-pattern>/mgGroup.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>GroupRegisterServlet</servlet-name>
-    <url-pattern>/joinGroup.do</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>GroupLeaveServlet</servlet-name>
-    <url-pattern>/leaveGroup.do</url-pattern>
+    <servlet-name>GroupRegMgmtServlet</servlet-name>
+    <url-pattern>/mgGroupReg.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>EventSaveServlet</servlet-name>
