@@ -4,6 +4,7 @@ YAHOO.namespace("leftMenu.route");
  
 YAHOO.leftMenu.route.initCalendar = function() {
 	YAHOO.leftMenu.route.calendar = new YAHOO.widget.Calendar("calendar","leftEventCalendar");
+//	YAHOO.leftMenu.route.calendar.addRenderer(YAHOO.util.Dom.get("eventDatesCurrentMonth").value, YAHOO.leftMenu.route.calendar.renderCellStyleHighlight4);
 	YAHOO.leftMenu.route.calendar.render();
 }
 

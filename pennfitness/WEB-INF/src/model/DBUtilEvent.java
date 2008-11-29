@@ -4,9 +4,12 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -112,6 +115,45 @@ public class DBUtilEvent {
 		return events;
 	}
 	
+	public static String getEventDatesByMonth( int year, int month ) {
+		String searchQuery = 
+			"SELECT distinct(eventDate) EVENTDATE " +
+			"FROM Event " +
+			"WHERE eventDate >= '" + year +"-" + month + "-01' AND " +
+			"eventDate <= '" + year + "-" + month + "-31' " +
+			"ORDER BY eventDate ";
+		
+		StringBuffer sbuf = new StringBuffer();
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+		
+		System.out.println("Search Query:" + searchQuery);
+
+		List<Event> events = new ArrayList<Event>();
+		ResultSet resultSet = DBConnector.getQueryResult( searchQuery );	
+		
+		try {
+			while( resultSet.next() ){
+				sbuf.append(dateFormat.format(resultSet.getDate("EVENTDATE")) + ",");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilEvent.searchForEvents() : Error searching for events");
+			e.printStackTrace();
+			return null;
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		
+		System.out.println("result = " + sbuf.toString().substring(0, sbuf.length()-1 ));
+		
+		if( sbuf.length() == 0 ) return "";
+		else return "\\\"" + sbuf.toString().substring(0, sbuf.length()-1 ) + "\\\"";
+	}
+	
+	
+	
+	
 	/**
 	 * Function that search DB for events that meets given search criteria
 	 * 
@@ -123,8 +165,9 @@ public class DBUtilEvent {
 			"SELECT * " +
 			"FROM Event " +
 			"WHERE " + DBUtil.getSearchCriteria( params ) +
-			" ORDER BY eventDate DESC, createdDate DESC " +
-			"LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
+			" ORDER BY eventDate DESC, createdDate DESC ";
+			// don't apply LIMIT when recordPerPage or currentPage is 0
+			if( recordPerPage != 0 || currentPage != 0 ) searchQuery += "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
 		
 		System.out.println("Search Query:" + searchQuery);
 
