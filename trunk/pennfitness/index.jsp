@@ -225,7 +225,7 @@
                 </div>
             </form>
             <div id="routeEvents">
-                <a id="totalEvents" href="javascript:void()">0 Events</a> 
+                <span id="totalEvents"></span> 
                 <a href="javascript:createEvt()"/>New Event</a>
             </div>
 
@@ -233,24 +233,31 @@
     <!-- ======================== Event Detail TOOLBAR:  ===================== --> 
                    
             <div id="eventDetails" style="display:none">
-                 <h3 class="toolbarHd">Event Details</h3><input type="button" id="closeEventBtn" value="X" />
+                 <div class="eventHd"><span class="eventTitle">Event Details</span> <span id="hideLink"><a href="javascript:void()" id="hideEventList">Hide event details</a></span></div>
                  <div class="toolbarPages" id="eventList">
-                    Some Event Listing here...
-                 </div>
-                 <div class="generalInfo" id="eventGeneral">
-                    <span id="eventName">Event Name</span> by <span id="eventCreator">Mai</span><br />
-                    created <span id="eventCreatedDate">11/30/2008</span><br />
+                 	<input type="hidden" id="ELBRrecsPerPage" name="recsPerPage" />
+					<input type="hidden" id="ELBRcurPage" name="curPage" value="1" />
+                 	<div id="eventListByRoute" class="eventList"></div>
+					<div id="pag_eventsListByRoute" class="paginator">
+						<!-- paginator -->
+					</div>
                 </div>
-                <div class="eventDetails">
-                    <span id="eventDuration">12:00AM - 1:00PM (1 hour)</span>
-                    <span id="eventPrivacy">Public</span> <span id="eventType">Casual Run</span> <span id="eventGroup">Group 1</span>
-                </div>
-                <div class="description" id="eventDesc">
-                    Event Description here...
-                </div>
-                <div class="toolbarBtns">
-                    <input type="button" id="modifyEventBtn" value="Modify" />
-                    <input type="button" id="deleteEventBtn" value="Delete" />
+                <div id="specficEvent" style="display:none">
+	                 <div class="generalInfo" id="eventGeneral">
+	                    <span id="eventName">Event Name</span> by <span id="eventCreator">Mai</span><br />
+	                    created <span id="eventCreatedDate">11/30/2008</span><br />
+	                </div>
+	                <div class="eventDetails">
+	                    <span id="eventDuration">12:00AM - 1:00PM (1 hour)</span>
+	                    <span id="eventPrivacy">Public</span> <span id="eventType">Casual Run</span> <span id="eventGroup">Group 1</span>
+	                </div>
+	                <div class="description" id="eventDesc">
+	                    Event Description here...
+	                </div>
+	                <div class="toolbarBtns">
+	                    <input type="button" id="modifyEventBtn" value="Modify" />
+	                    <input type="button" id="deleteEventBtn" value="Delete" />
+	                </div>
                 </div>                 
             </div>                   
 	    </div>

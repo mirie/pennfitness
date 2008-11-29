@@ -454,7 +454,19 @@ YAHOO.pennfitness.float.getEventCount = function() {
 	    }
 		
 		if (response.STATUS == 'Success') {
-			document.getElementById("totalEvents").innerHTML = response.DATA.EVENT_COUNT + " Events";			
+			// <a href="javascript:displayEventList()">0 Events</a>
+			if (response.DATA.EVENT_COUNT > 0 ){
+				//if ()
+				document.getElementById("totalEvents").innerHTML = "";
+				
+				var link = document.createElement('a');
+				link.setAttribute('href','javascript:displayEventList()');
+				link.id = "eventCountLink";
+				link.appendChild(document.createTextNode(response.DATA.EVENT_COUNT +  "Events"));				
+				document.getElementById("totalEvents").appendChild(link);
+			} else {
+				document.getElementById("totalEvents").innerHTML = response.DATA.EVENT_COUNT + " Events";
+			}
 		} else {
 			alert("Retrieving event count by routeID: " + routeID + "failed!");
 		}
@@ -730,8 +742,30 @@ function resetNewEvt() {
 }
 
 function displayEventList() {
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		YAHOO.util.Dom.get("eventListByRoute").innerHTML = jResponse.DATA.CONTENT;		
+		pagEventListByRoute.set('totalRecords',jResponse.DATA.TOTALRECCNT);
+		//if (jResponse.DATA.TOTALRECCNT > 0)
+		document.getElementById("eventDetails").style.display = "block";		
+	};
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	};
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler
+	};
 	
-	
+	var strdata = "recsPerPage=" + document.getElementById("ELBRrecsPerPage").value + "&";
+	strdata += "curPage=" + document.getElementById("ELBRcurPage").value + "&";
+	strdata += "routeID=" + routeID;
+ 		
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "routeEvents.do", callback, strdata);
 }
 
 

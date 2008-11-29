@@ -280,7 +280,8 @@ public class DBUtilEvent {
 	}
 	
 	public static String getAllEventsHTML(int recordPerPage, int currentPage) {
-		List<Event> events = DBUtilEvent.getAllEvents(recordPerPage, currentPage); 	
+		List<Event> events = DBUtilEvent.getAllEvents(recordPerPage, currentPage);
+		
 		StringBuffer sb = new StringBuffer();
 		Event event;
 		Iterator<Event> iterator = events.iterator();
@@ -295,6 +296,51 @@ public class DBUtilEvent {
 		return sb.toString();
 	}
 	
+	public static int getEventCountByRouteId(String routeId) {
+		int eventCount = 0;		
+		
+		String query = "SELECT COUNT(routeID) CNT FROM Event WHERE routeID='"+ routeId +"'";
+		
+		ResultSet resultSet = DBConnector.getQueryResult(query);
+		try {
+			while( resultSet.next() ){
+				eventCount = resultSet.getInt("CNT");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getEventCountByRouteId() : Error getting event count for given routeID");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		
+		return eventCount;		
+	}
+
+	public static List<Event> getEventsByRouteId(String id, int recordPerPage, int currentPage) {
+		List<Event> events = new ArrayList<Event>();
+		String query = "SELECT * FROM Event WHERE routeID='" + id + "' ORDER BY eventDate DESC ";
+		
+		if( recordPerPage != 0 || currentPage != 0 ) query += "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			while( resultSet.next() ){				
+				events.add( DBUtilEvent.resultSetToEvent( resultSet ) );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getEventListByRouteId() : Error getting event list for routeID: " + id);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+			
+		return events;
+		
+	}
 	
 	
 	/**

@@ -1,10 +1,10 @@
-<%@ page import="model.DBUtilRoute, org.json.simple.JSONObject" %>
+<%@ page import="model.DBUtilEvent, org.json.simple.JSONObject" %>
 
 <% 
 	String routeID = request.getParameter("routeID");
 	
 	if( routeID != null ){
-		int eventCount = DBUtilRoute.getEventCountByRouteId( routeID ); 
+		int eventCount = DBUtilEvent.getEventCountByRouteId( routeID ); 
 
 //	  	 Output format
 //	  	 {

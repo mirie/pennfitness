@@ -5,7 +5,7 @@ YAHOO.util.Event.onDOMReady(initPaginators);
 YAHOO.util.Event.onDOMReady(switchTabs);
 
 // paginators
-var pagNewRoutes, pagPopularRoutes, pagNewEvents, pagRouteSearch, pagGroupSearch;
+var pagNewRoutes, pagPopularRoutes, pagNewEvents, pagRouteSearch, pagGroupSearch, pagEventListByRoute;
 
 YAHOO.namespace("search");
 YAHOO.search.InfoToSearch = function() {
@@ -153,11 +153,23 @@ function initPaginators()
 		previousPageLinkLabel : "&lt;",
 		nextPageLinkLabel : "&gt;",
 		pageLinks    : 6,
-	    containers   : ["pag_newEventsList"] // or idStr or elem or [ elem, elem ]
+	    containers   : ["pag_newEventsList"] 
 	});	
 	pagNewEvents.render();
 	pagNewEvents.subscribe('changeRequest',pagNewEventsHandler);
 	
+	// Paginator for event list for a particular route
+	pagEventListByRoute = new YAHOO.widget.Paginator({
+	    rowsPerPage  : 5,
+	    //totalRecords : 1,
+	    containers   : ["pag_eventsListByRoute"]
+	});		
+	
+	YAHOO.util.Dom.get('ELBRrecsPerPage').value = pagEventSearch.getState().rowsPerPage;
+	pagNewEvents.render();
+	//pagNewEvents.subscribe('changeRequest',pagEventListByRouteHandler);
+
+
 	// Paginator for route search
 	pagRouteSearch = new YAHOO.widget.Paginator({
 		rowsPerPage  : 5,
@@ -182,15 +194,6 @@ function initPaginators()
 
 }
 
-// Paginator handler for new events list
-function pagNewEventsHandler(newState)
-{
-//	YAHOO.leftMenu.route.getNewRouteNamesN(newState.rowsPerPage, newState.page);
-//	newState.paginator.setState(newState);
-	//TODO:
-}
-
-
 // Paginator handler for new routes list
 function pagNewRoutesHandler(newState)
 {
@@ -203,6 +206,14 @@ function pagPopularRoutesHandler(newState)
 {
 	YAHOO.leftMenu.route.getPopularRouteNamesN(newState.rowsPerPage, newState.page);
 	newState.paginator.setState(newState);
+}
+
+// Paginator handler for new events list
+function pagNewEventsHandler(newState)
+{
+//	YAHOO.leftMenu.route.getNewRouteNamesN(newState.rowsPerPage, newState.page);
+//	newState.paginator.setState(newState);
+	//TODO:
 }
 
 // Paginator handler for event search
