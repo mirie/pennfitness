@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-#routeName {
+#routeName, #eventName {
 	font-weight:700;
 	padding-bottom: 5px;
 }
@@ -10,11 +10,11 @@
 	width: 12em;
 }
 
-#routeCreator {
+#routeCreator, #eventCreator {
 	font-style:italic;	
 }
 
-#routeCreatedDate{
+#routeCreatedDate, #eventCreatedDate {
 	color:#900;	
 }
 
@@ -22,7 +22,7 @@
 	display: none;	
 }
 
-#routeDesc{
+#routeDesc, #eventDesc {
 	font-weight:500;
 	color:#006;
 	padding-top: 8px;
@@ -35,8 +35,8 @@
 	display: none;
 }
 
-#routeTimeDist {
-	text-align: right;
+#routeTimeDist, .generalInfo {
+	text-align: left;
 	padding-top: 3px;
 }
 
@@ -149,3 +149,16 @@
 	vertical-align: bottom;		
 }  /* END calendar for toolbar */
 
+
+#hideEvtList, #hideEvtDetail {
+	text-align: right;	
+}
+
+
+#eventDetails, #specificEvent {
+	padding-top: 10px;	
+}
+
+.eventDetails, .ratings {
+	text-align: right;	
+}

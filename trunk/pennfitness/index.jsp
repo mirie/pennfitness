@@ -240,7 +240,9 @@
     <!-- ======================== Event Detail TOOLBAR:  ===================== --> 
                    
             <div id="eventDetails" style="display:none">
-                 <div class="eventHd"><span class="eventTitle">Event Details</span> <span id="hideLink"><a href="javascript:void()" id="hideEventList">Hide event details</a></span></div>
+            	<hr />
+            	 <div id="hideEvtList"><a href="javascript:hideEventList()">Hide Event List</a></div>
+                 <div class="eventHd"><span class="eventTitle">Event List</span></div>
                  <div class="toolbarPages" id="eventList">
                  	<input type="hidden" id="ELBRrecsPerPage" name="recsPerPage" />
 					<input type="hidden" id="ELBRcurPage" name="curPage" value="1" />
@@ -249,13 +251,16 @@
 						<!-- paginator -->
 					</div>
                 </div>
-                <div id="specficEvent" style="display:none">
-	                 <div class="generalInfo" id="eventGeneral">
-	                    <span id="eventName">Event Name</span> by <span id="eventCreator">Mai</span><br />
-	                    created <span id="eventCreatedDate">11/30/2008</span><br />
+            </div>   
+                <div id="specificEvent" style="display:none">
+                	<hr />
+                	 <div id="hideEvtDetail" ><a href="javascript:displayEventList()">Back to List</a></span><br /></div>
+	                 <div class="generalInfo" id="eventGeneral">	                 	
+	                    <span id="eventName">Event Name</span> <span id="eventCreator">by Mai</span><br />
+	                    <span id="eventCreatedDate">Created on: 11/30/2008</span><br />
 	                </div>
 	                <div class="eventDetails">
-	                    <span id="eventDuration">12:00AM - 1:00PM (1 hour)</span>
+	                    <span id="eventStart">1:00 PM</span><span id="eventDuration">(1 hour)</span><br />
 	                    <span id="eventPrivacy">Public</span> <span id="eventType">Casual Run</span> <span id="eventGroup">Group 1</span>
 	                </div>
 	                <div class="description" id="eventDesc">
@@ -266,7 +271,7 @@
 	                    <input type="button" id="deleteEventBtn" value="Delete" />
 	                </div>
                 </div>                 
-            </div>                   
+                            
 	    </div>
     </div>
 
