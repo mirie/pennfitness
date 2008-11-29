@@ -182,6 +182,15 @@ function initPaginators()
 
 }
 
+// Paginator handler for new events list
+function pagNewEventsHandler(newState)
+{
+//	YAHOO.leftMenu.route.getNewRouteNamesN(newState.rowsPerPage, newState.page);
+//	newState.paginator.setState(newState);
+	//TODO:
+}
+
+
 // Paginator handler for new routes list
 function pagNewRoutesHandler(newState)
 {

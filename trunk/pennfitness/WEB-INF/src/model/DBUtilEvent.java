@@ -7,6 +7,8 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -115,6 +117,21 @@ public class DBUtilEvent {
 		return events;
 	}
 	
+	/*
+	 * Get the dates of events for current month as string '11/15/2008,11/31/2008,...'
+	 */
+	public static String getEventDatesForCurMonth() {
+		Calendar cal = Calendar.getInstance();
+		
+//		System.out.println(cal.get(Calendar.YEAR) + "-" + cal.get(Calendar.MONTH)+1);
+		
+		return getEventDatesByMonth(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1);
+	}
+	
+	
+	/*
+	 * Get the dates of events for given year and month as string '11/15/2008,11/31/2008,...'
+	 */
 	public static String getEventDatesByMonth( int year, int month ) {
 		String searchQuery = 
 			"SELECT distinct(eventDate) EVENTDATE " +
@@ -124,9 +141,9 @@ public class DBUtilEvent {
 			"ORDER BY eventDate ";
 		
 		StringBuffer sbuf = new StringBuffer();
-		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 		
-		System.out.println("Search Query:" + searchQuery);
+//		System.out.println("Search Query:" + searchQuery);
 
 		List<Event> events = new ArrayList<Event>();
 		ResultSet resultSet = DBConnector.getQueryResult( searchQuery );	
@@ -145,14 +162,11 @@ public class DBUtilEvent {
 			DBConnector.closeDBConnection();
 		}
 		
-		System.out.println("result = " + sbuf.toString().substring(0, sbuf.length()-1 ));
+//		System.out.println("result = " + sbuf.toString());
 		
 		if( sbuf.length() == 0 ) return "";
-		else return "\\\"" + sbuf.toString().substring(0, sbuf.length()-1 ) + "\\\"";
+		else return sbuf.toString().substring(0, sbuf.length()-1 );
 	}
-	
-	
-	
 	
 	/**
 	 * Function that search DB for events that meets given search criteria
