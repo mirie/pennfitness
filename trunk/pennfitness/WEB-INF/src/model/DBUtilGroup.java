@@ -43,7 +43,7 @@ public class DBUtilGroup {
 	 * @param id
 	 * @return
 	 */
-	public static Boolean checkGroup( String id ) {
+	public static Boolean checkGroupByID( String id ) {
 		if( id == null ) return false;
 		
 		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Groups WHERE groupID='"+id+"'" );
@@ -55,6 +55,32 @@ public class DBUtilGroup {
 		} 
 		catch (SQLException e) {
 			System.out.println("DBUtilGroup.checkGroup() : Error getting group");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+
+		return false;
+	}
+	/**
+	 *
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static Boolean checkGroupByName( String groupName ) {
+		if( groupName == null ) return false;
+		
+		ResultSet resultSet = DBConnector.getQueryResult( "SELECT * FROM Groups WHERE name='"+groupName+"'" );
+		try {
+			if( resultSet.next() ){
+				return true;
+			}
+			else return false;
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilGroup.checkGroupByName(String groupName) : Error getting group");
 			e.printStackTrace();
 		}
 		finally{
@@ -114,21 +140,6 @@ public class DBUtilGroup {
 		
 		return returnGroup;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static int modifyGroup( Group group ){
-		
-		String updateQuery = 
-			"UPDATE Groups " +
-			"SET name='" + group.getName()+ "', " +
-			"description='"+ group.getDescription() + "' "+
-			"WHERE groupID='"+ group.getId() +"'"; 
-		return DBConnector.executeUpdateQuery( updateQuery );
-			
-	}
 	public static List<String> getGroupNames(){
 		
 		List<Group> groups = getAllGroups();
@@ -169,9 +180,9 @@ public class DBUtilGroup {
 	}
 	
 	/**
-	 * Saves a new route with the given information
+	 * Saves a new group with the given information
 	 * 
-	 * @param route
+	 * @param group
 	 * @return the ID of newly inserted route if transaction is successful. -1 if not.
 	 */
 	public static int saveGroup( Group group ){
@@ -182,8 +193,6 @@ public class DBUtilGroup {
 										"'"+ group.getCreatorID()+"'," +
 										"'"+ group.getDescription()+"'," +
 										" NOW() )";
-
-		
 		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
 			
 			try {
@@ -193,18 +202,33 @@ public class DBUtilGroup {
 						return result.getInt( 1 );
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				System.out.println("DBUtilGroup.saveGroup() : Error getting ID of saved goup"  );
+				System.out.println("DBUtilGroup.saveGroup() : Error getting ID of saved group"  );
 				e.printStackTrace();
 			}
 			
 		}
-			
 		return -1;
 	}
-	public static int joinGroup( Group group, String userID, String notify){
+	public static int modifyGroup( Group group ){
+		
+		String updateQuery = 
+			"UPDATE Groups " +
+			"SET name='" + group.getName()+ "', " +
+			"description='"+ group.getDescription() + "' "+
+			"WHERE groupID='"+ group.getId() +"'"; 
+		return DBConnector.executeUpdateQuery( updateQuery );
+			
+	}
+	public static int deleteGroup( Group group){
+		String deleteGroupQuery = 
+			"DELETE FROM Groups WHERE groupID='"+group.getId()+"';";
+		return DBConnector.executeUpdateQuery( deleteGroupQuery );
+	}
+	
+	public static int joinGroup( String groupID, String userID, String notify){
 		String saveQuery = 
 			"INSERT INTO GroupReg ( groupID, userID,  notify, registeredDate)" +
-								" VALUES ('"+ group.getId()+"'," +
+								" VALUES ('"+ groupID+"'," +
 										"'"+ userID+"'," +
 										"'"+ notify+"'," +
 										"NOW() )";
@@ -224,6 +248,13 @@ public class DBUtilGroup {
 		}
 		return -1;
 	}
+	//This function can only be called by group creator
+	public static int deleteGroupReg( String groupID){
+		String deleteGroupRegQuery = 
+			"DELETE FROM GroupReg WHERE groupID='"+groupID+"';";
+		return DBConnector.executeUpdateQuery( deleteGroupRegQuery );
+	}
+
 	public static int leaveGroup( Group group, String userID){
 		String saveQuery = 
 			"DELETE FROM GroupReg WHERE groupID='"+group.getId()+"'and userID='"+userID+"';";
@@ -279,7 +310,6 @@ public class DBUtilGroup {
 		
 		return groups;
 	}
-
 	public static int getSearchForGroupsCount(List<QueryParameter> params ){
 		String searchQuery = 
 			"SELECT count(*) CNT " +
@@ -304,8 +334,7 @@ public class DBUtilGroup {
 		return recCount;
 	}
 
-	
-	
+
 	/**
 	 * Utility function that gets Group object from a resultset row
 	 * 
@@ -314,13 +343,14 @@ public class DBUtilGroup {
 	 */
 	private static Group resultSetToGroup( ResultSet resultSet ){
 		
-		String id, creatorId;
+		int id;
+		String creatorId;
 		String name;
 		String description;
 		Date createdDate;
 		
 		try {
-			id = resultSet.getString("groupID");
+			id = resultSet.getInt("groupID");
 			name = resultSet.getString( "name" );
 			creatorId = resultSet.getString("creatorId");
 			description = resultSet.getString("description");
