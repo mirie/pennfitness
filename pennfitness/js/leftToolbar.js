@@ -6,19 +6,39 @@ var cal;
  
 YAHOO.leftMenu.route.initCalendar = function() {
 	cal = new YAHOO.widget.Calendar("calendar","leftEventCalendar");
+	
+	// If this month has some days with events
 	if( YAHOO.util.Dom.get("eventDatesCurrentMonth").value.length > 0 )
 	{
 		cal.addRenderer(YAHOO.util.Dom.get("eventDatesCurrentMonth").value, cal.renderCellStyleHighlight4);
 	}
 
-	// 'Next month', 'Prev month' handler
+	// Register handler for 'Next month', 'Prev month'
     cal.beforeRenderEvent.subscribe(beforeRenderEventHandler, cal, true);
+    
+    // Register handler for selectDate
+    cal.selectEvent.subscribe(selectEventHandler, cal, true);
 
     cal.renderEvent.subscribe(function() {
         this._lastPageDate = this.cfg.getProperty("pageDate");
     }, cal, true);
 
 	cal.render();
+}
+
+selectEventHandler = function(type, dates) {
+	if( dates )
+	{
+		var datesToCompare = YAHOO.util.Dom.get("eventDatesCurrentMonth").value;
+		var date = dates[0][0];
+		var year = date[0], month = date[1], day = date[2];
+		
+		// If selected date has events
+		if( datesToCompare.search(month+"/"+day+"/"+year) != -1 ) {
+			alert('selected date has events!');
+		}
+		
+	}
 }
 
 beforeRenderEventHandler = function(type, args) {
@@ -38,6 +58,9 @@ updateEventsOnCalendar = function(month, year) {
 		if( jResponse.DATA.length > 0 )
 		{
 			cal.addRenderer(jResponse.DATA, cal.renderCellStyleHighlight4);
+			// store returned dates
+			YAHOO.util.Dom.get("eventDatesCurrentMonth").value = jResponse.DATA;
+			
 			// disable beforeRenderEvent handler
 			cal.beforeRenderEvent.unsubscribe(beforeRenderEventHandler, cal);
 			// render calendar
