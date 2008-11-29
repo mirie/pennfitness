@@ -58,9 +58,9 @@
             <td class="appname" align="center" valign="middle">Penn Fitness</td>
               
             <td align=right valign=top class="links"> 
-            <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu/home/index.htm"> Penn Fitness </a> | 
-            <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu/home/index.htm"> Penn CISRS </a> | 
-            <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu/home/index.htm"> Penn Chingu </a> | 
+            <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu:8088/Fitness/"> Penn Fitness </a> | 
+            <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu:8088/BookShare/"> Penn CISRS </a> | 
+            <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu/~appdev3/"> Penn Chingu </a> | 
             <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu/home/index.htm"> Older SPAM </a> 
             </td>
             </tr>            
@@ -136,7 +136,14 @@
                             <li><a href="#newEvtListTab"><em>New</em></a></li>
                         </ul>
                         <div class="yui-content">
-	                        <div id="dateEvtListTab"><p>Events Listed By Date connected with CALENDAR Here</p></div>
+	                        <div id="dateEvtListTab">
+	                        	<div id="eventsOnDateList">
+	                        		<!-- Shows events on selected date -->
+	                        	</div>
+    	                    	<div id="pag_eventsOnDateList" class="paginator">
+    	                    		<!-- paginator -->
+    	                    	</div
+	                        </div>
     	                    <div id="newEvtListTab">
     	                    	<div id="newEventsList">
     	                    		<%= DBUtilEvent.getAllEventsHTML(5,1) %>
