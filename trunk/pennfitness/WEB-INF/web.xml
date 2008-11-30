@@ -17,8 +17,8 @@
     <servlet-class>model.GroupRegMgmtServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>EventSaveServlet</servlet-name>
-    <servlet-class>model.EventSaveServlet</servlet-class>
+    <servlet-name>EventMgmtServlet</servlet-name>
+    <servlet-class>model.EventMgmtServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UserLoginServlet</servlet-name>
@@ -60,8 +60,8 @@
     <url-pattern>/mgGroupReg.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>EventSaveServlet</servlet-name>
-    <url-pattern>/saveEvent.do</url-pattern>
+    <servlet-name>EventMgmtServlet</servlet-name>
+    <url-pattern>/mgEvent.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UserLoginServlet</servlet-name>

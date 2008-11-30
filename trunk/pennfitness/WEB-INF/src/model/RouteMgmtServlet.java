@@ -97,10 +97,14 @@ public class RouteMgmtServlet extends HttpServlet{
     		
     	} else { // Either saving or modifying route	    
 	    	Route route;
-	    	if( user != null )
-	    		route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, user.getUserID() );
-	    	else //TODO: UPDATE THIS -- should not insert when user not logged in. case should not occur...
-	    		route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, "1"/*creatorId*/ );
+	    	if( user == null ) {
+	    		result.put("STATUS", "Failure");
+				result.put("MSG", "You must be logged in to delete a route!");
+				out.println(result);
+				return;
+	    	}
+	    	 		
+	    	route = new Route(routeName, routeColor, routePts, Float.valueOf(routeDist), routeDesc, user.getUserID() );
 	    	
 	    	//Save route
 	    	if( routeID.equals("-1") ){

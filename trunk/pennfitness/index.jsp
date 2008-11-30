@@ -281,7 +281,7 @@
     <div id="eventDialog">
         <div class="hd">Edit Event Details</div>
         <div class="bd">
-            <form name="frmCreateEvent" id="frmCreateEvent" method="post" action="saveEvent.do">
+            <form name="frmCreateEvent" id="frmCreateEvent" method="post" action="mgEvent.do">
                 <label for="eventNameTxt">Event Name:</label> <input type="text" name="eventName" id="eventNameTxt" size="10" maxlength="30" /><br />                                
 
 				<label for="publicity">Publicity:</label>
