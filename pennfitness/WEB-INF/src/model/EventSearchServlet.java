@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 
 import entities.Event;
 import entities.Paging;
+import util.StringUtil;
 
 public class EventSearchServlet extends HttpServlet{
 
@@ -37,6 +38,8 @@ public class EventSearchServlet extends HttpServlet{
     	String type     = req.getParameter("type");
     	String fromDate = req.getParameter("fromDate");
     	String toDate   = req.getParameter("toDate");
+    	String simple	= req.getParameter("simple");
+    	boolean bSimple = (simple == null || simple.charAt(0) != 'Y') ? false : true;
     	
     	List<QueryParameter> params = new ArrayList<QueryParameter>();
 		DBUtil.addQueryParam(params, keyword,	" ( name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%')" ); 
@@ -52,26 +55,26 @@ public class EventSearchServlet extends HttpServlet{
 			if( events != null ){
 		    	Iterator<Event> iterator = events.iterator();
 		    	
-		    	Event event;
+				int cnt = (paging.getCurPage()-1)*paging.getRecsPerPage() + 1;
+				Event event;
 		    	while( iterator.hasNext() ){
 		    		event = iterator.next(); 	
 		    		
-		    		sbuf.append("<div class=\"EventResultItem\">\n").
-		    			append("<a href=\"javascript:registerEvent(" + event.getEventID() + ")\" title=\"Register to this event!\">" + event.getName() + "</a>").
-		    			append(" by <span class=\"ERUserID\">" + event.getCreatorID() + "</span> created on <span class=\"ERcreatedDate\">" + event.getCreatedDate() + "</span>").
-		    			append(" for <span class=\"ERgroupName\">" + event.getGroupID() + "</span> Type: <span class=\"EReventType\">" + event.getEventTypeID() + "</span><br />\n").
-		    			append("On <span class=\"EReventDate\">" + event.getEventDate() + " " + event.getEventTime() + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br />\n").
-		    			append("<span class=\"ERdescription\">description</span>\n").
-		    			append("</div>\n");
-		    		
-//					sbuf.append("<div class=\"RouteResultItem\">\n").
-//						append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "', false)\" class=\"RRrouteName\">" + route.getName() + "</a> by ").
-//						append("<span class=\"RRuserID\">" + route.getCreatorID() + "</span> on ").
-//						append("<span class=\"RRcreatedDate\">" + route.getCreatedDate().toString() + "</span>").
-//						append("<span class=\"RRdistance\">(" + route.getDistance() + " miles)</span> ").
-//						append("<span class=\"RRrating\">Avg rating : " + route.getPt_rate() + "</span><br \\>\n").
-//						append("<span class=\"RRdescription\">" + route.getDescription() + "</span>\n").
-//						append("</div>\n");
+		    		if( !bSimple ) {
+			    		sbuf.append("<div class=\"EventResultItem\">\n").
+			    			append("<a href=\"javascript:registerEvent(" + event.getEventID() + ")\" title=\"Register to this event!\">" + event.getName() + "</a>").
+			    			append(" by <span class=\"ERUserID\">" + event.getCreatorID() + "</span> created on <span class=\"ERcreatedDate\">" + event.getCreatedDate() + "</span>").
+			    			append(" for <span class=\"ERgroupName\">" + event.getGroupID() + "</span> Type: <span class=\"EReventType\">" + event.getEventTypeID() + "</span><br />\n").
+			    			append("On <span class=\"EReventDate\">" + event.getEventDate() + " " + event.getEventTime() + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br />\n").
+			    			append("<span class=\"ERdescription\">description</span>\n").
+			    			append("</div>\n");
+		    		}
+		    		else {
+		    			// use simple form for left toolbar listing
+		    			sbuf.append("<div class=\"EventsOnDateItem\">\n").
+		    				append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getEvent(" + event.getEventID() + ", false)\" class=\"EODEventName\">" + StringUtil.fitString(event.getName(), 15) + "</a> by <span class=\"EODuserID\">" + event.getCreatorID() + "</span>\n</div>\n");
+		    			
+		    		}
 		    	}
 			}
 		} // end of if( totalRecordCnt > 0 ) {

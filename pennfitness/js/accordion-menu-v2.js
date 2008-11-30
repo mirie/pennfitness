@@ -267,7 +267,7 @@ var AccordionMenu =(function()
   var oApi = {
   
 	openDtById : function(sId)
-	{
+	{	
 		var dt = document.getElementById(sId);
 		if(!dt){return;};
 		if(!YUD.hasClass(dt,'a-m-t')){return;};
@@ -449,6 +449,7 @@ var oOptions=
 	// bool ] set true if the animation is to be played
 	animation:true
 }
+
 var setting = new AccordionMenu.setting('my-dl',oOptions);
 
 /*---------------Drag and Drop variable------------------------*/

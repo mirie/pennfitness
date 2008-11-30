@@ -17,6 +17,7 @@ import java.util.Set;
 
 import entities.Event;
 import entities.Route;
+import util.StringUtil;
 
 public class DBUtilEvent {
 
@@ -291,7 +292,7 @@ public class DBUtilEvent {
 			event = iterator.next();
 			
 			sb.append("<div class=\"AllEventResultItem\">\n").
-			   append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getEvent(" + event.getEventID() + ", false)\" class=\"AEREventName\">" + event.getName() + "</a> by <span class=\"AERuserID\">" + event.getCreatorID() + "</span>\n</div>\n");
+			   append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getEvent(" + event.getEventID() + ", false)\" class=\"AEREventName\">" + StringUtil.fitString(event.getName(), 13) + "</a> on <span class=\"AERuserID\">" + event.getEventDate() + "</span>\n</div>\n");
 		}
 		return sb.toString();
 	}
