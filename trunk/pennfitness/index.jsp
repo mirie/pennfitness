@@ -85,7 +85,7 @@
                     // if logged in
                 %>
                 Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
-                <% out.println("<a href=\"javascript:ShowMyAccountDialog("+user.getUserID()+")\"/>My Account</a>"); %>
+                <% out.println("<a href=\"javascript:ShowMyAccountDialog('"+user.getUserID()+"')\"/>My Account</a>"); %>
                 <a href="javascript:createRt()"/>Create a New Route</a>
 				<a href="javascript:Logout()"/>Logout</a>
                 <% // end of else
@@ -281,7 +281,7 @@
     <div id="eventDialog">
         <div class="hd">Edit Event Details</div>
         <div class="bd">
-            <form name="frmCreateEvent" id="frmCreateEvent" method="post" action="mgEvent.do">
+            <form name="frmCreateEvent" id="frmCreateEvent" method="post" action="saveEvent.do">
                 <label for="eventNameTxt">Event Name:</label> <input type="text" name="eventName" id="eventNameTxt" size="10" maxlength="30" /><br />                                
 
 				<label for="publicity">Publicity:</label>
@@ -349,7 +349,7 @@
                 <li class = "selected">
                     <a href = "#tab1"><em>Personal Information</em></a>
                 </li>
-                <li><a href = "#tab2"><em>Group Information</em></a>
+                <li><a href = "#tab2" onclick="populateGroupByUserID();"><em>Group Information</em></a>
                 </li>
                 <li><a href = "#tab3"><em>Event Information</em></a>
                 </li>
@@ -368,40 +368,22 @@
                                 <li class = "selected">
                                     <a href = "#tab1"><em>My Groups</em></a>
                                 </li>
-                                <li><a href = "#tab2"><em>Created Groups</em></a>
+                                <li>
+                                	<a href = "#tab2"><em>Created Groups</em></a>
                                 </li>
-                                <li><a href = "#tab3"><em>Create a Group</em></a>
+                                <li>
+                                	<a href = "#tab3"><em>Create a Group</em></a>
                                 </li>
                             </ul>
                             <div class = "yui-content">
                                 <div class = "myGroups">
-                                    <div class="myGroupList">
-                                        <div class="myGroupItem">
-                                            <span class="number">1.</span>
-                                            <a href="function_to_show_group_detail">jogging group 1</a>
-                                            <span class="createdDate">since Nov. 1st, 2008</span>
-                                            <span class="createdBy">by lq</span>
-                                            <span class="memberCount"># 10</span>
-                                            <p>This is an awesome group where members meet every Wednesday night in front of Towne to start a one hour jogging 
-                                                trip</p>
-                                        </div>
-                                        <div class="myGroupItem">
-                                            <span class="number">2.</span>
-                                            <a href="function_to_show_group_detail">crazy buddies</a>
-                                            <span class="createdDate">since May. 25th, 2009</span>
-                                            <span class="createdBy">by Mai</span>
-                                            <span class="memberCount"># 7</span>
-                                            <a href="function_to_show_group_detail">more...</a>
-                                        </div>
-                                        <div class="myGroupItem">
-                                            <span class="number">3.</span>
-                                            <a href="function_to_show_group_detail">stress out run</a>
-                                            <span class="createdDate">since Jan. 15th, 2009</span>
-                                            <span class="createdBy">by Inseob</span>
-                                            <span class="memberCount"># 13</span>
-                                            <a href="function_to_show_group_detail">more...</a>
-                                        </div>
+                                    <div id="myGroupList">
+                                        
                                     </div>
+                                    <div id="myGroupDetail">
+                                    
+                                    </div>
+                                    
                                     <div class="myGroupsButtons">
                                         <input type="button" value="Send Emails" id="SendEmails" />
                                         <input type="button" value="Unsubscribe" id="Unsubscribe" />

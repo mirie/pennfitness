@@ -397,6 +397,30 @@ public class DBUtilGroup {
 				
 		return groups;
 	}
+	
+	public static int getMemberCount( int groupID ){
+		String query =
+			"SELECT COUNT(*) AS count " +
+			"FROM GroupReg G " +
+			"WHERE G.groupID = '"+groupID+"'";
+		
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			if( resultSet.next() ){				
+				return resultSet.getInt("count");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getMemberCount() : Error getting member count");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		
+		return -1;
+	} 
 
 	/**
 	 * Utility function that gets Group object from a resultset row

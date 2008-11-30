@@ -80,8 +80,15 @@ div.overlayTwo div.yui-content div.routeSearch{
 div.RouteResultItem {
 	margin: 10px;
 
+}
 
+#myGroupList{
+	width: 50%;
+}
 
+#myGroupDetail{
+	float: left;
+	width: 50%;
 }
 
 

@@ -66,6 +66,8 @@ public class GroupMgmtServlet extends HttpServlet{
 			return;
 		}
     	Group group;
+    	
+    	
     	//if( user != null )
     	//	group = new Group(groupName, groupDesc, user.getUserID() );
     	//else
@@ -220,6 +222,32 @@ public class GroupMgmtServlet extends HttpServlet{
     		
     		out.print(result);
     		return;  
+    	}
+    	
+    	else if( "getDetailGroupInfo".equals(action)){
+    		
+    		group = DBUtilGroup.getGroupById( groupID );
+    		if( group == null ){
+    			result.put("STATUS", "Failure");
+    			result.put("MSG", "Error in getting detailed group information");
+    		}
+    		else{
+    			result.put("STATUS", "Success");
+    			
+    			JSONObject data = new JSONObject();
+    			data.put("NAME", group.getName());
+    			data.put("CREATE_DATE", group.getCreatedDate());
+    			data.put("CREATED_BY",group.getCreatorID());
+    			data.put("DESCRIPTION",group.getDescription());
+    			data.put("MEMBER_COUNT", new Integer( DBUtilGroup.getMemberCount( group.getId() ) ) );
+    			
+    			result.put("DATA", data);
+    			
+    			System.out.println(result.get("DATA"));
+    			out.print(result);
+    			return;
+    		}
+    		
     	}
     }
 }
