@@ -85,7 +85,7 @@
                     // if logged in
                 %>
                 Welcome <%=user.getUserName() %> (<%=user.getUserID()%>)!
-   				<a href="javascript:ShowMyAccountDialog()"/>My Account</a>
+                <% out.println("<a href=\"javascript:ShowMyAccountDialog("+user.getUserID()+")\"/>My Account</a>"); %>
                 <a href="javascript:createRt()"/>Create a New Route</a>
 				<a href="javascript:Logout()"/>Logout</a>
                 <% // end of else
@@ -357,12 +357,8 @@
             </ul>
             <div class = "yui-content">
                 <div>
-                    <div class = "personalInfo">
-                        <p>Name:
-                        <span class="userName">Sandy Qian Liu</span><br>
-                        Gender:<span class="userGender">Female</span><br>
-                        Hobbies:<span class="userHobbies">Jogging, Cooking, Japanese Anime</span><br>
-                        </p>
+                    <div id = "personalInfo">
+
                     </div>
                 </div>		
                 <div>
