@@ -263,7 +263,7 @@ function initPagForLeftToolbar()
 
 	// Paginator for eventsOnDateList
 	pagEventsOnDate = new YAHOO.widget.Paginator({
-	    rowsPerPage  : 2,
+	    rowsPerPage  : 5,
 	    totalRecords : 1,
 	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
 		previousPageLinkLabel : "&lt;",
