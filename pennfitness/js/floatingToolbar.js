@@ -855,9 +855,39 @@ function getSelectedTime(time)
 			return i;
 	}
 	
-	return 0;
-	
+	return 0;	
 }
+
+function deleteEvt() {
+	// FOR JSON Handling
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+		
+		alert("Event deleted successfully");
+		eventID = -1;
+		displayEventList();
+		
+		YAHOO.leftMenu.route.getNewEventNames();			
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+	}
+	
+	var strData = "eventID=" + eventID + "&";
+	strData += "action=delete";
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgEvent.do", callback, strData);
+}
+
+
+
 
 
 YAHOO.util.Event.onDOMReady(initToolbar);
@@ -871,4 +901,5 @@ YAHOO.util.Event.addListener("modifyRouteBtn", "click", modifyRt);
 YAHOO.util.Event.addListener("deleteRouteBtn", "click", deleteRt);
 
 YAHOO.util.Event.addListener("modifyEventBtn", "click", modifyEvent);	
+YAHOO.util.Event.addListener("deleteEventBtn", "click", deleteEvt);
 YAHOO.util.Event.onDOMReady(populateTimeRange);
