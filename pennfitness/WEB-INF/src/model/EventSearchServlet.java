@@ -72,7 +72,7 @@ public class EventSearchServlet extends HttpServlet{
 		    		else {
 		    			// use simple form for left toolbar listing
 		    			sbuf.append("<div class=\"EventsOnDateItem\">\n").
-		    				append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getEvent(" + event.getEventID() + ", false)\" class=\"EODEventName\">" + StringUtil.fitString(event.getName(), 15) + "</a> by <span class=\"EODuserID\">" + event.getCreatorID() + "</span>\n</div>\n");
+		    				append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID() + "," + event.getRouteID() + ")\" class=\"EODEventName\">" + StringUtil.fitString(event.getName(), 15) + "</a> by <span class=\"EODuserID\">" + event.getCreatorID() + "</span>\n</div>\n");
 		    			
 		    		}
 		    	}
