@@ -14,19 +14,6 @@ public final class  SMTPMail {
 	public static final String  HOST    = "smtp.gmail.com";
 	public static final String  FROM    = "pennfitness@gmail.com";
 	
-
-//	public static final void  main ( String [ ]  args )
-//	  throws AddressException, MessagingException
-//	//////////////////////////////////////////////////////////////////////
-//	{
-//	  String  host    = ( args.length < 1 ? TEST_HOST    : args [ 0 ] );
-//	  String  from    = ( args.length < 2 ? TEST_FROM    : args [ 1 ] );
-//	  String  to      = ( args.length < 3 ? TEST_TO      : args [ 2 ] );
-//	  String  subject = ( args.length < 4 ? TEST_SUBJECT : args [ 3 ] );
-//	  String  message = ( args.length < 5 ? TEST_MESSAGE : args [ 4 ] );
-//	
-//	  send ( host, from, to, subject, message );
-//	}
 	
 	public static void  send (
 	  List<String>  email_to,

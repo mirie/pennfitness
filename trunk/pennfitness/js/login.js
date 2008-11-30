@@ -78,8 +78,34 @@ function setupUserReg() {
 	
 }
 
-function ShowMyAccountDialog() {
+function ShowMyAccountDialog(userID) {
+	GetUserInformation(userID);
 	YAHOO.search.InfoToSearch();
+}
+
+function GetUserInformation(userID){
+	var successHandler = function(o) {
+		if( (response = parseNCheckByJSON(o.responseText)) == null ) return;
+
+		setUserInformation();
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var setUserInformation = function() {
+		YAHOO.util.Dom.get("personalInfo").innerHTML = response.DATA;
+	}
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+	
+	var strData = "userID="+userID+"&password=\"\"&action=getPersonalInfo";
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "loginUser.do", callback, strData);
 }
 
 
@@ -107,7 +133,7 @@ function Login() {
 	    }
 	    else {	    	
 			YAHOO.util.Dom.get("user").innerHTML = response.DATA + 
-   				"<a href=\"javascript:ShowMyAccountDialog()\"/>My Account</a> " +
+   				//"<a href=\"javascript:ShowMyAccountDialog();\"/>My Account</a> " +
    				"<a href=\"javascript:createRt()\"/>Create a New Route</a> " + 
 				"<a href=\"javascript:Logout()\"/>Logout</a> ";
 		}
@@ -124,7 +150,7 @@ function Login() {
 		timeout:3000,
 	}
 
-	var strData = "userID=" + YAHOO.util.Dom.get("userID").value +"&password=" + YAHOO.util.Dom.get("password").value;
+	var strData = "userID=" + YAHOO.util.Dom.get("userID").value +"&password=" + YAHOO.util.Dom.get("password").value + "&action=login";
 
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "loginUser.do", callback, strData);
 }
