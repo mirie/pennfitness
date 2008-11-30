@@ -35,10 +35,14 @@ public class GroupMgmtServlet extends HttpServlet{
     	
     	PrintWriter out = resp.getWriter();  	
     	HttpSession session = req.getSession();
-    	// User user = (User)session.getAttribute("user");
-		JSONObject result = new JSONObject();
+    	User user = (User)session.getAttribute("user");
+		
+    	JSONObject result = new JSONObject();
     	String groupID = req.getParameter("groupID");
-    	String userID = req.getParameter("userID");
+    	String userID = null;
+    	if (user != null) 
+    		userID = user.getUserID();
+    	
     	String groupName  = req.getParameter("groupName");
     	String groupDesc  = req.getParameter("groupDesc");
     	
@@ -217,6 +221,5 @@ public class GroupMgmtServlet extends HttpServlet{
     		out.print(result);
     		return;  
     	}
-    	
     }
 }

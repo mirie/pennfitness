@@ -2,6 +2,8 @@ package model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,13 +32,17 @@ public class GroupRegMgmtServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		JSONObject result = new JSONObject(); 
 		
-		String userID   = req.getParameter("userID");
+		User user = (User)session.getAttribute("user");
+		Group group;
+		
+		String userID = null;
+		if (user != null) userID   = user.getUserID();
 		String groupID = req.getParameter("groupID");
 		String action = req.getParameter("action");
 		String notify = req.getParameter("notify") == null ? "N" : req.getParameter("notify");
 		
 		// check required parameters
-		if( userID == null || groupID == null )
+		if( userID == null || (groupID == null &&  ! "getGroups".equals(action)) )
 		{
 			result.put("STATUS", "Failure");
 			result.put("MSG", "user ID and group ID cannot be null");
@@ -44,6 +50,29 @@ public class GroupRegMgmtServlet extends HttpServlet {
 			out.print(result);
 			return;
 		}
+		
+    	if("getGroups".equalsIgnoreCase(action))	//Get groups for a particular user
+    	{
+			List<Group> groupList = DBUtilGroup.getGroupByUserID(userID); 	
+			Iterator<Group> iterator = groupList.iterator();
+		
+			String resultStr = "";
+			while(iterator.hasNext()){
+				group = iterator.next();
+				resultStr += group.getId() + "-" + group.getName() + ";";
+			}
+			
+			JSONObject data = new JSONObject();
+			data.put("GROUPS", resultStr);
+			
+	  		result.put("STATUS","Success");
+		  	result.put("DATA",data );
+
+			out.println(result);
+			return;	
+    	}
+		
+		
 		// Check whether the user exists
 		if( !DBUtilUser.checkUser(userID) )
 		{
@@ -62,7 +91,7 @@ public class GroupRegMgmtServlet extends HttpServlet {
 			out.print(result);
 			return;
 		}
-		Group group = DBUtilGroup.getGroupById(groupID);
+		group = DBUtilGroup.getGroupById(groupID);
 		//check if action is null
     	if( action == null )
 		{
@@ -125,6 +154,6 @@ public class GroupRegMgmtServlet extends HttpServlet {
 			out.print(result);
 			return;
     	}
-    	       
+       
     }	
 }

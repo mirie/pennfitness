@@ -11,12 +11,9 @@ String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); }
 
 function populateTimeRange() {
 	var evtTimeStartSelect = document.getElementById("eventTimeStart");
-//	var evtTimeStopSelect = document.getElementById("evtTimeStop");	
 	
 	for (var hour = 1; hour <= 12; hour++) {
-		
-		//var optionStop = document.createElement('option');
-		
+				
 		for (var min = 0; min <= 45; min = min + 15 ) {
 			var optionStart = document.createElement('option');
 			if (min < 15) {
@@ -28,9 +25,42 @@ function populateTimeRange() {
 				optionStart.appendChild(document.createTextNode(hour + ":" + min));
 			}
 			evtTimeStartSelect.appendChild(optionStart);
-		}
-		
+		}		
 	}	
+}
+
+function populateGroupByUserID()
+{		
+	var successHandler = function(o) {
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+	
+		var groupSelect = document.getElementById("evtGroup");
+		groupSelect.options.length = 1;
+		
+		var groupList = jResponse.DATA.GROUPS.split(";");
+		
+		for (var i = 0; i < groupList.length - 1; i++) {
+			var group = groupList[i].split("-");	
+			var option = document.createElement('option');
+			option.setAttribute('value',group[0]);
+			option.appendChild(document.createTextNode(group[1]));
+			groupSelect.appendChild(option);
+		}
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+	}
+	
+	var strData = "action=getGroups";
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
 }
 
 // *******************************************************
@@ -288,25 +318,12 @@ function setupNewEvtDialog(){
 	
 	var handleSuccess = function(o) {
 		var response;
-		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }        
-	
-	    if (response.STATUS == 'Success') { // RouteID passed back if just saved a new route
-			alert("Event saved successfully");
-			
-			if (eventID == -1) {
-				eventID = response.DATA.EventID;
-			} 			
-		}
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+		if (eventID == -1) {
+			eventID = response.DATA.EventID;			
+		} 			
 		else {
-			alert("Event was not saved!");
+			YAHOO.pennfitness.float.getEvent(eventID, false); // TODO: Check this???
 		}
 	};
 	 
@@ -400,6 +417,8 @@ function resetRtDetail() {
 	YAHOO.util.Dom.get("current-color").innerHTML = "Current color is " + "#0000af";
 	
 	removeRoute();
+	
+	hideEventList();
 }
 
 // *******************************************************
@@ -445,10 +464,12 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 
 			YAHOO.pennfitness.float.getEventCount();
 			
-			//document.getElementById("rtColor-container").style.display = "none";
+			document.getElementById("rtColor-container").style.display = "none";
 			
 			document.getElementById("saveRoute").style.display = "none";
 			document.getElementById("modifyRoute").style.display = "block";
+			
+			hideEventList();
 			
 			//enableMap();
 			// Add markers and draw route
@@ -466,7 +487,7 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 			
 			YAHOO.pennfitness.float.toolbar.show();
 			// Calls getNewRouteNames only when necessary
-			if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames();
+			if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames(); //TODO: change this? what if user changes route name? redisplay?
 			
 		} else {
 			alert("Retrieving routeID: " + routeID + "failed!");
@@ -605,27 +626,14 @@ function deleteRt() {
 	// FOR JSON Handling
 	var successHandler = function(o) {	
 		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }        
-	
-	    if (response.STATUS == 'Success') { // RouteID passed back if just saved a new route
-			alert("Route deleted successfully");
-			routeID = -1;
-			YAHOO.pennfitness.float.toolbar.hide();
-			removeRoute();
-			
-			YAHOO.leftMenu.route.getNewRouteNames();			
-		}
-		else {
-			alert(response.MSG);
-		}
+		alert("Route deleted successfully");
+		routeID = -1;
+		YAHOO.pennfitness.float.toolbar.hide();
+		removeRoute();
+		
+		YAHOO.leftMenu.route.getNewRouteNames();			
 	}
 	
 	var failureHandler = function(o) {
@@ -636,6 +644,7 @@ function deleteRt() {
 		failure:failureHandler,
 		success:successHandler,
 	}
+	
 	var strData = "routeID=" + routeID + "&";
 	strData += "action=delete";
 	
@@ -643,6 +652,7 @@ function deleteRt() {
 }
 
 function createEvt() {
+	populateGroupByUserID();
 	resetNewEvt();	
 	YAHOO.pennfitness.float.newEventPanel.show();
 }
@@ -653,32 +663,20 @@ function createEvt() {
 YAHOO.pennfitness.float.getEventCount = function() {
 	var successHandler = function(o) {
 		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }
-		
-		if (response.STATUS == 'Success') {
-			// <a href="javascript:displayEventList()">0 Events</a>
-			if (response.DATA.EVENT_COUNT > 0 ){
-				//if ()
-				document.getElementById("totalEvents").innerHTML = "";
-				
-				var link = document.createElement('a');
-				link.setAttribute('href','javascript:displayEventList()');
-				link.id = "eventCountLink";
-				link.appendChild(document.createTextNode(response.DATA.EVENT_COUNT +  " Events"));				
-				document.getElementById("totalEvents").appendChild(link);
-			} else {
-				document.getElementById("totalEvents").innerHTML = response.DATA.EVENT_COUNT + " Events";
-			}
+		// <a href="javascript:displayEventList()">0 Events</a>
+		if (jResponse.DATA.EVENT_COUNT > 0 ){
+			//if ()
+			document.getElementById("totalEvents").innerHTML = "";
+			
+			var link = document.createElement('a');
+			link.setAttribute('href','javascript:displayEventList()');
+			link.id = "eventCountLink";
+			link.appendChild(document.createTextNode(jResponse.DATA.EVENT_COUNT +  " Events"));				
+			document.getElementById("totalEvents").appendChild(link);
 		} else {
-			alert("Retrieving event count by routeID: " + routeID + "failed!");
+			document.getElementById("totalEvents").innerHTML = jResponse.DATA.EVENT_COUNT + " Events";
 		}
 	}
 	
@@ -761,6 +759,9 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 		document.getElementById("specificEvent").style.display = "block";
 		
 		document.getElementById("eventName").innerHTML = jResponse.DATA.EVENT_NAME;
+		document.getElementById("eventNameTxt").value = jResponse.DATA.EVENT_NAME;
+		
+		
 		document.getElementById("eventCreator").innerHTML = "by " + jResponse.DATA.EVENT_CREATOR_ID;
 		
 		//var date = ;
@@ -768,29 +769,50 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 		var date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
 		
 		document.getElementById("eventCreatedDate").innerHTML = "Created on: " + date;
+		document.getElementById("evtCalTxt").value = date;
 
+		
 		var timeParts = jResponse.DATA.EVENT_TIME.split(":");
 		var time = "";
 				
 		if (timeParts[0] > 12){
 			var hour = (timeParts[0] - 12);
 			time += hour +  ":" + timeParts[1];
+			document.getElementById("eventTimeStart").options[getSelectedTime(time)].selected = true;
 			time += " PM";
+			document.getElementById("AM_PM").options[1].selected = true
 		}
 		else {
-			time += timeParts[0] + ":" + timeParts[1] + " AM";
+			time += timeParts[0] + ":" + timeParts[1];
+			document.getElementById("eventTimeStart").options[getSelectedTime(time)].selected = true;			
+			time += " AM";
+			document.getElementById("AM_PM").options[0].selected = true;			
 		}
 		
-		document.getElementById("eventStart").innerHTML = time; 
+		document.getElementById("eventStart").innerHTML = time;
 		document.getElementById("eventDuration").innerHTML = " (" + jResponse.DATA.EVENT_DURATION + " hours)";
-		if (jResponse.DATA.EVENT_PUBLICITY == "Y")
-			document.getElementById("eventPrivacy").innerHTML = "Public";
-		else
-			document.getElementById("eventPrivacy").innerHTML = "Private";
+		document.getElementById("eventDurationTxt").value = jResponse.DATA.EVENT_DURATION;
 		
+		if (jResponse.DATA.EVENT_PUBLICITY == "Y") {
+			document.getElementById("eventPrivacy").innerHTML = "Public";
+			document.getElementById("publicEvt").checked = true;
+		}
+		else {
+			document.getElementById("eventPrivacy").innerHTML = "Private";
+			document.getElementById("privateEvt").checked = true
+		}
 		document.getElementById("eventType").innerHTML = "evtType: " + jResponse.DATA.EVENT_EVENT_TYPE_ID;
+		document.getElementById("evtType").options[getSelectedEventType(jResponse.DATA.EVENT_EVENT_TYPE_ID)].selected = true;
+		
 		document.getElementById("eventGroup").innerHTML = "GrpID: " + jResponse.DATA.EVENT_GROUP_ID;
+		document.getElementById("evtGroup").options[0].selected = true; // TODO: update later
+		
 		document.getElementById("eventDesc").innerHTML = jResponse.DATA.EVENT_DESCRIPTION;
+		document.getElementById("eventDescTxt").value = jResponse.DATA.EVENT_DESCRIPTION;
+		
+		// Calls getNewRouteNames only when necessary
+		if(bCallGetNewEvents) YAHOO.leftMenu.route.getNewEventNames(); //TODO: change this? what if user changes event name? redisplay?
+		
 	}
 	
 	var failureHandler = function(o) {
@@ -806,21 +828,35 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/eventByID.jsp?eventID=" + eventID, callback); 
 }
 
-function modifyEvent() {
-//	document.getElementById("eventNameTxt").value = "";
-//	
-//	document.getElementById("publicEvt").checked = true;
-//	document.getElementById("evtGroup").options[0].selected = true;
-//	document.getElementById("evtType").options[0].selected = true;
-//	
-//	document.getElementById("eventTimeStart").options[0].selected = true;
-//	document.getElementById("AM_PM").options[0].selected = true;
-//	
-//	document.getElementById("eventDurationTxt").value = "";
-//	document.getElementById("evtCalTxt").value = "";
-//	document.getElementById("eventDescTxt").value = "";
-	
+function modifyEvent() 
+{		
 	YAHOO.pennfitness.float.newEventPanel.show();
+}
+
+
+function getSelectedEventType(eventTypeID) 
+{
+	var evtType = document.getElementById("evtType");
+	
+	for (var i = 0; i < evtType.options.length; i ++ ) {
+		if (evtType.options[i].value == eventTypeID)
+			return i;
+	}
+	
+	return 0;
+}
+
+function getSelectedTime(time) 
+{
+	var evtType = document.getElementById("eventTimeStart");
+	
+	for (var i = 0; i < evtType.options.length; i ++ ) {
+		if (evtType.options[i].value == time)
+			return i;
+	}
+	
+	return 0;
+	
 }
 
 
@@ -834,4 +870,5 @@ YAHOO.util.Event.addListener("saveRouteBtn", "click", saveRt);
 YAHOO.util.Event.addListener("modifyRouteBtn", "click", modifyRt);	
 YAHOO.util.Event.addListener("deleteRouteBtn", "click", deleteRt);
 
+YAHOO.util.Event.addListener("modifyEventBtn", "click", modifyEvent);	
 YAHOO.util.Event.onDOMReady(populateTimeRange);
