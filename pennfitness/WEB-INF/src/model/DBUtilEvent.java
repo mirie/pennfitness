@@ -89,6 +89,22 @@ public class DBUtilEvent {
 		return DBConnector.executeUpdateQuery( updateQuery );
 		
 	}
+
+	/**
+	 * Deletes the given event with the given ID.
+	 * 
+	 * @param event
+	 * @return 1 if the delete is successful. -1 if not
+	 */
+	public static int deleteEvent( Event event ){
+		
+		String deleteQuery = 
+			"DELETE FROM Event " +
+			"WHERE eventID='"+ event.getEventID() +"'"; 
+		
+		return DBConnector.executeUpdateQuery( deleteQuery );		
+	}	
+	
 	
 	/**
 	 * Function that gets all the events registered so far
