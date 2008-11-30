@@ -32,7 +32,7 @@ function populateTimeRange() {
 function populateGroupByUserID()
 {		
 	var successHandler = function(o) {
-		var response;
+		var jResponse;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 	
 		var groupSelect = document.getElementById("evtGroup");
@@ -317,12 +317,15 @@ function setupNewEvtDialog(){
 	};
 	
 	var handleSuccess = function(o) {
-		var response;
+		var jResponse;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+		
+		alert("Event saved successfully!");
 		if (eventID == -1) {
-			eventID = response.DATA.EventID;			
+			eventID = jResponse.DATA.EventID;
+			YAHOO.pennfitness.float.getEventCount();
 		} 			
-		else {
+		else {			
 			YAHOO.pennfitness.float.getEvent(eventID, false); // TODO: Check this???
 		}
 	};
@@ -437,61 +440,49 @@ function createRt() {
 //  ***********************************************************************
 YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 	var successHandler = function(o) {
-		var response;
+		var jResponse;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }
+		removeRoute();
 		
-		if (response.STATUS == 'Success') {
-			removeRoute();
-			
-			document.getElementById("routeGeneral").style.display = "block";
-			document.getElementById("routeNameTxtDiv").style.display = "none";
-			document.getElementById("routeName").innerHTML = response.DATA.ROUTE_NAME;
-			document.getElementById("routeCreator").innerHTML = " by " + response.DATA.ROUTE_CREATOR;
-			document.getElementById("routeCreatedDate").innerHTML = "Created on: " + response.DATA.ROUTE_DATE;		
-			
-			document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+response.DATA.ROUTE_RATING;
+		document.getElementById("routeGeneral").style.display = "block";
+		document.getElementById("routeNameTxtDiv").style.display = "none";
+		document.getElementById("routeName").innerHTML = jResponse.DATA.ROUTE_NAME;
+		document.getElementById("routeCreator").innerHTML = " by " + jResponse.DATA.ROUTE_CREATOR;
+		document.getElementById("routeCreatedDate").innerHTML = "Created on: " + jResponse.DATA.ROUTE_DATE;		
+		
+		document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+ jResponse.DATA.ROUTE_RATING;
 
-			document.getElementById("routeDesc").innerHTML = response.DATA.ROUTE_DESCRIPTION;
-			document.getElementById("routeDescTxt").style.display = "none";
+		document.getElementById("routeDesc").innerHTML = jResponse.DATA.ROUTE_DESCRIPTION;
+		document.getElementById("routeDescTxt").style.display = "none";
 
-			YAHOO.pennfitness.float.getEventCount();
-			
-			document.getElementById("rtColor-container").style.display = "none";
-			
-			document.getElementById("saveRoute").style.display = "none";
-			document.getElementById("modifyRoute").style.display = "block";
-			
-			hideEventList();
-			
-			//enableMap();
-			// Add markers and draw route
-			var pointData = response.DATA.ROUTE_PTS.split(";");
-			for (var i = 0; i < pointData.length; i++) {
-				var point = pointData[i].split(",");
-				var lat = point[0];
-				var lng = point[1];
-				addMarkerPoint(lat, lng);
-			}
-
-			lineColor = response.DATA.ROUTE_COLOR;
-			drawOverlay();
-			disableMap();  
-			
-			YAHOO.pennfitness.float.toolbar.show();
-			// Calls getNewRouteNames only when necessary
-			if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames(); //TODO: change this? what if user changes route name? redisplay?
-			
-		} else {
-			alert("Retrieving routeID: " + routeID + "failed!");
+		YAHOO.pennfitness.float.getEventCount();
+		
+		document.getElementById("rtColor-container").style.display = "none";
+		
+		document.getElementById("saveRoute").style.display = "none";
+		document.getElementById("modifyRoute").style.display = "block";
+		
+		hideEventList();
+		
+		//enableMap();
+		// Add markers and draw route
+		var pointData = jResponse.DATA.ROUTE_PTS.split(";");
+		for (var i = 0; i < pointData.length; i++) {
+			var point = pointData[i].split(",");
+			var lat = point[0];
+			var lng = point[1];
+			addMarkerPoint(lat, lng);
 		}
+
+		lineColor = jResponse.DATA.ROUTE_COLOR;
+		drawOverlay();
+		disableMap();  
+		
+		YAHOO.pennfitness.float.toolbar.show();
+		// Calls getNewRouteNames only when necessary
+		if(bCallGetNewRoutes) YAHOO.leftMenu.route.getNewRouteNames(); //TODO: change this? what if user changes route name? redisplay?
+
 	}
 	
 	var failureHandler = function(o) {
@@ -555,28 +546,15 @@ function saveRt() {
 			
 	// FOR JSON Handling
 	var successHandler = function(o) {	
-		var response;
+		var jResponse;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false; // RouteID passed back if just saved a new route
 		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }        
-	
-	    if (response.STATUS == 'Success') { // RouteID passed back if just saved a new route
-			alert("Route saved successfully");
-			if (routeID == -1) {
-				routeID = response.DATA.RouteID;
-			} 
-			
-			YAHOO.pennfitness.float.getRoute(routeID, true);	
-		}
-		else {
-			alert("Route was not saved!");
-		}
+		if (routeID == -1) {
+			routeID = jResponse.DATA.RouteID;
+		} 
+		
+		alert("Route saved successfully");
+		YAHOO.pennfitness.float.getRoute(routeID, true);	
 	}
 	
 	var failureHandler = function(o) {
@@ -625,7 +603,7 @@ function saveRt() {
 function deleteRt() {
 	// FOR JSON Handling
 	var successHandler = function(o) {	
-		var response;
+		var jResponse;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 		
 		alert("Route deleted successfully");
@@ -662,7 +640,7 @@ function createEvt() {
 //*******************************************************
 YAHOO.pennfitness.float.getEventCount = function() {
 	var successHandler = function(o) {
-		var response;
+		var jResponse;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 		
 		// <a href="javascript:displayEventList()">0 Events</a>
@@ -715,7 +693,7 @@ function resetNewEvt() {
 function displayEventList() 
 {
 	var successHandler = function(o) {	
-		var response;
+		var jResponse;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 
 		YAHOO.util.Dom.get("eventListByRoute").innerHTML = jResponse.DATA.CONTENT;		
@@ -751,7 +729,7 @@ function hideEventList() {
 //***********************************************************************
 YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 	var successHandler = function(o) {
-		var response;
+		var jResponse;
 
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 		
@@ -811,8 +789,7 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 		document.getElementById("eventDescTxt").value = jResponse.DATA.EVENT_DESCRIPTION;
 		
 		// Calls getNewRouteNames only when necessary
-		if(bCallGetNewEvents) YAHOO.leftMenu.route.getNewEventNames(); //TODO: change this? what if user changes event name? redisplay?
-		
+		if (bCallGetNewEvents) YAHOO.leftMenu.route.getNewEventNames(); //TODO: change this? what if user changes event name? redisplay?
 	}
 	
 	var failureHandler = function(o) {
@@ -827,6 +804,66 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 	eventID = eventIDArg;
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/eventByID.jsp?eventID=" + eventID, callback); 
 }
+
+//***********************************************************************
+// THIS IS A QUICK FIX TO THE PROBLEM OF 2 ASYNC CALLS FOR THE ROUTEID, EVENTID >> DID NOT WISH TO REFACTOR GETROUTE, GETEVENT APPROPRIATELY
+//***********************************************************************
+YAHOO.pennfitness.float.getEventLeftTB = function(eventIDArg, routeIDArg) {
+	var successHandler = function(o) {
+		var jResponse;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+		
+		removeRoute();
+		
+		document.getElementById("routeGeneral").style.display = "block";
+		document.getElementById("routeNameTxtDiv").style.display = "none";
+		document.getElementById("routeName").innerHTML = jResponse.DATA.ROUTE_NAME;
+		document.getElementById("routeCreator").innerHTML = " by " + jResponse.DATA.ROUTE_CREATOR;
+		document.getElementById("routeCreatedDate").innerHTML = "Created on: " + jResponse.DATA.ROUTE_DATE;		
+		document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+ jResponse.DATA.ROUTE_RATING;
+		document.getElementById("routeDesc").innerHTML = jResponse.DATA.ROUTE_DESCRIPTION;
+		document.getElementById("routeDescTxt").style.display = "none";
+
+		YAHOO.pennfitness.float.getEventCount();
+		
+		document.getElementById("rtColor-container").style.display = "none";
+		
+		document.getElementById("saveRoute").style.display = "none";
+		document.getElementById("modifyRoute").style.display = "block";
+		
+		hideEventList();
+
+		// Add markers and draw route
+		var pointData = jResponse.DATA.ROUTE_PTS.split(";");
+		for (var i = 0; i < pointData.length; i++) {
+			var point = pointData[i].split(",");
+			var lat = point[0];
+			var lng = point[1];
+			addMarkerPoint(lat, lng);
+		}
+
+		lineColor = jResponse.DATA.ROUTE_COLOR;
+		drawOverlay();
+		disableMap();  
+		
+		YAHOO.pennfitness.float.toolbar.show();
+		YAHOO.pennfitness.float.getEvent(eventIDArg, false);
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+	}
+	
+	routeID = routeIDArg;
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByID.jsp?routeID=" + routeID, callback); 
+}
+
+
 
 function modifyEvent() 
 {		
@@ -861,7 +898,7 @@ function getSelectedTime(time)
 function deleteEvt() {
 	// FOR JSON Handling
 	var successHandler = function(o) {	
-		var response;
+		var jResponse;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 		
 		alert("Event deleted successfully");

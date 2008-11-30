@@ -113,11 +113,14 @@ public class EventMgmtServlet extends HttpServlet {
     			// {"DATA":{"EventID":68},"STATUS":"Success"}    		
 
     			transaction = DBUtilEvent.saveEvent( event );
-    			if( transaction == -1 )
-    				result.put( "STATUS", "Failure" );		
-    			else
+    			if( transaction == -1 ) {
+    				result.put( "STATUS", "Failure" );	
+    				result.put( "MSG", "Could not save event to server!" );
+    			}
+    			else {
     				result.put( "STATUS", "Success");
-
+    				result.put( "MSG", "Event saved successfully" );
+    			}
     			data.put( "EventID", transaction );
     			result.put( "DATA",  data );
     		}
@@ -127,11 +130,14 @@ public class EventMgmtServlet extends HttpServlet {
 
     			transaction = DBUtilEvent.modifyEvent( event );
 
-    			if( transaction == -1 )
-    				result.put( "STATUS", "Failure" );		
-    			else
+    			if( transaction == -1 ) {
+    				result.put( "STATUS", "Failure" );
+    				result.put( "MSG", "Could not save event to server!" );
+    			} else {
     				result.put( "STATUS", "Success");
-
+    				result.put( "MSG", "Event saved successfully" );
+    			}
+    			
     			data.put( "EventID", routeID.trim() );
     			result.put( "DATA",  data );
     		}

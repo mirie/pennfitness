@@ -8,15 +8,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
 import entities.Event;
-import entities.Route;
 import util.StringUtil;
 
 public class DBUtilEvent {
@@ -34,7 +29,7 @@ public class DBUtilEvent {
 			"INSERT INTO Event ( name, description, groupID, publicity, creatorID, createdDate, modifiedDate, " +
 								"routeID, eventTypeID, eventDate, eventTime, duration  )"+
 							   " VALUES ('"+ event.getName()+"'," +
-										"'"+ event.getDescription()+"'," +
+										"\"" + event.getDescription()+ "\"," +
 										"'"+ event.getGroupID()+"'," +
 										"'"+ event.getPublicity()+"'," +
 										"'"+ event.getCreatorID()+"'," +
@@ -76,7 +71,7 @@ public class DBUtilEvent {
 			"UPDATE Event " +
 			"SET name='" + event.getName() + "'," +
 			    "duration='" + event.getDuration() + "'," +
-			    "description='" + event.getDescription() + "'," +
+			    "description=\"" + event.getDescription() + "\"," +
 			    "routeID='" + event.getRouteID() + "'," +
 			    "groupID='" + event.getGroupID() + "'," +
 			    "creatorID='" + event.getCreatorID() + "'," +
@@ -308,7 +303,7 @@ public class DBUtilEvent {
 			event = iterator.next();
 			
 			sb.append("<div class=\"AllEventResultItem\">\n").
-			   append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getEvent(" + event.getEventID() + ", false)\" class=\"AEREventName\">" + StringUtil.fitString(event.getName(), 13) + "</a> on <span class=\"AERuserID\">" + event.getEventDate() + "</span>\n</div>\n");
+			append((cnt++)+ ". <a href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID() + "," + event.getRouteID() + ")\" class=\"AEREventName\">" + StringUtil.fitString(event.getName(), 13) + "</a> on <span class=\"AERDate\">" + event.getEventDate() + "</span>\n</div>\n");
 		}
 		return sb.toString();
 	}

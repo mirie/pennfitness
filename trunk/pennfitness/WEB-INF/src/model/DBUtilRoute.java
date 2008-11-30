@@ -198,7 +198,7 @@ public class DBUtilRoute {
 								" VALUES ('"+ route.getName()+"'," +
 										"'"+ route.getCreatorID()+"'," +
 										"'"+ route.getPtValues()+"'," +
-										"'"+ route.getDescription()+"'," +
+										"\""+ route.getDescription()+"\"," +
 										"'"+ route.getColor()+"'," +
 										"'"+ route.getDistance()+"'," +
 										"'"+ 0 +"','"+ 0 +"','"+ 0 +"','"+ 0 +"'," +
@@ -236,7 +236,7 @@ public class DBUtilRoute {
 				"routeColor='"+ route.getColor() +"'," +
 				"points='"+ route.getPtValues() + "'," +
 				"distance='"+ route.getDistance() + "'," +
-				"description='"+ route.getDescription() + "', " +
+				"description=\""+ route.getDescription() + "\", " +
 				"modifiedDate= NOW()" +
 			"WHERE routeID='"+ route.getId() +"'"; 
 		
