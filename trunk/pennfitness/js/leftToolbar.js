@@ -175,8 +175,8 @@ YAHOO.leftMenu.route.getNewEventNamesN = function(recsPerPage, curPage) {
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 	    
 	    YAHOO.util.Dom.get("newEventsList").innerHTML = jResponse.DATA.CONTENT; 
-	    pagNewRoutes.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
-	    pagNewRoutes.setPage(jResponse.DATA.CURPAGE, true);
+	    pagNewEvents.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
+	    pagNewEvents.setPage(jResponse.DATA.CURPAGE, true);
 	}
 
 	var failureHandler = function(o) {
