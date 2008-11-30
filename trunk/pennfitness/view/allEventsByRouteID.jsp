@@ -1,6 +1,17 @@
 <%@ page import="java.util.List, java.text.*, java.util.Iterator, model.DBUtilEvent, entities.Event, entities.Paging, org.json.simple.JSONObject" %>
 
-<%
+<%  
+
+/* 
+ *  NOT BEING USED!!!!
+ *
+ */
+ 
+
+
+
+
+
 	String routeID = request.getParameter("routeID");
 
 	int eventCount = DBUtilEvent.getEventCountByRouteId(routeID); 

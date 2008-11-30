@@ -44,13 +44,15 @@
 	text-align:center;
 }
 
-#saveRoute {
+.toolbarBtns {
 	text-align:right;
+}
+
+#saveRoute {
 	padding-bottom: 10px;	
 }
 
 #modifyRoute {
-	text-align:right;
 	padding-bottom: 10px;	
 	display: none;
 }
@@ -161,4 +163,14 @@
 
 .eventDetails, .ratings {
 	text-align: right;	
+}
+
+.eventHd {
+	font-size: 1.25em;
+	font-weight: bold;
+	padding-bottom: 10px;
+}
+
+#newEventLink {
+	margin-left: 125px;
 }

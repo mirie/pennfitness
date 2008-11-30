@@ -233,7 +233,7 @@
             </form>
             <div id="routeEvents">
                 <span id="totalEvents"></span> 
-                <a href="javascript:createEvt()"/>New Event</a>
+                <a href="javascript:createEvt()" id="newEventLink"/>New Event</a>
             </div>
 
         
@@ -242,7 +242,7 @@
             <div id="eventDetails" style="display:none">
             	<hr />
             	 <div id="hideEvtList"><a href="javascript:hideEventList()">Hide Event List</a></div>
-                 <div class="eventHd"><span class="eventTitle">Event List</span></div>
+                 <div class="eventHd">Event List</div>
                  <div class="toolbarPages" id="eventList">
                  	<input type="hidden" id="ELBRrecsPerPage" name="recsPerPage" />
 					<input type="hidden" id="ELBRcurPage" name="curPage" value="1" />
@@ -255,7 +255,8 @@
                 <div id="specificEvent" style="display:none">
                 	<hr />
                 	 <div id="hideEvtDetail" ><a href="javascript:displayEventList()">Back to List</a></span><br /></div>
-	                 <div class="generalInfo" id="eventGeneral">	                 	
+	                 <div class="generalInfo" id="eventGeneral">
+	                 	<div class="eventHd">Event Details</div>          	
 	                    <span id="eventName">Event Name</span> <span id="eventCreator">by Mai</span><br />
 	                    <span id="eventCreatedDate">Created on: 11/30/2008</span><br />
 	                </div>
