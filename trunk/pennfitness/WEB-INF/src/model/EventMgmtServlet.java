@@ -38,7 +38,8 @@ public class EventMgmtServlet extends HttpServlet {
     	User user = (User)session.getAttribute("user");
     	
     	String eventID = req.getParameter("eventID");    	
-    	String routeID = req.getParameter("routeID").trim();
+    	String routeID = req.getParameter("routeID");
+    	if (routeID != null) routeID = routeID.trim();
     	
     	String eventName = req.getParameter("eventName");
     	
