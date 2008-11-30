@@ -12,6 +12,7 @@ YAHOO.search.InfoToSearch = function() {
 	YAHOO.search.panel1.show();
 	YAHOO.search.panel2.hide();
 }
+
 YAHOO.search.SearchToInfo = function() {
 	YAHOO.search.panel2.show();
 	YAHOO.search.panel1.hide();
@@ -109,31 +110,6 @@ function searchGroup() {
 
 function initPaginators()
 {
-	// Paginator for new route list
-	pagNewRoutes = new YAHOO.widget.Paginator({
-	    rowsPerPage  : 5,
-	    totalRecords : parseInt(YAHOO.util.Dom.get('totalRouteCnt').value),
-	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
-		previousPageLinkLabel : "&lt;",
-		nextPageLinkLabel : "&gt;",
-		pageLinks    : 6,
-	    containers   : ["pag_newRoutesList"] // or idStr or elem or [ elem, elem ]
-	});	
-	pagNewRoutes.render();
-	pagNewRoutes.subscribe('changeRequest',pagNewRoutesHandler);
-
-	// Paginator for popular route list
-	pagPopularRoutes = new YAHOO.widget.Paginator({
-	    rowsPerPage  : 5,
-	    totalRecords : parseInt(YAHOO.util.Dom.get('totalRouteCnt').value),
-	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
-		previousPageLinkLabel : "&lt;",
-		nextPageLinkLabel : "&gt;",
-		pageLinks    : 6,
-	    containers   : ["pag_popularRoutesList"] // or idStr or elem or [ elem, elem ]
-	});	
-	pagPopularRoutes.render();
-	pagPopularRoutes.subscribe('changeRequest',pagPopularRoutesHandler);
 
 	// Paginator for event search
 	pagEventSearch = new YAHOO.widget.Paginator({
@@ -145,32 +121,7 @@ function initPaginators()
 	pagEventSearch.render();
 	pagEventSearch.subscribe('changeRequest',pagEventSearchHandler); 
 	
-	// Paginator for new event list
-	pagNewEvents = new YAHOO.widget.Paginator({
-	    rowsPerPage  : 5,
-	    totalRecords : parseInt(YAHOO.util.Dom.get('totalEventCnt').value),
-	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
-		previousPageLinkLabel : "&lt;",
-		nextPageLinkLabel : "&gt;",
-		pageLinks    : 6,
-	    containers   : ["pag_newEventsList"] 
-	});	
-	pagNewEvents.render();
-	pagNewEvents.subscribe('changeRequest',pagNewEventsHandler);
 	
-	// Paginator for eventsOnDateList
-	pagEventsOnDate = new YAHOO.widget.Paginator({
-	    rowsPerPage  : 5,
-	    totalRecords : parseInt(YAHOO.util.Dom.get('totalEventCnt').value),
-	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
-		previousPageLinkLabel : "&lt;",
-		nextPageLinkLabel : "&gt;",
-		pageLinks    : 6,
-	    containers   : ["pag_eventsOnDateList"] // or idStr or elem or [ elem, elem ]
-	});	
-	pagEventsOnDate.render();
-	pagEventsOnDate.subscribe('changeRequest',pagEventsOnDateHandler);
-
 	// Paginator for event list for a particular route
 	pagEventListByRoute = new YAHOO.widget.Paginator({
 	    rowsPerPage  : 5,
@@ -179,7 +130,7 @@ function initPaginators()
 	});		
 	//YAHOO.util.Dom.get('ELBRrecsPerPage').value = pagEventListByRoute.getState().rowsPerPage;
 	pagEventListByRoute.render();
-	//pagNewEvents.subscribe('changeRequest',pagEventListByRouteHandler);
+	pagEventListByRoute.subscribe('changeRequest',pagEventListByRouteHandler);
 
 	// Paginator for route search
 	pagRouteSearch = new YAHOO.widget.Paginator({
@@ -205,33 +156,6 @@ function initPaginators()
 
 }
 
-// Paginator handler for new routes list
-function pagNewRoutesHandler(newState)
-{
-	YAHOO.leftMenu.route.getNewRouteNamesN(newState.rowsPerPage, newState.page);
-	newState.paginator.setState(newState);
-}
-
-// Paginator handler for new routes list
-function pagPopularRoutesHandler(newState)
-{
-	YAHOO.leftMenu.route.getPopularRouteNamesN(newState.rowsPerPage, newState.page);
-	newState.paginator.setState(newState);
-}
-
-// Paginator handler for new events list
-function pagNewEventsHandler(newState)
-{
-//	YAHOO.leftMenu.route.getNewRouteNamesN(newState.rowsPerPage, newState.page);
-//	newState.paginator.setState(newState);
-	//TODO:
-}
-
-function pagEventsOnDateHandler(newState)
-{
-	
-	
-}
 // Paginator handler for event search
 function pagEventSearchHandler(newState)
 {
@@ -266,6 +190,16 @@ function pagGroupSearchHandler(newState)
 	newState.paginator.setState(newState);
 }
 
+// Paginator handler for group search
+function pagEventListByRouteHandler(newState)
+{
+	// Set paging values
+	YAHOO.util.Dom.get("ELBRrecsPerPage").value = newState.rowsPerPage;
+	YAHOO.util.Dom.get("ELBRcurPage").value = newState.page;
+
+	displayEventList();
+	newState.paginator.setState(newState);
+}
 
 
 

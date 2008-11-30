@@ -3,6 +3,14 @@
 YAHOO.namespace("leftMenu.route");
  
 var cal;
+var currentDate;
+ 
+initLeftToolbar = function() {
+	initPagForLeftToolbar();
+	YAHOO.leftMenu.route.initCalendar();
+	AccordionMenu.openDtById("my-dt-2"); // opens up 'route' tab
+	
+}
  
 YAHOO.leftMenu.route.initCalendar = function() {
 	cal = new YAHOO.widget.Calendar("calendar","leftEventCalendar");
@@ -24,6 +32,12 @@ YAHOO.leftMenu.route.initCalendar = function() {
     }, cal, true);
 
 	cal.render();
+	
+	// Load today's events
+	var today = new Date();
+	var datesArray = new Array(today.getFullYear(), today.getMonth() + 1, today.getDate() );
+	// Manually fire selectEventHandler
+	selectEventHandler("select", new Array(new Array(datesArray)));	
 }
 
 selectEventHandler = function(type, dates) {
@@ -33,9 +47,13 @@ selectEventHandler = function(type, dates) {
 		var date = dates[0][0];
 		var year = date[0], month = date[1], day = date[2];
 		
+		YAHOO.util.Dom.get("eventsOnDateList").innerHTML = "";
+		currentDate = year+"-"+month+"-"+day;
+		
 		// If selected date has events
 		if( datesToCompare.search(month+"/"+day+"/"+year) != -1 ) {
-			alert('selected date has events!');
+//			alert('selected date has events!');
+			getEventsByDate(pagEventsOnDate.getState().rowsPerPage, 1);
 		}
 		
 	}
@@ -176,5 +194,116 @@ YAHOO.leftMenu.route.getNewEventNamesN = function(recsPerPage, curPage) {
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", connStr, callback);
 }
 
-YAHOO.util.Event.onDOMReady(YAHOO.leftMenu.route.initCalendar);
+function getEventsByDate(recsPerPage, curPage) {
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		YAHOO.util.Dom.get("eventsOnDateList").innerHTML = jResponse.DATA.CONTENT;
+		pagEventsOnDate.set('totalRecords',jResponse.DATA.TOTALRECCNT); 		
+		AccordionMenu.openDtById("my-dt-1"); // opens up 'event' tab
+		
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}	
+	
+	var connString = "searchEvent.do?simple=Y&fromDate=" + currentDate + "&toDate=" + currentDate + "&recsPerPage=" + recsPerPage + "&curPage=" + curPage;
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", connString, callback);
+}
+
+function initPagForLeftToolbar()
+{
+	// Paginator for new route list
+	pagNewRoutes = new YAHOO.widget.Paginator({
+	    rowsPerPage  : 5,
+	    totalRecords : parseInt(YAHOO.util.Dom.get('totalRouteCnt').value),
+	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
+		previousPageLinkLabel : "&lt;",
+		nextPageLinkLabel : "&gt;",
+		pageLinks    : 6,
+	    containers   : ["pag_newRoutesList"] // or idStr or elem or [ elem, elem ]
+	});	
+	pagNewRoutes.render();
+	pagNewRoutes.subscribe('changeRequest',pagNewRoutesHandler);
+
+	// Paginator for popular route list
+	pagPopularRoutes = new YAHOO.widget.Paginator({
+	    rowsPerPage  : 5,
+	    totalRecords : parseInt(YAHOO.util.Dom.get('totalRouteCnt').value),
+	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
+		previousPageLinkLabel : "&lt;",
+		nextPageLinkLabel : "&gt;",
+		pageLinks    : 6,
+	    containers   : ["pag_popularRoutesList"] // or idStr or elem or [ elem, elem ]
+	});	
+	pagPopularRoutes.render();
+	pagPopularRoutes.subscribe('changeRequest',pagPopularRoutesHandler);
+
+	// Paginator for new event list
+	pagNewEvents = new YAHOO.widget.Paginator({
+	    rowsPerPage  : 5,
+	    totalRecords : parseInt(YAHOO.util.Dom.get('totalEventCnt').value),
+	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
+		previousPageLinkLabel : "&lt;",
+		nextPageLinkLabel : "&gt;",
+		pageLinks    : 6,
+	    containers   : ["pag_newEventsList"] 
+	});	
+	pagNewEvents.render();
+	pagNewEvents.subscribe('changeRequest',pagNewEventsHandler);
+
+	// Paginator for eventsOnDateList
+	pagEventsOnDate = new YAHOO.widget.Paginator({
+	    rowsPerPage  : 2,
+	    totalRecords : 1,
+	    template : "{PreviousPageLink} {PageLinks} {NextPageLink}",
+		previousPageLinkLabel : "&lt;",
+		nextPageLinkLabel : "&gt;",
+		pageLinks    : 6,
+	    containers   : ["pag_eventsOnDateList"] // or idStr or elem or [ elem, elem ]
+	});	
+	pagEventsOnDate.render();
+	pagEventsOnDate.subscribe('changeRequest',pagEventsOnDateHandler);
+}
+
+// Paginator handler for new routes list
+function pagNewRoutesHandler(newState)
+{
+	YAHOO.leftMenu.route.getNewRouteNamesN(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+}
+
+// Paginator handler for new routes list
+function pagPopularRoutesHandler(newState)
+{
+	YAHOO.leftMenu.route.getPopularRouteNamesN(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+}
+
+// Paginator handler for events on a given date list
+function pagEventsOnDateHandler(newState)
+{
+	getEventsByDate(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+}
+
+// Paginator handler for new events list
+function pagNewEventsHandler(newState)
+{
+	YAHOO.leftMenu.route.getNewEventNamesN(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+	//TODO:
+}
+
+
+YAHOO.util.Event.onDOMReady(initLeftToolbar);
 
