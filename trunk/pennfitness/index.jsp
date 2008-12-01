@@ -59,7 +59,7 @@
               
             <td align=right valign=top class="links"> 
             <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu:8088/Fitness/"> Penn Fitness </a> | 
-            <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu:8088/BookShare/"> Penn CISRS </a> | 
+            <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu:8088/PennShare"> Penn CISRS </a> | 
             <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu/~appdev3/"> Penn Chingu </a> | 
             <a class="link" onmouseover="this.className='link2'" onmouseout="this.className='link'" href="http://spam.seas.upenn.edu/home/index.htm"> Older SPAM </a> 
             </td>
