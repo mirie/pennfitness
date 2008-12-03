@@ -9,53 +9,7 @@
   * Change lat,lng for recentering map for a selected route
   * Allow only 1 accordion menu to open at a time
   * Icons for start/stop map points
-
-*Virtual Trip*
-  * Implementing this? and where?
-  
-*Event*
-  * Event Registration -- change flow to when viewing event details not event search pg
-  * Write Event Registration!  and link to Client side
-
-*User Account*
-  * Modifying user account -- finished?
-
-*Groups*
-  * Adding group
-  * Modifying a group
-  * Sending emails to groups -- linked to client side, and dialog window for composing email.
-
-*Messages to User*
-  * Cleanup error messages to user.
-
-*Data Cleanup*
-  * Dealing with past events?
-
-*Look and Feel*
-
-  * CSS!!!!!
-
-*Server*
-  * Problem with server right now? When checked earlier this afternoon -- calls to servlets were generating errors...
-  * Deploying to server issues...
-
-*DB*
-  * Clear database
-  * Change database password (exposed to public on google code) upon last deployment
-
-*Misc*
-  * Clean up namespaces?
-#summary This is a list of todos for our application 
-
-*Login*
-  * Length textboxes for username and password
-  * Verify character limit on username and password  
-
-*Map*
-  * Reset map lat, lng for recentering the map
-  * Change lat,lng for recentering map for a selected route
-  * Allow only 1 accordion menu to open at a time
-  * Icons for start/stop map points
+  * Rating
 
 *Virtual Trip*
   * Implementing this? and where?
