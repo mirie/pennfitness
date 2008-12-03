@@ -75,8 +75,8 @@
                 if(user == null) {
                     // if not logged in
                 %>
-                username: <input type="text" name="userID" id="userID" size=5 maxlength="10" /> 
-                password: <input type="password" name="password" id="password" size=5 maxlength="10" /> 
+                username: <input type="text" name="userID" id="userID" size=5 maxlength="20" /> 
+                password: <input type="password" name="password" id="password" size=5 maxlength="20" /> 
                 <a href="javascript:Login()"/>Login</a>
 				<a href="javascript:ShowUserRegDialog()"/>Sign Up!</a>
                 <%
