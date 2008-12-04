@@ -1,8 +1,8 @@
 #summary This is a list of todos for our application
 
 *Login*
-  * Length textboxes for username and password - done
-  * Verify character limit on username and password - done 
+  * ~~Length textboxes for username and password~~
+  * ~~Verify character limit on username and password~~
 
 *Map*
   * Reset map lat, lng for recentering the map - Sandy
@@ -18,7 +18,7 @@
   * Clicking 'cancel' during modification shouldn't close the toolbar
 
 *Virtual Trip*
-  * Implementing this? and where? - inseob
+  * ~~Implementing this? and where?~~ - inseob
   
 *Event*
   * Event Registration -- change flow to when viewing event details not event search pg - Mai
