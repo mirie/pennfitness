@@ -76,7 +76,7 @@ public class EventSearchServlet extends HttpServlet{
 					while( iterator.hasNext() ){
 						event = iterator.next();
 			    		sbuf.append("<div class=\"EventResultItem\">\n").
-		    				 append("<span class \"EReventName\">" + event.getName() + "</span>").
+				    		 append("<a href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
 		    				 append(" by <span class=\"ERUserID\">" + event.getCreatorID() + "</span> created on <span class=\"ERcreatedDate\">" + event.getCreatedDate() + "</span>").
 		    				 append(" for <span class=\"ERgroupName\">" + event.getGroupID() + "</span> Type: <span class=\"EReventType\">" + event.getEventTypeID() + "</span><br />\n").
 		    				 append("On <span class=\"EReventDate\">" + event.getEventDate() + " " + event.getEventTime() + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br />\n").
@@ -109,7 +109,7 @@ public class EventSearchServlet extends HttpServlet{
 			    		
 			    		if( !bSimple ) {
 				    		sbuf.append("<div class=\"EventResultItem\">\n").
-				    			append("<a href=\"javascript:registerEvent(" + event.getEventID() + ")\" title=\"Register to this event!\">" + event.getName() + "</a>").
+				    			append("<a href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
 				    			append(" by <span class=\"ERUserID\">" + event.getCreatorID() + "</span> created on <span class=\"ERcreatedDate\">" + event.getCreatedDate() + "</span>").
 				    			append(" for <span class=\"ERgroupName\">" + event.getGroupID() + "</span> Type: <span class=\"EReventType\">" + event.getEventTypeID() + "</span><br />\n").
 				    			append("On <span class=\"EReventDate\">" + event.getEventDate() + " " + event.getEventTime() + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br />\n").
