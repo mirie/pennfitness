@@ -219,33 +219,35 @@ function GetGroupDetail( groupID )
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroup.do", callback, strData);
 
 }
+
 function modifyPersonalInfo() {	
 
-	document.getElementById("userGenderTxt").style.display = "block";
-	document.getElementById("userEmailTxt").style.display = "block";
-	document.getElementById("userPasswordTxt").style.display = "block";
+	document.getElementById("modifyUserGender").style.display = "block";
+	document.getElementById("modifyUserEmail").style.display = "block";
+	document.getElementById("modifyUserPassword").style.display = "block";
 	
 	document.getElementById("userGender").style.display = "none";
+	document.getElementById("userName").style.display = "none";
 	document.getElementById("userEmail").style.display = "none";
-	document.getElementById("userPassword").style.display = "none";
+//	document.getElementById("userPassword").style.display = "none";
 	
-	document.getElementById("savePersonalInfo").style.display = "block";
-	document.getElementById("modifyPersonalInfo").style.display = "none";
+	document.getElementById("savePersonalInfoBtns").style.display = "block";
+	document.getElementById("modifyPersonalInfoBtns").style.display = "none";
 
 }
 function cancelPersonalInfo() {	
 
-	document.getElementById("userGenderTxt").style.display = "none";
-	document.getElementById("userEmailTxt").style.display = "none";
-	document.getElementById("userPasswordTxt").style.display = "none";
+	document.getElementById("modifyUserGender").style.display = "none";
+	document.getElementById("modifyUserEmail").style.display = "none";
+	document.getElementById("modifyUserPassword").style.display = "none";
 	
 	document.getElementById("userName").style.display = "block";
 	document.getElementById("userGender").style.display = "block";
 	document.getElementById("userEmail").style.display = "block";
-	document.getElementById("userPassword").style.display = "block";
+//	document.getElementById("userPassword").style.display = "block";
 	
-	document.getElementById("savePersonalInfo").style.display = "none";
-	document.getElementById("modifyPersonalInfo").style.display = "block";
+	document.getElementById("savePersonalInfoBtns").style.display = "none";
+	document.getElementById("modifyPersonalInfoBtns").style.display = "block";
 
 }
 // ***********************************************************************
@@ -276,17 +278,17 @@ function savePersonalInfo() {
 		else {
 			alert("Personal Information was not saved!");
 		}
-	}
+	};
 
 	var failureHandler = function(o) {
 		alert("Error + " + o.status + " : " + o.statusText);
-	}
+	};
 
 	var callback = {
 		failure:failureHandler,
 		success:successHandler,
-		timeout:3000,
-	}
+		//timeout:3000,
+	};
 	
 	// POST string data
 	var strData = "";
@@ -299,6 +301,10 @@ function savePersonalInfo() {
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "modifyUser.do", callback, strData);
 }
+
+
+
+
 
 //Listeners
 YAHOO.util.Event.addListener("modifyPersonalInfoBtn", "click", modifyPersonalInfo);	
