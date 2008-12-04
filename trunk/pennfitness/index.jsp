@@ -356,7 +356,7 @@
                 </li>
                 <li><a href = "#tab3"><em>Event Information</em></a>
                 </li>
-                <li><a href = "#tab4"><em>Route Information</em></a>
+                <li><a href = "#tab4" onclick="populateRouteByUserID();"><em>Route Information</em></a>
                 </li>
             </ul>
             <div class = "yui-content">
@@ -380,17 +380,19 @@
                             </ul>
                             <div class = "yui-content">
                                 <div class = "myGroups">
-                                    <div id="myGroupList">
-                                        
-                                    </div>
-                                    <div id="myGroupDetail">
-                                    
-                                    </div>
-                                    
-                                    <div class="myGroupsButtons">
-                                        <input type="button" value="Send Emails" id="SendEmails" />
-                                        <input type="button" value="Unsubscribe" id="Unsubscribe" />
-                                    </div>					
+                                 	<form name="frmGroupUnsubscribe" id="frmGroupUnsubscribe">                         
+                                   	 	<div id="myGroupList">
+                                   	 		<!-- my group(s) detail list --> 
+                                    	</div>
+            							<input type="button" value="Unsubscribe"/>
+                                    </form>
+                                    <form name="frmGroupSendEmail" id="frmGroupSendEmail">
+										Title  : <input type="text" size="10" maxlength="40" name="emailTitle" id="emailTitle"> <br />
+										Message: <textarea rows="5" cols="20" wrap="physical" name="emailbody" id="emailbody"></textarea>
+
+										<input type="button" value="Send Email to group"> 
+									</form>
+                                    				
                                 </div>
                                 <div class = "createdGroups">
                                     <div class="createdGroupList">
@@ -488,15 +490,10 @@
                 </div>
                 <div>
                     <div class="RouteInfoList">
-                        <div class="RouteInfoItem">
-                            <a href="function_to_show_route">Difficult Route 001</a>
+                        <div id="myRouteList">
+                            <!--my route(s) detail list --> 
                         </div>
-                        <div class="RouteInfoItem">
-                            <a href="function_to_show_route">Coolest Route Ever</a>
-                        </div>
-                        <div class="RouteInfoItem">
-                            <a href="function_to_show_route">Sweet Path in Philly</a>
-                        </div>
+            
                     </div>
                 </div>
             </div>

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import entities.Group;
 import entities.Route;
 
 public class DBUtilRoute {
@@ -318,6 +319,50 @@ public class DBUtilRoute {
 			DBConnector.closeDBConnection();
 		}
 		return recCount;
+	}
+	
+	public static List<Route> getRouteByUserID( String userID, int recordPerPage, int currentPage ) {
+		List<Route> routes = new ArrayList<Route>();
+		String query = "SELECT * FROM Routes WHERE creatorID='" + userID + "' ORDER BY name " +
+						"LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
+				
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			while( resultSet.next() ){				
+				routes.add( DBUtilRoute.resultSetToRoute( resultSet ) );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getGroupByUserID() : Error getting group list for creatorID: " + userID);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+				
+		return routes;
+	}
+	
+	public static int getRouteByUserIDCount( String userID ) {
+		List<Route> routes = new ArrayList<Route>();
+		String query = "SELECT COUNT(*) count FROM Routes WHERE creatorID='" + userID + "'";
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			if( resultSet.next() ){				
+				return resultSet.getInt("count");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getGroupByUserID() : Error getting group list for creatorID: " + userID);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+				
+		return 0;
 	}
 		
 	/**

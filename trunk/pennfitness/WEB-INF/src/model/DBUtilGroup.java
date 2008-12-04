@@ -200,11 +200,18 @@ public class DBUtilGroup {
 										" NOW() )";
 		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
 			
+			//creator should automatically be registered for the created group
+			User user = DBUtilUser.getUserById( group.getCreatorID() );
+			if( user == null)
+				return -1;
+			int join = joinGroup(group.getId()+"", group.getCreatorID(),user.getPublicEventNotify()+"" );
+			
 			try {
 				ResultSet  result = DBConnector.getQueryResult( "SELECT MAX(groupID) FROM Groups" );
 				if( result != null )
-					if( result.next() )
+					if( result.next() && join != -1 ){
 						return result.getInt( 1 );
+					}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				System.out.println("DBUtilGroup.saveGroup() : Error getting ID of saved group"  );
@@ -341,10 +348,11 @@ public class DBUtilGroup {
 	
 	public static boolean sendEmailToGroupMembers( String msgSubject, String msgText, int groupID ){
 		String searchQuery =
-			"SELECT U.email" +
-			"FROM User U, GroupReg GR"+ 
-			"WHERE U.userID = GR.userID"+ 
+			"SELECT U.email " +
+			"FROM User U, GroupReg GR "+ 
+			"WHERE U.userID = GR.userID "+ 
 			"AND GR.groupID = '"+groupID+"'";
+		
 		
 		ResultSet resultSet = DBConnector.getQueryResult(searchQuery);
 		List<String> emails = new ArrayList<String>();
@@ -376,9 +384,10 @@ public class DBUtilGroup {
 		return true;
 	}
 
-	public static List<Group> getGroupByUserID(String userID) {
+	public static List<Group> getGroupByUserID(String userID, int recordPerPage, int currentPage) {
 		List<Group> groups = new ArrayList<Group>();
-		String query = "SELECT * FROM Groups WHERE creatorID='" + userID + "'ORDER BY name "; 
+		String query = "SELECT * FROM Groups WHERE creatorID='" + userID + "' ORDER BY name " +
+			"LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
 				
 		ResultSet resultSet = DBConnector.getQueryResult( query );
 		
@@ -397,6 +406,30 @@ public class DBUtilGroup {
 				
 		return groups;
 	}
+
+	public static int getGroupByUserIDCount(List<QueryParameter> params) {
+		List<Group> groups = new ArrayList<Group>();
+		String query = "SELECT COUNT(*) CNT FROM Groups" +
+			" WHERE " + DBUtil.getSearchCriteria( params );
+				
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			while( resultSet.next() ){				
+				return resultSet.getInt("CNT");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getGroupByUserIDCount() : Error getting group list count");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+				
+		return 0;
+	}
+
 	
 	public static int getMemberCount( int groupID ){
 		String query =
@@ -421,6 +454,39 @@ public class DBUtilGroup {
 		
 		return -1;
 	} 
+	
+	/**
+	 * Comma separated list of a particular group
+	 * 
+	 * @param groupID
+	 * @return
+	 */
+	public static String getMemberList( int groupID ){
+		String query =
+			"SELECT GR.userID " +
+			"FROM GroupReg GR " +
+			"WHERE GR.groupID = '"+groupID+"'";
+		
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		StringBuffer sbuf = new StringBuffer();
+		
+		try {
+			while( resultSet.next() ){				
+				sbuf.append(resultSet.getString("userID")).append(",");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getMemberList() : Error getting member list");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+		
+		if( sbuf.length() > 1 )
+			return sbuf.toString().substring( 0, sbuf.length() - 1 );
+		return sbuf.toString();
+	}
 
 	/**
 	 * Utility function that gets Group object from a resultset row

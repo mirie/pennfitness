@@ -2,6 +2,7 @@ package model;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import entities.Paging;
 import entities.User;
 import entities.Group;
 import org.json.simple.JSONObject;
@@ -53,22 +55,38 @@ public class GroupRegMgmtServlet extends HttpServlet {
 		
     	if("getGroups".equalsIgnoreCase(action))	//Get groups for a particular user
     	{
-			List<Group> groupList = DBUtilGroup.getGroupByUserID(userID); 	
-			Iterator<Group> iterator = groupList.iterator();
-		
-			String resultStr = "";
-			while(iterator.hasNext()){
-				group = iterator.next();
-				resultStr += group.getId() + "-" + group.getName() + ";";
-			}
+			StringBuffer sbuf = new StringBuffer();
 			
+			List<QueryParameter> params = new ArrayList<QueryParameter>();
+			DBUtil.addQueryParam(params, userID, " creatorID", " = '"+userID+"'" );
+			
+			// For paging
+			Paging paging = new Paging(req, DBUtilGroup.getGroupByUserIDCount( params )); 
+
+			if( paging.getTotalRecordCnt() > 0 ) {
+				List<Group> groupList = DBUtilGroup.getGroupByUserID(userID, paging.getRecsPerPage(), paging.getCurPage()); 	
+				Iterator<Group> iterator = groupList.iterator();
+				
+				while( iterator.hasNext() ){
+					group = iterator.next();
+					
+					sbuf.append( "<div class=\"groupDetailedInfo\"><input type=\"radio\" name=\"groupID\" id=\"selectedRadioGroup\"value=\""+group.getId()+"\"><b>"+group.getName()+"</b><br>\n" )
+					.append("created by ").append(group.getCreatorID())
+					.append(" and active since ").append(group.getCreatedDate())
+					.append(" with ").append(DBUtilGroup.getMemberCount( group.getId())).append(" member(s)<br>\n")
+					.append("Description :").append(group.getDescription()).append("<br>\n")
+					.append("Member(s)     :").append(DBUtilGroup.getMemberList( group.getId() )).append("<br></div>");
+				}
+			}			
 			JSONObject data = new JSONObject();
-			data.put("GROUPS", resultStr);
 			
 	  		result.put("STATUS","Success");
-		  	result.put("DATA",data );
+	  		result.put("DATA", sbuf.toString() );
+			data.put("CURPAGE", paging.getCurPage());
+			data.put("TOTALRECCNT", paging.getTotalRecordCnt());
 
-			out.print(result);
+			out.println(result);
+
 			return;	
     	}
 		
@@ -145,6 +163,30 @@ public class GroupRegMgmtServlet extends HttpServlet {
 			
 			out.print(result);
 			return;
+    	}
+    	else if("sendEmailToGroup".equalsIgnoreCase(action)){
+    		String title = req.getParameter("emailTitle");
+    		String text = req.getParameter("emailText");
+    		
+    		if( title == null || text == null ){
+    			result.put("STATUS", "Failure");
+    			result.put("MSG", "missing data for sending email");
+    			return;
+    		}
+    		else{
+    			if(DBUtilGroup.sendEmailToGroupMembers(title, text, group.getId())){
+    				result.put("STATUS", "Success");
+    				result.put("MSG", "Email successfully sent to members of \""+group.getName()+"\"");
+    				out.print(result);
+    				return;
+    			}
+    			else{
+    				result.put("STATUS", "Failure");
+        			result.put("MSG", "Error sending email to group members");
+        			out.print(result);
+        			return;
+    			}
+    		}
     	}
     	else
     	{

@@ -64,27 +64,8 @@ function populateGroupByUserID()
 			groupSelect.removeChild(groupSelect.childNodes[0]);
 		}
 		
+		groupSelect.innerHTML = jResponse.DATA;
 		
-		var groupList = jResponse.DATA.GROUPS.split(";");
-		groupSelect.length = 1;
-		
-		for (var i = 0; i < groupList.length - 1; i++) {
-			var group = groupList[i].split("-");	
-			
-			/*var checkbox = document.createElement('input');
-			checkbox.type = 'checkbox';
-			checkbox.name = 'checkboxName';
-			checkbox.defaultChecked = false;
-			checkbox.value = 'Kibology';
-			checkbox.onclick =  function(){ alert('kerem') };*/
-			
-			var link = document.createElement('a');
-			link.setAttribute('href','javascript:GetGroupDetail(\'' +group[0]+ '\')');
-			link.appendChild(document.createTextNode(group[1]));
-			link.appendChild(document.createElement('br'));
-			
-			groupSelect.appendChild(link);
-		}
 	}
 	
 	var failureHandler = function(o) {
@@ -100,6 +81,67 @@ function populateGroupByUserID()
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
 }
+
+function populateRouteByUserID()
+{		
+
+	var successHandler = function(o) {
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+	
+		var groupSelect = document.getElementById("myRouteList");
+		while(groupSelect.hasChildNodes() == true){
+			groupSelect.removeChild(groupSelect.childNodes[0]);
+		}
+		
+		groupSelect.innerHTML = jResponse.DATA.CONTENT;
+		
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+	}
+	
+	var strData = "action=getRoutes";
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchRoute.do", callback, strData);
+}
+
+function populateEventByUserID()
+{		
+
+	var successHandler = function(o) {
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+	
+		var groupSelect = document.getElementById("myRouteList");
+		while(groupSelect.hasChildNodes() == true){
+			groupSelect.removeChild(groupSelect.childNodes[0]);
+		}
+		
+		groupSelect.innerHTML = jResponse.DATA.CONTENT;
+		
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+	}
+	
+	var strData = "action=getRoutes";
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchRoute.do", callback, strData);
+}
+
 
 function GetGroupDetail( groupID )
 {
