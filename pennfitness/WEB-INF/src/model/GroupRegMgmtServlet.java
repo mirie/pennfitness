@@ -68,7 +68,7 @@ public class GroupRegMgmtServlet extends HttpServlet {
 	  		result.put("STATUS","Success");
 		  	result.put("DATA",data );
 
-			out.println(result);
+			out.print(result);
 			return;	
     	}
 		
