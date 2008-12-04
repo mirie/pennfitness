@@ -128,7 +128,26 @@ public class DBUtilUser {
 		
 		return DBConnector.executeUpdateQuery( registerQuery ) == 1;
 	}
-	
+	/**
+	 * Modifies a user
+	 * 
+	 * @param user
+	 * @return the ID of newly modified user if transaction is successful. -1 if not.
+	 */
+	public static boolean modifyUser( User user ){
+		
+		String updateQuery = 
+			"UPDATE User " +
+			"SET gender='" + user.getGender()+ "', " +
+			"email='"+ user.getEmail() + "', "+
+			"password=PASSWORD('"+ user.getPassword() + "'), "+
+			"height='"+ user.getHeight() + "', "+
+			"weight='"+ user.getWeight() + "', "+
+			"publicEventNotify='"+ user.getPublicEventNotify() + "' "+
+			"WHERE userID='"+ user.getUserID() +"'"; 
+			return DBConnector.executeUpdateQuery( updateQuery )==1;
+			
+	}
 	
 	
 	/**
