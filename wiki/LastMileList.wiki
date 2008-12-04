@@ -15,6 +15,7 @@
   * Displaying/giving ratings - Mai
   * Permission for modifying, creating an event(only owner can do) - Mai
   * Listing in Route tab in My Account dialog - Kerem
+  * Clicking 'cancel' during modification shouldn't close the toolbar
 
 *Virtual Trip*
   * Implementing this? and where? - inseob
