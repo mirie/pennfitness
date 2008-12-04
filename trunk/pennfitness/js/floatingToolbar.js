@@ -65,7 +65,8 @@ YAHOO.pennfitness.float.populateGroupByUserID = function ()
 		failure:failureHandler
 	};
 	
-	var strData = "action=getGroupsForCreateEvent";	
+	var strData = "action=getGroupsForCreateEvent&";
+	strData    += "eventID=" + eventID; 
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
 }
 
@@ -707,6 +708,7 @@ function resetRateRt()
 
 function createEvt() 
 {
+	eventID = -1;
 	YAHOO.pennfitness.float.populateGroupByUserID();
 	resetNewEvt();		
 }
