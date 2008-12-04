@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import entities.Event;
+import entities.Route;
 import util.StringUtil;
 
 public class DBUtilEvent {
@@ -396,6 +397,101 @@ public class DBUtilEvent {
 		}
 			
 		return eventRegList;
+	}
+	
+	public static List<Event> getCreatedEventByUserID( String userID, int recordPerPage, int currentPage ) {
+		List<Event> events = new ArrayList<Event>();
+		String query = "SELECT * FROM Event WHERE creatorID='" + userID + "' ORDER BY name " +
+						"LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
+				
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			while( resultSet.next() ){				
+				events.add( DBUtilEvent.resultSetToEvent(resultSet));
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getGroupByUserID() : Error getting event list for creatorID: " + userID);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+				
+		return events;
+	}
+	
+	
+	public static int getCreatedEventByUserIDCount( String userID ) {
+		String query = "SELECT COUNT(*) count FROM Event WHERE creatorID='" + userID + "'";
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			if( resultSet.next() ){				
+				return resultSet.getInt("count");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.eventByUserIDCount() : Error getting event count for creatorID: " + userID);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+				
+		return 0;
+	}
+	
+	public static List<Event> getRegisteredEventByUserID( String userID, int recordPerPage, int currentPage ) {
+		List<Event> events = new ArrayList<Event>();
+		
+		String query = "SELECT * " +
+						"FROM Event E " +
+						"WHERE EXISTS " +
+						"( SELECT * FROM EventReg ER " +
+						"  WHERE ER.eventID = E.eventID AND " +
+						"        ER.userID = '"+userID+"') " +
+						"ORDER BY name " +
+						"LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
+				
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			while( resultSet.next() ){				
+				events.add( DBUtilEvent.resultSetToEvent(resultSet));
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getRegisteredEventByUserID() : Error getting registered event list for creatorID: " + userID);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+				
+		return events;
+	}
+	
+	
+	public static int getRegisteredEventByUserIDCount( String userID ) {
+		String query = "SELECT COUNT(*) count FROM EventReg WHERE userID='" + userID + "'";
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			if( resultSet.next() ){				
+				return resultSet.getInt("count");
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.eventByUserIDCount() : Error getting event count for creatorID: " + userID);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+				
+		return 0;
 	}
 	
 	
