@@ -49,8 +49,7 @@ YAHOO.pennfitness.float.populateGroupByUserID = function ()
 			var option = document.createElement("option");
 			option.setAttribute("value",group[0]);
 			option.appendChild(document.createTextNode(group[1]));
-			groupSelect.appendChild(option);
-			
+			groupSelect.appendChild(option);			
 		}
 		
 		YAHOO.pennfitness.float.newEventPanel.show();
@@ -459,8 +458,12 @@ function resetRtDetail() {
 	document.getElementById("routeCreatedDate").innerHTML = "";
 	document.getElementById("routeDistance").innerHTML = "0 miles";
 	
-	document.getElementById("rtRatings").innerHTML = "";
-		
+	document.getElementById("overallRating").innerHTML = "";
+	document.getElementById("sceneryRating").innerHTML = "";
+	document.getElementById("difficultyRating").innerHTML = "";
+	document.getElementById("safetyRating").innerHTML = "";
+	
+	
 	document.getElementById("routeDesc").innerHTML = "Route Description: <br />";
 	document.getElementById("routeDesc").style.paddingBottom = "5px";
 	document.getElementById("routeDescTxt").style.display = "block";
@@ -480,6 +483,8 @@ function resetRtDetail() {
 	YAHOO.util.Dom.get("current-color").innerHTML = "Current color is " + "#0000af";
 	
 	removeRoute();
+	
+	document.getElementById("totalEvents").innerHTML = "0 Events";
 	
 	hideEventList();
 }
@@ -848,20 +853,28 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 		document.getElementById("eventStart").innerHTML = time;
 		document.getElementById("eventDuration").innerHTML = " (" + jResponse.DATA.EVENT_DURATION + " hours)";
 		document.getElementById("eventDurationTxt").value = jResponse.DATA.EVENT_DURATION;
-		
+			
+		document.getElementById("evtType").options[getSelectedEventType(jResponse.DATA.EVENT_EVENT_TYPE_ID)].selected = true;
+		document.getElementById("eventType").innerHTML = "Event Type: " + document.getElementById("evtType").options[getSelectedEventType(jResponse.DATA.EVENT_EVENT_TYPE_ID)].text + ",";
+	
 		if (jResponse.DATA.EVENT_PUBLICITY == "Y") {
-			document.getElementById("eventPrivacy").innerHTML = "Public";
+			document.getElementById("eventPrivacy").innerHTML = "Public Event <br />";
 			document.getElementById("publicEvt").checked = true;
 		}
 		else {
-			document.getElementById("eventPrivacy").innerHTML = "Private";
+			document.getElementById("eventPrivacy").innerHTML = "Private Event <br /> ";
 			document.getElementById("privateEvt").checked = true
 		}
-		document.getElementById("eventType").innerHTML = "evtType: " + jResponse.DATA.EVENT_EVENT_TYPE_ID;
-		document.getElementById("evtType").options[getSelectedEventType(jResponse.DATA.EVENT_EVENT_TYPE_ID)].selected = true;
 		
-		document.getElementById("eventGroup").innerHTML = "GrpID: " + jResponse.DATA.EVENT_GROUP_ID;
-		document.getElementById("evtGroup").options[0].selected = true; // TODO: update later
+		// TODO: BUG!!!! HAVE TO DEAL WITH DISPLAYING GROUPS - NOT WORKING FOR GROUPS THAT I'M NOT IN.
+		
+		document.getElementById("evtGroup").options[getSelectedGroupID(jResponse.DATA.EVENT_GROUP_ID)].selected = true;
+		
+		if (jResponse.DATA.EVENT_GROUP_ID == -1) {
+			document.getElementById("eventGroup").innerHTML = "For Group: None";
+		} else {
+			document.getElementById("eventGroup").innerHTML = "For Group: " + jResponse.DATA.EVENT_GROUP_ID;
+		}
 		
 		document.getElementById("eventDesc").innerHTML = jResponse.DATA.EVENT_DESCRIPTION;
 		document.getElementById("eventDescTxt").value = jResponse.DATA.EVENT_DESCRIPTION;
@@ -956,6 +969,18 @@ function getSelectedEventType(eventTypeID)
 	
 	for (var i = 0; i < evtType.options.length; i ++ ) {
 		if (evtType.options[i].value == eventTypeID)
+			return i;
+	}
+	
+	return 0;
+}
+
+function getSelectedGroupID(groupID) 
+{
+	var grpID = document.getElementById("evtGroup");
+	
+	for (var i = 0; i < grpID.options.length; i ++ ) {
+		if (grpID.options[i].value == groupID)
 			return i;
 	}
 	

@@ -266,7 +266,7 @@
 	                </div>
 	                <div class="eventDetails">
 	                    <span id="eventStart">1:00 PM</span><span id="eventDuration">(1 hour)</span><br />
-	                    <span id="eventPrivacy">Public</span> <span id="eventType">Casual Run</span> <span id="eventGroup">Group 1</span>
+	                    <span id="eventType">Casual Run</span> <span id="eventPrivacy">Public</span> <span id="eventGroup">Group 1</span>
 	                </div>
 	                <div class="description" id="eventDesc">
 	                    Event Description here...
