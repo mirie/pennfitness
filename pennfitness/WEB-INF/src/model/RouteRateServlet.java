@@ -29,6 +29,7 @@ public class RouteRateServlet extends HttpServlet {
     	PrintWriter out = resp.getWriter();
 		HttpSession session = req.getSession();
 		JSONObject result = new JSONObject();
+		JSONObject data = new JSONObject();
 
     	String sceneryStr	= req.getParameter("scenery");    	
     	String diffStr 		= req.getParameter("difficulty");
@@ -85,14 +86,13 @@ public class RouteRateServlet extends HttpServlet {
         	return;
     	}
     	
-    	String rating = "";
-    	for(int i = 0 ; i < rates.size() ; i++)
-    	{
-    		rating += rates.get(i) + (i != rates.size() - 1 ? ";" : "");
-    	}
+    	data.put("ROUTE_RATING_SCENERY", rates.get(0));
+    	data.put("ROUTE_RATING_DIFF", rates.get(1));
+    	data.put("ROUTE_RATING_SAFETY", rates.get(2));
+    	data.put("ROUTE_RATING_OVERALL", rates.get(3));
     	
 		result.put("STATUS", "Success");
-		result.put("DATA", rating);
+		result.put("DATA", data);
     	out.print(result);
     	
     }
