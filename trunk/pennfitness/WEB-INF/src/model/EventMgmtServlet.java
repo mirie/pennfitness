@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.Time;
-import java.text.DateFormat;
-import java.text.ParseException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -90,23 +88,26 @@ public class EventMgmtServlet extends HttpServlet {
     	} else { // Either saving or modifying event
     		if( user == null ) {
 	    		result.put("STATUS", "Failure");
-				result.put("MSG", "You must be logged in to delete a event!");
+				result.put("MSG", "You must be logged in to save or modify an event!");
 				out.println(result);
 				return;
 	    	}
-			event = new Event( eventName,  
-					Float.valueOf(eventDuration), 
-					eventDescription, 
-					Integer.valueOf( routeID ), 
-					Integer.valueOf( groupID ), 
-					user.getUserID(),
-					Date.valueOf(eventDate),
-					Time.valueOf(eventTime),
-					publicity.charAt(0),
-					Integer.valueOf(eventTypeID));
     		
     		//Save event
     		if( eventID.equals("-1") ){    
+    			
+    			event = new Event( eventName,  
+    					Float.valueOf(eventDuration), 
+    					eventDescription, 
+    					Integer.valueOf( routeID ), 
+    					Integer.valueOf( groupID ), 
+    					user.getUserID(),
+    					Date.valueOf(eventDate),
+    					Time.valueOf(eventTime),
+    					publicity.charAt(0),
+    					Integer.valueOf(eventTypeID));
+    			
+    			
     			//EventID of the currently saved event is going to be returned as result.
     			//-1 is returned if there is an error saving event
     			//The output format is as follows:
@@ -119,26 +120,32 @@ public class EventMgmtServlet extends HttpServlet {
     			}
     			else {
     				result.put( "STATUS", "Success");
-    				result.put( "MSG", "Event saved successfully" );
+    				result.put( "MSG", "Event saved successfully!" );
     			}
-    			data.put( "EventID", transaction );
+    			data.put( "EventID", event.getEventID() );
     			result.put( "DATA",  data );
     		}
     		//Modify event
-    		else{
-    			event.setEventID( Integer.valueOf( eventID.trim() ) );
+    		else {
+    			//event.setEventID( Integer.valueOf( eventID.trim() ) );
+    			event = DBUtilEvent.getEventById(eventID);
+    			String creatorID = event.getCreatorID();
+    			if (user.getUserID().trim().equalsIgnoreCase(creatorID)) { // userID == creatorID
+    				transaction = DBUtilEvent.modifyEvent( event );
 
-    			transaction = DBUtilEvent.modifyEvent( event );
-
-    			if( transaction == -1 ) {
-    				result.put( "STATUS", "Failure" );
-    				result.put( "MSG", "Could not save event to server!" );
-    			} else {
-    				result.put( "STATUS", "Success");
-    				result.put( "MSG", "Event saved successfully" );
-    			}
-    			
-    			data.put( "EventID", routeID.trim() );
+        			if( transaction == -1 ) {
+        				result.put( "STATUS", "Failure" );
+        				result.put( "MSG", "Could not save event to server!" );
+        			} else {
+        				result.put( "STATUS", "Success");
+        				result.put( "MSG", "Event modified successfully!" );
+        			}
+    			} else { // userID != creatorID for given routeID
+					result.put("STATUS", "Failure");
+					result.put("MSG", "You do not have privileges to delete this event!");    			
+				}
+    			    			
+    			data.put( "EventID", transaction );
     			result.put( "DATA",  data );
     		}
     		

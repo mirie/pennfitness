@@ -129,7 +129,7 @@ function Login() {
 	    
 	    if (response.STATUS != 'Success') {
 			alert(response.MSG);		
-			YAHOO.util.Dom.get("loginBtn").disabled = false;
+//			YAHOO.util.Dom.get("loginBtn").disabled = false;
 	    }
 	    else {	    	
 			YAHOO.util.Dom.get("user").innerHTML = response.DATA + 

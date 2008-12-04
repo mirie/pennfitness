@@ -708,8 +708,7 @@ function resetRateRt()
 function createEvt() 
 {
 	YAHOO.pennfitness.float.populateGroupByUserID();
-	resetNewEvt();	
-	
+	resetNewEvt();		
 }
 
 //*******************************************************
@@ -944,7 +943,8 @@ YAHOO.pennfitness.float.getEventLeftTB = function(eventIDArg, routeIDArg) {
 
 function modifyEvent() 
 {		
-	YAHOO.pennfitness.float.newEventPanel.show();
+	YAHOO.pennfitness.float.populateGroupByUserID();
+	//YAHOO.pennfitness.float.newEventPanel.show();
 }
 
 
