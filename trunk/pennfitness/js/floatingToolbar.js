@@ -923,6 +923,37 @@ function deleteEvt() {
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgEvent.do", callback, strData);
 }
 
+function registerEvt() {
+	// FOR JSON Handling
+	var successHandler = function(o) {	
+		var jResponse;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+		
+		alert("You have successfully registered for the event.");
+		
+		// disable the register 
+		
+					
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+	}
+	
+	//var strData = "eventID=" + eventID;
+	//strData += "action=delete";
+	if (eventID == -1) {
+		alert("Event not selected!");
+	}
+	else {
+		var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/registerEvent.jsp?eventID=" + eventID, callback);
+	}
+}
 
 
 
@@ -939,4 +970,7 @@ YAHOO.util.Event.addListener("deleteRouteBtn", "click", deleteRt);
 
 YAHOO.util.Event.addListener("modifyEventBtn", "click", modifyEvent);	
 YAHOO.util.Event.addListener("deleteEventBtn", "click", deleteEvt);
+YAHOO.util.Event.addListener("registerEventBtn", "click", registerEvt);
+
+
 YAHOO.util.Event.onDOMReady(populateTimeRange);
