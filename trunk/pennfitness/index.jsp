@@ -286,7 +286,7 @@
     <div id="eventDialog">
         <div class="hd">Edit Event Details</div>
         <div class="bd">
-            <form name="frmCreateEvent" id="frmCreateEvent" method="post" action="saveEvent.do">
+            <form name="frmCreateEvent" id="frmCreateEvent" method="post" action="mgEvent.do">
                 <label for="eventNameTxt">Event Name:</label> <input type="text" name="eventName" id="eventNameTxt" size="10" maxlength="30" /><br />                                
 
 				<label for="publicity">Publicity:</label>
@@ -332,12 +332,12 @@
 					</tr>
 					<tr>
 						<th>Overall:</th>
-                		<td><input type="radio" name="general" id="defaultOverall" value="0" checked="checked" /></td>
-                		<td><input type="radio" name="general" value="1" /></td>
-                		<td><input type="radio" name="general" value="2" /></td>
-                		<td><input type="radio" name="general" value="3" /></td>
-                		<td><input type="radio" name="general" value="4" /></td>
-                		<td><input type="radio" name="general" value="5" /></td>
+                		<td><input type="radio" name="rate" id="defaultOverall" value="0" checked="checked" /></td>
+                		<td><input type="radio" name="rate" value="1" /></td>
+                		<td><input type="radio" name="rate" value="2" /></td>
+                		<td><input type="radio" name="rate" value="3" /></td>
+                		<td><input type="radio" name="rate" value="4" /></td>
+                		<td><input type="radio" name="rate" value="5" /></td>
 					</tr>
 					<tr>
 						<th>Scenery:</th>
