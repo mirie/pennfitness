@@ -81,12 +81,13 @@ public class UserLoginServlet extends HttpServlet {
     	    		"	<div>" +
     	    		"<form name=\"frmUserInfoModify\" id=\"frmUserInfoModify\"" +
     	    		"<center> " +
-	                "    	<p><span class=\"userName\"id=\"userName\">"+"<b>Username :</b>"+ user.getUserID() + "</span><br> " +
+	                "    	<p><span class=\"userName\"id=\"userName\">"+"<b>Username :</b>"+ user.getUserID() + "</span><br>" +
 	                "        <span class=\"userEmail\" id=\"userEmail\">"+"<b>Email :</b>"+user.getEmail()+"</span><br> " +
 	                "		  <span class=\"userGender\"id=\"userGender\">" +
 	                		  //getGenderRadio(user.getGender())+"<br>"+
 	                "		<b>Gender :</b>"+user.getGender()+"<br>"+
-	                		  getPublicityCheckBox( user.getPublicEventNotify() )+"<br>"+
+	                		 // getPublicityCheckBox( user.getPublicEventNotify() )+"<br>"+
+	                "		<b>Public Event Notify Type :</b>"+ user.getPublicEventNotify() +"<br>"+
 	                "        <b>Member since :</b><span class=\"since\">"+user.getRegisteredDate()+"</span><br> " +
 	                "        <span class=\"userHeight\"id=\"userHeight\">"+"<b>Height :</b>"+user.getHeight()+"</span><br>"+
 	                "        <span class=\"userWeight\"id=\"userWeight\">"+"<b>Weight :</b>"+user.getWeight()+"</span><br>"+
@@ -99,36 +100,38 @@ public class UserLoginServlet extends HttpServlet {
                     "		</span><br> " +
  
 	                "		<p><span class=\"modifyUserGender\" id=\"modifyUserGender\">"+                   		
-            	 "<label for=\"genderBtn\"><b>Gender :</b></label>"+
-             	   "<input type=\"radio\" value=\"N\" checked/> N/A"+
-             	   "<input type=\"radio\" value=\"M\" /> Male"+
-             	   "<input type=\"radio\" value=\"F\" /> Female"+  
-                  		
+	               // 	"		<label for=\"genderBtn\"><b>Gender :</b></label>"+
+             	   //	"		<input type=\"radio\" value=\"N\" checked/> N/A"+
+             	   //	"		<input type=\"radio\" value=\"M\" /> Male"+
+             	   //	"		<input type=\"radio\" value=\"F\" /> Female"+  
+	                "		<b>Gender: (please type F/M/N)</b>" +                    		
+                    "		<input type=\"text\" size=\"1\" id=\"userGenderTxt\">"+
                     "		</span><br>" +
                     
                     "		<p><span class=\"modifyUserEmail\" id=\"modifyUserEmail\">"+
                     "		<b>Email:</b>" +                   		
-                    "		<textarea id=\"userEmailTxt\"></textarea>" +
+                    "		<input type=\"text\" id=\"userEmailTxt\">"+
                     "		</span><br>" +
                     
                     "		<p><span class=\"modifyUserPassword\" id=\"modifyUserPassword\">"+
                     "		<b>Password:</b>" +                    		
-                    "		<textarea id=\"userPasswordTxt\"></textarea>" +                    		
+                    //"		<text size=10 id=\"userPasswordTxt\"></text>" +   
+                    "		<input type=\"text\" id=\"userPasswordTxt\">"+
                     "		</span><br>" +
                     
                     "		<p><span class=\"modifyUserNotified\" id=\"modifyUserNotified\">"+
-                    "		<b>Notified for public events:</b>" +                    		
-                    "		<textarea id=\"UserNotifiedEventsTxt\"></textarea>" +                    		
+                    "		<b>Notified for public events: (please type Y/N)</b>" +                    		
+                    "		<input type=\"text\"size=\"1\" id=\"UserNotifiedEventsTxt\">"+                   		
                     "		</span><br>" +
                     
                     "		<p><span class=\"modifyUserHeight\" id=\"modifyUserHeight\">"+
                     "		<b>Height:</b>" +                    		
-                    "		<textarea id=\"HeightInfoTxt\"></textarea>" +                    		
+                    "		<input type=\"text\" id=\"HeightInfoTxt\">"+                   		
                     "		</span><br>" +
                     
                     "		<p><span class=\"modifyUserWeight\" id=\"modifyUserWeight\">"+
                     "		<b>Weight:</b>" +                    
-                    "		<textarea id=\"WeightInfoTxt\"></textarea>" +                    		
+                    "		<input type=\"text\" id=\"WeightInfoTxt\">"+                  		
                     "		<span><br>" +
                     
                     "		</p>" +
