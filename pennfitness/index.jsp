@@ -352,9 +352,9 @@
                 <li class = "selected">
                     <a href = "#tab1"><em>Personal Information</em></a>
                 </li>
-                <li><a href = "#tab2" onclick="populateGroupByUserID();"><em>Group Information</em></a>
+                <li><a href = "#tab2" onclick="populateMyGroupByUserID();"><em>Group Information</em></a>
                 </li>
-                <li><a href = "#tab3"><em>Event Information</em></a>
+                <li><a href = "#tab3" onclick="populateRegisteredEventByUserID()"><em>Event Information</em></a>
                 </li>
                 <li><a href = "#tab4" onclick="populateRouteByUserID();"><em>Route Information</em></a>
                 </li>
@@ -441,50 +441,18 @@
                     <div id ="EventInfoTab" class="EventInfo">
                         <ul class = "yui-nav">
                             <li class = "selected">
-                                <a href = "#tab1"><em>Registered Events</em></a>
+                                <a href = "#tab1" onclick="populateRegisteredEventByUserID()"><em>Registered Events</em></a>
                             </li>
-                            <li><a href = "#tab2"><em>Created Events</em></a>
+                            <li><a href = "#tab2" onclick="populateCreatedEventByUserID()"><em>Created Events</em></a>
                             </li>
                         </ul>
                         <div class = "yui-content">
-                            <div class = "registeredEvents">
-                                <div class="registeredEventList">
-                                    <div class="registeredEventItem">
-                                        <a href="function_to_show_event">Inseob Event 007</a>
-                                    </div>
-                                    <div class="RouteInfoItem">
-                                        <a href="function_to_show_event">Girls go jogging</a>
-                                    </div>
-                                    <div class="RouteInfoItem">
-                                        <a href="function_to_show_event">Sansom E. Halloween jogging</a>
-                                    </div>
+                                <div id="myRegisteredEventList">
+									 <!--my registered event(s) detail list --> 
                                 </div>
-                            </div>
-                            <div class = "createdEvents">
-                                <div class="createdEventList">
-                                    <div class="createdEventItem">
-                                        <a href="function_to_show_event">Sandy Event 1</a>
-                                    </div>
-                                    <div class="createdEventItem">
-                                        <a href="function_to_show_event">Sandy Event 2</a>
-                                    </div>
-                                    <div class="createdEventItem">
-                                        <a href="function_to_show_event">Sandy Event 3</a>
-                                    </div>
-                                    <div class="createdEventItem">
-                                        <a href="function_to_show_event">Sandy Event 4</a>
-                                    </div>
-                                    <div class="createdEventItem">
-                                        <a href="function_to_show_event">Sandy Event 5</a>
-                                    </div>
-                                    <div class="createdEventItem">
-                                        <a href="function_to_show_event">Sandy Event 6</a>
-                                    </div>
-                                    <div class="createdEventItem">
-                                        <a href="function_to_show_event">Sandy Event 7</a>
-                                    </div>
+                                <div id="myCreatedEventList">
+                      				<!--my registered event(s) detail list --> 
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>

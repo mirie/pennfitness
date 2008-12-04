@@ -53,7 +53,7 @@ function saveGp() {
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveGroup.do", callback, strData);
 }
-function populateGroupByUserID()
+function populateMyGroupByUserID()
 {		
 	var successHandler = function(o) {
 		var response;
@@ -112,14 +112,14 @@ function populateRouteByUserID()
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchRoute.do", callback, strData);
 }
 
-function populateEventByUserID()
+function populateRegisteredEventByUserID()
 {		
 
 	var successHandler = function(o) {
 		var response;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 	
-		var groupSelect = document.getElementById("myRouteList");
+		var groupSelect = document.getElementById("myRegisteredEventList");
 		while(groupSelect.hasChildNodes() == true){
 			groupSelect.removeChild(groupSelect.childNodes[0]);
 		}
@@ -137,11 +137,40 @@ function populateEventByUserID()
 		failure:failureHandler,
 	}
 	
-	var strData = "action=getRoutes";
+	var strData = "action=getEventsRegistered";
 	
-	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchRoute.do", callback, strData);
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchEvent.do", callback, strData);
 }
 
+function populateCreatedEventByUserID()
+{		
+
+	var successHandler = function(o) {
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+	
+		var groupSelect = document.getElementById("myCreatedEventList");
+		while(groupSelect.hasChildNodes() == true){
+			groupSelect.removeChild(groupSelect.childNodes[0]);
+		}
+		
+		groupSelect.innerHTML = jResponse.DATA.CONTENT;
+		
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+	}
+	
+	var strData = "action=getEventsCreated";
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchEvent.do", callback, strData);
+}
 
 function GetGroupDetail( groupID )
 {
