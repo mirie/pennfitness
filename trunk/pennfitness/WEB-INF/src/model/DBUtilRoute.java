@@ -364,7 +364,86 @@ public class DBUtilRoute {
 				
 		return 0;
 	}
+
+	
+	public static boolean checkIfRatedRoute( String routeID, String userID ) {
+		List<Route> routes = new ArrayList<Route>();
+		String query = "SELECT COUNT(*) count FROM RateHistory WHERE userID='" + userID + "' AND routeID = '" + routeID + "'";
+		ResultSet resultSet = DBConnector.getQueryResult( query );
 		
+		try {
+			if( resultSet.next() ){				
+				return resultSet.getInt("count") > 0;
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getGroupByUserID() : Error getting group list for creatorID: " + userID);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+				
+		return false;
+	}	
+	
+	
+	public static List<Float> rateRoute( String routeID, String userID, int scenery, int difficulty, int safety, int rate ) {
+		List<Float> rates = new ArrayList<Float>();
+		float fScenery, fDifficulty, fSafety, fRate;
+
+		String saveQuery = "INSERT INTO RateHistory ( userID, routeID, pt_scenery, pt_difficulty, pt_safety, pt_rate, ratedDate )" +
+						" VALUES ('"+ userID+"'," +
+								"'"+ routeID +"'," +
+								""+ scenery +"," +
+								""+ difficulty+"," +
+								""+ safety+"," +
+								""+ rate+"," +
+								"NOW())";
+
+		System.out.println("query : " + saveQuery);
+		if( DBConnector.executeUpdateQuery( saveQuery ) < 1 ){
+			return null;
+		}
+		
+		String query = "SELECT AVG(pt_scenery) SCENERY, AVG(pt_difficulty) DIFFICULTY, AVG(pt_safety) SAFETY, AVG(pt_rate) RATE FROM RateHistory WHERE routeID ='" + routeID + "'";
+		
+		ResultSet resultSet = DBConnector.getQueryResult( query );		
+		try {
+			if( !resultSet.first() ) throw new SQLException();
+
+			fScenery = resultSet.getFloat("SCENERY");
+			fDifficulty = resultSet.getFloat("DIFFICULTY");
+			fSafety = resultSet.getFloat("SAFETY");
+			fRate = resultSet.getFloat("RATE");
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.rateRoute() : Error getting average values");
+			e.printStackTrace();
+			DBConnector.closeDBConnection();
+			return null;
+		}
+
+		String updateQuery = "UPDATE Routes " +
+							"SET pt_scenery=" + fScenery +
+								" , pt_difficulty=" + fDifficulty +
+								" , pt_safety=" + fSafety +
+								" , pt_rate=" + fRate +
+								" WHERE routeID = '" + routeID + "'";
+
+		System.out.println("query : " + updateQuery);
+		if( DBConnector.executeUpdateQuery( updateQuery ) < 1 ){
+			return null;
+		}
+
+		rates.add(fScenery);
+		rates.add(fDifficulty);
+		rates.add(fSafety);
+		rates.add(fRate);
+		
+		return rates;
+	}
+	
 	/**
 	 * Utility function that gets Route object from a resultset row
 	 * 

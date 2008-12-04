@@ -48,6 +48,10 @@
     <servlet-name>EventListByRouteServlet</servlet-name>
     <servlet-class>model.EventListByRouteServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>RouteRateServlet</servlet-name>
+    <servlet-class>model.RouteRateServlet</servlet-class>
+  </servlet>
 
   <!-- Map URLs to that servlet. -->
 
@@ -94,5 +98,9 @@
   <servlet-mapping>  
   <servlet-name>EventListByRouteServlet</servlet-name>
     <url-pattern>/routeEvents.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>  
+  <servlet-name>RouteRateServlet</servlet-name>
+    <url-pattern>/rateRoute.do</url-pattern>
   </servlet-mapping>
 </web-app>
