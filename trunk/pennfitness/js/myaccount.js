@@ -225,11 +225,16 @@ function modifyPersonalInfo() {
 	document.getElementById("modifyUserGender").style.display = "block";
 	document.getElementById("modifyUserEmail").style.display = "block";
 	document.getElementById("modifyUserPassword").style.display = "block";
+	document.getElementById("modifyUserNotified").style.display = "block";
+	document.getElementById("modifyUserHeight").style.display = "block";
+	document.getElementById("modifyUserWeight").style.display = "block";
 	
 	document.getElementById("userGender").style.display = "none";
 	document.getElementById("userName").style.display = "none";
 	document.getElementById("userEmail").style.display = "none";
 //	document.getElementById("userPassword").style.display = "none";
+	document.getElementById("userHeight").style.display = "none";
+	document.getElementById("userWeight").style.display = "none";
 	
 	document.getElementById("savePersonalInfoBtns").style.display = "block";
 	document.getElementById("modifyPersonalInfoBtns").style.display = "none";
@@ -237,14 +242,19 @@ function modifyPersonalInfo() {
 }
 function cancelPersonalInfo() {	
 
+	document.getElementById("userGender").style.display = "block";
+	document.getElementById("userName").style.display = "block";
+	document.getElementById("userEmail").style.display = "block";
+//	document.getElementById("userPassword").style.display = "block";
+	document.getElementById("userHeight").style.display = "block";
+	document.getElementById("userWeight").style.display = "block";
+	
 	document.getElementById("modifyUserGender").style.display = "none";
 	document.getElementById("modifyUserEmail").style.display = "none";
 	document.getElementById("modifyUserPassword").style.display = "none";
-	
-	document.getElementById("userName").style.display = "block";
-	document.getElementById("userGender").style.display = "block";
-	document.getElementById("userEmail").style.display = "block";
-//	document.getElementById("userPassword").style.display = "block";
+	document.getElementById("modifyUserNotified").style.display = "none";
+	document.getElementById("modifyUserHeight").style.display = "none";
+	document.getElementById("modifyUserWeight").style.display = "none";
 	
 	document.getElementById("savePersonalInfoBtns").style.display = "none";
 	document.getElementById("modifyPersonalInfoBtns").style.display = "block";
@@ -295,11 +305,31 @@ function savePersonalInfo() {
 	strData += "gender=" + document.getElementById("userGenderTxt").value + "&";
 	strData += "email=" + document.getElementById("userEmailTxt").value + "&";
 	strData += "password=" + document.getElementById("userPasswordTxt").value + "&";
+	strData += "height=" + document.getElementById("HeightInfoTxt").value + "&";
+	strData += "weight=" + document.getElementById("WeightInfoTxt").value + "&";
+	strData += "publicEventNotify=" + document.getElementById("UserNotifiedEventsTxt").value + "&";
 	
 	// Append GroupID to strData
 	//strData += "userID=" + document.getElementById("user.getUserID()").value.trim();
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "modifyUser.do", callback, strData);
+	
+	document.getElementById("userGender").style.display = "block";
+	document.getElementById("userName").style.display = "block";
+	document.getElementById("userEmail").style.display = "block";
+//	document.getElementById("userPassword").style.display = "block";
+	document.getElementById("userHeight").style.display = "block";
+	document.getElementById("userWeight").style.display = "block";
+	
+	document.getElementById("modifyUserGender").style.display = "none";
+	document.getElementById("modifyUserEmail").style.display = "none";
+	document.getElementById("modifyUserPassword").style.display = "none";
+	document.getElementById("modifyUserNotified").style.display = "none";
+	document.getElementById("modifyUserHeight").style.display = "none";
+	document.getElementById("modifyUserWeight").style.display = "none";
+	
+	document.getElementById("savePersonalInfoBtns").style.display = "none";
+	document.getElementById("modifyPersonalInfoBtns").style.display = "block";
 }
 
 
