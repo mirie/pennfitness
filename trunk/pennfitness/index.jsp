@@ -21,9 +21,9 @@
 
 
 <!-- Combo-handled YUI CSS files: -->
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.6.0/build/reset-fonts-grids/reset-fonts-grids.css&2.6.0/build/assets/skins/sam/skin.css">
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.6.0/build/reset-fonts-grids/reset-fonts-grids.css&2.6.0/build/assets/skins/sam/skin.css&2.6.0/build/logger/assets/skins/sam/logger.css">
 <!-- Combo-handled YUI JS files: -->
-<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/utilities/utilities.js&2.6.0/build/container/container-min.js&2.6.0/build/menu/menu-min.js&2.6.0/build/button/button-min.js&2.6.0/build/calendar/calendar-min.js&2.6.0/build/slider/slider-min.js&2.6.0/build/colorpicker/colorpicker-min.js&2.6.0/build/json/json-min.js&2.6.0/build/layout/layout-min.js&2.6.0/build/paginator/paginator-min.js&2.6.0/build/tabview/tabview-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.6.0/build/utilities/utilities.js&2.6.0/build/container/container-min.js&2.6.0/build/menu/menu-min.js&2.6.0/build/button/button-min.js&2.6.0/build/calendar/calendar-min.js&2.6.0/build/slider/slider-min.js&2.6.0/build/colorpicker/colorpicker-min.js&2.6.0/build/json/json-min.js&2.6.0/build/layout/layout-min.js&2.6.0/build/paginator/paginator-min.js&2.6.0/build/tabview/tabview-min.js&2.6.0/build/logger/logger-min.js"></script>
 
 <!--  ================================= Custom CSS to override YUI CSS style ========== -->
 <link rel="stylesheet" type="text/css" href="css/calendar.css" />
@@ -38,6 +38,7 @@
 <script type="text/javascript" src="js/search.js"></script>
 <script type="text/javascript" src="js/myaccount.js"></script>
 <script type="text/javascript" src="js/accordion-menu-v2.js"></script>
+<script type="text/javascript" src="js/virtualtrip.js"></script>
 
 
 <title>Penn Fitness</title>
@@ -226,6 +227,7 @@
                         <input type="button" id="cancelRouteBtn" value="Cancel" />
                     </div>
                     <div id="modifyRoute">
+                    	<input type="button" id="virtualTripBtn" value="Virtual Trip" />
                         <input type="button" id="modifyRouteBtn" value="Modify" />    
 						<input type="button" id="deleteRouteBtn" value="Delete" />                 
                     </div>
@@ -576,6 +578,36 @@
                 </div>
             </div>
         </div>
-    </div>  
+    </div> <!-- End of search dialog -->
+
+    <!-- =============================== Virtual Trip DIALOG Structure:  =============================== -->	
+	<div id="VTpanel">
+	    <div class="hd">Virtual Trip</div> 
+	    <div id="VTbd" class="bd"> 
+	      <div id="svArea">
+	      	<br /><br /><br /><br /><br /><br /><br /><br />
+	      	<input id="vtPrepareBtn" type="button" value="Prepare Virtual Trip" onclick="vtPrepare()" />
+	      </div> 
+	      <div id="svControllers"> 
+	        <input type="button" value="START" onclick="vtStart()" /> 
+	        &nbsp;
+	        <input type="button" value="STOP"  onclick="vtPause()"/> 
+	        &nbsp;
+	        SPEED
+	        <input type="text" value="5" size="3" maxlength="3" id="tbxSpeed" onchange="vtChangeTimer()"/> 
+	        &nbsp;&nbsp;
+	        <input type="button" value="&lt;&lt;" onclick="goStart()"/> 
+	        &nbsp;
+	        <input type="button" value=" &lt; " onclick="prev()"/> 
+	        &nbsp;
+	        <input type="button" value=" &gt; " onclick="next()"/> 
+	        &nbsp;
+	        <input type="button" value="&gt;&gt;" onclick="goEnd()"/> 
+	        <br /> 
+	        <input type="button" value="StreetView On" id="btnToggleSV" onclick="enableSV();"/> 
+	        &nbsp; 
+	      </div> 
+	    </div> 
+	</div> 
 </body>
 </html>

@@ -202,7 +202,7 @@ function getEventsByDate(recsPerPage, curPage) {
 		YAHOO.util.Dom.get("eventsOnDateList").innerHTML = jResponse.DATA.CONTENT;
 		pagEventsOnDate.set('totalRecords',jResponse.DATA.TOTALRECCNT); 		
 		AccordionMenu.openDtById("my-dt-1"); // opens up 'event' tab
-		
+//		YAHOO.util.Config(leftMenuEvtTab).setProperty("activeIndex", 1, false);
 	}
 
 	var failureHandler = function(o) {

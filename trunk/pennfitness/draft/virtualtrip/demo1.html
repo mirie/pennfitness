@@ -21,13 +21,13 @@
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/container/assets/skins/sam/container.css" /> 
 <script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/container/container-min.js"></script> 
 <script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/logger/logger-min.js"></script> 
-<!-- local 
+
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAevXPNCPhLRjjN1uuI1OlGxT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQX9TRWtxibN_dgX-yKUPtVlmGyxg" type="text/javascript"></script>
---> 
  
 <!-- seas --> 
+<!-- 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAiUy24FJ2pI4aK2GRl7uYJRS13f0NDYWu728arYXQAQvm7yhZqhTDQeKZ23S6QyEaO6qH3RLQCLm1Og" type="text/javascript"></script> 
- 
+-->
  
  
 <style type="text/css"> 
@@ -275,23 +275,6 @@ function drawSVOverlay() {
  if( markers.length < 2 ) return;
  YAHOO.log("creating sv points");
  
-/*
-  for(i = 0 ; i < markers.length - 1 ; i++) {
-  	var pt1_lat = markers[i].getLatLng().lat();
-	var pt1_lng = markers[i].getLatLng().lng();
-  	var pt2_lat = markers[i+1].getLatLng().lat();
-	var pt2_lng = markers[i+1].getLatLng().lng();
-  
-    var diff_lat = ( pt2_lat - pt1_lat ) / (ptPerPath-1);
-    var diff_lng = ( pt2_lng - pt1_lng ) / (ptPerPath-1);
-  
-    for(j = 0 ; j < ptPerPath ; j++) {
-		pt3_lat = pt1_lat + j * diff_lat;
-		pt3_lng = pt1_lng + j * diff_lng;
-		var tMarker = new GMarker(new GLatLng(pt3_lat, pt3_lng), {icon:redicon})
-		svPoints.push(tMarker);
-	}
-*/
   for(i = 0 ; i < markers.length - 1 ; i++) {
  
 	var p1 = markers[i].getLatLng();
@@ -304,10 +287,9 @@ function drawSVOverlay() {
 	var xDiff = x2 - x1;
 	var yDiff = y2 - y1;
 	
-	var angle = Math.atan(xDiff / yDiff);
+	var angle = Math.atan2(xDiff, yDiff);
 	var angle_degree = angle * 180 / Math.PI;
 	YAHOO.log("angle = " + angle_degree);
-//	angles.push(angle);
 	
 	var k = 0;
 	while(true) {
@@ -316,21 +298,13 @@ function drawSVOverlay() {
 		if((x2 >= x1 && pt3_lat > x2) || (x2 <= x1 && pt3_lat < x2)) {
 			break;
 		}
+//		YAHOO.log("Point : " + pt3_lat + "," + pt3_lng);
 		var tMarker = new GMarker(new GLatLng(pt3_lat, pt3_lng), {icon:redicon})
 		svPoints.push(tMarker);
 		angles.push(angle_degree);
 		k++;
 	}
 		
-/*	
-	for(j = 1 ; j < ptPerPath ; j++) {
-		pt3_lat = x1 + j*unit*Math.sin(angle);
-		pt3_lng = y1 + j*unit*Math.cos(angle);
-		var tMarker = new GMarker(new GLatLng(pt3_lat, pt3_lng), {icon:redicon})
-		svPoints.push(tMarker);
-	}
-*/
-	
   }
  
 	YAHOO.log( svPoints.length + " sv points are added");
@@ -380,6 +354,7 @@ function addIntMarker(panoData)
 	
 	if(svIdx < svPoints.length) {
 //		sleep(10);
+		// retrieve next marker
 		panoClient.getNearestPanorama(svPoints[svIdx].getLatLng(), addIntMarker);
 	}
 	else {
@@ -447,6 +422,7 @@ function goEnd()
  
 function updateStreetView()
 {
+//		alert(csvIdx);
 		if(man != null) map.removeOverlay(man);
 		man =  new GMarker(svPoints[csvIdx].getLatLng(), {icon:manicon});
 		map.addOverlay(man);

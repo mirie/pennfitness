@@ -48,6 +48,8 @@ public class DBConnector {
 		
 		initializeDBConnection();
 		
+		System.out.println(query);
+		
 		try {	
 			return s.executeQuery( query );	
 		}
