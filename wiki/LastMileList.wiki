@@ -9,7 +9,7 @@
   * Change lat,lng for recentering map for a selected route - Sandy
   * Allow only 1 accordion menu to open at a time
   * Icons for start/stop map points - Mai
-  * Disable double click zoom - Mai
+  * ~~Disable double click zoom - Mai~~
 
 *Route*
   * *Displaying/giving ratings* - Mai
