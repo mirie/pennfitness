@@ -19,13 +19,13 @@
 		data.put("ROUTE_DATE", route.getCreatedDate()+"" );
 		data.put("ROUTE_RATING", new Float( route.getPt_rate() ));
 		
-		System.out.println("Creator : " + route.getCreatorID());
+		//System.out.println("Creator : " + route.getCreatorID());
 		
-		User user = DBUtilUser.getUserById( route.getCreatorID()+"" );
-		if( user != null )
-			data.put("ROUTE_CREATOR", user.getUserName());
-		else
-			data.put("ROUTE_CREATOR", "");
+	//	User user = DBUtilUser.getUserById( route.getCreatorID()+"" );
+	//	if( user != null )
+			data.put("ROUTE_CREATOR", route.getCreatorID());
+	//	else
+		//	data.put("ROUTE_CREATOR", "");
 				
 	  	
 	  	result.put("STATUS","Success");
