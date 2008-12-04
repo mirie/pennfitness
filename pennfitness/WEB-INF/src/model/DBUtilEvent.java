@@ -16,7 +16,6 @@ import util.StringUtil;
 
 public class DBUtilEvent {
 
-	
 	/**
 	 * Saves a new event with the given information
 	 * 
@@ -58,7 +57,6 @@ public class DBUtilEvent {
 		return -1;
 	}
 	
-	
 	/**
 	 * Updates the given event with the given ID.
 	 * 
@@ -99,36 +97,7 @@ public class DBUtilEvent {
 		
 		return DBConnector.executeUpdateQuery( deleteQuery );		
 	}	
-	
-	
-	/**
-	 * Function that gets all the events registered so far
-	 * 
-	 * @return
-	 */
-	public static List<Event> getAllEvents(int recordPerPage, int currentPage){
 		
-		List<Event> events = new ArrayList<Event>();
-		String query = "SELECT * FROM Event ORDER BY modifiedDate DESC ";	
-		if( recordPerPage != 0 || currentPage != 0 ) query += "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
-		ResultSet resultSet = DBConnector.getQueryResult( query );		
-		
-		try {
-			while( resultSet.next() ){				
-				events.add( resultSetToEvent( resultSet ) );
-			}
-		} 
-		catch (SQLException e) {
-			System.out.println("DBUtilEvent.getAllEvents() : Error getting all events");
-			e.printStackTrace();
-		}
-		finally{
-			DBConnector.closeDBConnection();
-		}
-			
-		return events;
-	}
-	
 	/*
 	 * Get the dates of events for current month as string '11/15/2008,11/31/2008,...'
 	 */
@@ -139,7 +108,6 @@ public class DBUtilEvent {
 		
 		return getEventDatesByMonth(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1);
 	}
-	
 	
 	/*
 	 * Get the dates of events for given year and month as string '11/15/2008,11/31/2008,...'
@@ -157,7 +125,7 @@ public class DBUtilEvent {
 		
 //		System.out.println("Search Query:" + searchQuery);
 
-		List<Event> events = new ArrayList<Event>();
+		//List<Event> events = new ArrayList<Event>();
 		ResultSet resultSet = DBConnector.getQueryResult( searchQuery );	
 		
 		try {
@@ -243,8 +211,6 @@ public class DBUtilEvent {
 		return recCount;
 	}
 
-	  
-	
 	/**
 	 *
 	 * 
@@ -289,6 +255,34 @@ public class DBUtilEvent {
 			DBConnector.closeDBConnection();
 		}
 		return recCount;
+	}
+	
+	/**
+	 * Function that gets all the events registered so far
+	 * 
+	 * @return
+	 */
+	public static List<Event> getAllEvents(int recordPerPage, int currentPage){
+		
+		List<Event> events = new ArrayList<Event>();
+		String query = "SELECT * FROM Event ORDER BY modifiedDate DESC ";	
+		if( recordPerPage != 0 || currentPage != 0 ) query += "LIMIT " + (currentPage-1) * recordPerPage + ", " + recordPerPage;
+		ResultSet resultSet = DBConnector.getQueryResult( query );		
+		
+		try {
+			while( resultSet.next() ){				
+				events.add( resultSetToEvent( resultSet ) );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilEvent.getAllEvents() : Error getting all events");
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+			
+		return events;
 	}
 	
 	public static String getAllEventsHTML(int recordPerPage, int currentPage) {
@@ -353,6 +347,56 @@ public class DBUtilEvent {
 		return events;
 		
 	}
+		
+	public static boolean registerForEvent(String eventID, String userID) {
+		String saveQuery = 
+			"INSERT INTO EventReg ( eventID, userID, registeredDate  )"+
+							   	  " VALUES ('"+ eventID +"'," +
+										"'"+ userID +"'," +
+										" NOW() " +
+										")"; 
+												
+		if( DBConnector.executeUpdateQuery( saveQuery ) > 0 ){
+			return true;			
+		}
+			
+		return false;
+	}
+	
+	public static List<Event> unsubscribeFromEvents(List<String> eventIDs, String userID) {
+		String query;
+		List<Event> eventRegList = new ArrayList<Event>();
+		for (String eventID : eventIDs) {
+			query = "DELETE FROM EventReg " +
+					"WHERE eventID='" + eventID + "' " +
+					"AND userID ='" + userID + "'";
+		
+			if (DBConnector.executeUpdateQuery(query) < 0) {
+				return null;
+			}
+		}
+			
+		query = "SELECT * " +
+				"FROM EventReg, Event " +
+				"WHERE EventReg.userID='" + userID + "' " +
+				"AND EventReg.eventID = Event.eventID";
+		ResultSet resultSet = DBConnector.getQueryResult( query );		
+		
+		try {
+			while( resultSet.next() ){				
+				eventRegList.add(resultSetToEvent( resultSet ));
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBUtilEvent.getAllEvents() : Error getting registered events for user: " + userID);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+			
+		return eventRegList;
+	}
 	
 	
 	/**
@@ -398,5 +442,5 @@ public class DBUtilEvent {
 		
 		return null;
 	}
-	
+
 }
