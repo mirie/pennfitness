@@ -96,7 +96,7 @@ public class UserLoginServlet extends HttpServlet {
 	                		
 	                "		<p><span class=\"modifyUserName\" id=\"modifyUserName\">"+
 	                "		<b>Username :</b>"+                
-	                "		<textarea id=\"userNameTxt\"></textarea>" +	                		
+	                "		<input type=\"text\" id=\"userNameTxt\">" +	                		
                     "		</span><br> " +
  
 	                "		<p><span class=\"modifyUserGender\" id=\"modifyUserGender\">"+                   		
