@@ -384,6 +384,28 @@ public class DBUtilGroup {
 		return true;
 	}
 
+	public static List<Group> getGroupListByUserIDForEvent(String userID) {
+		List<Group> groups = new ArrayList<Group>();
+		String query = "SELECT * FROM Groups WHERE creatorID='" + userID + "'ORDER BY name "; 
+				
+		ResultSet resultSet = DBConnector.getQueryResult( query );
+		
+		try {
+			while( resultSet.next() ){				
+				groups.add( DBUtilGroup.resultSetToGroup( resultSet ) );
+			}
+		} 
+		catch (SQLException e) {
+			System.out.println("DBFunctionUtil.getGroupByUserID() : Error getting group list for creatorID: " + userID);
+			e.printStackTrace();
+		}
+		finally{
+			DBConnector.closeDBConnection();
+		}
+				
+		return groups;
+	}	
+	
 	public static List<Group> getGroupByUserID(String userID, int recordPerPage, int currentPage) {
 		List<Group> groups = new ArrayList<Group>();
 		String query = "SELECT * FROM Groups WHERE creatorID='" + userID + "' ORDER BY name " +

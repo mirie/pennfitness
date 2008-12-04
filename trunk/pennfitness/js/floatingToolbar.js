@@ -65,7 +65,7 @@ YAHOO.pennfitness.float.populateGroupByUserID = function ()
 		failure:failureHandler
 	};
 	
-	var strData = "action=getGroups";	
+	var strData = "action=getGroupsForCreateEvent";	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
 }
 
@@ -391,6 +391,59 @@ function setupNewEvtDialog(){
 	YAHOO.pennfitness.float.newEventPanel.render("bd");
 }
 
+//***********************************************************************
+//Function: Initializes the rate route dialog
+//***********************************************************************
+function setupRateRouteDialog(){
+
+	// Define various event handlers for Dialog
+	var handleSubmit = function() {
+		
+		document.getElementById("rateRouteID").value = routeID;
+		this.submit();
+	};
+	
+	var handleCancel = function() {
+		this.cancel();
+	};
+	
+	var handleSuccess = function(o) {
+		var jResponse;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+		
+		alert("Route rated successfully!");
+
+		document.getElementById("overallRating").innerHTML = "Overall Rating: "+ jResponse.DATA.ROUTE_RATING_OVERALL;
+		document.getElementById("sceneryRating").innerHTML = "Scenery: "+ jResponse.DATA.ROUTE_RATING_SCENERY;
+		document.getElementById("difficultyRating").innerHTML = "Difficulty: "+ jResponse.DATA.ROUTE_RATING_DIFF;
+		document.getElementById("safetyRating").innerHTML = "Safety: "+ jResponse.DATA.ROUTE_RATING_SAFETY;		
+			
+		//YAHOO.pennfitness.float.getRoute(routeID, false); // TODO: Check this???		
+	};
+	 
+	var handleFailure = function(o) { 
+		alert("Error + " + o.status + " : " + o.statusText);
+	}; 
+	
+	// Instantiate the Dialog
+	YAHOO.pennfitness.float.rateRouteDialog = new YAHOO.widget.Dialog("rateDialog", 
+				{ width : "200px",
+				  fixedcenter : true,
+				  visible : false, 
+				  modal : true,
+				  constraintoviewport : true,
+				  buttons : [ { text:"Rate!", handler:handleSubmit, isDefault:true },
+							  { text:"Cancel", handler:handleCancel } ]
+				 } );	
+
+	// Wire up the success and failure handlers 
+	YAHOO.pennfitness.float.rateRouteDialog.callback = { success: handleSuccess, 
+						     						     failure: handleFailure };
+
+	YAHOO.pennfitness.float.rateRouteDialog.render("bd");
+}
+
+
 // ***********************************************************************
 // Function: Resets route details toolbar for editing
 // ***********************************************************************
@@ -457,7 +510,10 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 		document.getElementById("routeCreator").innerHTML = " by " + jResponse.DATA.ROUTE_CREATOR;
 		document.getElementById("routeCreatedDate").innerHTML = "Created on: " + jResponse.DATA.ROUTE_DATE;		
 		
-		document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+ jResponse.DATA.ROUTE_RATING;
+		document.getElementById("overallRating").innerHTML = "Overall Rating: "+ jResponse.DATA.ROUTE_RATING_OVERALL;
+		document.getElementById("sceneryRating").innerHTML = "Scenery: "+ jResponse.DATA.ROUTE_RATING_SCENERY;
+		document.getElementById("difficultyRating").innerHTML = "Difficulty: "+ jResponse.DATA.ROUTE_RATING_DIFF;
+		document.getElementById("safetyRating").innerHTML = "Safety: "+ jResponse.DATA.ROUTE_RATING_SAFETY;
 
 		document.getElementById("routeDesc").innerHTML = jResponse.DATA.ROUTE_DESCRIPTION;
 		document.getElementById("routeDescTxt").style.display = "none";
@@ -635,7 +691,22 @@ function deleteRt() {
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgRoute.do", callback, strData);
 }
 
-function createEvt() {
+function rateRt() 
+{
+	resetRateRt();
+	YAHOO.pennfitness.float.rateRouteDialog.show();
+}
+
+function resetRateRt()
+{
+	document.getElementById("defaultOverall").checked = true;
+	document.getElementById("defaultScenery").checked = true;
+	document.getElementById("defaultDifficulty").checked = true;
+	document.getElementById("defaultSafety").checked = true;	
+}
+
+function createEvt() 
+{
 	YAHOO.pennfitness.float.populateGroupByUserID();
 	resetNewEvt();	
 	
@@ -966,13 +1037,14 @@ function registerEvt() {
 
 YAHOO.util.Event.onDOMReady(initToolbar);
 YAHOO.util.Event.onDOMReady(setupNewEvtDialog);
-
+YAHOO.util.Event.onDOMReady(setupRateRouteDialog);
 
 // Listeners
 YAHOO.util.Event.addListener("cancelRouteBtn", "click", cancelRt);
 YAHOO.util.Event.addListener("saveRouteBtn", "click", saveRt);	
 YAHOO.util.Event.addListener("modifyRouteBtn", "click", modifyRt);	
 YAHOO.util.Event.addListener("deleteRouteBtn", "click", deleteRt);
+YAHOO.util.Event.addListener("rateRouteBtn", "click", rateRt);
 
 YAHOO.util.Event.addListener("modifyEventBtn", "click", modifyEvent);	
 YAHOO.util.Event.addListener("deleteEventBtn", "click", deleteEvt);
