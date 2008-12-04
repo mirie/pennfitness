@@ -435,39 +435,37 @@
                             <div class = "yui-content">
                                 <div class = "myGroups">
                                  	<form name="frmGroupRegisteredUnsubscribe" id="frmGroupRegisteredUnsubscribe">                         
+                                    <input type="hidden" name="action" value="leaveGroup">
                                    	 	<div id="myRegisteredGroupList">
                                    	 		<!-- my group(s) detail list --> 
                                     	</div>
-            							<input type="button" value="Unsubscribe"/>
-                                    </form>
-                                    <form name="frmGroupRegisteredSendEmail" id="frmGroupRegisteredSendEmail">
-										Title  : <input type="text" size="10" maxlength="40" name="emailTitle" id="emailTitle"> <br />
-										Message: <textarea rows="5" cols="20" wrap="physical" name="emailbody" id="emailbody"></textarea>
-
-										<input type="button" value="Send Email to group"> 
-									</form>
-                                    				
+                                    	<div id="pag_myGroups" class="paginator">
+                            				<!-- paginator -->
+                        				</div>           
+            							<input type="button" id="unsubscribeGroupBtn" value="Unsubscribe"/>
+                                    </form>                                    				
                                 </div>
                                 <div class = "createdGroups">
-                                	<form name="frmGroupCreatedUnsubscribe" id="frmGrouCreatedpUnsubscribe">                         
-                                   	 	<div id="myCreatedGroupList">
-                                   	 		<!-- my group(s) detail list --> 
-                                    	</div>
-            							<input type="button" value="Unsubscribe"/>
-                                    </form>
-                                    <form name="frmGroupCreatedSendEmail" id="frmGroupCreatedSendEmail">
+                                    <form name="frmGroupSendEmail" id="frmGroupSendEmail">
+                                    <input type="hidden" name="action" value="sendEmailToGroup">
+                                    <div id="myCreatedGroupList">
+                                    </div>
+                                    <div id="pag_myCreatedGroupList" class="paginator">
+                            			<!-- paginator -->
+			                        </div>           
 										Title  : <input type="text" size="10" maxlength="40" name="emailTitle" id="emailTitle"> <br />
-										Message: <textarea rows="5" cols="20" wrap="physical" name="emailbody" id="emailbody"></textarea>
+										Message: <textarea rows="5" cols="20" wrap="physical" name="emailText" id="emailbody"></textarea>
 
-										<input type="button" value="Send Email to group"> 
+										<input type="button" id="sendEmailToGroupBtn" value="Send Email to group"> 
 									</form>
 
                                 </div>
                                 <div class = "createAGroup">
                                         <form name="frmCreateGroupData" id="frmCreateGroupData">
-                                        Name <input type="text" name="Group Name" size="10" id="groupName" /><br>
-                                        Description <input type="text" name="Description" size="30" id="Description" /><br>
-                                        <input type="button" name="Create" value="Create" id="Create" /><br>
+                                        Name <input type="text" name="groupName" size="10" maxlength=30 id="groupName" /><br>
+                                        Description <input type="text" name="groupDesc" size="30" maxlength=300 id="groupDescription" /><br>
+                                        <input type="hidden" name="action" value="register" />
+                                        <input type="button" name="Create" value="Create" id="createGroup" /><br>
                                         </form>
                                 </div>
 
@@ -485,11 +483,21 @@
                             </li>
                         </ul>
                         <div class = "yui-content">
-                                <div id="myRegisteredEventList">
-									 <!--my registered event(s) detail list --> 
+                        		<div id="EVTregistered">
+	                                <div id="myRegisteredEventList">
+										 <!--my registered event(s) detail list --> 
+	                                </div>
+		                            <div id="pag_EVTregistered" class="paginator">
+		                            	<!-- paginator -->
+		                            </div>
                                 </div>
-                                <div id="myCreatedEventList">
-                      				<!--my registered event(s) detail list --> 
+                                <div id="EVTcreated">
+	                                <div id="myCreatedEventList">
+	                      				<!--my registered event(s) detail list --> 
+	                      			</div>
+	                                <div id="pag_EVTcreated" class="paginator">
+		                                	<!-- paginator -->
+	                                </div>
                                 </div>
                         </div>
                     </div>
@@ -499,7 +507,9 @@
                         <div id="myRouteList">
                             <!--my route(s) detail list --> 
                         </div>
-            
+                        <div id="pag_myRouteList" class="paginator">
+                            	<!-- paginator -->
+                        </div>           
                     </div>
                 </div>
             </div>

@@ -62,6 +62,30 @@ function searchEvent() {
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchEvent.do", callback);
 }
 
+function joinGroup(groupID) {
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		alert("Successfully joined to the group!");	
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+
+	var strData = "action=joinGroup&notify=Y&groupID=" + groupID;
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
+	
+}
+
 
 function searchRoute() {
 	var successHandler = function(o) {	

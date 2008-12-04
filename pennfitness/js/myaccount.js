@@ -1,11 +1,103 @@
+var saveGp;
+
+var sendEmailToGroup, unsubscribeGroup;
 
 // Functions for my account dialog
+YAHOO.util.Event.onDOMReady(initPagForMyAccount);
 
-var saveGp;
+YAHOO.util.Event.addListener("sendEmailToGroupBtn", "click", sendEmailToGroup);
+YAHOO.util.Event.addListener("unsubscribeGroupBtn", "click", unsubscribeGroup);
+
+
 
 // Listeners
 YAHOO.util.Event.addListener("createGroup", "click", saveGp);
 
+
+function initPagForMyAccount()
+{
+	// Paginator for event registered
+	pagEVTregistered = new YAHOO.widget.Paginator({
+		rowsPerPage  : 3,
+	    totalRecords : 1,
+	    containers   : ["pag_EVTregistered"], // or idStr or elem or [ elem, elem ]
+	});		
+	pagEVTregistered.render();
+	pagEVTregistered.subscribe('changeRequest',pagEVTregisteredHandler); 
+
+	// Paginator for event registered
+	pagEVTcreated = new YAHOO.widget.Paginator({
+		rowsPerPage  : 3,
+	    totalRecords : 1,
+	    containers   : ["pag_EVTcreated"], // or idStr or elem or [ elem, elem ]
+	});		
+	pagEVTcreated.render();
+	pagEVTcreated.subscribe('changeRequest',pagEVTcreatedHandler); 
+
+	// Paginator for my routes
+	pagMyRouteList = new YAHOO.widget.Paginator({
+		rowsPerPage  : 3,
+	    totalRecords : 1,
+	    containers   : ["pag_myRouteList"], // or idStr or elem or [ elem, elem ]
+	});		
+	pagMyRouteList.render();
+	pagMyRouteList.subscribe('changeRequest',pagMyRouteListHandler);
+	
+	// Paginator for my routes
+	pagMyGroupList = new YAHOO.widget.Paginator({
+		rowsPerPage  : 3,
+	    totalRecords : 1,
+	    containers   : ["pag_myGroups"], // or idStr or elem or [ elem, elem ]
+	});		
+	pagMyGroupList.render();
+	pagMyGroupList.subscribe('changeRequest',pagMyGroupListHandler); 
+	
+	// Paginator for my routes
+	pagmyCreatedGroupList = new YAHOO.widget.Paginator({
+		rowsPerPage  : 3,
+	    totalRecords : 1,
+	    containers   : ["pag_myCreatedGroupList"], // or idStr or elem or [ elem, elem ]
+	});		
+	pagmyCreatedGroupList.render();
+	pagmyCreatedGroupList.subscribe('changeRequest',pagmyCreatedGroupListHandler); 
+	
+	
+}
+
+// Paginator handler for event search
+function pagEVTregisteredHandler(newState)
+{
+	populateRegisteredEventByUserIDN(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+}
+
+// Paginator handler for event search
+function pagEVTcreatedHandler(newState)
+{
+	populateCreatedEventByUserID(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+}
+
+// Paginator handler for event search
+function pagMyRouteListHandler(newState)
+{
+	populateRouteByUserIDN(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+}
+
+// Paginator handler for event search
+function pagMyGroupListHandler(newState)
+{
+	populateMyRegisteredGroupByUserIDN(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+}
+
+// Paginator handler for event search
+function pagmyCreatedGroupListHandler(newState)
+{
+	populateMyCreatedGroupByUserIDN(newState.rowsPerPage, newState.page);
+	newState.paginator.setState(newState);
+}
 
 
 function saveGp() {
@@ -38,7 +130,13 @@ function saveGp() {
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroup.do", callback);
 }
+
 function populateMyCreatedGroupByUserID()
+{
+	populateMyCreatedGroupByUserIDN(3,1);
+}
+
+function populateMyCreatedGroupByUserIDN(recsPerPage, curPage)
 {		
 	var successHandler = function(o) {
 		var response;
@@ -49,7 +147,8 @@ function populateMyCreatedGroupByUserID()
 			groupSelect.removeChild(groupSelect.childNodes[0]);
 		}
 		
-		groupSelect.innerHTML = jResponse.DATA;
+	    pagmyCreatedGroupList.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
+		groupSelect.innerHTML = jResponse.DATA.CONTENT;
 		
 	}
 	
@@ -62,12 +161,17 @@ function populateMyCreatedGroupByUserID()
 		failure:failureHandler,
 	}
 	
-	var strData = "action=getMyCreatedGroups";
+	var strData = "action=getMyCreatedGroups&recsPerPage=" + recsPerPage + "&curPage=" + curPage;	
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
 }
 
 function populateMyRegisteredGroupByUserID()
+{
+	populateMyRegisteredGroupByUserIDN(5,1);
+}
+
+function populateMyRegisteredGroupByUserIDN(recsPerPage, curPage)
 {		
 	var successHandler = function(o) {
 		var response;
@@ -78,7 +182,8 @@ function populateMyRegisteredGroupByUserID()
 			groupSelect.removeChild(groupSelect.childNodes[0]);
 		}
 		
-		groupSelect.innerHTML = jResponse.DATA;
+		pagMyGroupList.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
+		groupSelect.innerHTML = jResponse.DATA.CONTENT;
 		
 	}
 	
@@ -91,12 +196,17 @@ function populateMyRegisteredGroupByUserID()
 		failure:failureHandler,
 	}
 	
-	var strData = "action=getMyRegisteredGroups";
+	var strData = "action=getMyRegisteredGroups&recsPerPage=" + recsPerPage + "&curPage=" + curPage;	
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
 }
 
 function populateRouteByUserID()
+{
+	populateRouteByUserIDN(3,1);
+}
+
+function populateRouteByUserIDN(recsPerPage, curPage)
 {		
 
 	var successHandler = function(o) {
@@ -108,6 +218,7 @@ function populateRouteByUserID()
 			groupSelect.removeChild(groupSelect.childNodes[0]);
 		}
 		
+		pagMyRouteList.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
 		groupSelect.innerHTML = jResponse.DATA.CONTENT;
 		
 	}
@@ -121,12 +232,17 @@ function populateRouteByUserID()
 		failure:failureHandler,
 	}
 	
-	var strData = "action=getRoutes";
+	var strData = "action=getRoutes&recsPerPage=" + recsPerPage + "&curPage=" + curPage;	
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchRoute.do", callback, strData);
 }
 
 function populateRegisteredEventByUserID()
+{
+	populateRegisteredEventByUserIDN(3,1);
+}
+
+function populateRegisteredEventByUserIDN(recsPerPage, curPage)
 {		
 
 	var successHandler = function(o) {
@@ -138,6 +254,7 @@ function populateRegisteredEventByUserID()
 			groupSelect.removeChild(groupSelect.childNodes[0]);
 		}
 		
+		pagEVTregistered.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
 		groupSelect.innerHTML = jResponse.DATA.CONTENT;
 		
 	}
@@ -151,12 +268,17 @@ function populateRegisteredEventByUserID()
 		failure:failureHandler,
 	}
 	
-	var strData = "action=getEventsRegistered";
+	var strData = "action=getEventsRegistered&recsPerPage=" + recsPerPage + "&curPage=" + curPage;	
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchEvent.do", callback, strData);
 }
 
-function populateCreatedEventByUserID()
+function populateCreatedEventByUserIDN()
+{
+	populateCreatedEventByUserID(3,1);
+}
+
+function populateCreatedEventByUserID(recsPerPage, curPage)
 {		
 
 	var successHandler = function(o) {
@@ -168,6 +290,7 @@ function populateCreatedEventByUserID()
 			groupSelect.removeChild(groupSelect.childNodes[0]);
 		}
 		
+		pagEVTcreated.set('totalRecords',jResponse.DATA.TOTALRECCNT); 
 		groupSelect.innerHTML = jResponse.DATA.CONTENT;
 		
 	}
@@ -181,7 +304,7 @@ function populateCreatedEventByUserID()
 		failure:failureHandler,
 	}
 	
-	var strData = "action=getEventsCreated";
+	var strData = "action=getEventsCreated&recsPerPage=" + recsPerPage + "&curPage=" + curPage;	
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchEvent.do", callback, strData);
 }
@@ -313,7 +436,7 @@ function savePersonalInfo() {
 	//strData += "userID=" + document.getElementById("user.getUserID()").value.trim();
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "modifyUser.do", callback, strData);
-	
+
 	document.getElementById("userGender").style.display = "block";
 	document.getElementById("userName").style.display = "block";
 	document.getElementById("userEmail").style.display = "block";
@@ -334,6 +457,78 @@ function savePersonalInfo() {
 
 
 
+function sendEmailToGroup(groupID) {
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		alert("Successfully sent an email to the group!");	
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+
+	YAHOO.util.Connect.setForm("frmGroupSendEmail");
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback);
+	
+}
+
+
+function sendEmailToGroup() {
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		alert("Successfully sent an email to the group!");	
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+
+	YAHOO.util.Connect.setForm("frmGroupSendEmail");
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback);
+	
+}
+
+function unsubscribeGroup() {
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		alert("Successfully unsubscribe from the group!");	
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+
+	YAHOO.util.Connect.setForm("frmGroupRegisteredUnsubscribe");
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback);
+	
+}
 
 
 //Listeners
