@@ -73,9 +73,12 @@ public class EventSearchServlet extends HttpServlet{
 					Iterator<Event> iterator = events.iterator();
 					
 					Event event;
+					int counter=1;
 					while( iterator.hasNext() ){
 						event = iterator.next();
 			    		sbuf.append("<div class=\"EventResultItem\">\n").
+			    			 append("<b>").append(counter++).append(") </b>").
+//		    				 append("<span class \"EReventName\"><b><i>" + event.getName() + "</i></b></span>").
 				    		 append("<a href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
 		    				 append(" by <span class=\"ERUserID\">" + event.getCreatorID() + "</span> created on <span class=\"ERcreatedDate\">" + event.getCreatedDate() + "</span>").
 		    				 append(" for <span class=\"ERgroupName\">" + event.getGroupID() + "</span> Type: <span class=\"EReventType\">" + event.getEventTypeID() + "</span><br />\n").
