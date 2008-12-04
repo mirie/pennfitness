@@ -603,9 +603,9 @@
 	      	<input id="vtPrepareBtn" type="button" value="Prepare Virtual Trip" onclick="vtPrepare()" />
 	      </div> 
 	      <div id="svControllers"> 
-	        <input type="button" value="START" onclick="vtStart()" /> 
+	        <input type="button" id="vtStartBtn" value="START" onclick="vtStart()" /> 
 	        &nbsp;
-	        <input type="button" value="STOP"  onclick="vtPause()"/> 
+	        <input type="button" id="vtStopBtn" value="STOP"  onclick="vtPause()"/> 
 	        &nbsp;
 	        SPEED
 	        <input type="text" value="5" size="3" maxlength="3" id="tbxSpeed" onchange="vtChangeTimer()"/> 

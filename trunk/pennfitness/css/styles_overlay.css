@@ -14,7 +14,7 @@ div.overlayOne div.yui-content div.GroupInfo {
 	margin:5px;
 }
 div.overlayOne div.yui-content div.GroupInfo div.yui-content {
-	height:200px;
+	height:350px;
 }
 div.overlayOne div.yui-content div.GroupInfo div.yui-content div.myGroups div.myGroupList{
 	margin:5px;
@@ -27,9 +27,6 @@ div.overlayOne div.yui-content div.GroupInfo div.yui-content div.creatAGroup{
 }
 div.overlayOne div.yui-content div.EventInfo {
 	margin:5px;
-}
-div.overlayOne div.yui-content div.EventInfo div.yui-content {
-	height:200px;
 }
 div.overlayOne div.yui-content div.RouteInfoList {
 	margin:5px;
