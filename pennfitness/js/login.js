@@ -180,14 +180,6 @@ function Logout() {
 		"<a href=\"javascript:ShowUserRegDialog()\"/>Sign Up!</a> ";
 	}
 	
-	var cleanUpMyAccountInformation = function(){
-		YAHOO.util.Dom.get("personalInfo").innerHTML = "";
-		YAHOO.util.Dom.get("myRegisteredGroupList").innerHTML = "";
-		YAHOO.util.Dom.get("myCreatedGroupList").innerHTML = "";
-		YAHOO.util.Dom.get("myRegisteredEventList").innerHTML = "";
-		YAHOO.util.Dom.get("myCreatedEventList").innerHTML = "";
-		YAHOO.util.Dom.get("myRouteList").innerHTML = "";
-	}
 	
 	var hideMiddleOverlay = function(){
 			YAHOO.search.panel1.hide();
@@ -204,6 +196,15 @@ function Logout() {
 
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "loginUser.do", callback, "action=logout");
 
+}
+
+function cleanUpMyAccountInformation(){
+		YAHOO.util.Dom.get("personalInfo").innerHTML = "";
+		YAHOO.util.Dom.get("myRegisteredGroupList").innerHTML = "";
+		YAHOO.util.Dom.get("myCreatedGroupList").innerHTML = "";
+		YAHOO.util.Dom.get("myRegisteredEventList").innerHTML = "";
+		YAHOO.util.Dom.get("myCreatedEventList").innerHTML = "";
+		YAHOO.util.Dom.get("myRouteList").innerHTML = "";
 }
 
 // Displays the user registration dialog

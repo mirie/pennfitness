@@ -45,7 +45,7 @@
 
 </head>
 
-<body>
+<body onunload="cleanUpMyAccountInformation()">
 
 <body class=" yui-skin-sam"> 
 <div id="header">
