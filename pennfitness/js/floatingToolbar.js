@@ -911,7 +911,13 @@ YAHOO.pennfitness.float.getEventLeftTB = function(eventIDArg, routeIDArg) {
 		document.getElementById("routeName").innerHTML = jResponse.DATA.ROUTE_NAME;
 		document.getElementById("routeCreator").innerHTML = " by " + jResponse.DATA.ROUTE_CREATOR;
 		document.getElementById("routeCreatedDate").innerHTML = "Created on: " + jResponse.DATA.ROUTE_DATE;		
-		document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+ jResponse.DATA.ROUTE_RATING;
+		//document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+ jResponse.DATA.ROUTE_RATING;
+		
+		document.getElementById("overallRating").innerHTML = "Overall Rating: "+ jResponse.DATA.ROUTE_RATING_OVERALL;
+		document.getElementById("sceneryRating").innerHTML = "Scenery: "+ jResponse.DATA.ROUTE_RATING_SCENERY;
+		document.getElementById("difficultyRating").innerHTML = "Difficulty: "+ jResponse.DATA.ROUTE_RATING_DIFF;
+		document.getElementById("safetyRating").innerHTML = "Safety: "+ jResponse.DATA.ROUTE_RATING_SAFETY;
+		
 		document.getElementById("routeDesc").innerHTML = jResponse.DATA.ROUTE_DESCRIPTION;
 		document.getElementById("routeDescTxt").style.display = "none";
 
