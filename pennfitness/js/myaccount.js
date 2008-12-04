@@ -222,7 +222,6 @@ function GetGroupDetail( groupID )
 
 function modifyPersonalInfo() {	
 
-	document.getElementById("modifyUserName").style.display = "block";
 	document.getElementById("modifyUserGender").style.display = "block";
 	document.getElementById("modifyUserEmail").style.display = "block";
 	document.getElementById("modifyUserPassword").style.display = "block";
@@ -250,7 +249,6 @@ function cancelPersonalInfo() {
 	document.getElementById("userHeight").style.display = "block";
 	document.getElementById("userWeight").style.display = "block";
 	
-	document.getElementById("modifyUserName").style.display = "none";
 	document.getElementById("modifyUserGender").style.display = "none";
 	document.getElementById("modifyUserEmail").style.display = "none";
 	document.getElementById("modifyUserPassword").style.display = "none";
@@ -309,7 +307,6 @@ function savePersonalInfo() {
 	strData += "password=" + document.getElementById("userPasswordTxt").value + "&";
 	strData += "height=" + document.getElementById("HeightInfoTxt").value + "&";
 	strData += "weight=" + document.getElementById("WeightInfoTxt").value + "&";
-	strData += "weight=" + document.getElementById("userNameTxt").value + "&";
 	strData += "publicEventNotify=" + document.getElementById("UserNotifiedEventsTxt").value + "&";
 	
 	// Append GroupID to strData
@@ -325,7 +322,6 @@ function savePersonalInfo() {
 	document.getElementById("userWeight").style.display = "block";
 	
 	document.getElementById("modifyUserGender").style.display = "none";
-	document.getElementById("modifyUserName").style.display = "none";
 	document.getElementById("modifyUserEmail").style.display = "none";
 	document.getElementById("modifyUserPassword").style.display = "none";
 	document.getElementById("modifyUserNotified").style.display = "none";
