@@ -76,6 +76,7 @@ public class User {
 		return password;
 	}
 	
+	
 	public String getUserName()
 	{
 		return userName;
@@ -85,7 +86,10 @@ public class User {
 	{
 		return email;
 	}
-	
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
 	public float getHeight()
 	{
 		return height;
@@ -105,7 +109,10 @@ public class User {
 	{
 		return gender;
 	}
-	
+	public void setGender( char gender)
+	{
+		this.gender = gender;
+	}
 	public Date getLastLoginDate()
 	{
 		return lastLoginDate;
