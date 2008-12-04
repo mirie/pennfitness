@@ -53,13 +53,13 @@ function saveGp() {
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveGroup.do", callback, strData);
 }
-function populateMyGroupByUserID()
+function populateMyCreatedGroupByUserID()
 {		
 	var successHandler = function(o) {
 		var response;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 	
-		var groupSelect = document.getElementById("myGroupList");
+		var groupSelect = document.getElementById("myCreatedGroupList");
 		while(groupSelect.hasChildNodes() == true){
 			groupSelect.removeChild(groupSelect.childNodes[0]);
 		}
@@ -77,7 +77,36 @@ function populateMyGroupByUserID()
 		failure:failureHandler,
 	}
 	
-	var strData = "action=getGroups";
+	var strData = "action=getMyCreatedGroups";
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
+}
+
+function populateMyRegisteredGroupByUserID()
+{		
+	var successHandler = function(o) {
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+	
+		var groupSelect = document.getElementById("myRegisteredGroupList");
+		while(groupSelect.hasChildNodes() == true){
+			groupSelect.removeChild(groupSelect.childNodes[0]);
+		}
+		
+		groupSelect.innerHTML = jResponse.DATA;
+		
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		success:successHandler,
+		failure:failureHandler,
+	}
+	
+	var strData = "action=getMyRegisteredGroups";
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
 }
