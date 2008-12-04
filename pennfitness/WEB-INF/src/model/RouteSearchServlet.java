@@ -12,12 +12,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
 import entities.Event;
 import entities.Route;
 import entities.Paging;
+import entities.User;
 
 public class RouteSearchServlet extends HttpServlet{
 	
@@ -36,42 +38,80 @@ public class RouteSearchServlet extends HttpServlet{
     	StringBuffer sbuf = new StringBuffer();
 		PrintWriter out = resp.getWriter();
 		
+		HttpSession session = req.getSession();
+		User user = (User)session.getAttribute("user");
+		String userID = null;
+		if (user != null) userID   = user.getUserID();
+	
 		String keyword 	= req.getParameter("keyword");    	
 		String fromDistance	= req.getParameter("fromDistance");
 		String toDistance   = req.getParameter("toDistance");
 		String fromDate = req.getParameter("fromDate");
 		String toDate   = req.getParameter("toDate");
 		
-		List<QueryParameter> params = new ArrayList<QueryParameter>();
+		String action = req.getParameter("action");
 		
-		DBUtil.addQueryParam(params, keyword, " ( name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%')" ); 
-		DBUtil.addQueryParam(params, fromDistance, " distance", " >= '"+fromDistance+"'" );
-		DBUtil.addQueryParam(params, toDistance, " distance"," <= '"+toDistance+"'" );
-		DBUtil.addQueryParam(params, fromDate, " createdDate", " >= '" +fromDate+ "'" );
-		DBUtil.addQueryParam(params, toDate, " createdDate", " <= '" +toDate+ "'" );
-		
-		// For paging
-		Paging paging = new Paging(req, DBUtilRoute.getSearchForRoutesCount( params )); 
-		
-		if( paging.getTotalRecordCnt() > 0 ) {
-			List<Route> routes = DBUtilRoute.searchForRoutes( params, paging.getRecsPerPage(), paging.getCurPage() );			  	
-			if( routes != null ){
-		    	Iterator<Route> iterator = routes.iterator();
-		    	
-		    	Route route;
-		    	while( iterator.hasNext() ){
-		    		route = iterator.next(); 		
+		Paging paging;
+		//user is requesting his personal route information
+		if( "getRoutes".equals(action) ){
+			paging = new Paging(req, DBUtilRoute.getRouteByUserIDCount( userID )); 
+			
+			if( paging.getTotalRecordCnt() > 0 ) {
+				
+				List<Route> routes = DBUtilRoute.getRouteByUserID( userID, paging.getRecsPerPage(), paging.getCurPage() );
+				Iterator<Route> iterator = routes.iterator();
+				
+				Route route;
+				int counter = 1;
+				while( iterator.hasNext() ){
+					route = iterator.next();
 					sbuf.append("<div class=\"RouteResultItem\">\n").
-						append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "', false)\" class=\"RRrouteName\">" + route.getName() + "</a> by ").
-						append("<span class=\"RRuserID\">" + route.getCreatorID() + "</span> on ").
-						append("<span class=\"RRcreatedDate\">" + route.getCreatedDate().toString() + "</span>").
-						append("<span class=\"RRdistance\">(" + route.getDistance() + " miles)</span> ").
-						append("<span class=\"RRrating\">Avg rating : " + route.getPt_rate() + "</span><br \\>\n").
-						append("<span class=\"RRdescription\">" + route.getDescription() + "</span>\n").
-						append("</div>\n");
-		    	}
+					append("<b>").append(counter++).append(")</b> ").
+					append("<span class=\"RRrouteName\"><b><i>" + route.getName() + "</i></b></span> by ").
+					append("<span class=\"RRuserID\">" + route.getCreatorID() + "</span> on ").
+					append("<span class=\"RRcreatedDate\">" + route.getCreatedDate().toString() + "</span>").
+					append("<span class=\"RRdistance\">(" + route.getDistance() + " miles)</span> ").
+					append("<span class=\"RRrating\">Avg rating : " + route.getPt_rate() + "</span><br \\>\n").
+					append("<span class=\"RRdescription\">" + route.getDescription() + "</span>\n").
+					append("</div>\n");
+				}
 			}
-		} // end of if( totalRecordCnt > 0 ) {
+			
+		}
+		else{
+			List<QueryParameter> params = new ArrayList<QueryParameter>();
+			
+			DBUtil.addQueryParam(params, keyword, " ( name", " LIKE '%"+keyword+"%' OR  description LIKE '%"+keyword+"%')" ); 
+			DBUtil.addQueryParam(params, fromDistance, " distance", " >= '"+fromDistance+"'" );
+			DBUtil.addQueryParam(params, toDistance, " distance"," <= '"+toDistance+"'" );
+			DBUtil.addQueryParam(params, fromDate, " createdDate", " >= '" +fromDate+ "'" );
+			DBUtil.addQueryParam(params, toDate, " createdDate", " <= '" +toDate+ "'" );
+			
+			// For paging
+			paging = new Paging(req, DBUtilRoute.getSearchForRoutesCount( params )); 
+			
+			if( paging.getTotalRecordCnt() > 0 ) {
+				List<Route> routes = DBUtilRoute.searchForRoutes( params, paging.getRecsPerPage(), paging.getCurPage() );			  	
+				if( routes != null ){
+			    	Iterator<Route> iterator = routes.iterator();
+			    	
+			    	Route route;
+			    	while( iterator.hasNext() ){
+			    		route = iterator.next(); 		
+						sbuf.append("<div class=\"RouteResultItem\">\n").
+							append("<a href=\"javascript:YAHOO.pennfitness.float.getRoute('" + route.getId() + "', false)\" class=\"RRrouteName\">" + route.getName() + "</a> by ").
+							append("<span class=\"RRuserID\">" + route.getCreatorID() + "</span> on ").
+							append("<span class=\"RRcreatedDate\">" + route.getCreatedDate().toString() + "</span>").
+							append("<span class=\"RRdistance\">(" + route.getDistance() + " miles)</span> ").
+							append("<span class=\"RRrating\">Avg rating : " + route.getPt_rate() + "</span><br \\>\n").
+							append("<span class=\"RRdescription\">" + route.getDescription() + "</span>\n").
+							append("</div>\n");
+			    	}
+				}
+			} // end of if( totalRecordCnt > 0 ) {
+
+			
+		}
 
 		JSONObject data = new JSONObject();
 		data.put("CONTENT", sbuf.toString());
