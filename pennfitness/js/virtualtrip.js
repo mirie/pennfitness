@@ -305,6 +305,8 @@ function updateStreetView()
 function vtStart()
 {
 	timer = window.setInterval(vtProcess, document.getElementById('tbxSpeed').value * timeUnit);
+	YAHOO.util.Dom.get("vtStartBtn").disabled = true;
+	YAHOO.util.Dom.get("vtStopBtn").disabled = false;
 }
  
 function vtProcess()
@@ -315,6 +317,8 @@ function vtProcess()
 function vtPause()
 {
 	clearInterval(timer);
+	YAHOO.util.Dom.get("vtStartBtn").disabled = false;
+	YAHOO.util.Dom.get("vtStopBtn").disabled = true;
 }
  
 function vtChangeTimer()
