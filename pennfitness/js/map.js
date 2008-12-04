@@ -3,6 +3,7 @@
 
 // Global Map Variables
 var map;
+var svOverlay;
 var phillyLat = 39.955702;
 var phillyLng = -75.179999;
 var phillyZoomLev = 15;
@@ -50,6 +51,10 @@ function setupMap() {
         // Center on Philly
         map.setCenter(new GLatLng(phillyLat, phillyLng), phillyZoomLev);       
 		mapLimits = YAHOO.util.Dom.getRegion("map");
+		
+		// Street View overlay
+		svOverlay = new GStreetviewOverlay();
+		
 
     } else { 
         alert("Sorry, the Google Maps API is not compatible with this browser"); 

@@ -101,6 +101,14 @@ function clearVT()
 	document.getElementById('svArea').innerHTML = "<br /><br /><br /><br /><br /><br /><br /><br />" +
 	      "<input id=\"vtPrepareBtn\" type=\"button\" value=\"Prepare Virtual Trip\" onclick=\"vtPrepare()\" />";
 	vtEnableBtns(false);
+	
+	if(timer)
+	{
+		clearInterval(timer);
+	}
+	
+	svIdx = csvIdx = 0;
+	
 }
 
 
