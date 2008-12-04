@@ -406,7 +406,7 @@
                 <li class = "selected">
                     <a href = "#tab1"><em>Personal Information</em></a>
                 </li>
-                <li><a href = "#tab2" onclick="populateMyGroupByUserID();"><em>Group Information</em></a>
+                <li><a href = "#tab2" onclick="populateMyRegisteredGroupByUserID();"><em>Group Information</em></a>
                 </li>
                 <li><a href = "#tab3" onclick="populateRegisteredEventByUserID()"><em>Event Information</em></a>
                 </li>
@@ -423,10 +423,10 @@
                         <div id = "GroupInfoTab" class="GroupInfo">
                             <ul class = "yui-nav">
                                 <li class = "selected">
-                                    <a href = "#tab1"><em>My Groups</em></a>
+                                    <a href = "#tab1" onclick="populateMyRegisteredGroupByUserID();"><em>My Groups</em></a>
                                 </li>
                                 <li>
-                                	<a href = "#tab2"><em>Created Groups</em></a>
+                                	<a href = "#tab2" onclick="populateMyCreatedGroupByUserID();"><em>Created Groups</em></a>
                                 </li>
                                 <li>
                                 	<a href = "#tab3"><em>Create a Group</em></a>
@@ -435,7 +435,7 @@
                             <div class = "yui-content">
                                 <div class = "myGroups">
                                  	<form name="frmGroupUnsubscribe" id="frmGroupUnsubscribe">                         
-                                   	 	<div id="myGroupList">
+                                   	 	<div id="myRegisteredGroupList">
                                    	 		<!-- my group(s) detail list --> 
                                     	</div>
             							<input type="button" value="Unsubscribe"/>
@@ -449,29 +449,8 @@
                                     				
                                 </div>
                                 <div class = "createdGroups">
-                                    <div class="createdGroupList">
-                                        <div class="createdGroupItem">
-                                            <span class="number">1.</span>
-                                            <a href="function_to_show_group_detail">my Created Group 1</a>
-                                            <span class="createdDate">since Nov. 1st, 2008</span>
-                                            <span class="memberCount"># 5</span>
-                                            <p>This is an awesome group where members meet every Wednesday night in front of Towne to start a one hour jogging 
-                                                trip</p>
-                                        </div>
-                                        <div class="createdGroupItem">
-                                            <span class="number">2.</span>
-                                            <a href="function_to_show_group_detail">my Created Group 2</a>
-                                            <span class="createdDate">since May. 25th, 2009</span>
-                                            <span class="memberCount">#8</span>
-                                            <a href="function_to_show_group_detail">more...</a>
-                                        </div>
-                                        <div class="myGroupItem">
-                                            <span class="number">3.</span>
-                                            <a href="function_to_show_group_detail">my Created Group 3</a>
-                                            <span class="createdDate">since Jan. 15th, 2009</span>
-                                            <span class="memberCount"># 15</span>
-                                            <a href="function_to_show_group_detail">more...</a>
-                                        </div>
+                                    <div id="myCreatedGroupList">
+                                    
                                     </div>
                                     <div id="buttons">
                                         <input type="button" value="Send Emails" id="SendEmails" />

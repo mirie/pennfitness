@@ -44,16 +44,20 @@ public class GroupRegMgmtServlet extends HttpServlet {
 		String notify = req.getParameter("notify") == null ? "N" : req.getParameter("notify");
 		
 		// check required parameters
-		if( userID == null || (! "getGroupsForCreateEvent".equals(action) && groupID == null &&  ! "getGroups".equals(action)) )
+		if( userID == null || 
+		    (! "getGroupsForCreateEvent".equals(action) && groupID == null &&  ! "getGroups".equals(action) &&
+		     ! "getMyCreatedGroups".equals(action) &&
+		     ! "getMyRegisteredGroups".equals(action)
+		     ))
 		{
 			result.put("STATUS", "Failure");
-			result.put("MSG", "user ID and group ID cannot be null");
+			result.put("MSG", "Error handling action="+action);
 			
 			out.print(result);
 			return;
 		}
 		
-    	if("getGroups".equalsIgnoreCase(action))	//Get groups for a particular user
+    	if("getMyCreatedGroups".equalsIgnoreCase(action))	//Get groups for a particular user
     	{
 			StringBuffer sbuf = new StringBuffer();
 			
@@ -71,6 +75,39 @@ public class GroupRegMgmtServlet extends HttpServlet {
 					group = iterator.next();
 					
 					sbuf.append( "<div class=\"groupDetailedInfo\"><input type=\"radio\" name=\"groupID\" id=\"selectedRadioGroup\"value=\""+group.getId()+"\"><b>"+group.getName()+"</b><br>\n" )
+					.append("created by ").append(group.getCreatorID())
+					.append(" and active since ").append(group.getCreatedDate())
+					.append(" with ").append(DBUtilGroup.getMemberCount( group.getId())).append(" member(s)<br>\n")
+					.append("Description :").append(group.getDescription()).append("<br>\n")
+					.append("Member(s)     :").append(DBUtilGroup.getMemberList( group.getId() )).append("<br></div>");
+				}
+			}			
+			JSONObject data = new JSONObject();
+			
+	  		result.put("STATUS","Success");
+	  		result.put("DATA", sbuf.toString() );
+			data.put("CURPAGE", paging.getCurPage());
+			data.put("TOTALRECCNT", paging.getTotalRecordCnt());
+
+			out.println(result);
+
+			return;	
+    	}
+    	
+    	if("getMyRegisteredGroups".equals(action)){
+			StringBuffer sbuf = new StringBuffer();
+			
+			// For paging
+			Paging paging = new Paging(req, DBUtilGroup.getGroupRegisteredByUserIDCount(userID)); 
+
+			if( paging.getTotalRecordCnt() > 0 ) {
+				List<Group> groupList = DBUtilGroup.getGroupRegisteredByUserID(userID, paging.getRecsPerPage(), paging.getCurPage()); 	
+				Iterator<Group> iterator = groupList.iterator();
+				
+				while( iterator.hasNext() ){
+					group = iterator.next();
+					
+					sbuf.append( "<div class=\"groupRegisteredDetailedInfo\"><input type=\"radio\" name=\"groupID\" id=\"selectedRadioGroupRegistered\"value=\""+group.getId()+"\"><b>"+group.getName()+"</b><br>\n" )
 					.append("created by ").append(group.getCreatorID())
 					.append(" and active since ").append(group.getCreatedDate())
 					.append(" with ").append(DBUtilGroup.getMemberCount( group.getId())).append(" member(s)<br>\n")
