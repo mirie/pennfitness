@@ -29,37 +29,43 @@ function populateTimeRange() {
 	}	
 }
 
-function populateGroupByUserID()
+YAHOO.pennfitness.float.populateGroupByUserID = function ()
 {		
 	var successHandler = function(o) {
 		var jResponse;
-		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) {  return false; }
 	
+		
 		var groupSelect = document.getElementById("evtGroup");
 		groupSelect.options.length = 1;
 		
 		var groupList = jResponse.DATA.GROUPS.split(";");
 		
+		// {"DATA":{"GROUPS":"19-maiGrp1;"},"STATUS":"Success"}		
+		
 		for (var i = 0; i < groupList.length - 1; i++) {
 			var group = groupList[i].split("-");	
-			var option = document.createElement('option');
-			option.setAttribute('value',group[0]);
+			
+			var option = document.createElement("option");
+			option.setAttribute("value",group[0]);
 			option.appendChild(document.createTextNode(group[1]));
 			groupSelect.appendChild(option);
+			
 		}
-	}
+		
+		YAHOO.pennfitness.float.newEventPanel.show();
+	};
 	
 	var failureHandler = function(o) {
 		alert("Error + " + o.status + " : " + o.statusText);
-	}
+	};
 	
 	var callback = {
 		success:successHandler,
-		failure:failureHandler,
-	}
+		failure:failureHandler
+	};
 	
-	var strData = "action=getGroups";
-	
+	var strData = "action=getGroups";	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
 }
 
@@ -630,9 +636,9 @@ function deleteRt() {
 }
 
 function createEvt() {
-	populateGroupByUserID();
+	YAHOO.pennfitness.float.populateGroupByUserID();
 	resetNewEvt();	
-	YAHOO.pennfitness.float.newEventPanel.show();
+	
 }
 
 //*******************************************************

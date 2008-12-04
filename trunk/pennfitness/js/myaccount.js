@@ -219,4 +219,3 @@ function savePersonalInfo() {
 YAHOO.util.Event.addListener("modifyPersonalInfoBtn", "click", modifyPersonalInfo);	
 YAHOO.util.Event.addListener("cancelPersonalInfoBtn", "click", cancelPersonalInfo);
 YAHOO.util.Event.addListener("savePersonalInfoBtn", "click", savePersonalInfo);
-=======

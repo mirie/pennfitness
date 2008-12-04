@@ -272,6 +272,7 @@
 	                <div class="toolbarBtns">
 	                    <input type="button" id="modifyEventBtn" value="Modify" />
 	                    <input type="button" id="deleteEventBtn" value="Delete" />
+	                    <input type="button" id="registerEventBtn" value="Register" />	                    
 	                </div>
                 </div>                 
                             
