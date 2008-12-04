@@ -126,7 +126,6 @@ public class GroupSearchServlet extends HttpServlet{
     	}
 */    	
     	out.println( result );
-    	       
     }		
 	
 }

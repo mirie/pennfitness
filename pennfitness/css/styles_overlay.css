@@ -91,5 +91,24 @@ div.RouteResultItem {
 	width: 50%;
 }
 
+#svArea {
+	height: 300px;
+	background-color: #CCCCCC;
+	text-align: center;
+}
+#svControllers {
+	background-color: #CCCCCC;
+	padding: 5px;
+	line-height: 25px;
+	text-align:center;
+}
 
+#VTbd {
+	padding: 0px;
+}
+
+#vtPrepareBtn {
+	height: 50px;
+	vertical-align: middle;
+}
 
