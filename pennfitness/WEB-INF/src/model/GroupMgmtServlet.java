@@ -51,7 +51,7 @@ public class GroupMgmtServlet extends HttpServlet{
     	if( userID == null )
 		{
 			result.put("STATUS", "Failure");
-			result.put("MSG", "Have to have userID for GroupMgmt");
+			result.put("MSG", "You must be logged in to manage your groups.");
 			
 			out.print(result);
 			return;
