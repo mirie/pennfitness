@@ -95,10 +95,13 @@ public class GroupRegMgmtServlet extends HttpServlet {
 				}			
 				JSONObject data = new JSONObject();
 				
-		  		result.put("STATUS","Success");
-		  		result.put("DATA", sbuf.toString() );
+		  		
+		  		data.put("CONTENT",sbuf.toString());
 				data.put("CURPAGE", paging.getCurPage());
 				data.put("TOTALRECCNT", paging.getTotalRecordCnt());
+				
+				result.put("STATUS","Success");
+		  		result.put("DATA", data );
 	
 				out.println(result);
 	
@@ -131,10 +134,12 @@ public class GroupRegMgmtServlet extends HttpServlet {
 				}			
 				JSONObject data = new JSONObject();
 				
-		  		result.put("STATUS","Success");
-		  		result.put("DATA", sbuf.toString() );
+				data.put("CONTENT",sbuf.toString());
 				data.put("CURPAGE", paging.getCurPage());
 				data.put("TOTALRECCNT", paging.getTotalRecordCnt());
+				
+				result.put("STATUS","Success");
+		  		result.put("DATA", data );
 	
 				out.println(result);
 	
