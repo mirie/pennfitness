@@ -434,13 +434,13 @@
                             </ul>
                             <div class = "yui-content">
                                 <div class = "myGroups">
-                                 	<form name="frmGroupUnsubscribe" id="frmGroupUnsubscribe">                         
+                                 	<form name="frmGroupRegisteredUnsubscribe" id="frmGroupRegisteredUnsubscribe">                         
                                    	 	<div id="myRegisteredGroupList">
                                    	 		<!-- my group(s) detail list --> 
                                     	</div>
             							<input type="button" value="Unsubscribe"/>
                                     </form>
-                                    <form name="frmGroupSendEmail" id="frmGroupSendEmail">
+                                    <form name="frmGroupRegisteredSendEmail" id="frmGroupRegisteredSendEmail">
 										Title  : <input type="text" size="10" maxlength="40" name="emailTitle" id="emailTitle"> <br />
 										Message: <textarea rows="5" cols="20" wrap="physical" name="emailbody" id="emailbody"></textarea>
 
@@ -449,13 +449,18 @@
                                     				
                                 </div>
                                 <div class = "createdGroups">
-                                    <div id="myCreatedGroupList">
-                                    
-                                    </div>
-                                    <div id="buttons">
-                                        <input type="button" value="Send Emails" id="SendEmails" />
-                                        <input type="button" value="Modify" id="Modify" />
-                                    </div>
+                                	<form name="frmGroupCreatedUnsubscribe" id="frmGrouCreatedpUnsubscribe">                         
+                                   	 	<div id="myCreatedGroupList">
+                                   	 		<!-- my group(s) detail list --> 
+                                    	</div>
+            							<input type="button" value="Unsubscribe"/>
+                                    </form>
+                                    <form name="frmGroupCreatedSendEmail" id="frmGroupCreatedSendEmail">
+										Title  : <input type="text" size="10" maxlength="40" name="emailTitle" id="emailTitle"> <br />
+										Message: <textarea rows="5" cols="20" wrap="physical" name="emailbody" id="emailbody"></textarea>
+
+										<input type="button" value="Send Email to group"> 
+									</form>
 
                                 </div>
                                 <div class = "createAGroup">
