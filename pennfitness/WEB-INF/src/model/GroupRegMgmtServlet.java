@@ -44,7 +44,7 @@ public class GroupRegMgmtServlet extends HttpServlet {
 		String notify = req.getParameter("notify") == null ? "N" : req.getParameter("notify");
 		
 		// check required parameters
-		if( userID == null || (groupID == null &&  ! "getGroups".equals(action)) )
+		if( userID == null || (! "getGroupsForCreateEvent".equals(action) && groupID == null &&  ! "getGroups".equals(action)) )
 		{
 			result.put("STATUS", "Failure");
 			result.put("MSG", "user ID and group ID cannot be null");
@@ -87,6 +87,27 @@ public class GroupRegMgmtServlet extends HttpServlet {
 
 			out.println(result);
 
+			return;	
+    	}
+    	
+    	if("getGroupsForCreateEvent".equalsIgnoreCase(action))	//Get groups for a particular user
+    	{
+			List<Group> groupList = DBUtilGroup.getGroupListByUserIDForEvent(userID); 	
+			Iterator<Group> iterator = groupList.iterator();
+		
+			String resultStr = "";
+			while(iterator.hasNext()){
+				group = iterator.next();
+				resultStr += group.getId() + "-" + group.getName() + ";";
+			}
+			
+			JSONObject data = new JSONObject();
+			data.put("GROUPS", resultStr);
+			
+	  		result.put("STATUS","Success");
+		  	result.put("DATA",data );
+
+			out.print(result);
 			return;	
     	}
 		

@@ -211,8 +211,9 @@
                 	<span id="routeCreatedDate">created need date from server</span> <span id="routeDistance">(1.5 miles)</span>
                 </div>
                 <div class="ratings" id="rtRatings">
+                	<span>(Ratings from 0 - 5, 0 being the worst)</span>
                     <span id="overallRating"></span>
-                    <span id="sceneryRating"></span>
+                    <span id="sceneryRating"></span><br />
                     <span id="difficultyRating"></span>
                     <span id="safetyRating"></span>
                 </div>
@@ -228,6 +229,7 @@
                     </div>
                     <div id="modifyRoute">
                     	<input type="button" id="virtualTripBtn" value="Virtual Trip" />
+                    	<input type="button" id="rateRouteBtn" value="Rate!" />
                         <input type="button" id="modifyRouteBtn" value="Modify" />    
 						<input type="button" id="deleteRouteBtn" value="Delete" />                 
                     </div>
@@ -316,6 +318,58 @@
             </form>
         </div>
     </div>        
+
+    <div id="rateDialog">
+        <div class="hd">Rate This Route!</div>
+        <div class="bd">
+			<form name="frmRateRoute" id="frmRateRoute" method="post" action="rateRoute.do">
+				<input type="hidden" name="routeID" id="rateRouteID" value="-1"/>
+				<p>Please rate this route on a scale of 0 - 5. 0 is the worst rating, and 5 is the best.</p>
+				<p>&nbsp;</p>
+				<table>
+					<tr>
+						<td>&nbsp;</td><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+					</tr>
+					<tr>
+						<th>Overall:</th>
+                		<td><input type="radio" name="general" id="defaultOverall" value="0" checked="checked" /></td>
+                		<td><input type="radio" name="general" value="1" /></td>
+                		<td><input type="radio" name="general" value="2" /></td>
+                		<td><input type="radio" name="general" value="3" /></td>
+                		<td><input type="radio" name="general" value="4" /></td>
+                		<td><input type="radio" name="general" value="5" /></td>
+					</tr>
+					<tr>
+						<th>Scenery:</th>
+                		<td><input type="radio" name="scenery" id="defaultScenery" value="0" checked="checked" /></td>
+                		<td><input type="radio" name="scenery" value="1" /></td>
+                		<td><input type="radio" name="scenery" value="2" /></td>
+                		<td><input type="radio" name="scenery" value="3" /></td>
+                		<td><input type="radio" name="scenery" value="4" /></td>
+                		<td><input type="radio" name="scenery" value="5" /></td>                		
+					</tr>
+					<tr>
+					<th>Difficulty:</th>
+                		<td><input type="radio" name="difficulty" value="0" id="defaultDifficulty" checked="checked" /></td>
+                		<td><input type="radio" name="difficulty" value="1" /></td>
+                		<td><input type="radio" name="difficulty" value="2" /></td>
+                		<td><input type="radio" name="difficulty" value="3" /></td>
+                		<td><input type="radio" name="difficulty" value="4" /></td>
+                		<td><input type="radio" name="difficulty" value="5" /></td>                		
+					</tr>
+					<tr>
+						<th>Safety:</th>
+                		<td><input type="radio" name="safety" value="0" id="defaultSafety" checked="checked" /></td>
+                		<td><input type="radio" name="safety" value="1" /></td>
+                		<td><input type="radio" name="safety" value="2" /></td>
+                		<td><input type="radio" name="safety" value="3" /></td>
+                		<td><input type="radio" name="safety" value="4" /></td>
+                		<td><input type="radio" name="safety" value="5" /></td>                		
+					</tr>					
+				</table>
+			</form>
+		</div>
+	</div>
 
 
 <!-- =============================== User Registration DIALOG Structure:  =============================== -->

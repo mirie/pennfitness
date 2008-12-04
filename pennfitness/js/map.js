@@ -38,6 +38,8 @@ function setupMap() {
     if (GBrowserIsCompatible()) {
         map = new GMap2(document.getElementById("map"), {draggableCursor:"auto", draggingCursor:"move"});
 
+        map.disableDoubleClickZoom();
+
         // Load initial map (philadelphia) and controls
         map.addMapType(G_PHYSICAL_MAP); // Add the relief map view option
         map.addControl(new GScaleControl());
