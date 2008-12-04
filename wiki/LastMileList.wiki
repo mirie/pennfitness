@@ -35,10 +35,12 @@
 *Groups*
   * Adding group - Kerem
   * Modifying a group - Kerem
-  * Group listings in Group info tab - Kerem
-  * Sending emails to groups -- linked to client side, and dialog window for composing email. - Kerem
+  * ~~Group listings in Group info tab - Kerem~~
+  * ~~Sending emails to groups -- linked to client side, and dialog window for composing 
+email. - Kerem~~
   * Joining to / leaving from a group (JS function) - Kerem
-  * Should clear information when a user logs out 
+  * Should clear information when a user logs out
+  * ~~If a user creates a group, he should automatically subscribe to it.~~
 
 *Messages to User*
   * Cleanup error messages to user.
