@@ -23,6 +23,7 @@
 *Event*
   * Event Registration -- change flow to when viewing event details not event search pg - Mai
   * ~~Write Event Registration!  and link to Client side - Mai~~
+  * ~~Unsubscribing from an event - Mai~~
   * Populating group combo box - Mai
   * Disable group selection on modifying an event - Mai
   * Send an event creation/modification/deletion notification to group members - Kerem
