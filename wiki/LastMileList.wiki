@@ -12,9 +12,9 @@
   * Disable double click zoom - Mai
 
 *Route*
-  * Displaying/giving ratings - Mai
-  * Permission for modifying, creating an event(only owner can do) - Mai
-  * Listing in Route tab in My Account dialog - Kerem
+  * *Displaying/giving ratings* - Mai
+  * *Permission for modifying, creating an event(only owner can do)* - Mai
+  * *Listing in Route tab in My Account dialog* - Kerem
   * Clicking 'cancel' during modification shouldn't close the toolbar
 
 *Virtual Trip*
@@ -27,15 +27,15 @@
   * ~~Populating group combo box - Mai~~
   * Disable group selection on modifying an event - Mai
   * Send an event creation/modification/deletion notification to group members - Kerem
-  * Listings in Event information dialog - Kerem
+  * *Listings in Event information dialog* - Kerem
 
 *User Account*
-  * Modifying user account -- finished? - Kerem
-  * Should clear information when a user logs out
+  * *Modifying user account* -- finished? - Kerem
+  * *Should clear information when a user logs out*
 
 *Groups*
-  * Adding group - Kerem
-  * Modifying a group - Kerem
+  * *Adding group* - Kerem
+  * *Modifying a group* - Kerem
   * ~~Group listings in Group info tab - Kerem~~
   * ~~Sending emails to groups -- linked to client side, and dialog window for composing 
 email. - Kerem~~
