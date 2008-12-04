@@ -1,6 +1,13 @@
 
 // Functions for my account dialog
 
+var saveGp;
+
+// Listeners
+YAHOO.util.Event.addListener("createGroup", "click", saveGp);
+
+
+
 function saveGp() {
 	if (YAHOO.util.Dom.get("groupName").value == "") {
 		alert("please give the group a name before saving!");
@@ -9,28 +16,12 @@ function saveGp() {
 			
 	// FOR JSON Handling
 	var successHandler = function(o) {	
-		var response;
-		
-	    // Use the JSON Utility to parse the data returned from the server
-	    try {
-	       response = YAHOO.lang.JSON.parse(o.responseText); 
-	    }
-	    catch (x) {
-	        alert("JSON Parse failed!");
-	        return;
-	    }        
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 	
-	    if (response.STATUS == 'Success') { // GroupID passed back if just saved a new group
-			alert("Group saved successfully");
-			if (document.getElementById("groupID").value == -1) {
-				//alert('saving groupID: ' + response.DATA.GroupID);
-				document.getElementById("groupID").value = response.DATA.GroupID;
-			} 
-			//YAHOO.leftTB.group.getNewGroupNames();
-		}
-		else {
-			alert("Group was not saved!");
-		}
+		alert("Group saved successfully");
+		
+		YAHOO.util.Dom.get("groupName").value = "";
+		YAHOO.util.Dom.get("groupDescription").value = "";
 	}
 
 	var failureHandler = function(o) {
@@ -43,15 +34,9 @@ function saveGp() {
 		timeout:3000,
 	}
 	
-	// POST string data
-	var strData = "";
-	strData += "groupName=" + document.getElementById("groupName").value + "&";
-	strData += "groupDesc=" + document.getElementById("groupDescription").value + "&";
+	YAHOO.util.Connect.setForm("frmCreateGroupData");
 	
-	// Append GroupID to strData
-	strData += "groupID=" + document.getElementById("groupID").value.trim();
-	
-	var transaction = YAHOO.util.Connect.asyncRequest("POST", "saveGroup.do", callback, strData);
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroup.do", callback);
 }
 function populateMyCreatedGroupByUserID()
 {		
