@@ -14,6 +14,7 @@
 *Route*
   * Displaying/giving ratings - Mai
   * Permission for modifying, creating an event(only owner can do) - Mai
+  * Listing in Route tab in My Account dialog - Kerem
 
 *Virtual Trip*
   * Implementing this? and where? - inseob
@@ -24,6 +25,7 @@
   * Populating group combo box - Mai
   * Disable group selection on modifying an event - Mai
   * Send an event creation/modification/deletion notification to group members - Kerem
+  * Listings in Event information dialog - Kerem
 
 *User Account*
   * Modifying user account -- finished? - Kerem
