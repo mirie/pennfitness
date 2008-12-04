@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import entities.Paging;
 import entities.User;
 import entities.Group;
+import entities.Event;
 import org.json.simple.JSONObject;
 
 public class GroupRegMgmtServlet extends HttpServlet {
@@ -42,7 +43,29 @@ public class GroupRegMgmtServlet extends HttpServlet {
 		String groupID = req.getParameter("groupID");
 		String action = req.getParameter("action");
 		String notify = req.getParameter("notify") == null ? "N" : req.getParameter("notify");
-
+		String eventID = req.getParameter("eventID");
+		// check required parameters
+		
+		if (userID == null && "getGroupsForCreateEvent".equals(action)) {
+			result.put("STATUS", "Failure");
+			result.put("MSG", "You must be logged in to create/modify an event.");
+			
+			out.print(result);
+			return;
+		}
+		
+		if( userID == null || (groupID == null &&  ! "getGroups".equals(action) &&
+			 ! "getGroupsForCreateEvent".equals(action) &&
+		     ! "getMyCreatedGroups".equals(action) &&
+		     ! "getMyRegisteredGroups".equals(action)
+		     ))
+		{
+			result.put("STATUS", "Failure");
+			result.put("MSG", "Error handling action="+action);
+			
+			out.print(result);
+			return;
+		}
 		
     	if("getMyCreatedGroups".equalsIgnoreCase(action))	//Get groups for a particular user
     	{
@@ -121,12 +144,17 @@ public class GroupRegMgmtServlet extends HttpServlet {
     	
     	if("getGroupsForCreateEvent".equalsIgnoreCase(action))	//Get groups for a particular user
     	{
-    		if( groupID == null ){
-    			result.put("STATUS", "Failure");
-    			result.put("MSG", "Error handling action="+action);
-    			
-    			out.print(result);
-    			return;
+    		if (eventID != null) {
+    			int modifiedEventID = Integer.valueOf(eventID);	
+    			if (modifiedEventID != -1) {
+    				Event modifiedEvent = DBUtilEvent.getEventById(eventID);
+    				if (!modifiedEvent.getCreatorID().equals(userID)) {
+    					result.put("STATUS", "Failure");
+    					result.put("MSG", "You do not have priviledges to modify this event.");
+    					out.print(result);
+    					return;	
+    				}    				
+    			}
     		}
     		
 			List<Group> groupList = DBUtilGroup.getGroupListByUserIDForEvent(userID); 	
