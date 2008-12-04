@@ -472,7 +472,7 @@ function sendEmailToGroup(groupID) {
 	var callback = {
 		failure:failureHandler,
 		success:successHandler,
-		timeout:3000,
+		timeout:10000,
 	}
 
 	YAHOO.util.Connect.setForm("frmGroupSendEmail");
