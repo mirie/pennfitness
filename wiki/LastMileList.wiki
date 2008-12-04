@@ -30,6 +30,7 @@
 
 *User Account*
   * Modifying user account -- finished? - Kerem
+  * Should clear information when a user logs out
 
 *Groups*
   * Adding group - Kerem
@@ -37,12 +38,16 @@
   * Group listings in Group info tab - Kerem
   * Sending emails to groups -- linked to client side, and dialog window for composing email. - Kerem
   * Joining to / leaving from a group (JS function) - Kerem
+  * Should clear information when a user logs out 
 
 *Messages to User*
   * Cleanup error messages to user.
 
 *Data Cleanup*
   * Dealing with past events?
+
+*Search Dialogs*
+  * Should clear any listing when a user logs out
 
 *Look and Feel*
   * Fix height for event/route listing
