@@ -21,3 +21,33 @@
 	padding-top: 6px;
 	padding-bottom: 6px;
 }
+
+#userRegDialog.yui-panel .container-close 
+{
+	position: absolute;
+	top: 3px;
+	right: 4px;
+	height: 18px;
+	width: 17px;
+	background: url('../assets/hd-closeBtn.gif'); 
+}
+
+#userRegDialog.yui-module .yui-overlay .yui-panel, #userRegDialog.yui-panel .hd, #userRegDialog.yui-panel .bd, #userRegDialog.yui-panel .ft
+{
+	background: #003;
+	color: #FFFE02;
+	border: 1px solid #003;	
+}
+
+#userRegDialog.yui-panel .hd
+{
+	background: url('../assets/eventDetails-hd.gif') no-repeat;
+	text-align: center;
+	color: rgb(229,238,245);
+	font-weight: 700;
+}
+
+#userRegDialog.yui-module .ft
+{
+	background: #003;
+}

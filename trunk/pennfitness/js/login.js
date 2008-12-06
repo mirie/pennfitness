@@ -174,8 +174,8 @@ function Logout() {
 
 	var makeUserLoginForm = function() {
 		YAHOO.util.Dom.get("user").innerHTML = 
-		"username: <input type=\"text\" name=\"userID\" id=\"userID\" size=5 maxlength=\"10\" /> " +
-		"password: <input type=\"password\" name=\"password\" id=\"password\" size=5 maxlength=\"10\" /> " +
+		"username: <input type=\"text\" name=\"userID\" id=\"userID\" size=10 maxlength=\"20\" /> " +
+		"password: <input type=\"password\" name=\"password\" id=\"password\" size=10 maxlength=\"41\" /> " +
 		"<a href=\"javascript:Login()\"/>Login</a> " +
 		"<a href=\"javascript:ShowUserRegDialog()\"/>Sign Up!</a> ";
 	}

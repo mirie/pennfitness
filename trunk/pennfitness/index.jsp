@@ -76,8 +76,8 @@
                 if(user == null) {
                     // if not logged in
                 %>
-                username: <input type="text" name="userID" id="userID" size=5 maxlength="20" /> 
-                password: <input type="password" name="password" id="password" size=5 maxlength="20" /> 
+                username: <input type="text" name="userID" id="userID" size=10 maxlength="20" /> 
+                password: <input type="password" name="password" id="password" size=10 maxlength="41" /> 
                 <a href="javascript:Login()"/>Login</a>
 				<a href="javascript:ShowUserRegDialog()"/>Sign Up!</a>
                 <%
@@ -95,9 +95,6 @@
             </span>
             <span id="showbtns">
             	<a href="javascript:ShowSearchDialog()"/>Search</a>
-                <!--<input type="button" name="searchDialogBtn" id="searchDialogBtn" value="Search" onclick="ShowSearchDialog()"/>
-                 <input type="button" name="temp" id="temp" value="Show New" onclick="showNewRtTool()"/>
-                <input type="button" name="temp2" id="temp2" value="Hide New" onclick="hideNewRtTool()"/> -->
             </span>
 	</div>
 </div>
@@ -201,45 +198,45 @@
         <div class="bd">
             <form name="frmRouteDetails" id="frmRouteDetails" method="post" action="#">
                 <div class="generalInfo" id="routeGeneral">
-                    <span id="routeName">Mai's Route</span> <span id="routeCreator">by need from server</span><br />
+                    <span id="routeName" class="nameDisplay">Mai's Route</span> <span id="routeCreator">by need from server</span><br />
                 </div>
                 <div id="routeNameTxtDiv">
-                	<span id="routeNameLabel">Route Name: </span>
-                    <input type="text" name="routeName" id="routeNameTxt" maxlength="20" />
+                	<label for="routeNameTxt" class="nameDisplay">Route Name: </label>
+                    <input type="text" name="routeName" id="routeNameTxt" maxlength="30" />
                 </div>
-                <div id="routeTimeDist">
-                	<span id="routeCreatedDate">created need date from server</span> <span id="routeDistance">(1.5 miles)</span>
-                </div>
-                <div class="ratings" id="rtRatings">
-                	<span>(Ratings from 0 - 5, 0 being the worst)</span>
-                    <span id="overallRating"></span>
-                    <span id="sceneryRating"></span><br />
-                    <span id="difficultyRating"></span>
-                    <span id="safetyRating"></span>
+                <div id="routeDateDistance"><span id="Rtdate">date</span> <span id="dist">distance</span></div>
+                <div id="routeDistance">(1.5 miles)</div>
+                <div class="ratings" id="rtRatings">         
+                <a class="button" id="rateRouteBtn"><span>Rate!</span></a>  
+                    	<span id="overallRating"></span><br /></br />
+                    	<span id="sceneryRating"></span><br />
+                    	<span id="difficultyRating"></span><br />
+                    	<span id="safetyRating"></span><br />                    	
                 </div>
                 <div id="routeDesc">
                     Route Description here...	  		        
                 </div>
+                <div id="routeDescLabel">Route Description:</div>
                 <textarea name="routeDesc" id="routeDescTxt" wrap="virtual"></textarea>
-                <div id="rtColor-container">Route Color: </div>
+                <div id="rtColor-container" class="nameDisplay">Route Color: </div>
                 <div class="toolbarBtns">
                     <div id="saveRoute">
-                        <input type="button" id="saveRouteBtn" value="Save" />
-                        <input type="button" id="cancelRouteBtn" value="Cancel" />
+                    	<a class="button" id="cancelRouteBtn"><span>Cancel</span></a>
+                    	<a class="button" id="saveRouteBtn"><span>Save</span></a>
                     </div>
                     <div id="modifyRoute">
-                    	<input type="button" id="virtualTripBtn" value="Virtual Trip" />
-                    	<input type="button" id="rateRouteBtn" value="Rate!" />
-                        <input type="button" id="modifyRouteBtn" value="Modify" />    
-						<input type="button" id="deleteRouteBtn" value="Delete" />                 
-                    </div>
+                    	
+                    	<a class="button" id="deleteRouteBtn"><span>Delete</span></a>
+                    	<a class="button" id="modifyRouteBtn"><span>Modify</span></a>
+                    	<a class="button" id="virtualTripBtn"><span>Virtual Trip</span></a>                   
+                 	</div>
                 </div>
             </form>
-            <div id="routeEvents">
-                <span id="totalEvents"></span> 
-                <a href="javascript:createEvt()" id="newEventLink"/>New Event</a>
-            </div>
-
+            	<div class="eventdiv">
+                	<span id="totalEvents">0 Events</span>
+                	<a href="javascript:createEvt()" id="newEventLink" />Create New Event</a>
+                </div>
+                 				
         
     <!-- ======================== Event Detail TOOLBAR:  ===================== --> 
                    
@@ -272,13 +269,18 @@
 	                    Event Description here...
 	                </div>
 	                <div class="toolbarBtns">
-	                    <input type="button" id="modifyEventBtn" value="Modify" />
+                    	<a class="button" id="deleteEventBtn"><span>Delete</span></a>
+                    	<a class="button" id="modifyEventBtn"><span>Modify</span></a>
+                    	<a class="button" id="registerEventBtn"><span>Register!</span></a>
+	                
+	                    <!-- <input type="button" id="modifyEventBtn" value="Modify" />
 	                    <input type="button" id="deleteEventBtn" value="Delete" />
-	                    <input type="button" id="registerEventBtn" value="Register" />	                    
+	                    <input type="button" id="registerEventBtn" value="Register" />  -->	                    
 	                </div>
                 </div>                 
                             
 	    </div>
+	    <div class="ft">&nbsp;</div>
     </div>
 
     <!-- =================== Event Create/Modify Dialog:  =================== -->
@@ -287,15 +289,15 @@
         <div class="hd">Edit Event Details</div>
         <div class="bd">
             <form name="frmCreateEvent" id="frmCreateEvent" method="post" action="mgEvent.do">
-                <label for="eventNameTxt">Event Name:</label> <input type="text" name="eventName" id="eventNameTxt" size="10" maxlength="30" /><br />                                
+                <label for="eventNameTxt">Event Name:</label> <input type="text" name="eventName" id="eventNameTxt" size="30" maxlength="30" /><br />                                
 
-				<label for="publicity">Publicity:</label>
+				<label for="publicity">Publicity: </label>
                 <input type="radio" name="publicity" id="publicEvt" value="Y" checked="checked"/> Public Event
                 <input type="radio" name="publicity" id="privateEvt" value="N" /> Private Event <br />                
-                <label for="evtGroup">Group Name:</label> <select id="evtGroup" name="groupID">
+                <label for="evtGroup">Group Name: </label> <select id="evtGroup" name="groupID">
                     <option value="-1" selected="selected">None</option>
                 </select><br />
-                 <label for="evtType">Event Type:</label><select id="evtType" name="eventTypeID">
+                 <label for="evtType">Event Type: </label><select id="evtType" name="eventTypeID">
                     <option value="-1" selected="selected">Please select a type</option>
                     <%= DBUtilEventType.getAllEventTypesOptions() %>
                 </select><br />                
@@ -304,12 +306,12 @@
                 	<option value="AM" selected="selected">AM</option>
                 	<option value="PM">PM</option>
                 </select><br />
-                <label for="eventDurationTxt">Duration: (in hours - e.g., 1.5)</label> 
-                <input type="text" name="eventDuration" id="eventDurationTxt" size="10" maxlength="30" /><br />
+                <label for="eventDurationTxt">Duration: </label> 
+                <input type="text" name="eventDuration" id="eventDurationTxt" size="10" maxlength="30" /> (in hours - e.g., 1.5)<br />
                 <div id="date">
-                    <label for="evtCalTxt">Event Date:</label> <input type="text" name="evtCalTxt" id="evtCalTxt"  size="10" maxlength="10"/>
-                </div><div id="buttoncalendar"></div>                
-                <p>Description:</p>
+                    <label for="evtCalTxt">Event Date: </label> <input type="text" name="evtCalTxt" id="evtCalTxt"  size="10" maxlength="10" onclick="this.value=''"/>
+                </div> <div id="buttoncalendar"></div>          
+                <label for="eventDescTxt">Description: </label> 
                 <textarea id="eventDescTxt" name="eventDesc" wrap="virtual"></textarea><br />
                 <input type="hidden" name="eventID" id="eventIDTxt" value="-1"/>
 				<input type="hidden" name="routeID" id="routeIDTxt" value="-1"/>
@@ -380,6 +382,7 @@
                 <label for="userName">Name:</label><input type="text" name="userName" />
                 <label for="userID">User ID:</label><input type="text" name="userID" />
                 <label for="password">Password:</label> <input type="password" name="password" />                    
+                <label for="passwordConfirm">Confirm Password:</label> <input type="password" name="passwordConfirm" />
                 <label for="email">E-mail:</label><input type="text" name="email" /> 
     
                 <div class="clear"></div>
@@ -432,18 +435,18 @@
                                 	<a href = "#tab3"><em>Create a Group</em></a>
                                 </li>
                             </ul>
-                            <div class = "yui-content">
-                                <div class = "myGroups">
-                                 	<form name="frmGroupRegisteredUnsubscribe" id="frmGroupRegisteredUnsubscribe">                         
-                                    <input type="hidden" name="action" value="leaveGroup">
-                                   	 	<div id="myRegisteredGroupList">
-                                   	 		<!-- my group(s) detail list --> 
-                                    	</div>
-                                    	<div id="pag_myGroups" class="paginator">
-                            				<!-- paginator -->
-                        				</div>           
-            							<input type="button" id="unsubscribeGroupBtn" value="Unsubscribe"/>
-                                    </form>                                    				
+								<div class = "yui-content">
+	                                <div class = "myGroups">
+	                                 	<form name="frmGroupRegisteredUnsubscribe" id="frmGroupRegisteredUnsubscribe">                         
+	                                    <input type="hidden" name="action" value="leaveGroup">
+	                                   	 	<div id="myRegisteredGroupList">
+	                                   	 		<!-- my group(s) detail list --> 
+	                                    	</div>
+	                                    	<div id="pag_myGroups" class="paginator">
+	                            				<!-- paginator -->
+	                        				</div>           
+	            							<input type="button" id="unsubscribeGroupBtn" value="Unsubscribe"/>
+	                                    </form>                                    				
                                 </div>
                                 <div class = "createdGroups">
                                     <form name="frmGroupSendEmail" id="frmGroupSendEmail">

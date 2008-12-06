@@ -98,8 +98,12 @@ function clearVT()
 		
 	if(man != null) map.removeOverlay(man);
 	
+	//document.getElementById('svArea').innerHTML = "<br /><br /><br /><br /><br /><br /><br /><br />" +
+	//      "<input id=\"vtPrepareBtn\" type=\"button\" value=\"Prepare Virtual Trip\" onclick=\"vtPrepare()\" />";
 	document.getElementById('svArea').innerHTML = "<br /><br /><br /><br /><br /><br /><br /><br />" +
-	      "<input id=\"vtPrepareBtn\" type=\"button\" value=\"Prepare Virtual Trip\" onclick=\"vtPrepare()\" />";
+	"<a class=\"button\" id=\"vtPrepareBtn\"><span>Click to Prepare Virtual Trip</span></a>";
+    
+	
 	vtEnableBtns(false);
 	
 	if(timer)

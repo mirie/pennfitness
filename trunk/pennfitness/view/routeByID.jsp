@@ -17,6 +17,7 @@
 		data.put("ROUTE_PTS",route.getPtValues());
 		data.put("ROUTE_DESCRIPTION", route.getDescription());
 		data.put("ROUTE_DATE", route.getCreatedDate()+"" );
+		data.put("ROUTE_DIST", route.getDistance()+ "" );
 		data.put("ROUTE_RATING_OVERALL", new Float( route.getPt_rate() ));
 		data.put("ROUTE_RATING_SCENERY", new Float( route.getPs_scenery() ));
 		data.put("ROUTE_RATING_DIFF", new Float( route.getPt_difficulty() ));

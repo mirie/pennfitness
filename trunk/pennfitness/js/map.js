@@ -20,10 +20,10 @@ var lineColor = "#0000af";
 var lineWeight = 3;
 var lineOpacity = .8;
 var fillOpacity = .2;
-
+var startIcon;
+var url = "http://localhost/pennfitness/assets/";
 // Other variables
 var distance;
-
 var mapLimits;
 
 // Listener functions
@@ -57,7 +57,12 @@ function setupMap() {
 		// Street View overlay
 		svOverlay = new GStreetviewOverlay();
 		
-
+		// Marker Icon Options
+		startIcon = new GIcon(G_DEFAULT_ICON);
+		startIcon.image = url + "marker_Start.png";
+		//startIcon.image = "../assets/marker_Start.png";
+		
+		
     } else { 
         alert("Sorry, the Google Maps API is not compatible with this browser"); 
     }
@@ -70,10 +75,22 @@ function setupMap() {
 function addMarker(point)
 {
 	// Create new marker and keep track of all markers
-	var marker = new GMarker(point, {draggable:true, bouncy:true});
+	var marker = new GMarker(point, { icon:startIcon, draggable:true, bouncy:true });
+	
 	map.addOverlay(marker);
 	markers.push(marker);
-        
+    
+	// Update icons for markers
+	for (var i = 0; i < markers.length; i++ )
+	{
+		if (i == 0)
+			markers[i].setImage(url + "marker_Start.png");	
+		else if (i > 0 && i < markers.length - 1)
+			markers[i].setImage(url + "marker_mid.png");
+		else
+			markers[i].setImage(url + "marker_stop.png");
+	}	
+
 	// Drag listener
 	GEvent.addListener(marker, "drag", drawOverlay);
 
@@ -153,9 +170,21 @@ function removeMarker() {
 	            
 	// Shorten array of markers
 	markers.splice(i, 1);
-            
+    
+	for (var i = 0; i < markers.length; i++ )
+	{
+		if (i == 0)
+			markers[i].setImage(url + "marker_Start.png");	
+		else if (i > 0 && i < markers.length - 1)
+			markers[i].setImage(url + "marker_mid.png");
+		else
+			markers[i].setImage(url + "marker_stop.png");
+	}	
+	
+	
 	drawOverlay();
 }
+
 
 //  ***********************************************************************
 //  Function: Disable map and map marker functions.
