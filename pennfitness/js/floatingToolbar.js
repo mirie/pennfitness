@@ -455,17 +455,14 @@ function resetRtDetail() {
 	document.getElementById("routeNameTxtDiv").style.display = "block";
 	document.getElementById("routeNameTxt").value = "";
 	
-	document.getElementById("routeCreatedDate").innerHTML = "";
+	document.getElementById("routeDateDistance").style.display = "none";
+	document.getElementById("routeDistance").style.display = "block";
 	document.getElementById("routeDistance").innerHTML = "0 miles";
 	
-	document.getElementById("overallRating").innerHTML = "";
-	document.getElementById("sceneryRating").innerHTML = "";
-	document.getElementById("difficultyRating").innerHTML = "";
-	document.getElementById("safetyRating").innerHTML = "";
+	document.getElementById("rtRatings").style.display = "none";
 	
-	
-	document.getElementById("routeDesc").innerHTML = "Route Description: <br />";
-	document.getElementById("routeDesc").style.paddingBottom = "5px";
+	document.getElementById("routeDesc").style.display = "none";
+	document.getElementById("routeDescLabel").style.display = "block";	
 	document.getElementById("routeDescTxt").style.display = "block";
 	document.getElementById("routeDescTxt").value = "";
 	
@@ -478,6 +475,7 @@ function resetRtDetail() {
 	var rtColor = document.getElementById("rtColor-container");
 	rtColor.style.display = "block";
 	
+	
 	colorButton.set("value", "#0000af");
 	YAHOO.util.Dom.setStyle("current-color", "backgroundColor", "#0000af");
 	YAHOO.util.Dom.get("current-color").innerHTML = "Current color is " + "#0000af";
@@ -485,7 +483,8 @@ function resetRtDetail() {
 	removeRoute();
 	
 	document.getElementById("totalEvents").innerHTML = "0 Events";
-	
+	document.getElementById("newEventLink").style.visibility = "hidden";
+		
 	hideEventList();
 }
 
@@ -514,17 +513,29 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 		document.getElementById("routeNameTxtDiv").style.display = "none";
 		document.getElementById("routeName").innerHTML = jResponse.DATA.ROUTE_NAME;
 		document.getElementById("routeCreator").innerHTML = " by " + jResponse.DATA.ROUTE_CREATOR;
-		document.getElementById("routeCreatedDate").innerHTML = "Created on: " + jResponse.DATA.ROUTE_DATE;		
 		
-		document.getElementById("overallRating").innerHTML = "Overall Rating: "+ jResponse.DATA.ROUTE_RATING_OVERALL;
-		document.getElementById("sceneryRating").innerHTML = "Scenery: "+ jResponse.DATA.ROUTE_RATING_SCENERY;
-		document.getElementById("difficultyRating").innerHTML = "Difficulty: "+ jResponse.DATA.ROUTE_RATING_DIFF;
-		document.getElementById("safetyRating").innerHTML = "Safety: "+ jResponse.DATA.ROUTE_RATING_SAFETY;
+		document.getElementById("routeDateDistance").style.display = "block";
+		
+		var dateParts = jResponse.DATA.ROUTE_DATE.split("-");
+		var date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+		document.getElementById("Rtdate").innerHTML = "Created on: " + date + " ";		
+		document.getElementById("dist").innerHTML =  "(" + jResponse.DATA.ROUTE_DIST + " miles)";
+		document.getElementById("routeDistance").style.display = "none";
+		
+		document.getElementById("rtRatings").style.display = "block";
+		document.getElementById("overallRating").innerHTML = "Overall Rating: "+ jResponse.DATA.ROUTE_RATING_OVERALL + "/5";
+		document.getElementById("sceneryRating").innerHTML = "Scenery: "+ jResponse.DATA.ROUTE_RATING_SCENERY + "/5";
+		document.getElementById("difficultyRating").innerHTML = "Difficulty: "+ jResponse.DATA.ROUTE_RATING_DIFF + "/5";
+		document.getElementById("safetyRating").innerHTML = "Safety: "+ jResponse.DATA.ROUTE_RATING_SAFETY + "/5";
 
-		document.getElementById("routeDesc").innerHTML = jResponse.DATA.ROUTE_DESCRIPTION;
+		document.getElementById("routeDesc").style.display = "block";
+		document.getElementById("routeDesc").innerHTML = jResponse.DATA.ROUTE_DESCRIPTION;;
+	
+		document.getElementById("routeDescLabel").style.display = "none";
 		document.getElementById("routeDescTxt").style.display = "none";
 
 		YAHOO.pennfitness.float.getEventCount();
+		document.getElementById("newEventLink").style.visibility = "visible";		
 		
 		document.getElementById("rtColor-container").style.display = "none";
 		
@@ -532,8 +543,7 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 		document.getElementById("modifyRoute").style.display = "block";
 		
 		hideEventList();
-		
-		//enableMap();
+
 		// Add markers and draw route
 		var pointData = jResponse.DATA.ROUTE_PTS.split(";");
 		for (var i = 0; i < pointData.length; i++) {
@@ -571,11 +581,18 @@ function modifyRt() {
 	
 	document.getElementById("routeNameTxtDiv").style.display = "block";
 	document.getElementById("routeNameTxt").value = document.getElementById("routeName").innerHTML;
+
+	document.getElementById("routeDateDistance").style.display = "none";
+	document.getElementById("routeDistance").style.display = "block";
 	
+	document.getElementById("routeDescLabel").style.display = "block";
 	document.getElementById("routeDescTxt").value = document.getElementById("routeDesc").innerHTML;
-	document.getElementById("routeDesc").innerHTML = "Route Description: ";
-	document.getElementById("routeDesc").style.paddingBottom = "5px";
+	document.getElementById("routeDesc").style.display = "none";
+	
 	document.getElementById("routeDescTxt").style.display = "block";
+	document.getElementById("routeDescTxt").disabled = false;
+	
+	document.getElementById("rtRatings").style.display ="none";
 	
 	var rtColor = document.getElementById("rtColor-container");
 	rtColor.style.display = "block";
@@ -584,13 +601,17 @@ function modifyRt() {
 	YAHOO.util.Dom.setStyle("current-color", "backgroundColor", lineColor);
 	YAHOO.util.Dom.get("current-color").innerHTML = "Current color is " + lineColor;
 	
+	document.getElementById("newEventLink").style.visibility = "hidden";
+	
 	document.getElementById("saveRoute").style.display = "block";
 	document.getElementById("modifyRoute").style.display = "none";
 	
 	enableMap();
 }
 
-function cancelRt() {
+function cancelRt()
+{
+	document.getElementById("newEventLink").style.visibility = "hidden";
 	removeRoute(); 
 	disableMap();
 	YAHOO.pennfitness.float.toolbar.hide();
@@ -735,6 +756,7 @@ YAHOO.pennfitness.float.getEventCount = function() {
 			link.setAttribute('href','javascript:displayEventList()');
 			link.id = "eventCountLink";
 			link.appendChild(document.createTextNode(jResponse.DATA.EVENT_COUNT +  " Events"));				
+			link.style.color = "red";
 			document.getElementById("totalEvents").appendChild(link);
 		} else {
 			document.getElementById("totalEvents").innerHTML = jResponse.DATA.EVENT_COUNT + " Events";
@@ -802,7 +824,8 @@ function displayEventList()
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "routeEvents.do", callback, strdata);
 }
 
-function hideEventList() {
+function hideEventList()
+{
 	document.getElementById("eventDetails").style.display = "none";
 	document.getElementById("specificEvent").style.display = "none";
 }
@@ -825,7 +848,6 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 		
 		document.getElementById("eventCreator").innerHTML = "by " + jResponse.DATA.EVENT_CREATOR_ID;
 		
-		//var date = ;
 		var dateParts = jResponse.DATA.EVENT_DATE.split("-");
 		var date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
 		
@@ -910,9 +932,17 @@ YAHOO.pennfitness.float.getEventLeftTB = function(eventIDArg, routeIDArg) {
 		document.getElementById("routeNameTxtDiv").style.display = "none";
 		document.getElementById("routeName").innerHTML = jResponse.DATA.ROUTE_NAME;
 		document.getElementById("routeCreator").innerHTML = " by " + jResponse.DATA.ROUTE_CREATOR;
-		document.getElementById("routeCreatedDate").innerHTML = "Created on: " + jResponse.DATA.ROUTE_DATE;		
-		//document.getElementById("rtRatings").innerHTML = "Avg.Rating: "+ jResponse.DATA.ROUTE_RATING;
+
+		document.getElementById("routeDateDistance").style.display = "block";
 		
+		var dateParts = jResponse.DATA.ROUTE_DATE.split("-");
+		var date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+		document.getElementById("Rtdate").innerHTML = "Created on: " + date + " ";
+		
+		document.getElementById("dist").innerHTML =  "(" + jResponse.DATA.ROUTE_DIST + " miles)";
+		document.getElementById("routeDistance").style.display = "none";
+		
+		document.getElementById("rtRatings").style.display ="block";
 		document.getElementById("overallRating").innerHTML = "Overall Rating: "+ jResponse.DATA.ROUTE_RATING_OVERALL;
 		document.getElementById("sceneryRating").innerHTML = "Scenery: "+ jResponse.DATA.ROUTE_RATING_SCENERY;
 		document.getElementById("difficultyRating").innerHTML = "Difficulty: "+ jResponse.DATA.ROUTE_RATING_DIFF;
@@ -920,8 +950,10 @@ YAHOO.pennfitness.float.getEventLeftTB = function(eventIDArg, routeIDArg) {
 		
 		document.getElementById("routeDesc").innerHTML = jResponse.DATA.ROUTE_DESCRIPTION;
 		document.getElementById("routeDescTxt").style.display = "none";
-
+		document.getElementById("routeDescLabel").style.display = "none";
+		
 		YAHOO.pennfitness.float.getEventCount();
+		document.getElementById("newEventLink").style.visibility = "visible";
 		
 		document.getElementById("rtColor-container").style.display = "none";
 		
@@ -960,12 +992,9 @@ YAHOO.pennfitness.float.getEventLeftTB = function(eventIDArg, routeIDArg) {
 	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/routeByID.jsp?routeID=" + routeID, callback); 
 }
 
-
-
 function modifyEvent() 
 {		
 	YAHOO.pennfitness.float.populateGroupByUserID();
-	//YAHOO.pennfitness.float.newEventPanel.show();
 }
 
 
@@ -976,7 +1005,7 @@ function getSelectedEventType(eventTypeID)
 	for (var i = 0; i < evtType.options.length; i ++ ) {
 		if (evtType.options[i].value == eventTypeID)
 			return i;
-	}
+	}	
 	
 	return 0;
 }
@@ -988,7 +1017,7 @@ function getSelectedGroupID(groupID)
 	for (var i = 0; i < grpID.options.length; i ++ ) {
 		if (grpID.options[i].value == groupID)
 			return i;
-	}
+	}	
 	
 	return 0;
 }
@@ -1000,12 +1029,13 @@ function getSelectedTime(time)
 	for (var i = 0; i < evtType.options.length; i ++ ) {
 		if (evtType.options[i].value == time)
 			return i;
-	}
+	}	
 	
 	return 0;	
 }
 
-function deleteEvt() {
+function deleteEvt() 
+{
 	// FOR JSON Handling
 	var successHandler = function(o) {	
 		var jResponse;
@@ -1033,17 +1063,14 @@ function deleteEvt() {
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgEvent.do", callback, strData);
 }
 
-function registerEvt() {
+function registerEvt()
+{
 	// FOR JSON Handling
 	var successHandler = function(o) {	
 		var jResponse;
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 		
-		alert("You have successfully registered for the event.");
-		
-		// disable the register 
-		
-					
+		alert("You have successfully registered for the event.");				
 	}
 	
 	var failureHandler = function(o) {
@@ -1055,8 +1082,6 @@ function registerEvt() {
 		success:successHandler,
 	}
 	
-	//var strData = "eventID=" + eventID;
-	//strData += "action=delete";
 	if (eventID == -1) {
 		alert("Event not selected!");
 	}
@@ -1064,8 +1089,6 @@ function registerEvt() {
 		var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/registerEvent.jsp?eventID=" + eventID, callback);
 	}
 }
-
-
 
 
 YAHOO.util.Event.onDOMReady(initToolbar);
@@ -1082,6 +1105,5 @@ YAHOO.util.Event.addListener("rateRouteBtn", "click", rateRt);
 YAHOO.util.Event.addListener("modifyEventBtn", "click", modifyEvent);	
 YAHOO.util.Event.addListener("deleteEventBtn", "click", deleteEvt);
 YAHOO.util.Event.addListener("registerEventBtn", "click", registerEvt);
-
 
 YAHOO.util.Event.onDOMReady(populateTimeRange);

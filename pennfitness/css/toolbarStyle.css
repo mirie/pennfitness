@@ -1,32 +1,177 @@
 @charset "utf-8";
 /* CSS Document */
 
-#routeName, #eventName {
+/*
+@Route Details Toolbar Styles (General Container)
+----------------------------------------------------*/
+#floatingToolbar.yui-panel .container-close 
+{
+	position: absolute;
+	top: 3px;
+	right: 4px;
+	height: 18px;
+	width: 17px;
+	background: url('../assets/hd-closeBtn.gif'); 
+}
+
+#floatingToolbar.yui-module .yui-overlay .yui-panel, #floatingToolbar.yui-panel .hd, #floatingToolbar.yui-panel .bd, #floatingToolbar.yui-panel .ft
+{
+	background: #003;
+	color: #FFFE02;
+	border: 1px solid #003;	
+}
+
+#floatingToolbar.yui-panel .hd
+{
+	background: url('../assets/toolbar-hd.gif') no-repeat;
+	text-align: center;
+	color: rgb(229,238,245);
+	font-weight: 700;
+}
+
+#floatingToolbar.yui-module .ft
+{
+	background: #003;
+}
+
+#eventDialog.yui-panel .container-close 
+{
+	position: absolute;
+	top: 3px;
+	right: 4px;
+	height: 18px;
+	width: 17px;
+	background: url('../assets/hd-closeBtn.gif'); 
+}
+
+#eventDialog.yui-module .yui-overlay .yui-panel, #eventDialog.yui-panel .hd, #eventDialog.yui-panel .bd, #eventDialog.yui-panel .ft
+{
+	background: #003;
+	color: #FFFE02;
+	border: 1px solid #003;	
+}
+
+#eventDialog.yui-panel .hd
+{
+	background: url('../assets/eventDetails-hd.gif') no-repeat;
+	text-align: center;
+	color: rgb(229,238,245);
+	font-weight: 700;
+}
+
+#eventDialog.yui-module .ft
+{
+	background: #003;
+}
+
+/*
+@Route Details Toolbar Styles (Info Display)
+----------------------------------------------------*/
+.nameDisplay
+{
 	font-weight:700;
-	padding-bottom: 5px;
+}
+
+.generalInfo
+{
+	margin-bottom: 5px;	
+}
+
+#routeCreator, #eventCreator
+{
+	font-style:italic;
+	color: blue;	
+}
+
+#routeDesc
+{
+	font-weight: 500;
+	margin-bottom: 10px;
+	height: 30px;
+	border: solid 1px #003;
+	padding: 5px;
+	overflow:auto;
+}
+
+#routeDistance
+{
+	text-align: right;
+	margin-bottom: 5px;
+}
+
+#routeDateDistance
+{
+	text-align: right;
+	margin-top: 8px;
+	margin-bottom: 8px;	
+}
+
+#Rtdate
+{
+	font-style: italic;
+}
+
+#dist
+{
+	color: rgb(232,231,213);
+}
+
+#rtRatings
+{	
+	text-align: left;
+	margin-bottom: 5px;
+	padding-bottom: 8px;
+}
+
+#overallRating
+{
+	font-weight: bold;
+}
+
+#rateRouteBtn
+{
+	margin-bottom: 10px;	
+}
+
+.eventdiv
+{	
+	padding-top: 10px;
+}
+
+#totalEvents
+{
+	float:left;
+	width:120px;
+	text-align:left;
+}
+
+#newEventLink
+{
+	width: 100px;
+	text-align: right;
+	color: blue;
+	font-weight: 600;
+}
+
+/*
+@Route Details Toolbar Styles (Form Entry)
+----------------------------------------------------*/
+#routeNameTxtDiv
+{
+	display: none;
+	margin-bottom: 10px;
 }
 
 #routeNameTxt {
-	width: 12em;
+	
+	width: 11.5em;
 }
 
-#routeCreator, #eventCreator {
-	font-style:italic;	
-}
-
-#routeCreatedDate, #eventCreatedDate {
-	color:#900;	
-}
-
-#routeNameTxtDiv{
-	display: none;	
-}
-
-#routeDesc, #eventDesc {
-	font-weight:500;
-	color:#006;
-	padding-top: 8px;
-	padding-bottom: 8px;
+#routeDescLabel
+{
+	display: none;
+	font-weight: 700;
+	margin-bottom: 5px;
 }
 
 #routeDescTxt {
@@ -35,46 +180,73 @@
 	display: none;
 }
 
+hr
+{
+	color: navy;	
+}
+
+#eventName {
+	font-weight:700;
+	padding-bottom: 5px;
+}
+
+#routeCreatedDate, #eventCreatedDate
+{
+	color:#900;	
+}
+
+#eventDesc
+{
+	font-weight:500;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+
 #routeTimeDist, .generalInfo {
 	text-align: left;
 	padding-top: 3px;
 }
 
-#routeEvents {
+#routeEvents 
+{
 	text-align:center;
 }
 
-.toolbarBtns {
+.toolbarBtns 
+{
 	text-align:right;
 }
 
-#saveRoute {
+#saveRoute 
+{
 	padding-bottom: 10px;	
 }
 
-#modifyRoute {
+#modifyRoute 
+{
 	padding-bottom: 10px;	
 	display: none;
 }
 
 /* Color Picker Section */
-#rtColor-container {
+#rtColor-container
+{
 	display: none;
 }
 
-#rtColor-container {
+#rtColor-container
+{
 	padding: .5em;
 }
 
-#floatingToolbar {
-	text-align: left;
-}
-
-#color-picker-button {
+#color-picker-button 
+{
 	vertical-align: baseline;
 }
 
-#color-picker-button button {
+#color-picker-button button 
+{
 	outline: none;  /* Safari */
 	line-height: 1.5;
 }
@@ -82,7 +254,8 @@
 /*  Style the Button instance's label as a square whose background color 
 	represents the current value of the ColorPicker instance.
 */
-#current-color {
+#current-color
+{
 	display: block;
 	display: inline-block;
 	*display: block;    /* For IE */
@@ -101,43 +274,63 @@
 /* Hide default colors for the ColorPicker instance. */
 #color-picker-container .yui-picker-controls,
 #color-picker-container .yui-picker-swatch,
-#color-picker-container .yui-picker-websafe-swatch {
+#color-picker-container .yui-picker-websafe-swatch
+{	
 	display: none;
 }
 
 /*  Size the body element of the Menu instance to match the dimensions of 
 	the ColorPicker instance.
 */
-#color-picker-menu .bd {
+#color-picker-menu .bd
+{
 	width: 220px;    
 	height: 190px;
 }
 
-#rtColor-container {
+#rtColor-container
+{
 	border-top: solid 1px #000;
 	padding: .5em .25em;
 	margin-top: .5em;
 }  /* END color picker for right toolbar */
 
+
+#routeEvents
+{
+	margin-top:8px;
+}
+
 /* New Event Dialog */
 
-#eventDialog label { display:block;float:left;width:45%;clear:left; }
+#eventDialog label
+{ 
+	display:block;
+	float:left;
+	width:38%;
+	clear:left;
+	font-weight: 600;
+}
 
-#eventDescTxt {
+#eventDescTxt
+{
 	height: 75px;
 	width: 350px;
 }
 
-#calendarcontainer {
+#calendarcontainer
+{
 	padding: 10px;
 	width: 185px;
 }
 
-#calendarmenu {
+#calendarmenu
+{
 	position: absolute;
 }
 
-#calendarpicker button {
+#calendarpicker button
+{
 	background: url(../assets/calendar_icon.gif) center center no-repeat;
 	text-align: left;
 	text-indent: -10em;
@@ -147,30 +340,73 @@
 	white-space: nowrap;
 }
 
-#calendarpicker  {	
+#calendarpicker
+{	
 	vertical-align: bottom;		
 }  /* END calendar for toolbar */
 
 
-#hideEvtList, #hideEvtDetail {
+#hideEvtList, #hideEvtDetail
+{
 	text-align: right;	
 }
 
 
-#eventDetails, #specificEvent {
+#eventDetails, #specificEvent
+{
 	padding-top: 10px;	
 }
 
-.eventDetails, .ratings {
+.eventDetails, .ratings
+{
 	text-align: right;	
 }
 
-.eventHd {
+.eventHd 
+{
 	font-size: 1.25em;
 	font-weight: bold;
 	padding-bottom: 10px;
 }
 
-#newEventLink {
-	margin-left: 125px;
+
+
+
+/*
+@Button Styles
+----------------------------------------------------*/
+a.button {
+    /* Sliding right image */
+    background: transparent url('../assets/btn-right.gif') no-repeat scroll top right; 
+	display: block;
+	float: right;
+	height: 22px; /* ACCORDING TO IMAGE HEIGHT */
+	padding-right: 10px; /* ACCORDING TO RIGHT IMAGE WIDTH */
+	/* FONT PROPERTIES */
+	text-decoration: none;
+	color: #D5DDF2;
+	font-size:12px;
+	font-weight: 600;
+	margin-left: 8px;
+	margin-bottom: 15px;
+	margin-top: 5px;
+}
+
+a.button span {
+	/* Background left image */ 
+	background: transparent url('../assets/btn-left.gif') no-repeat; 
+	display: block;
+	line-height: 22px; /* ACCORDING TO BUTTON HEIGHT */
+	padding: 0px 0px 0px 10px;
+}
+
+a.button:hover
+{
+	background: transparent url('../assets/btn-right-hover.gif') no-repeat scroll top right;
+	color: rgb(245, 237, 70);
+}
+
+a.button:hover span
+{
+	background: transparent url('../assets/btn-left-hover.gif') no-repeat; 
 }

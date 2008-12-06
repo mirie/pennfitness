@@ -99,7 +99,7 @@ public class RouteMgmtServlet extends HttpServlet{
 	    	Route route;
 	    	if( user == null ) {
 	    		result.put("STATUS", "Failure");
-				result.put("MSG", "You must be logged in to delete a route!");
+				result.put("MSG", "You must be logged in to save/modify a route!");
 				out.println(result);
 				return;
 	    	}

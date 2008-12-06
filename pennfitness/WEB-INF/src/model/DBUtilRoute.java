@@ -196,7 +196,7 @@ public class DBUtilRoute {
 		String saveQuery = 
 			"INSERT INTO Routes ( name, creatorID, points, description, routeColor, distance," +
 								" pt_scenery, pt_difficulty, pt_safety, pt_rate, createdDate, modifiedDate)" +
-								" VALUES ('"+ route.getName()+"'," +
+								" VALUES (\""+ route.getName()+"\"," +
 										"'"+ route.getCreatorID()+"'," +
 										"'"+ route.getPtValues()+"'," +
 										"\""+ route.getDescription()+"\"," +
@@ -233,7 +233,7 @@ public class DBUtilRoute {
 		
 		String updateQuery = 
 			"UPDATE Routes " +
-			"SET name='" + route.getName()+ "', " +
+			"SET name=\"" + route.getName()+ "\", " +
 				"routeColor='"+ route.getColor() +"'," +
 				"points='"+ route.getPtValues() + "'," +
 				"distance='"+ route.getDistance() + "'," +

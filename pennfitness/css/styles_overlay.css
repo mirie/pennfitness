@@ -61,20 +61,14 @@ div.overlayTwo div.yui-content div.routeSearch{
 
 
 #panel1 {
-/*	position:absolute;
-	left:300px;
-	top:200px; */
 	width:800px;
 	height:400px;
-	background:blue;
+	background: #D5DDF2;
 }
 #panel2 {
-/*	position:absolute;
-	left:300px;
-	top:200px; */
 	width:800px;
 	height:400px;
-	background:blue;
+	background: #D5DDF2;
 }
 
 div.RouteResultItem {
@@ -112,3 +106,48 @@ div.RouteResultItem {
 	vertical-align: middle;
 }
 
+#emailGroupTextArea
+{
+}
+
+#panel2.yui-panel .container-close 
+{
+	position: absolute;
+	top: 3px;
+	right: 4px;
+	height: 18px;
+	width: 17px;
+	background: url('../assets/aqua-hd-close.gif'); 
+}
+
+#panel1.yui-panel .container-close 
+{
+	position: absolute;
+	top: 3px;
+	right: 4px;
+	height: 18px;
+	width: 17px;
+	background: url('../assets/aqua-hd-close.gif'); 
+}
+
+/*
+#panel2.yui-module .yui-overlay .yui-panel, #panel2.yui-panel .hd, #panel2.yui-panel .bd, #panel2.yui-panel .ft
+{
+	background: #003;
+	background-color: #003;
+	color: #FFFE02;
+	border: 1px solid #003;	
+}
+
+#panel2.yui-panel .hd
+{
+	background: url('../assets/search-hd.gif') no-repeat;
+	text-align: center;
+	color: rgb(229,238,245);
+	font-weight: 700;
+}
+
+#panel2.yui-module .ft
+{
+	background: #003;
+}*/

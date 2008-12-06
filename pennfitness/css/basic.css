@@ -7,6 +7,11 @@ body {
 	padding:0;
 }
 
+.yui-skin-sam .yui-navset .yui-nav, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav
+{
+	border-color:#003;
+}
+
 .yui-skin-sam .yui-layout { 
 	background-color: #003; 
 	text-align: left;
@@ -20,28 +25,13 @@ body {
 	background-color: #003;
 }
 
+#leftMenu.yui-skin-sam .yui-layout .yui-layout-hd
+{ 
+	background: url('./assets/toolbar-hd.gif') repeat-x 0 -1400px;
+}
 .yui-layout-unit-left {
 	background-color: #003;
 }
-
-/*
-#archHeader {
-	background-color: #003;
-	color: #FF0;
-	text-align: center;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-
-#archFooter{
-	background-color: #003;
-	color: #FF0;
-	text-align: center;
-	padding-top: 10px;
-	padding-bottom: 10px;	
-}
-*/
 
 .leftMenuTitle {
 	background-color: #003;
@@ -89,7 +79,6 @@ dl.accordion-menu dt.a-m-t {
 dl.accordion-menu dt.a-m-t-hover{
 	background: #006;
 }
-
 
 dl.accordion-menu dt.a-m-t-down{
 	border: solid 1px #009;
@@ -160,28 +149,23 @@ div.archHeader {
 	height:auto;
 }
 
-
-
 table.top
 {
     width:100%;
-    height:72px;  
-       
+    height:72px;         
 }
 
 table.top td
 {
     font-family:Andalus;    
-    color:White;
-        
+    color:White;        
 }
 
 table.top td.im
 {
     font-family:Andalus;    
     color:White;
-    width:200px;
-        
+    width:200px;       
 }
 
 table.top td.appname
@@ -189,16 +173,14 @@ table.top td.appname
     font-family:Andalus;    
     color:#AE94FC;
     font-size:xx-large;
-    font-weight:bold;
-    
+    font-weight:bold;    
 }
 
 table.top td.links
 {
     font-family:Andalus;    
     color:white;
-    width:400px;
-     
+    width:400px;     
 }
 
 a.link
@@ -270,5 +252,3 @@ td.spacing
     font-size:small;
     font-family:Andalus;
 }
-
-
