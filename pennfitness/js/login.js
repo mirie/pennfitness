@@ -9,6 +9,7 @@
 // YAHOO.namespace("login");
 
 var userRegPanel;
+var ClearUserInfo;
 
 YAHOO.util.Event.onDOMReady(setupUserReg);
 
@@ -40,6 +41,8 @@ function setupUserReg() {
 				  buttons : [ { text:"Register", handler:handleSubmit, isDefault:true },
 							  { text:"Cancel", handler:handleCancel } ]
 				 } );	
+				 
+	userRegPanel.hideEvent.subscribe(ClearUserInfo);
 
 	// Validate the entries in the form to require that both first and last name are entered 
 
@@ -75,6 +78,19 @@ function setupUserReg() {
 	userRegPanel.render("bd");
 
 	//YAHOO.util.Event.addListener("userRegDialogBtn", "click", userRegPanel.show, userRegPanel, true);
+	
+}
+
+function ClearUserInfo()
+{
+	inputs = document.getElementById("frmRegistration").getElementsByTagName("input");
+
+	for(i = 0 ; i < inputs.length ; i++)
+	{
+		inputs[i].value = "";
+	}
+	
+	document.getElementById("nGender").checked = true;
 	
 }
 

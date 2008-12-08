@@ -7,6 +7,7 @@ YAHOO.util.Event.onDOMReady(initPagForMyAccount);
 
 YAHOO.util.Event.addListener("sendEmailToGroupBtn", "click", sendEmailToGroup);
 YAHOO.util.Event.addListener("unsubscribeGroupBtn", "click", unsubscribeGroup);
+YAHOO.util.Event.addListener("deleteGroupBtn", "click", deleteGroup);
 
 
 
@@ -529,6 +530,71 @@ function unsubscribeGroup() {
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback);
 	
 }
+
+function deleteGroup() {
+	var successHandler = function(o) {	
+		var response;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
+
+		alert("Successfully deleted selected group");	
+		
+		populateMyCreatedGroupByUserID();
+	}
+
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+
+	var callback = {
+		failure:failureHandler,
+		success:successHandler,
+		timeout:3000,
+	}
+
+	radios = document.getElementById("frmGroupSendEmail")["selectedRadioGroup"];
+	var selectedGroup;
+	
+	if( radios.type != "radio" ) // if there are many radio buttons
+	{
+		try 
+		{
+			for(i = 0 ; i < radios.length ; i++) {
+				if(radios[i].checked)
+				{
+					selectedGroup = radios[i].value;
+					break;
+				}
+			}
+		}
+		catch(err)
+		{
+			alert("There is no group to delete!");
+			return;
+		}
+		
+		if( i == radios.length )
+		{
+			alert("Please select a group to delete!");
+			return;
+		}
+	}
+	else // if only one radio button
+	{
+		if( !radios.checked )
+		{
+			alert("Please select a group to delete!");
+			return;
+		}
+		
+		selectedGroup = radios.value;
+	}
+	
+	var strData = "action=delete&groupID="+selectedGroup;
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroup.do", callback, strData);
+
+}
+
 
 
 //Listeners

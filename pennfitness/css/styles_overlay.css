@@ -117,7 +117,7 @@ div.RouteResultItem {
 	right: 4px;
 	height: 18px;
 	width: 17px;
-	background: url('../assets/aqua-hd-close.gif'); 
+	background: transparent url(../assets/hd-closeBtn.gif) repeat scroll 0 0
 }
 
 #panel1.yui-panel .container-close 
@@ -128,6 +128,7 @@ div.RouteResultItem {
 	height: 18px;
 	width: 17px;
 	background: url('../assets/aqua-hd-close.gif'); 
+	
 }
 
 /*
@@ -151,3 +152,14 @@ div.RouteResultItem {
 {
 	background: #003;
 }*/
+
+/*
+.yui-skin-sam .yui-navset .yui-nav, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav {
+	background:#000033 none repeat scroll 0 0;
+}
+
+.yui-skin-sam .yui-panel .hd {
+	background:transparent url(../assets/toolbar-hd.gif) repeat scroll 0 0;
+	border-bottom:0px;
+}
+*/

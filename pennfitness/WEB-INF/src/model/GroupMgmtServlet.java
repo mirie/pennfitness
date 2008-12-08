@@ -202,11 +202,6 @@ public class GroupMgmtServlet extends HttpServlet{
     			return;
     		}
 
-    		result.put("STATUS", "Success");
-    		result.put("MSG", "Group with groupID: " + groupID +" is deleted from database succesfully.");
-    		
-    		out.print(result);  
-    		
     		// Delete GroupReg entity from database
     		if( DBUtilGroup.deleteGroupReg(groupID)<0 )
     		{

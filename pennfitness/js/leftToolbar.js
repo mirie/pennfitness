@@ -46,6 +46,8 @@ selectEventHandler = function(type, dates) {
 		var datesToCompare = YAHOO.util.Dom.get("eventDatesCurrentMonth").value;
 		var date = dates[0][0];
 		var year = date[0], month = date[1], day = date[2];
+		if(month < 10) month = "0" + month;
+		if(day < 10) day = "0" + day;
 		
 		YAHOO.util.Dom.get("eventsOnDateList").innerHTML = "";
 		currentDate = year+"-"+month+"-"+day;
