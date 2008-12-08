@@ -5,7 +5,6 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="css/styles_user.css" />
-<link rel="stylesheet" type="text/css" href="css/styles_overlay.css" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/toolbarStyle.css" />
  
@@ -27,6 +26,7 @@
 
 <!--  ================================= Custom CSS to override YUI CSS style ========== -->
 <link rel="stylesheet" type="text/css" href="css/calendar.css" />
+<link rel="stylesheet" type="text/css" href="css/styles_overlay.css" />
 
 <!--  ================================= Custom Scripts ================================ -->
 <script type="text/javascript" src="js/common.js"></script>
@@ -378,7 +378,7 @@
     <div id="userRegDialog">
         <div class="hd">New User Registration</div>
         <div class="bd">
-            <form method="POST" action="registerUser.do">
+            <form id="frmRegistration" method="POST" action="registerUser.do">
                 <label for="userName">Name:</label><input type="text" name="userName" />
                 <label for="userID">User ID:</label><input type="text" name="userID" />
                 <label for="password">Password:</label> <input type="password" name="password" />                    
@@ -395,7 +395,7 @@
                 <label for="weight">Weight:</label> <input type="text" name="weight" />
                     <div class="clear"></div>
                 <label for="gender">Gender:</label>
-                <input type="radio" name="gender" value="N" /> N/A
+                <input id="nGender" type="radio" name="gender" value="N" checked/> N/A
                 <input type="radio" name="gender" value="M" /> Male
                 <input type="radio" name="gender" value="F" /> Female    
             </form>
@@ -460,6 +460,7 @@
 										Message: <textarea rows="5" cols="20" wrap="physical" name="emailText" id="emailbody"></textarea>
 
 										<input type="button" id="sendEmailToGroupBtn" value="Send Email to group"> 
+										<input type="button" id="deleteGroupBtn" value="Delete group"> 
 									</form>
 
                                 </div>
