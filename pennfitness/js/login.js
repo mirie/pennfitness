@@ -67,6 +67,20 @@ function setupUserReg() {
 			return false; 
 		}
 
+		if (data.password != data.passwordConfirm) {
+			alert("Please make sure your passwords match.");
+			return false;
+		}
+		
+		var email = data.email;
+		var indexofAt = email.indexOf('@');
+		var indexofDot = email.lastIndexOf('.');
+		
+		if (indexofAt < 0 || indexofDot < 0 || (indexofAt > indexofDot) ) {
+			alert("Please enter a valid email address.")
+			return false;
+		}			
+		
  		return true;
 	}; 
 
