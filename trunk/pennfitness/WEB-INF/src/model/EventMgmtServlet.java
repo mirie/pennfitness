@@ -70,9 +70,18 @@ public class EventMgmtServlet extends HttpServlet {
     				if (transaction == -1) {
     					result.put("STATUS", "Failure");
     					result.put("MSG", "Could not delete event for a valid creator");
-    				} else {
-    					result.put("STATUS", "Success");
-    					result.put("MSG", "");    					
+    				} else {	
+    						if( event.getGroupID() > 0 ){
+    							if(DBUtilGroup.sendEmailToGroupMembers("Event notification", 
+    																   "Event \""+event.getName()+"\" deleted\n\nPlease check out website for further details.", 
+    																   event.getGroupID()));
+    							result.put("STATUS", "Success");
+    	    					result.put("MSG", "");
+    						}
+    						else{
+    							result.put("STATUS", "Success");
+    	    					result.put("MSG", "Event deleted but subscribers an error occured while notifying subscribers!");					
+    						}			
     				}    				
     			} else { // userID != creatorID for given routeID
     					result.put("STATUS", "Failure");
@@ -167,8 +176,17 @@ public class EventMgmtServlet extends HttpServlet {
         				result.put( "STATUS", "Failure" );
         				result.put( "MSG", "Could not save event to server!" );
         			} else {
-        				result.put( "STATUS", "Success");
-        				result.put( "MSG", "Event modified successfully!" );
+						if( event.getGroupID() > 0 ){
+							if(DBUtilGroup.sendEmailToGroupMembers("Event notification", 
+																   "Event \""+event.getName()+"\" modified.\n\nPlease check our website for further details.", 
+																   event.getGroupID()));
+							result.put("STATUS", "Success");
+	    					result.put("MSG", "Event modified and group members notified successfully");
+						}
+						else{
+							result.put( "STATUS", "Success");
+	        				result.put( "MSG", "Event modified successfully but an error occured while notifying subscribers !" );
+						}	
         			}
     			} else { // userID != creatorID for given routeID
 					result.put("STATUS", "Failure");

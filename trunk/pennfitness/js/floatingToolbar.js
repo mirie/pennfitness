@@ -1099,6 +1099,7 @@ function deleteEvt()
 	var callback = {
 		failure:failureHandler,
 		success:successHandler,
+		timeout:20000,
 	}
 	
 	var strData = "eventID=" + eventID + "&";
@@ -1124,6 +1125,7 @@ function registerEvt()
 	var callback = {
 		failure:failureHandler,
 		success:successHandler,
+		timeout:20000,
 	}
 	
 	if (eventID == -1) {
