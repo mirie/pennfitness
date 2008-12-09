@@ -434,7 +434,7 @@
                                 	<a href = "#tab2" onclick="populateMyCreatedGroupByUserID();"><em>Created Groups</em></a>
                                 </li>
                                 <li>
-                                	<a href = "#tab3"><em>Create a Group</em></a>
+                                	<a href = "#tab3" onclick="clearCreateGroup()"><em>Create a Group</em></a>
                                 </li>
                             </ul>
 								<div class = "yui-content" style="background-color:#003; color:#FFFE02 ">
@@ -458,9 +458,9 @@
                                     <div id="pag_myCreatedGroupList" class="paginator">
                             			<!-- paginator -->
 			                        </div>           
-										Title  : <input type="text" size="10" maxlength="40" name="emailTitle" id="emailTitle"> <br />
-										Message: <textarea rows="5" cols="20" wrap="physical" name="emailText" id="emailbody"></textarea>
-
+										<b>Title  : </b><input style="margin-left:25px;" type="text" size="40" maxlength="40" name="emailTitle" id="emailTitle"> <br />
+										<b>Message: </b><textarea style="width:30em;overflow:auto" wrap="physical" name="emailText" id="emailbody"></textarea><br /><br />
+	
 										<input type="button" id="sendEmailToGroupBtn" value="Send Email to group"> 
 										<input type="button" id="deleteGroupBtn" value="Delete group"> 
 									</form>
@@ -468,10 +468,10 @@
                                 </div>
                                 <div class = "createAGroup">
                                         <form name="frmCreateGroupData" id="frmCreateGroupData">
-                                        Name <input type="text" name="groupName" size="10" maxlength=30 id="groupName" /><br>
-                                        Description <input type="text" name="groupDesc" size="30" maxlength=300 id="groupDescription" /><br>
+                                        <b>Name: </b><input style="margin-left:35px;" type="text" name="groupName" size="30" maxlength=30 id="groupName" /><br />
+                                        <b>Description: </b><textarea name="groupDesc" id="groupDescription" style="vertical-align:top; width:30em; overflow:auto"></textarea><br /><br />
                                         <input type="hidden" name="action" value="register" />
-                                        <input type="button" name="Create" value="Create" id="createGroup" /><br>
+                                        <input type="button" name="Create" value="Create" id="createGroup" />
                                         </form>
                                 </div>
 
@@ -525,25 +525,25 @@
     <!-- =============================== Search DIALOG Structure:  =============================== -->	
     <div id="panel2">
         <div id = "overlayTabTwo" class="overlayTwo">
-            <ul class = "yui-nav">
+            <ul class = "yui-nav" style="background-color:#003;">
                 <li class = "selected">
-                    <a href = "#tab1"><em>Event Search</em></a>
+                    <a href = "#tab1" onclick="clearEventSearch()"><em>Event Search</em></a>
                 </li>
-                <li><a href = "#tab2"><em>Group Search</em></a>
+                <li><a href = "#tab2" onclick="clearGroupSearch()"><em>Group Search</em></a>
                 </li>
-                <li><a href = "#tab3"><em>Route Search</em></a>
+                <li><a href = "#tab3" onclick="clearRouteSearch()"><em>Route Search</em></a>
                 </li>
             </ul>
             <div class = "yui-content" style="background-color:#003; color:#FFFE02 ">
                 <div class = "eventSearch">
                     <form name="frmEventSearchData" id="frmEventSearchData">
-                    	Keyword :<input type="text" size=10 name="keyword" id="ESKeyword" />&nbsp;&nbsp;
+                    	Keyword: <input type="text" size=10 name="keyword" id="ESKeyword" />&nbsp;&nbsp;
                     	<label for="evtType">Event Type:</label><select id="ESevtType" name="type">
                     	<option value="" selected="selected">All types</option>
                   		  <%= DBUtilEventType.getAllEventTypesOptions() %>
                 		</select><br />
-                    	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="ESFromDate" />
-                    		  <input type="text" size=10 maxlength=10 name="toDate" id="ESToDate" />
+                    	Date: <input type="text" size=20 maxlength=10 name="fromDate" id="ESFromDate" value="From Date (MM/DD/YYYY)" onclick="this.value=''"/>
+                    		  <input type="text" size=20 maxlength=10 name="toDate" id="ESToDate" value="To Date (MM/DD/YYYY)" onclick="this.value=''"/>
 						<input type="button" value="Search" onclick="searchEvent()">
 						<input type="hidden" id="ESrecsPerPage" name="recsPerPage" />
 						<input type="hidden" id="EScurPage" name="curPage" value="1" />
@@ -560,8 +560,8 @@
                 <div>
                     <div class = "groupSearch">
                         <form name="frmGroupSearchData" id="frmGroupSearchData">
-	                    	Keyword :<input type="text" size=10 name="keyword" id="GSKeyword" />&nbsp;&nbsp;
-	                    	Creator ID :<input type="text" size=10 name="creatorID" id="GSCreator" />
+	                    	Keyword: <input type="text" size=10 name="keyword" id="GSKeyword" />&nbsp;&nbsp;
+	                    	UserID: <input type="text" size=10 name="creatorID" id="GSCreator" />
 							<input type="button" value="Search" onclick="searchGroup()" />
 							<input type="hidden" id="GSrecsPerPage" name="recsPerPage" />
 							<input type="hidden" id="GScurPage" name="curPage" value="1" />
@@ -579,10 +579,10 @@
                     <div class = "routeSearch">	
                         <form name="frmRouteSearchData" id="frmRouteSearchData">
 	                    	Keyword :<input type="text" size=10 name="keyword" id="RSKeyword" />&nbsp;&nbsp;
-	                    	Distance :<input type="text" size=3 maxlength=3 name="fromDistance" id="RSFromDistance" />~
+	                    	Distance :<input type="text" size=3 maxlength=3 name="fromDistance" id="RSFromDistance" /> ~ 
 	                    			  <input type="text" size=3 maxlength=3 name="toDistance" id="RSToDistance" /><br />
-	                    	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="RSFromDate" />
-	                    		  <input type="text" size=10 maxlength=10 name="toDate" id="RSToDate" />
+	                    	Date :<input type="text" size=20 maxlength=10 name="fromDate" id="RSFromDate" value="From Date (MM/DD/YYYY)" onclick="this.value=''"/>
+	                    		  <input type="text" size=20 maxlength=10 name="toDate" id="RSToDate" value="To Date (MM/DD/YYYY)" onclick="this.value=''"/>
 							<input type="button" value="Search" onclick="searchRoute()" />
 							<input type="hidden" id="RSrecsPerPage" name="recsPerPage"  />
 							<input type="hidden" id="RScurPage" name="curPage" value="1" />

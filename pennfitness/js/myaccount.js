@@ -162,6 +162,10 @@ function populateMyCreatedGroupByUserIDN(recsPerPage, curPage)
 		failure:failureHandler,
 	}
 	
+	
+	document.getElementById("emailTitle").value = "";
+	document.getElementById("emailbody").value = "";
+	
 	var strData = "action=getMyCreatedGroups&recsPerPage=" + recsPerPage + "&curPage=" + curPage;	
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroupReg.do", callback, strData);
@@ -569,6 +573,12 @@ function deleteGroup() {
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "mgGroup.do", callback, strData);
 
+}
+
+function clearCreateGroup()
+{
+	document.getElementById("groupName").value="";
+	document.getElementById("groupDescription").value="";
 }
 
 

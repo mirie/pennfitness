@@ -55,8 +55,7 @@ function searchEvent() {
 
 	var callback = {
 		failure:failureHandler,
-		success:successHandler,
-		timeout:3000,
+		success:successHandler
 	}
 	YAHOO.util.Connect.setForm("frmEventSearchData");
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchEvent.do", callback);
@@ -76,8 +75,7 @@ function joinGroup(groupID) {
 
 	var callback = {
 		failure:failureHandler,
-		success:successHandler,
-		timeout:3000,
+		success:successHandler
 	}
 
 	var strData = "action=joinGroup&notify=Y&groupID=" + groupID;
@@ -102,9 +100,10 @@ function searchRoute() {
 
 	var callback = {
 		failure:failureHandler,
-		success:successHandler,
-		timeout:3000,
+		success:successHandler
 	}
+	
+	
 	YAHOO.util.Connect.setForm("frmRouteSearchData");
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchRoute.do", callback);
 }
@@ -124,8 +123,7 @@ function searchGroup() {
 
 	var callback = {
 		failure:failureHandler,
-		success:successHandler,
-		timeout:3000,
+		success:successHandler		
 	}
 	YAHOO.util.Connect.setForm("frmGroupSearchData");
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "searchGroup.do", callback);
@@ -225,6 +223,26 @@ function pagEventListByRouteHandler(newState)
 	newState.paginator.setState(newState);
 }
 
+function clearEventSearch()
+{
+	document.getElementById("ESevtType").options[0].selected = true;
+	document.getElementById("ESKeyword").value = "";
+	document.getElementById("ESFromDate").value = "From (MM/DD/YYYY)";
+	document.getElementById("ESToDate").value = "To (MM/DD/YYYY)";
+	
+}
 
+function clearGroupSearch()
+{
+	document.getElementById("GSKeyword").value = "";
+	document.getElementById("GSCreator").value = "";
+}
 
-
+function clearRouteSearch()
+{
+	document.getElementById("RSKeyword").value = "";
+	document.getElementById("RSFromDistance").value = "";
+	document.getElementById("RSToDistance").value = "";
+	document.getElementById("RSFromDate").value = "From (MM/DD/YYYY)";
+	document.getElementById("RSToDate").value = "To (MM/DD/YYYY)";
+}
