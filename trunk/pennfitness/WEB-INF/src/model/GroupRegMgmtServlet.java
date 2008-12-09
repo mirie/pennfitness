@@ -85,12 +85,16 @@ public class GroupRegMgmtServlet extends HttpServlet {
 					while( iterator.hasNext() ){
 						group = iterator.next();
 						
-						sbuf.append( "<div class=\"groupDetailedInfo\"><input type=\"radio\" name=\"groupID\" id=\"selectedRadioGroup\"value=\""+group.getId()+"\"><b>"+group.getName()+"</b><br>\n" )
-						.append("created by ").append(group.getCreatorID())
-						.append(" and active since ").append(group.getCreatedDate())
-						.append(" with ").append(DBUtilGroup.getMemberCount( group.getId())).append(" member(s)<br>\n")
-						.append("Description :").append(group.getDescription()).append("<br>\n")
-						.append("Member(s)     :").append(DBUtilGroup.getMemberList( group.getId() )).append("<br></div>");
+						String[] dateParts = group.getCreatedDate().toString().split("-");
+						String date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+						date = "Created on " + date + " ";
+						
+						sbuf.append( "<div class=\"groupDetailedInfo\"><input type=\"radio\" name=\"groupID\" id=\"selectedRadioGroup\"value=\""+group.getId()+"\"><b> "+group.getName()+"</b><br />\n" )
+						.append(" Created by ").append(group.getCreatorID())
+						.append(", and active since ").append(date)
+						.append(" with ").append(DBUtilGroup.getMemberCount( group.getId())).append(" member(s)<br />\n")
+						.append("<b>Description: </b>").append(group.getDescription()).append("<br />\n")
+						.append("Member(s)     :").append(DBUtilGroup.getMemberList( group.getId() )).append("<br /></div><br />");
 					}
 				}			
 				JSONObject data = new JSONObject();
@@ -124,12 +128,16 @@ public class GroupRegMgmtServlet extends HttpServlet {
 					while( iterator.hasNext() ){
 						group = iterator.next();
 						
-						sbuf.append( "<div class=\"groupRegisteredDetailedInfo\"><input type=\"radio\" name=\"groupID\" id=\"selectedRadioGroupRegistered\"value=\""+group.getId()+"\"><b>"+group.getName()+"</b><br>\n" )
-						.append("created by ").append(group.getCreatorID())
-						.append(" and active since ").append(group.getCreatedDate())
-						.append(" with ").append(DBUtilGroup.getMemberCount( group.getId())).append(" member(s)<br>\n")
-						.append("Description :").append(group.getDescription()).append("<br>\n")
-						.append("Member(s)     :").append(DBUtilGroup.getMemberList( group.getId() )).append("<br></div>");
+						String[] dateParts = group.getCreatedDate().toString().split("-");
+						String date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+						date = "Created on " + date + " ";
+						
+						sbuf.append( "<div class=\"groupRegisteredDetailedInfo\"><input type=\"radio\" name=\"groupID\" id=\"selectedRadioGroupRegistered\"value=\""+group.getId()+"\"><b> "+group.getName()+"</b><br />\n" )
+						.append("Created by ").append(group.getCreatorID())
+						.append(", and active since ").append(date)
+						.append(" with ").append(DBUtilGroup.getMemberCount( group.getId())).append(" member(s)<br />\n")
+						.append("<b>Description: </b>").append(group.getDescription()).append("<br />\n")
+						.append("Member(s)     :").append(DBUtilGroup.getMemberList( group.getId() )).append("<br /></div><br />");
 					}
 				}			
 				JSONObject data = new JSONObject();
