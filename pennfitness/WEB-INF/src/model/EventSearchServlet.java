@@ -104,11 +104,15 @@ public class EventSearchServlet extends HttpServlet{
 							time += " AM";			
 						}
 						
+						String groupName = "None";
+						if (group != null)
+							groupName = group.getName();
+						
 			    		sbuf.append("<div class=\"EventResultItem\">\n").
 			    			 append("<b>").append(counter++).append(") </b>").
 				    		 append("<a style=\"color:red\" href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
 		    				 append(" by <span style=\"color:blue; font-style:italic\" class=\"ERUserID\">" + event.getCreatorID() + "</span><br /> <span class=\"ERcreatedDate\" style=\"margin-left:10px\" >" + date + "</span>").		    				 
-		    				 append(" for <span class=\"ERgroupName\">" + group.getName() + "</span>, Type: <span class=\"EReventType\">" + evtType.getDescription() + "</span><br />\n").
+		    				 append(" for Group: <span class=\"ERgroupName\">" + groupName + "</span>, Type: <span class=\"EReventType\">" + evtType.getDescription() + "</span><br />\n").
 		    				 append("<span class=\"EReventDate\" style=\"margin-left:10px\" >" + date2 + "At " + time + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br /><br />\n").
 		    				 append("<span class=\"ERdescription\" style=\"margin-left:10px\" >description</span><br />").
 		    				 append("</div><br />");
@@ -163,6 +167,9 @@ public class EventSearchServlet extends HttpServlet{
 							time += " AM";			
 						}
 			    		
+						String groupName = "None";
+						if (group != null)
+							groupName = group.getName();
 			    		
 			    		if( !bSimple ) {
 //				    		sbuf.append("<div class=\"EventResultItem\">\n").
@@ -177,7 +184,7 @@ public class EventSearchServlet extends HttpServlet{
 			    			 append("<b>").append(counter++).append(") </b>").
 				    		 append("<a style=\"color:red\" href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
 		    				 append(" by <span style=\"color:blue; font-style:italic\" class=\"ERUserID\">" + event.getCreatorID() + "</span><br /> <span class=\"ERcreatedDate\" style=\"margin-left:10px\" >" + date + "</span>").		    				 
-		    				 append(" for <span class=\"ERgroupName\">" + group.getName() + "</span>, Type: <span class=\"EReventType\">" + evtType.getDescription() + "</span><br />\n").
+		    				 append(" for Group: <span class=\"ERgroupName\">" + groupName + "</span>, Type: <span class=\"EReventType\">" + evtType.getDescription() + "</span><br />\n").
 		    				 append("<span class=\"EReventDate\" style=\"margin-left:10px\" >" + date2 + "At " + time + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br /><br />\n").
 		    				 append("<span class=\"ERdescription\" style=\"margin-left:10px\">description</span><br />").
 		    				 append("</div><br />");

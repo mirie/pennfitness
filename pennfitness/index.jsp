@@ -488,7 +488,7 @@
                             <li><a href = "#tab2" onclick="populateCreatedEventByUserID()"><em>Created Events</em></a>
                             </li>
                         </ul>
-                        <div class = "yui-content" style="background-color:#003; color:#FFFE02; height:300px ">
+                        <div class = "yui-content" style="background-color:#003; color:#FFFE02; height:350px ">
                         		<div id="EVTregistered">
 	                                <div id="myRegisteredEventList">
 										 <!--my registered event(s) detail list --> 
