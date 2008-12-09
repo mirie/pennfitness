@@ -379,11 +379,12 @@ function setupNewEvtDialog(){
 			return false; 
 		}
 		
-		else if(data.eventDuration == "" ) { //TODO: check that it's a float (##.##)
+		if(data.eventDuration == "" ) { 
 			alert("Please enter a duration for the event."); 
 			return false; 
 		}
-		else if(data.evtCalTxt == "") { //TODO: double-check format: ##/##/#### and that date >= curr date
+				
+		if(data.evtCalTxt == "") { 
 			alert("Please enter a date for the event."); 
 			return false; 
 		}

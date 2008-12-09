@@ -93,16 +93,36 @@ public class EventMgmtServlet extends HttpServlet {
 				return;
 	    	}
     		
+    		float duration;
+			Date date;
+			try {
+				duration = Float.valueOf(eventDuration);
+			} catch (NumberFormatException e) {
+				result.put( "STATUS", "Failure" );	
+				result.put( "MSG", "Invalid Event Duration: " + eventDuration + ". Please type the duration as a decimal." );
+				out.println( result );
+				return;
+			}
+    		
+			try {
+				date = Date.valueOf(eventDate);
+			} catch (IllegalArgumentException e) {
+				result.put( "STATUS", "Failure" );	
+				result.put( "MSG", "Invalid Event Date: " + eventDate + ". Please use the calendar, or type the event as MM/DD/YYYY." );
+				out.println( result );
+				return;
+			}
+    		
     		//Save event
-    		if( eventID.equals("-1") ){    
-    			
+    		if( eventID.equals("-1") ){
+    			    			
     			event = new Event( eventName,  
-    					Float.valueOf(eventDuration), 
+    					duration, 
     					eventDescription, 
     					Integer.valueOf( routeID ), 
     					Integer.valueOf( groupID ), 
     					user.getUserID(),
-    					Date.valueOf(eventDate),
+    					date,
     					Time.valueOf(eventTime),
     					publicity.charAt(0),
     					Integer.valueOf(eventTypeID));
@@ -133,10 +153,10 @@ public class EventMgmtServlet extends HttpServlet {
     			if (user.getUserID().trim().equalsIgnoreCase(creatorID)) { // userID == creatorID
 
         			event.setName(eventName);  
-    				event.setDuration(Float.valueOf(eventDuration)); 
+    				event.setDuration(duration); 
     				event.setDescription(eventDescription); 
     				event.setGroupID(Integer.valueOf( groupID )); 
-    				event.setEventDate(Date.valueOf(eventDate));
+    				event.setEventDate(date);
     				event.setEventTime(Time.valueOf(eventTime));
     				event.setPublicity(publicity.charAt(0));
     				event.setEventTypeID( Integer.valueOf(eventTypeID));    				
