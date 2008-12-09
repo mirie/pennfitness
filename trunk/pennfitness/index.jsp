@@ -437,7 +437,7 @@
                                 	<a href = "#tab3"><em>Create a Group</em></a>
                                 </li>
                             </ul>
-								<div class = "yui-content">
+								<div class = "yui-content" style="background-color:#003; color:#FFFE02 ">
 	                                <div class = "myGroups">
 	                                 	<form name="frmGroupRegisteredUnsubscribe" id="frmGroupRegisteredUnsubscribe">                         
 	                                    <input type="hidden" name="action" value="leaveGroup">
@@ -480,7 +480,7 @@
 
                 </div>
                 <div>
-                    <div id ="EventInfoTab" class="EventInfo">
+                    <div id ="EventInfoTab" class="EventInfo" >
                         <ul class = "yui-nav">
                             <li class = "selected">
                                 <a href = "#tab1" onclick="populateRegisteredEventByUserID()"><em>Registered Events</em></a>
@@ -488,7 +488,7 @@
                             <li><a href = "#tab2" onclick="populateCreatedEventByUserID()"><em>Created Events</em></a>
                             </li>
                         </ul>
-                        <div class = "yui-content">
+                        <div class = "yui-content" style="background-color:#003; color:#FFFE02; height:300px ">
                         		<div id="EVTregistered">
 	                                <div id="myRegisteredEventList">
 										 <!--my registered event(s) detail list --> 
@@ -534,7 +534,7 @@
                 <li><a href = "#tab3"><em>Route Search</em></a>
                 </li>
             </ul>
-            <div class = "yui-content">
+            <div class = "yui-content" style="background-color:#003; color:#FFFE02 ">
                 <div class = "eventSearch">
                     <form name="frmEventSearchData" id="frmEventSearchData">
                     	Keyword :<input type="text" size=10 name="keyword" id="ESKeyword" />&nbsp;&nbsp;
