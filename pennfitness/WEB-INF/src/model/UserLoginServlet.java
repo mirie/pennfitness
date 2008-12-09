@@ -60,7 +60,7 @@ public class UserLoginServlet extends HttpServlet {
     	    		// login successful
     	    		result.put("STATUS", "Success");
     	    		result.put("MSG", "");
-    	    		result.put("DATA","Welcome " + user.getUserName() + "(" + user.getUserID() + ")!" +
+    	    		result.put("DATA","Welcome " + user.getUserName() + " (" + user.getUserID() + ")!" +
     	    					"<a href=\"javascript:ShowMyAccountDialog('"+user.getUserID()+"');\"/>My Account</a> " );
     	    		
     	    		// store user in HttpSession
@@ -80,17 +80,17 @@ public class UserLoginServlet extends HttpServlet {
     	    		result.put("DATA",
     	    		"	<div>" +
     	    		"<form name=\"frmUserInfoModify\" id=\"frmUserInfoModify\"" +
-    	    		"<center> " +
-	                "    	<p><span class=\"userName\"id=\"userName\">"+"<b>Username :</b>"+ user.getUserID() + "</span><br>" +
-	                "        <span class=\"userEmail\" id=\"userEmail\">"+"<b>Email :</b>"+user.getEmail()+"</span><br> " +
+//    	    		"<center> " +
+	                "    	<p><span class=\"userName\"id=\"userName\">"+"<b style=\"color:white; margin-left:20px\">Username:</b> "+ user.getUserID() + "</span><br>" +
+	                "        <span class=\"userEmail\" id=\"userEmail\">"+"<b style=\"color:white; margin-left:20px\">Email:</b> "+user.getEmail()+"</span><br> " +
 	                "		  <span class=\"userGender\"id=\"userGender\">" +
 	                		  //getGenderRadio(user.getGender())+"<br>"+
-	                "		<b>Gender :</b>"+user.getGender()+"<br>"+
+	                "		<b style=\"color:white;margin-left:20px\">Gender:</b> "+user.getGender()+"<br>"+
 	                		 // getPublicityCheckBox( user.getPublicEventNotify() )+"<br>"+
-	                "		<b>Public Event Notify Type :</b>"+ user.getPublicEventNotify() +"<br>"+
-	                "        <b>Member since :</b><span class=\"since\">"+user.getRegisteredDate()+"</span><br> " +
-	                "        <span class=\"userHeight\"id=\"userHeight\">"+"<b>Height :</b>"+user.getHeight()+"</span><br>"+
-	                "        <span class=\"userWeight\"id=\"userWeight\">"+"<b>Weight :</b>"+user.getWeight()+"</span><br>"+
+	                "		<b style=\"color:white;margin-left:20px\">Public Event Notify Type:</b> "+ user.getPublicEventNotify() +"<br>"+
+	                "        <b style=\"color:white;margin-left:20px\">Member since:</b> <span class=\"since\">"+user.getRegisteredDate()+"</span><br> " +
+	                "        <span class=\"userHeight\"id=\"userHeight\">"+"<b style=\"color:white;margin-left:20px\">Height:</b> "+user.getHeight()+"</span><br>"+
+	                "        <span class=\"userWeight\"id=\"userWeight\">"+"<b style=\"color:white;margin-left:20px\">Weight:</b> "+user.getWeight()+"</span><br>"+
 	                "        </p>" +
 	                "		<div class = \"personalInfo\">" +
 	                		
@@ -145,7 +145,8 @@ public class UserLoginServlet extends HttpServlet {
             		"	<div id=\"modifyPersonalInfoBtns\">"+
                 	"		<input type=\"button\" id=\"modifyPersonalInfoBtn\" value=\"Modify\" /> " +            
             		"	</div>"+
-        		    "</div></form></center></div>"+
+//        		    "</div></form></center></div>"+
+            		"</div></form></div>"+
                     "    ");
     			}
     		}

@@ -65,14 +65,18 @@ public class RouteSearchServlet extends HttpServlet{
 				int counter = 1;
 				while( iterator.hasNext() ){
 					route = iterator.next();
+					String[] dateParts = route.getCreatedDate().toString().split("-");
+					String date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+					date = "Created on " + date + " ";
+					
 					sbuf.append("<div class=\"RouteResultItem\">\n").
 					append("<b>").append(counter++).append(")</b> ").
-					append("<span class=\"RRrouteName\"><b><i>" + route.getName() + "</i></b></span> by ").
-					append("<span class=\"RRuserID\">" + route.getCreatorID() + "</span> on ").
-					append("<span class=\"RRcreatedDate\">" + route.getCreatedDate().toString() + "</span>").
-					append("<span class=\"RRdistance\">(" + route.getDistance() + " miles)</span> ").
-					append("<span class=\"RRrating\">Avg rating : " + route.getPt_rate() + "</span><br \\>\n").
-					append("<span class=\"RRdescription\">" + route.getDescription() + "</span>\n").
+					append("<a style=\"color:red; font-weight:bold\" href=\"javascript:YAHOO.pennfitness.float.getRoute(" + route.getId() + ", false)\">" + route.getName()+ "</a> by ").
+					append("<span class=\"RRuserID\" style=\"color:blue; font-style:italic\" >" + route.getCreatorID() + "</span><br \\> ").
+					append("<span class=\"RRcreatedDate\" style=\"margin-left:10px\">" + date + "</span>").
+					append("<span class=\"RRdistance\">(" + route.getDistance() + " miles)</span><br \\> ").
+					append("<span class=\"RRrating\" style=\"margin-left:10px\">Average rating : " + route.getPt_rate() + "</span><br \\>").
+					append("<span style=\"margin-left:10px\" class=\"RRdescription\">" + route.getDescription() + "</span>\n").
 					append("</div>\n");
 				}
 			}

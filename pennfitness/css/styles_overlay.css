@@ -106,8 +106,27 @@ div.RouteResultItem {
 	vertical-align: middle;
 }
 
-#emailGroupTextArea
+#panel1.yui-panel .container-close 
 {
+	position: absolute;
+	top: 3px;
+	right: 4px;
+	height: 18px;
+	width: 17px;
+	background: transparent url(../assets/hd-closeBtn.gif) repeat scroll 0 0
+}
+
+#panel1.yui-panel .hd
+{
+	background: url('../assets/search-hd.gif') no-repeat;
+	text-align: center;
+	color: rgb(229,238,245);
+	font-weight: 700;
+}
+
+#panel1.yui-module .ft
+{
+	background: #003;
 }
 
 #panel2.yui-panel .container-close 
@@ -118,26 +137,6 @@ div.RouteResultItem {
 	height: 18px;
 	width: 17px;
 	background: transparent url(../assets/hd-closeBtn.gif) repeat scroll 0 0
-}
-
-#panel1.yui-panel .container-close 
-{
-	position: absolute;
-	top: 3px;
-	right: 4px;
-	height: 18px;
-	width: 17px;
-	background: url('../assets/aqua-hd-close.gif'); 
-	
-}
-
-/*
-#panel2.yui-module .yui-overlay .yui-panel, #panel2.yui-panel .hd, #panel2.yui-panel .bd, #panel2.yui-panel .ft
-{
-	background: #003;
-	background-color: #003;
-	color: #FFFE02;
-	border: 1px solid #003;	
 }
 
 #panel2.yui-panel .hd
@@ -151,7 +150,7 @@ div.RouteResultItem {
 #panel2.yui-module .ft
 {
 	background: #003;
-}*/
+}
 
 /*
 .yui-skin-sam .yui-navset .yui-nav, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav {
