@@ -257,16 +257,18 @@
                 	<hr />
                 	 <div id="hideEvtDetail" ><a href="javascript:displayEventList()">Back to List</a></span><br /></div>
 	                 <div class="generalInfo" id="eventGeneral">
-	                 	<div class="eventHd">Event Details</div>          	
+	                 	<div class="eventHd" style="color:navy;">Event Details</div>          	
 	                    <span id="eventName">Event Name</span> <span id="eventCreator">by Mai</span><br />
 	                    <span id="eventCreatedDate">Created on: 11/30/2008</span><br />
 	                </div>
-	                <div class="eventDetails">
-	                    <span id="eventStart">1:00 PM</span><span id="eventDuration">(1 hour)</span><br />
-	                    <span id="eventType">Casual Run</span> <span id="eventPrivacy">Public</span> <span id="eventGroup">Group 1</span>
-	                </div>
-	                <div class="description" id="eventDesc">
-	                    Event Description here...
+	                <div id="evtContainer">
+		                <div class="eventDetails">
+		                    <span id="eventStart">1:00 PM</span><span id="eventDuration">(1 hour)</span><br />
+		                    <span id="eventType">Casual Run</span> <span id="eventPrivacy">Public</span> <span id="eventGroup">Group 1</span>
+		                </div>
+		                <div class="description" id="eventDesc">
+		                    Event Description here...
+		                </div>
 	                </div>
 	                <div class="toolbarBtns">
                     	<a class="button" id="deleteEventBtn"><span>Delete</span></a>

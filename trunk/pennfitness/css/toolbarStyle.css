@@ -106,7 +106,7 @@
 	margin-bottom: 8px;	
 }
 
-#Rtdate
+#Rtdate, #eventCreatedDate
 {
 	font-style: italic;
 }
@@ -190,9 +190,14 @@ hr
 	padding-bottom: 5px;
 }
 
-#routeCreatedDate, #eventCreatedDate
+#evtContainer
 {
-	color:#900;	
+	font-weight: 500;
+	margin-bottom: 10px;
+	height: 30px;
+	border: solid 1px #003;
+	padding: 5px;
+	overflow:auto;
 }
 
 #eventDesc
@@ -202,6 +207,14 @@ hr
 	padding-bottom: 8px;
 }
 
+#eventList
+{
+	color: blue;	
+}
+#eventList a
+{
+	color: red;	
+}
 
 #routeTimeDist, .generalInfo {
 	text-align: left;
