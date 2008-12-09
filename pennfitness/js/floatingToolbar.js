@@ -38,19 +38,24 @@ YAHOO.pennfitness.float.populateGroupByUserID = function ()
 	
 		
 		var groupSelect = document.getElementById("evtGroup");
-		groupSelect.options.length = 1;
 		
-		var groupList = jResponse.DATA.GROUPS.split(";");
+		if (groupSelect.options.length == 1) {
 		
-		// {"DATA":{"GROUPS":"19-maiGrp1;"},"STATUS":"Success"}		
-		
-		for (var i = 0; i < groupList.length - 1; i++) {
-			var group = groupList[i].split("-");	
+			groupSelect.options.length = 1;
 			
-			var option = document.createElement("option");
-			option.setAttribute("value",group[0]);
-			option.appendChild(document.createTextNode(group[1]));
-			groupSelect.appendChild(option);			
+			var groupList = jResponse.DATA.GROUPS.split(";");
+			
+			// {"DATA":{"GROUPS":"19-maiGrp1;"},"STATUS":"Success"}		
+			
+			for (var i = 0; i < groupList.length - 1; i++) {
+				var group = groupList[i].split("-");	
+				
+				var option = document.createElement("option");
+				option.setAttribute("value",group[0]);
+				option.appendChild(document.createTextNode(group[1]));
+				groupSelect.appendChild(option);			
+			}
+			groupSelect.disabled = false;
 		}
 		
 		YAHOO.pennfitness.float.newEventPanel.show();
@@ -64,6 +69,7 @@ YAHOO.pennfitness.float.populateGroupByUserID = function ()
 		success:successHandler,
 		failure:failureHandler
 	};
+	
 	
 	var strData = "action=getGroupsForCreateEvent&";
 	strData    += "eventID=" + eventID; 
@@ -916,15 +922,23 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 			document.getElementById("eventPrivacy").innerHTML = "Private Event <br /> ";
 			document.getElementById("privateEvt").checked = true
 		}
-		
-		// TODO: BUG!!!! HAVE TO DEAL WITH DISPLAYING GROUPS - NOT WORKING FOR GROUPS THAT I'M NOT IN.
-		
-		document.getElementById("evtGroup").options[getSelectedGroupID(jResponse.DATA.EVENT_GROUP_ID)].selected = true;
+				
+		//document.getElementById("evtGroup").options[getSelectedGroupID(jResponse.DATA.EVENT_GROUP_ID)].selected = true;
+		var groupSelect = document.getElementById("evtGroup");
+		groupSelect.options.length = 1;
 		
 		if (jResponse.DATA.EVENT_GROUP_ID == -1) {
-			document.getElementById("eventGroup").innerHTML = "For Group: None";
+			document.getElementById("eventGroup").innerHTML = "For Group: None";			
 		} else {
-			document.getElementById("eventGroup").innerHTML = "For Group: " + jResponse.DATA.EVENT_GROUP_ID;
+			document.getElementById("eventGroup").innerHTML = "For Group: " + jResponse.DATA.GROUP_NAME;
+			
+			var option = document.createElement("option");
+			option.setAttribute("value", jResponse.DATA.EVENT_GROUP_ID);
+			option.appendChild(document.createTextNode(jResponse.DATA.GROUP_NAME));
+			groupSelect.appendChild(option);
+			
+			groupSelect.options[1].selected = true;
+			groupSelect.disabled = true;
 		}
 		
 		document.getElementById("eventDesc").innerHTML = jResponse.DATA.EVENT_DESCRIPTION;

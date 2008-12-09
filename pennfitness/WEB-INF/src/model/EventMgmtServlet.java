@@ -126,11 +126,21 @@ public class EventMgmtServlet extends HttpServlet {
     			result.put( "DATA",  data );
     		}
     		//Modify event
-    		else {
-    			//event.setEventID( Integer.valueOf( eventID.trim() ) );
+    		else {    		
     			event = DBUtilEvent.getEventById(eventID);
     			String creatorID = event.getCreatorID();
+    			
     			if (user.getUserID().trim().equalsIgnoreCase(creatorID)) { // userID == creatorID
+
+        			event.setName(eventName);  
+    				event.setDuration(Float.valueOf(eventDuration)); 
+    				event.setDescription(eventDescription); 
+    				event.setGroupID(Integer.valueOf( groupID )); 
+    				event.setEventDate(Date.valueOf(eventDate));
+    				event.setEventTime(Time.valueOf(eventTime));
+    				event.setPublicity(publicity.charAt(0));
+    				event.setEventTypeID( Integer.valueOf(eventTypeID));    				
+    				
     				transaction = DBUtilEvent.modifyEvent( event );
 
         			if( transaction == -1 ) {

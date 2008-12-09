@@ -1,5 +1,5 @@
 
-<%@ page import="java.util.*, model.*, entities.Event, org.json.simple.JSONObject" %>
+<%@ page import="java.util.*, model.*, entities.Event, entities.Group, org.json.simple.JSONObject" %>
 
 <% 
 	String eventID = request.getParameter("eventID");
@@ -7,7 +7,8 @@
 	
 	if( eventID != null ){
 		Event event = DBUtilEvent.getEventById( eventID ); 
-
+		Group group = DBUtilGroup.getGroupById(event.getGroupID() + "");
+		
 		JSONObject data = new JSONObject();
 		data.put( "EVENT_ID", new Integer( event.getEventID() ));
 		data.put( "EVENT_NAME", event.getName());
@@ -20,7 +21,8 @@
 		data.put( "EVENT_DURATION", new Float( event.getDuration() ) );
 		data.put( "EVENT_TIME", event.getEventTime() + "" );
 		data.put( "EVENT_CREATOR_ID", event.getCreatorID());
-		
+		if (group != null)
+			data.put( "GROUP_NAME", group.getName());
 	  	
 	  	result = new JSONObject();
 	  	result.put("STATUS","Success");
