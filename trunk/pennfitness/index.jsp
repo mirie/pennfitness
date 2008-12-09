@@ -95,6 +95,7 @@
             </span>
             <span id="showbtns">
             	<a href="javascript:ShowSearchDialog()"/>Search</a>
+            	<a href="help.html" target="_blank"/>Help!</a>
             </span>
 	</div>
 </div>
