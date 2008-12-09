@@ -44,6 +44,7 @@ public class UserRegisterServlet extends HttpServlet {
 		else {
 			try {
 				height = Float.parseFloat(req.getParameter("height"));
+				if (height < 0) height = 0;
 			} catch(NumberFormatException ex)
 			{
 				height = 0;
@@ -58,6 +59,7 @@ public class UserRegisterServlet extends HttpServlet {
 		else {
 			try {
 				weight = Float.parseFloat(req.getParameter("weight"));
+				if (weight < 0) weight = 0;
 			} catch(NumberFormatException ex)
 			{
 				weight = 0;
