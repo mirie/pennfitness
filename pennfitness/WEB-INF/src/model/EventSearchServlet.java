@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 
 import entities.Event;
+import entities.EventType;
+import entities.Group;
 import entities.Paging;
 import entities.Route;
 import entities.User;
@@ -76,15 +78,40 @@ public class EventSearchServlet extends HttpServlet{
 					int counter=1;
 					while( iterator.hasNext() ){
 						event = iterator.next();
+						
+						Group group = DBUtilGroup.getGroupById(event.getGroupID()+ "");
+						EventType evtType = DBUtilEventType.getEventTypeById(event.getEventTypeID()+ "");
+						
+						String[] dateParts = event.getCreatedDate().toString().split("-");
+						String date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+						date = "Created on " + date + " ";
+						
+						dateParts = event.getEventDate().toString().split("-");
+						String date2 = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+						date2 = "On " + date2 + " ";
+						
+						String[] timeParts = event.getEventTime().toString().split(":");
+						String time = "";
+						int intHour = Integer.valueOf(timeParts[0]); 
+						
+						if ( intHour > 12 ){
+							String hour = (intHour - 12) + "";
+							time += hour +  ":" + timeParts[1];							
+							time += " PM";
+						}
+						else {
+							time += timeParts[0] + ":" + timeParts[1];
+							time += " AM";			
+						}
+						
 			    		sbuf.append("<div class=\"EventResultItem\">\n").
 			    			 append("<b>").append(counter++).append(") </b>").
-//		    				 append("<span class \"EReventName\"><b><i>" + event.getName() + "</i></b></span>").
-				    		 append("<a href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
-		    				 append(" by <span class=\"ERUserID\">" + event.getCreatorID() + "</span> created on <span class=\"ERcreatedDate\">" + event.getCreatedDate() + "</span>").
-		    				 append(" for <span class=\"ERgroupName\">" + event.getGroupID() + "</span> Type: <span class=\"EReventType\">" + event.getEventTypeID() + "</span><br />\n").
-		    				 append("On <span class=\"EReventDate\">" + event.getEventDate() + " " + event.getEventTime() + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br />\n").
-		    				 append("<span class=\"ERdescription\">description</span>\n").
-		    				 append("</div>\n");
+				    		 append("<a style=\"color:red\" href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
+		    				 append(" by <span style=\"color:blue; font-style:italic\" class=\"ERUserID\">" + event.getCreatorID() + "</span><br /> <span class=\"ERcreatedDate\" style=\"margin-left:10px\" >" + date + "</span>").		    				 
+		    				 append(" for <span class=\"ERgroupName\">" + group.getName() + "</span>, Type: <span class=\"EReventType\">" + evtType.getDescription() + "</span><br />\n").
+		    				 append("<span class=\"EReventDate\" style=\"margin-left:10px\" >" + date2 + "At " + time + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br /><br />\n").
+		    				 append("<span class=\"ERdescription\" style=\"margin-left:10px\" >description</span><br />").
+		    				 append("</div><br />");
 					}
 				}
 			}
@@ -107,17 +134,53 @@ public class EventSearchServlet extends HttpServlet{
 			    	
 					int cnt = (paging.getCurPage()-1)*paging.getRecsPerPage() + 1;
 					Event event;
+					int counter=1;
 			    	while( iterator.hasNext() ){
+			    		
 			    		event = iterator.next(); 	
+						Group group = DBUtilGroup.getGroupById(event.getGroupID()+ "");
+						EventType evtType = DBUtilEventType.getEventTypeById(event.getEventTypeID()+ "");
+						
+						String[] dateParts = event.getCreatedDate().toString().split("-");
+						String date = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+						date = "Created on " + date + " ";
+						
+						dateParts = event.getEventDate().toString().split("-");
+						String date2 = dateParts[1] + "/" + dateParts[2] + "/" + dateParts[0];	
+						date2 = "On " + date2 + " ";
+						
+						String[] timeParts = event.getEventTime().toString().split(":");
+						String time = "";
+						int intHour = Integer.valueOf(timeParts[0]); 
+						
+						if ( intHour > 12 ){
+							String hour = (intHour - 12) + "";
+							time += hour +  ":" + timeParts[1];							
+							time += " PM";
+						}
+						else {
+							time += timeParts[0] + ":" + timeParts[1];
+							time += " AM";			
+						}
+			    		
 			    		
 			    		if( !bSimple ) {
+//				    		sbuf.append("<div class=\"EventResultItem\">\n").
+//				    			append("<a href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
+//				    			append(" by <span class=\"ERUserID\">" + event.getCreatorID() + "</span> created on <span class=\"ERcreatedDate\">" + event.getCreatedDate() + "</span>").
+//				    			append(" for <span class=\"ERgroupName\">" + event.getGroupID() + "</span> Type: <span class=\"EReventType\">" + event.getEventTypeID() + "</span><br />\n").
+//				    			append("On <span class=\"EReventDate\">" + event.getEventDate() + " " + event.getEventTime() + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br />\n").
+//				    			append("<span class=\"ERdescription\">description</span>\n").
+//				    			append("</div>\n");
+			    			
 				    		sbuf.append("<div class=\"EventResultItem\">\n").
-				    			append("<a href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
-				    			append(" by <span class=\"ERUserID\">" + event.getCreatorID() + "</span> created on <span class=\"ERcreatedDate\">" + event.getCreatedDate() + "</span>").
-				    			append(" for <span class=\"ERgroupName\">" + event.getGroupID() + "</span> Type: <span class=\"EReventType\">" + event.getEventTypeID() + "</span><br />\n").
-				    			append("On <span class=\"EReventDate\">" + event.getEventDate() + " " + event.getEventTime() + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br />\n").
-				    			append("<span class=\"ERdescription\">description</span>\n").
-				    			append("</div>\n");
+			    			 append("<b>").append(counter++).append(") </b>").
+				    		 append("<a style=\"color:red\" href=\"javascript:YAHOO.pennfitness.float.getEventLeftTB(" + event.getEventID()+ "," + event.getRouteID() + ")\" title=\"Event Details\">" + event.getName() + "</a>").
+		    				 append(" by <span style=\"color:blue; font-style:italic\" class=\"ERUserID\">" + event.getCreatorID() + "</span><br /> <span class=\"ERcreatedDate\" style=\"margin-left:10px\" >" + date + "</span>").		    				 
+		    				 append(" for <span class=\"ERgroupName\">" + group.getName() + "</span>, Type: <span class=\"EReventType\">" + evtType.getDescription() + "</span><br />\n").
+		    				 append("<span class=\"EReventDate\" style=\"margin-left:10px\" >" + date2 + "At " + time + "</span> for <span class=\"ERduration\">" + event.getDuration() + " hours</span><br /><br />\n").
+		    				 append("<span class=\"ERdescription\" style=\"margin-left:10px\">description</span><br />").
+		    				 append("</div><br />");
 			    		}
 			    		else {
 			    			// use simple form for left toolbar listing

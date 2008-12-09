@@ -81,16 +81,16 @@ public class UserLoginServlet extends HttpServlet {
     	    		"	<div>" +
     	    		"<form name=\"frmUserInfoModify\" id=\"frmUserInfoModify\"" +
 //    	    		"<center> " +
-	                "    	<p><span class=\"userName\"id=\"userName\">"+"<b style=\"color:white; margin-left:20px\">Username:</b> "+ user.getUserID() + "</span><br>" +
-	                "        <span class=\"userEmail\" id=\"userEmail\">"+"<b style=\"color:white; margin-left:20px\">Email:</b> "+user.getEmail()+"</span><br> " +
+	                "    	<p><span class=\"userName\"id=\"userName\">"+"<span style=\"color:white; margin-left:20px\">Username:</span> "+ user.getUserID() + "</span><br>" +
+	                "        <span class=\"userEmail\" id=\"userEmail\">"+"<span style=\"color:white; margin-left:20px\">Email:</span> "+user.getEmail()+"</span><br> " +
 	                "		  <span class=\"userGender\"id=\"userGender\">" +
 	                		  //getGenderRadio(user.getGender())+"<br>"+
-	                "		<b style=\"color:white;margin-left:20px\">Gender:</b> "+user.getGender()+"<br>"+
+	                "		<span style=\"color:white;margin-left:20px\">Gender:</span> "+user.getGender()+"<br>"+
 	                		 // getPublicityCheckBox( user.getPublicEventNotify() )+"<br>"+
-	                "		<b style=\"color:white;margin-left:20px\">Public Event Notify Type:</b> "+ user.getPublicEventNotify() +"<br>"+
-	                "        <b style=\"color:white;margin-left:20px\">Member since:</b> <span class=\"since\">"+user.getRegisteredDate()+"</span><br> " +
-	                "        <span class=\"userHeight\"id=\"userHeight\">"+"<b style=\"color:white;margin-left:20px\">Height:</b> "+user.getHeight()+"</span><br>"+
-	                "        <span class=\"userWeight\"id=\"userWeight\">"+"<b style=\"color:white;margin-left:20px\">Weight:</b> "+user.getWeight()+"</span><br>"+
+	                "		<span style=\"color:white;margin-left:20px\">Public Event Notify Type:</span> "+ user.getPublicEventNotify() +"<br>"+
+	                "        <span style=\"color:white;margin-left:20px\">Member since:</span> <span class=\"since\">"+user.getRegisteredDate()+"</span><br> " +
+	                "        <span class=\"userHeight\"id=\"userHeight\">"+"<span style=\"color:white;margin-left:20px\">Height:</span> "+user.getHeight()+"</span><br>"+
+	                "        <span class=\"userWeight\"id=\"userWeight\">"+"<span style=\"color:white;margin-left:20px\">Weight:</span> "+user.getWeight()+"</span><br>"+
 	                "        </p>" +
 	                "		<div class = \"personalInfo\">" +
 	                		
