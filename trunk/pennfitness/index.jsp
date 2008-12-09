@@ -406,7 +406,7 @@
     
     <!-- =============================== My Account DIALOG Structure:  =============================== -->
     <div id="panel1">
-        <div id = "overlayTabOne" class="overlayOne">
+        <div id = "overlayTabOne" class="overlayOne" style="background-color:#003;">
             <ul class = "yui-nav">
                 <li class = "selected">
                     <a href = "#tab1"><em>Personal Information</em></a>
@@ -418,7 +418,7 @@
                 <li><a href = "#tab4" onclick="populateRouteByUserID();"><em>Route Information</em></a>
                 </li>
             </ul>
-            <div class = "yui-content">
+            <div class = "yui-content" style="background-color:#003; color:#FFFE02 ">
                 <div>
                     <div id = "personalInfo">
 

@@ -130,8 +130,7 @@ function GetUserInformation(userID){
 
 	var callback = {
 		failure:failureHandler,
-		success:successHandler,
-		timeout:3000,
+		success:successHandler
 	}
 	
 	var strData = "userID="+userID+"&password=\"\"&action=getPersonalInfo";
