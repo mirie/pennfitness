@@ -379,11 +379,11 @@
         <div class="hd">New User Registration</div>
         <div class="bd">
             <form id="frmRegistration" method="POST" action="registerUser.do">
-                <label for="userName">Name:</label><input type="text" name="userName" />
-                <label for="userID">User ID:</label><input type="text" name="userID" />
-                <label for="password">Password:</label> <input type="password" name="password" />                    
-                <label for="passwordConfirm">Confirm Password:</label> <input type="password" name="passwordConfirm" />
-                <label for="email">E-mail:</label><input type="text" name="email" /> 
+                <label for="userName">Name:</label><input type="text" name="userName" maxlength="20"/>
+                <label for="userID">User ID:</label><input type="text" name="userID"  maxlength="20"/>
+                <label for="password">Password:</label> <input type="password" name="password" maxlength=20"/>                    
+                <label for="passwordConfirm">Confirm Password:</label> <input type="password" name="passwordConfirm" maxlength="20"/>
+                <label for="email">E-mail:</label><input type="text" name="email" maxlength="40"/> 
     
                 <div class="clear"></div>
     
@@ -391,8 +391,8 @@
     
                 <div class="clear"></div>
     
-                <label for="height">Height:</label> <input type="text" name="height" />
-                <label for="weight">Weight:</label> <input type="text" name="weight" />
+                <label for="height">Height:</label> <input type="text" name="height" maxlength="5"/>
+                <label for="weight">Weight:</label> <input type="text" name="weight" maxlength="5"/>
                     <div class="clear"></div>
                 <label for="gender">Gender:</label>
                 <input id="nGender" type="radio" name="gender" value="N" checked/> N/A

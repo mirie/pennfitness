@@ -62,7 +62,7 @@ public class UserRegisterServlet extends HttpServlet {
 				if (weight < 0) weight = 0;
 			} catch(NumberFormatException ex)
 			{
-				weight = 0;
+				weight = 0; 
 			}
 		}
 		String gender = req.getParameter("gender") == null ? "N" : req.getParameter("gender");
