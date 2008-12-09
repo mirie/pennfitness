@@ -6,6 +6,7 @@
 YAHOO.namespace("pennfitness.float");
 var colorButton, oColorPicker;
 var routeID = -1, eventID = -1, eventCount = 0;
+var routeOwner = false;
 
 String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g, ''); }
 
@@ -577,6 +578,10 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 }
 
 function modifyRt() {	
+	checkRouteOwner();
+}
+
+function displayModify() {
 	document.getElementById("routeGeneral").style.display = "none";
 	
 	document.getElementById("routeNameTxtDiv").style.display = "block";
@@ -607,6 +612,30 @@ function modifyRt() {
 	document.getElementById("modifyRoute").style.display = "none";
 	
 	enableMap();
+}
+
+
+function checkRouteOwner() {
+	var successHandler = function(o) {	
+		var jResponse;
+		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false; 
+		routeOwner = jResponse.DATA.IS_OWNER;
+		
+		if (routeOwner) {
+			displayModify();
+		}
+	}
+	
+	var failureHandler = function(o) {
+		alert("Error + " + o.status + " : " + o.statusText);
+	}
+	
+	var callback = {
+		failure:failureHandler,
+		success:successHandler
+	}
+	
+	var transaction = YAHOO.util.Connect.asyncRequest("GET", "view/RouteOwner.jsp?routeID=" + routeID, callback);
 }
 
 function cancelRt()
