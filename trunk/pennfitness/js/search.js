@@ -137,7 +137,7 @@ function initPaginators()
 
 	// Paginator for event search
 	pagEventSearch = new YAHOO.widget.Paginator({
-		rowsPerPage  : 5,
+		rowsPerPage  : 3,
 	    totalRecords : 1,
 	    containers   : ["pag_eventSearchResult"], // or idStr or elem or [ elem, elem ]
 	});		
