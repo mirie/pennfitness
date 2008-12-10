@@ -1,6 +1,6 @@
 var saveGp;
 
-var sendEmailToGroup, unsubscribeGroup;
+var sendEmailToGroup, unsubscribeGroup, waitPanelEmail;
 
 // Functions for my account dialog
 YAHOO.util.Event.onDOMReady(initPagForMyAccount);
@@ -14,9 +14,25 @@ YAHOO.util.Event.addListener("deleteGroupBtn", "click", deleteGroup);
 // Listeners
 YAHOO.util.Event.addListener("createGroup", "click", saveGp);
 
-
 function initPagForMyAccount()
 {
+	waitPanelEmail = new YAHOO.widget.Panel("waitPanelEmail",
+				{  
+				  
+				  fixedcenter:true, 
+				  close:false, 
+				  draggable:false, 
+				  zindex:5,
+				  modal:true,
+				  visible:false
+				} 
+			);
+	
+	waitPanelEmail.setHeader("Loading, please wait...");
+	waitPanelEmail.setBody('<img src="http://us.i1.yimg.com/us.yimg.com/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
+
+	waitPanelEmail.render("panel1");
+
 	// Paginator for event registered
 	pagEVTregistered = new YAHOO.widget.Paginator({
 		rowsPerPage  : 3,
@@ -464,14 +480,14 @@ function savePersonalInfo() {
 
 function sendEmailToGroup(groupID) {
 	var successHandler = function(o) {	
-		waitPanel.hide();
+		waitPanelEmail.hide();
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 
 		alert("Successfully sent an email to the group!");	
 	}
 
 	var failureHandler = function(o) {
-		waitPanel.hide();
+		waitPanelEmail.hide();
 		alert("Error + " + o.status + " : " + o.statusText);
 	}
 
@@ -481,7 +497,7 @@ function sendEmailToGroup(groupID) {
 		timeout:20000,
 	}
 	
-	waitPanel.show();
+	waitPanelEmail.show();
 
 	YAHOO.util.Connect.setForm("frmGroupSendEmail");
 	
