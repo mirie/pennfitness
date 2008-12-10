@@ -21,7 +21,7 @@ var lineWeight = 3;
 var lineOpacity = .8;
 var fillOpacity = .2;
 var startIcon;
-var url = "http://localhost/pennfitness/assets/";
+var url = "http://spam.seas.upenn.edu:8088/Fitness/assets/";
 // Other variables
 var distance;
 var mapLimits;
