@@ -12,14 +12,23 @@
 		User user = (User) session.getAttribute("user");
 		JSONObject data = new JSONObject();
 		
-		if (user != null && user.getUserID().equals(route.getCreatorID())) {
+		if (user == null) {
+			result.put("STATUS","Failure");
+			result.put("MSG", "You must be logged in to modify this route.");
+			data.put("IS_OWNER","false");
+		  	result.put("DATA",data );
+		  	out.println(result);
+		  	return;
+		}
+		
+		if (user.getUserID().equals(route.getCreatorID())) {
 			result.put("STATUS","Success");
 			data.put("IS_OWNER","true");
 		  	result.put("DATA",data );
 		} else {
 			result.put("STATUS","Failure");
 			result.put("MSG", "You do not have priviledges to modify this route.");
-			data.put("IS_OWNER","true");
+			data.put("IS_OWNER","false");
 		  	result.put("DATA",data );
 		}
 	}
