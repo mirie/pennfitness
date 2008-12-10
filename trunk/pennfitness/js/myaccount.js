@@ -28,7 +28,7 @@ function initPagForMyAccount()
 				} 
 			);
 	
-	waitPanelEmail.setHeader("Loading, please wait...");
+	waitPanelEmail.setHeader("Sending an email, please wait...");
 	waitPanelEmail.setBody('<img src="http://us.i1.yimg.com/us.yimg.com/i/us/per/gr/gp/rel_interstitial_loading.gif" />');
 
 	waitPanelEmail.render("panel1");
