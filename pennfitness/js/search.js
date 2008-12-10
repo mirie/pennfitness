@@ -3,9 +3,34 @@ YAHOO.namespace("yuibook.tabs");
 YAHOO.util.Event.onDOMReady(initTabs);
 YAHOO.util.Event.onDOMReady(initPaginators);
 YAHOO.util.Event.onDOMReady(switchTabs);
+YAHOO.util.Event.onDOMReady(initToolTips);
 
 // paginators
 var pagNewRoutes, pagPopularRoutes, pagNewEvents, pagRouteSearch, pagGroupSearch, pagEventListByRoute;
+
+// functions
+var cleanUpMyAccountInformation;
+
+function cleanUp()
+{
+	cleanSearchDialog();
+	cleanUpMyAccountInformation();
+}
+
+function cleanSearchDialog()
+{
+	document.getElementById("ESevtType").options[0].selected = true;
+	document.getElementById("ESKeyword").value = "";
+	document.getElementById("ESFromDate").value = "";
+	document.getElementById("ESToDate").value = "";
+	document.getElementById("GSKeyword").value = "";
+	document.getElementById("GSCreator").value = "";
+	document.getElementById("RSKeyword").value = "";
+	document.getElementById("RSFromDistance").value = "";
+	document.getElementById("RSToDistance").value = "";
+	document.getElementById("RSFromDate").value = "";
+	document.getElementById("RSToDate").value = "";
+}
 
 YAHOO.namespace("search");
 YAHOO.search.InfoToSearch = function() {
@@ -23,6 +48,15 @@ function initTabs(){
 	var tabs = new YAHOO.widget.TabView('overlayTabTwo'); 
 	var tabs = new YAHOO.widget.TabView('GroupInfoTab'); 
 	var tabs = new YAHOO.widget.TabView('EventInfoTab'); 
+}
+
+function initToolTips(){
+	new YAHOO.widget.Tooltip("ttESFromDate", { container:"panel2", context:"ESFromDate" }); 
+	new YAHOO.widget.Tooltip("ttESToDate", { container:"panel2", context:"ESToDate" }); 
+	new YAHOO.widget.Tooltip("ttRSFromDate", { container:"panel2", context:"RSFromDate" }); 
+	new YAHOO.widget.Tooltip("ttRSToDate", { container:"panel2", context:"RSToDate" }); 
+	new YAHOO.widget.Tooltip("ttevtCalTxt", { container:"eventDialog", context:"evtCalTxt", text:"MM/DD/YYYY" }); 
+
 }
 
 function switchTabs() {
@@ -227,8 +261,8 @@ function clearEventSearch()
 {
 	document.getElementById("ESevtType").options[0].selected = true;
 	document.getElementById("ESKeyword").value = "";
-	document.getElementById("ESFromDate").value = "From (MM/DD/YYYY)";
-	document.getElementById("ESToDate").value = "To (MM/DD/YYYY)";
+//	document.getElementById("ESFromDate").value = "From (MM/DD/YYYY)";
+//	document.getElementById("ESToDate").value = "To (MM/DD/YYYY)";
 	
 }
 
@@ -243,6 +277,6 @@ function clearRouteSearch()
 	document.getElementById("RSKeyword").value = "";
 	document.getElementById("RSFromDistance").value = "";
 	document.getElementById("RSToDistance").value = "";
-	document.getElementById("RSFromDate").value = "From (MM/DD/YYYY)";
-	document.getElementById("RSToDate").value = "To (MM/DD/YYYY)";
+//	document.getElementById("RSFromDate").value = "From (MM/DD/YYYY)";
+//	document.getElementById("RSToDate").value = "To (MM/DD/YYYY)";
 }

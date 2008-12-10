@@ -464,13 +464,14 @@ function savePersonalInfo() {
 
 function sendEmailToGroup(groupID) {
 	var successHandler = function(o) {	
-		var response;
+		waitPanel.hide();
 		if( (jResponse = parseNCheckByJSON(o.responseText)) == null ) return false;
 
 		alert("Successfully sent an email to the group!");	
 	}
 
 	var failureHandler = function(o) {
+		waitPanel.hide();
 		alert("Error + " + o.status + " : " + o.statusText);
 	}
 
@@ -479,6 +480,8 @@ function sendEmailToGroup(groupID) {
 		success:successHandler,
 		timeout:20000,
 	}
+	
+	waitPanel.show();
 
 	YAHOO.util.Connect.setForm("frmGroupSendEmail");
 	
