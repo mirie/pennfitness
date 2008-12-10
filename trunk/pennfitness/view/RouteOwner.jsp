@@ -12,7 +12,7 @@
 		User user = (User) session.getAttribute("user");
 		JSONObject data = new JSONObject();
 		
-		if (user.getUserID().equals(route.getCreatorID())) {
+		if (user != null && user.getUserID().equals(route.getCreatorID())) {
 			result.put("STATUS","Success");
 			data.put("IS_OWNER","true");
 		  	result.put("DATA",data );
