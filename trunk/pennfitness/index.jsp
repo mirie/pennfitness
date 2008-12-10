@@ -45,7 +45,7 @@
 
 </head>
 
-<body onunload="cleanUpMyAccountInformation()">
+<body onunload="cleanUp()">
 
 <body class=" yui-skin-sam"> 
 <div id="header">
@@ -528,11 +528,11 @@
         <div id = "overlayTabTwo" class="overlayTwo">
             <ul class = "yui-nav" style="background-color:#003;">
                 <li class = "selected">
-                    <a href = "#tab1" onclick="clearEventSearch()"><em>Event Search</em></a>
+                    <a href = "#tab1" ><em>Event Search</em></a>
                 </li>
-                <li><a href = "#tab2" onclick="clearGroupSearch()"><em>Group Search</em></a>
+                <li><a href = "#tab2" ><em>Group Search</em></a>
                 </li>
-                <li><a href = "#tab3" onclick="clearRouteSearch()"><em>Route Search</em></a>
+                <li><a href = "#tab3" ><em>Route Search</em></a>
                 </li>
             </ul>
             <div class = "yui-content" style="background-color:#003; color:#FFFE02 ">
@@ -543,9 +543,8 @@
                     	<option value="" selected="selected">All types</option>
                   		  <%= DBUtilEventType.getAllEventTypesOptions() %>
                 		</select><br />
-                    	Date: <input type="text" size=20 maxlength=10 name="fromDate" id="ESFromDate" value="From Date (MM/DD/YYYY)" onclick="this.value=''"/>
-                    		  <input type="text" size=20 maxlength=10 name="toDate" id="ESToDate" value="To Date (MM/DD/YYYY)" onclick="this.value=''"/>
-						<input type="button" value="Search" onclick="searchEvent()">
+                    	Date:<input type="text" size=10 maxlength=10 name="fromDate" id="ESFromDate"/ title="From Date(YYYY/MM/DD)">~ 
+                    	<input type="text" size=10 maxlength=10 name="toDate" id="ESToDate"/ title="To Date(YYYY/MM/DD)"> <input type="button" value="Search" onclick="searchEvent()">
 						<input type="hidden" id="ESrecsPerPage" name="recsPerPage" />
 						<input type="hidden" id="EScurPage" name="curPage" value="1" />
                     </form>
@@ -582,8 +581,8 @@
 	                    	Keyword :<input type="text" size=10 name="keyword" id="RSKeyword" />&nbsp;&nbsp;
 	                    	Distance :<input type="text" size=3 maxlength=3 name="fromDistance" id="RSFromDistance" /> ~ 
 	                    			  <input type="text" size=3 maxlength=3 name="toDistance" id="RSToDistance" /><br />
-	                    	Date :<input type="text" size=20 maxlength=10 name="fromDate" id="RSFromDate" value="From Date (MM/DD/YYYY)" onclick="this.value=''"/>
-	                    		  <input type="text" size=20 maxlength=10 name="toDate" id="RSToDate" value="To Date (MM/DD/YYYY)" onclick="this.value=''"/>
+	                    	Date :<input type="text" size=10 maxlength=10 name="fromDate" id="RSFromDate" title="From Date(YYYY/MM/DD)"/>
+	                    		  <input type="text" size=10 maxlength=10 name="toDate" id="RSToDate" title="To Date(YYYY/MM/DD)"/>
 							<input type="button" value="Search" onclick="searchRoute()" />
 							<input type="hidden" id="RSrecsPerPage" name="recsPerPage"  />
 							<input type="hidden" id="RScurPage" name="curPage" value="1" />
