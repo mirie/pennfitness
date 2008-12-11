@@ -563,7 +563,11 @@ YAHOO.pennfitness.float.getRoute = function(routeIDArg, bCallGetNewRoutes) {
 
 		lineColor = jResponse.DATA.ROUTE_COLOR;
 		drawOverlay();
-		disableMap();  
+		disableMap(); 
+		
+		// Set the map centered on the starting point
+		map.setZoom(map.getBoundsZoomLevel(polylines.getBounds()));
+		map.panTo(polylines.getBounds().getCenter());
 		
 		YAHOO.pennfitness.float.toolbar.show();
 		// Calls getNewRouteNames only when necessary
@@ -1018,7 +1022,7 @@ YAHOO.pennfitness.float.getEventLeftTB = function(eventIDArg, routeIDArg) {
 		lineColor = jResponse.DATA.ROUTE_COLOR;
 		drawOverlay();
 		disableMap();  
-		
+				
 		YAHOO.pennfitness.float.toolbar.show();
 		YAHOO.pennfitness.float.getEvent(eventIDArg, false);
 	}

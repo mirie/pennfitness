@@ -98,11 +98,11 @@ function clearVT()
 		
 	if(man != null) map.removeOverlay(man);
 	
-	//document.getElementById('svArea').innerHTML = "<br /><br /><br /><br /><br /><br /><br /><br />" +
-	//      "<input id=\"vtPrepareBtn\" type=\"button\" value=\"Prepare Virtual Trip\" onclick=\"vtPrepare()\" />";
 	document.getElementById('svArea').innerHTML = "<br /><br /><br /><br /><br /><br /><br /><br />" +
-	"<a class=\"button\" id=\"vtPrepareBtn\"><span>Click to Prepare Virtual Trip</span></a>";
-    
+	      "<input id=\"vtPrepareBtn\" type=\"button\" value=\"Prepare Virtual Trip\" onclick=\"vtPrepare()\" />";
+// The code below has a layout problem when reopening...
+//	document.getElementById('svArea').innerHTML = "<br /><br /><br /><br /><br /><br /><br /><br />" +
+//	"<a class=\"button\" id=\"vtPrepareBtn\"><span>Click to Prepare Virtual Trip</span></a>";
 	
 	vtEnableBtns(false);
 	
@@ -118,6 +118,24 @@ function clearVT()
 
 function doVirtualTrip()
 {
+
+	var dist = document.getElementById("dist");
+	
+	try
+	{
+		var distance = parseFloat(dist.innerHTML.substring(1, dist.innerHTML.length-7));
+		alert(distance)
+		if( distance > 20 ) {
+			alert("Sorry. Virtual trip is only supported for the route less than 20 miles");
+			return;
+		}	
+	}
+	catch(x)
+	{
+		alert("Couldn't get the distance. Try reload the route.")
+		return;
+	}
+
 	vtPanel.show();
 
 }
