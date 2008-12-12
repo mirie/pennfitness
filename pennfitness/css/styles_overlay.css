@@ -7,7 +7,7 @@ div.overlayOne div.yui-content{
 	Scroll:{by:[0,200]};
 }
 
-#modifyUserGender, #modifyUserEmail, #modifyUserPassword, #modifyUserWeight, #modifyUserHeight, #modifyUserName, #modifyUserNotified, #savePersonalInfoBtns {
+#modifyUserID,#modifyUserGender, #modifyUserEmail, #modifyUserPassword, #modifyUserWeight, #modifyUserHeight, #modifyUserName, #modifyUserNotified, #savePersonalInfoBtns {
 	display:none;
 }
 div.overlayOne div.yui-content div.GroupInfo {
