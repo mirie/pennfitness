@@ -31,7 +31,7 @@ public class UserModifyServlet extends HttpServlet {
     	User user = (User)session.getAttribute("user");
     	String userID   = user.getUserID();
 		//String userID   = req.getParameter("userID");
-		String userName = req.getParameter("userName");
+		String userName = req.getParameter("name");
 		String password = req.getParameter("password");
 		String email = req.getParameter("email");
 
@@ -65,7 +65,7 @@ public class UserModifyServlet extends HttpServlet {
 			}
 		}
 		String gender = req.getParameter("gender") == null ? "N" : req.getParameter("gender");
-		
+
 		// have to have userID in order to modify
 		if( userID == null )
 		{
