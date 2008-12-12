@@ -139,6 +139,7 @@ public class DBUtilUser {
 		String updateQuery = 
 			"UPDATE User " +
 			"SET gender='" + user.getGender()+ "', " +
+			"userName='"+ user.getUserName() + "', "+
 			"email='"+ user.getEmail() + "', "+
 			"password=PASSWORD('"+ user.getPassword() + "'), "+
 			"height='"+ user.getHeight() + "', "+
