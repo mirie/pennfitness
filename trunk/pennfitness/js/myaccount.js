@@ -366,6 +366,7 @@ function GetGroupDetail( groupID )
 
 function modifyPersonalInfo() {	
 
+	document.getElementById("modifyUserName").style.display = "block";
 	document.getElementById("modifyUserGender").style.display = "block";
 	document.getElementById("modifyUserEmail").style.display = "block";
 	document.getElementById("modifyUserPassword").style.display = "block";
@@ -374,6 +375,7 @@ function modifyPersonalInfo() {
 	document.getElementById("modifyUserWeight").style.display = "block";
 	
 	document.getElementById("userGender").style.display = "none";
+	document.getElementById("userID").style.display = "none";
 	document.getElementById("userName").style.display = "none";
 	document.getElementById("userEmail").style.display = "none";
 //	document.getElementById("userPassword").style.display = "none";
@@ -386,6 +388,7 @@ function modifyPersonalInfo() {
 }
 function cancelPersonalInfo() {	
 
+	document.getElementById("userID").style.display = "block";
 	document.getElementById("userGender").style.display = "block";
 	document.getElementById("userName").style.display = "block";
 	document.getElementById("userEmail").style.display = "block";
@@ -393,6 +396,8 @@ function cancelPersonalInfo() {
 	document.getElementById("userHeight").style.display = "block";
 	document.getElementById("userWeight").style.display = "block";
 	
+
+	document.getElementById("modifyUserName").style.display = "none";
 	document.getElementById("modifyUserGender").style.display = "none";
 	document.getElementById("modifyUserEmail").style.display = "none";
 	document.getElementById("modifyUserPassword").style.display = "none";
@@ -446,6 +451,7 @@ function savePersonalInfo() {
 	
 	// POST string data
 	var strData = "";
+	strData += "name=" + document.getElementById("userNameTxt").value + "&";
 	strData += "gender=" + document.getElementById("userGenderTxt").value + "&";
 	strData += "email=" + document.getElementById("userEmailTxt").value + "&";
 	strData += "password=" + document.getElementById("userPasswordTxt").value + "&";
@@ -453,11 +459,11 @@ function savePersonalInfo() {
 	strData += "weight=" + document.getElementById("WeightInfoTxt").value + "&";
 	strData += "publicEventNotify=" + document.getElementById("UserNotifiedEventsTxt").value + "&";
 	
-	// Append GroupID to strData
 	//strData += "userID=" + document.getElementById("user.getUserID()").value.trim();
 	
 	var transaction = YAHOO.util.Connect.asyncRequest("POST", "modifyUser.do", callback, strData);
-
+	
+	document.getElementById("userID").style.display = "block";
 	document.getElementById("userGender").style.display = "block";
 	document.getElementById("userName").style.display = "block";
 	document.getElementById("userEmail").style.display = "block";
@@ -465,6 +471,7 @@ function savePersonalInfo() {
 	document.getElementById("userHeight").style.display = "block";
 	document.getElementById("userWeight").style.display = "block";
 	
+	document.getElementById("modifyUserName").style.display = "none";
 	document.getElementById("modifyUserGender").style.display = "none";
 	document.getElementById("modifyUserEmail").style.display = "none";
 	document.getElementById("modifyUserPassword").style.display = "none";
@@ -599,10 +606,3 @@ function clearCreateGroup()
 	document.getElementById("groupName").value="";
 	document.getElementById("groupDescription").value="";
 }
-
-
-
-//Listeners
-YAHOO.util.Event.addListener("modifyPersonalInfoBtn", "click", modifyPersonalInfo);	
-YAHOO.util.Event.addListener("cancelPersonalInfoBtn", "click", cancelPersonalInfo);
-YAHOO.util.Event.addListener("savePersonalInfoBtn", "click", savePersonalInfo);
