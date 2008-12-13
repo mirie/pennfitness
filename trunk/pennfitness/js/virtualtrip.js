@@ -124,7 +124,7 @@ function doVirtualTrip()
 	try
 	{
 		var distance = parseFloat(dist.innerHTML.substring(1, dist.innerHTML.length-7));
-		alert(distance)
+		//alert(distance)
 		if( distance > 20 ) {
 			alert("Sorry. Virtual trip is only supported for the route less than 20 miles");
 			return;

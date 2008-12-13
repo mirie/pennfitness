@@ -339,7 +339,7 @@ function setupNewEvtDialog(){
 			YAHOO.pennfitness.float.getEventCount();
 		} 			
 		else {			
-			YAHOO.pennfitness.float.getEvent(eventID, false); // TODO: Check this???
+			YAHOO.pennfitness.float.getEvent(eventID, true); // TODO: Check this???
 		}
 	};
 	 
@@ -933,7 +933,8 @@ YAHOO.pennfitness.float.getEvent = function(eventIDArg, bCallGetNewEvents) {
 		groupSelect.options.length = 1;
 		
 		if (jResponse.DATA.EVENT_GROUP_ID == -1) {
-			document.getElementById("eventGroup").innerHTML = "For Group: None";			
+			document.getElementById("eventGroup").innerHTML = "For Group: None";
+			groupSelect.disabled = false;
 		} else {
 			document.getElementById("eventGroup").innerHTML = "For Group: " + jResponse.DATA.GROUP_NAME;
 			
